@@ -48,7 +48,7 @@ namespace disxx::disasm::decoder::LoadsAndStores::RegisterPAC
 	std::unique_ptr<disxx::disasm::decoder::abstract::SubDecoder> SubDecoder::Clone(void) const noexcept
 	{ return std::make_unique<std::decay_t<decltype(*this)>>(*this); }
 
-	DisassemblyResult SubDecoder::Decode(void) const noexcept(false)
+	DisassemblyResult SubDecoder::Decode(void) const noexcept
 	{
         // +----+---+--+--+-+-+-+----+-+-+--+--+
         // |size|111|VR|00|M|S|1|imm9|W|1|Rn|Rt|
@@ -78,12 +78,36 @@ namespace disxx::disasm::decoder::LoadsAndStores::RegisterPAC
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
         const auto insn{M ? InstructionID::INSN_LDRAB : InstructionID::INSN_LDRAA};
 
-        this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(disxx::disasm::operand::Register::Type::TYPE_GPR, Rt, 64));
-        disxx::disasm::operand::Register reg{disxx::disasm::operand::Register::Type::TYPE_GPR, Rn, 64, true};
-		this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::LoadsAndStoresAddress>(std::move(reg)));
+        this->m_Operands.emplace_back
+		(
+			std::make_unique<disxx::disasm::operand::Register>
+			(
+				disxx::disasm::operand::Register::Type::TYPE_X,
+				Rt
+			)
+		);
+		this->m_Operands.emplace_back
+		(
+			std::make_unique<disxx::disasm::operand::LoadsAndStoresAddress>
+			(
+				disxx::disasm::operand::Register
+				{
+					disxx::disasm::operand::Register::Type::TYPE_X,
+					Rn,
+					true
+				}
+			)
+		);
         if (imm10.GetValue())
-            static_cast<disxx::disasm::operand::LoadsAndStoresAddress *>(this->m_Operands.rbegin()->get())
-                ->AddImmediatePreIndexedOffset((imm10.GetValue() << static_cast<unsigned short int>(3)), W);
+		{
+            static_cast<disxx::disasm::operand::LoadsAndStoresAddress *>(this->m_Operands.rbegin()->get())->AddImmediatePreIndexedOffset
+			(
+				imm10 << static_cast<unsigned short int>(3),
+				W
+					? disxx::disasm::operand::LoadsAndStoresAddress::PreIndexedOffsetKind::IDX_ACCUMULATIVE
+					: disxx::disasm::operand::LoadsAndStoresAddress::PreIndexedOffsetKind::IDX_REGULAR
+			);
+		}
         return std::make_pair(insn, std::move(this->m_Operands));
 	}
 } /* disxx::disasm::decoder::LoadsAndStores::RegisterPAC */

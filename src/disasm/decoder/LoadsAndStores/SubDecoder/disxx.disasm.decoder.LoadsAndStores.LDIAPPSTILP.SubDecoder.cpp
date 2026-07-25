@@ -100,7 +100,7 @@ namespace disxx::disasm::decoder::LoadsAndStores::LDIAPPSTILP
             {
                 static_cast<disxx::disasm::operand::LoadsAndStoresAddress *>(this->m_Operands.rbegin()->get())->AddImmediatePreIndexedOffset
 				(
-					disxx::disasm::operand::Immediate<signed short int, 9>{static_cast<signed short int>(size == 0b11 ? -16 : -8)},
+					disxx::disasm::operand::Immediate<signed short int, 7>{static_cast<signed short int>(size == 0b11 ? -16 : -8)},
 					disxx::disasm::operand::LoadsAndStoresAddress::PreIndexedOffsetKind::IDX_REGULAR
 				);
                 

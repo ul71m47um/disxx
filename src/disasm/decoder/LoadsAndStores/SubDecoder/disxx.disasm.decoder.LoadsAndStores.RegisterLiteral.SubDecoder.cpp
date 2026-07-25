@@ -83,13 +83,36 @@ namespace disxx::disasm::decoder::LoadsAndStores::RegisterLiteral
                             : InstructionID::INSN_LDR,
                         std::make_unique<disxx::disasm::operand::Register>
                         (
-                            VR == 0b1
-                                ? disxx::disasm::operand::Register::Type::TYPE_NEON
-                                : disxx::disasm::operand::Register::Type::TYPE_GPR,
-                            Rt,
-                            opc == 0b10
-                                ? (64 << VR)
-                                : (opc == 0b01 ? 64 : 32)
+							[VR, opc] -> disxx::disasm::operand::Register::Type
+							{
+								if (const auto rsize{opc == 0b10 ? (64 << VR) : (opc == 0b01 ? 64 : 32)}; VR == 0b0)
+								{
+									return rsize == 64
+										? disxx::disasm::operand::Register::Type::TYPE_X
+										: disxx::disasm::operand::Register::Type::TYPE_W;
+								}
+								else
+								{
+									switch (rsize)
+									{
+									  case 8:
+										return disxx::disasm::operand::Register::Type::TYPE_B;
+
+									  case 16:
+										return disxx::disasm::operand::Register::Type::TYPE_H;
+			
+									  case 32:
+										return disxx::disasm::operand::Register::Type::TYPE_S;
+
+									  case 64:
+										return disxx::disasm::operand::Register::Type::TYPE_D;
+	
+									  default:
+										return disxx::disasm::operand::Register::Type::TYPE_Q;
+									}
+								}
+							}(),
+                            Rt
                         )
                     );
                 }
@@ -99,7 +122,20 @@ namespace disxx::disasm::decoder::LoadsAndStores::RegisterLiteral
         std::visit
         (
             [this](auto &&var) -> void
-            { this->m_Operands.emplace_back(std::move(var)); },
+            {
+				this->m_Operands.emplace_back
+				(
+					std::forward
+					<
+						typename
+						std::add_rvalue_reference
+						<
+							typename
+							std::decay<decltype(var)>::type
+						>::type
+					>(var)
+				);
+			},
             opr
         );
         this->m_Operands.emplace_back

@@ -79,45 +79,17 @@ namespace disxx::disasm::decoder::LoadsAndStores::ExclusiveRegisterUnprivileged
                 const unsigned short int encoding = (L << 1) | o0;
                 if (size == 0b00)
                     return insnTable[encoding];
-                else if (size == 0b01)
+                else if (size == 0b00)
                     return insnTable[encoding + 4];
                 return insnTable[encoding + 8];
             }()
         };
 
         if (L == 0b0)
-		{
-            this->m_Operands.emplace_back
-			(
-				std::make_unique<disxx::disasm::operand::Register>
-				(
-					disxx::disasm::operand::Register::Type::TYPE_W,
-					Rs
-				)
-			);
-        }
-		this->m_Operands.emplace_back
-		(
-			std::make_unique<disxx::disasm::operand::Register>
-			(
-				size == 0b11
-					? disxx::disasm::operand::Register::Type::TYPE_X
-					: disxx::disasm::operand::Register::Type::TYPE_W,
-				Rt
-			)
-		);
-		this->m_Operands.emplace_back
-		(
-			std::make_unique<disxx::disasm::operand::LoadsAndStoresAddress>
-			(
-				disxx::disasm::operand::Register
-				{
-					disxx::disasm::operand::Register::Type::TYPE_X,
-					Rn,
-					true
-				}
-			)
-		);
+            this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(disxx::disasm::operand::Register::Type::TYPE_GPR, Rs, 32));
+        this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(disxx::disasm::operand::Register::Type::TYPE_GPR, Rt, size == 0b11 ? 64 : 32));
+        disxx::disasm::operand::Register reg{disxx::disasm::operand::Register::Type::TYPE_GPR, Rn, 64, true};
+		this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::LoadsAndStoresAddress>(std::move(reg)));
 
         return std::make_pair(insn, std::move(this->m_Operands));
 	}

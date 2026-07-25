@@ -64,10 +64,10 @@ namespace disxx::disasm::decoder::LoadsAndStores::RegisterPairPreIndexed
         Rt = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
         const auto imm7
         {
-            disxx::disasm::operand::Immediate<signed short int, 9>
+            disxx::disasm::operand::Immediate<signed short int, 7>
             {
                 bits::extract<signed short int, std::uint32_t, 15, 21>(this->m_Insn),
-                disxx::disasm::operand::Immediate<signed short int, 9>::Option::OPT_SIGNEXTEND
+                disxx::disasm::operand::Immediate<signed short int, 7>::Option::OPT_SIGNEXTEND
             }
         };
 

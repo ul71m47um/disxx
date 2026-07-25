@@ -50,7 +50,7 @@ namespace disxx::disasm::decoder::LoadsAndStores::RegisterUnscaledImmediate
 	std::unique_ptr<disxx::disasm::decoder::abstract::SubDecoder> SubDecoder::Clone(void) const noexcept
 	{ return std::make_unique<std::decay_t<decltype(*this)>>(*this); }
 
-	DisassemblyResult SubDecoder::Decode(void) const noexcept(false)
+	DisassemblyResult SubDecoder::Decode(void) const noexcept
 	{
         // +----+---+--+--+---+-+----+--+--+--+
         // |size|111|VR|00|opc|0|imm9|00|Rn|Rt|
@@ -79,55 +79,56 @@ namespace disxx::disasm::decoder::LoadsAndStores::RegisterUnscaledImmediate
         }
         else
         {
-            static const std::unordered_map<unsigned short int, std::pair<InstructionID, unsigned short int>> insnTable = {
-                {0b00000, {InstructionID::INSN_STURB, 32}},
-                {0b00001, {InstructionID::INSN_LDURB, 32}},
-                {0b00010, {InstructionID::INSN_LDURSB, 64}},
-                {0b00011, {InstructionID::INSN_LDURSB, 32}},
-                {0b00100, {InstructionID::INSN_STUR, 8}},
-                {0b00101, {InstructionID::INSN_LDUR, 8}},
-                {0b00110, {InstructionID::INSN_STUR, 128}},
-                {0b00111, {InstructionID::INSN_LDUR, 128}},
-                {0b01000, {InstructionID::INSN_STURH, 32}},
-                {0b01001, {InstructionID::INSN_LDURH, 32}},
-                {0b01010, {InstructionID::INSN_LDURSH, 64}},
-                {0b01011, {InstructionID::INSN_LDURSH, 32}},
-                {0b01100, {InstructionID::INSN_STUR, 16}},
-                {0b01101, {InstructionID::INSN_LDUR, 16}},
-                {0b10000, {InstructionID::INSN_STUR, 32}},
-                {0b10001, {InstructionID::INSN_LDUR, 32}},
-                {0b10010, {InstructionID::INSN_LDURSW, 64}},
-                {0b10100, {InstructionID::INSN_STUR, 32}},
-                {0b10101, {InstructionID::INSN_LDUR, 32}},
-                {0b11000, {InstructionID::INSN_STUR, 64}},
-                {0b11001, {InstructionID::INSN_LDUR, 64}},
-                {0b11100, {InstructionID::INSN_STUR, 64}},
-                {0b11101, {InstructionID::INSN_LDUR, 64}}
+            static const std::unordered_map<unsigned short int, std::pair<InstructionID, disxx::disasm::operand::Register::Type>> insnTable = {
+                {0b00000, {InstructionID::INSN_STURB, disxx::disasm::operand::Register::Type::TYPE_W}},
+                {0b00001, {InstructionID::INSN_LDURB, disxx::disasm::operand::Register::Type::TYPE_W}},
+                {0b00010, {InstructionID::INSN_LDURSB, disxx::disasm::operand::Register::Type::TYPE_X}},
+                {0b00011, {InstructionID::INSN_LDURSB, disxx::disasm::operand::Register::Type::TYPE_W}},
+                {0b00100, {InstructionID::INSN_STUR, disxx::disasm::operand::Register::Type::TYPE_B}},
+                {0b00101, {InstructionID::INSN_LDUR, disxx::disasm::operand::Register::Type::TYPE_B}},
+                {0b00110, {InstructionID::INSN_STUR, disxx::disasm::operand::Register::Type::TYPE_Q}},
+                {0b00111, {InstructionID::INSN_LDUR, disxx::disasm::operand::Register::Type::TYPE_Q}},
+                {0b01000, {InstructionID::INSN_STURH, disxx::disasm::operand::Register::Type::TYPE_W}},
+                {0b01001, {InstructionID::INSN_LDURH, disxx::disasm::operand::Register::Type::TYPE_W}},
+                {0b01010, {InstructionID::INSN_LDURSH, disxx::disasm::operand::Register::Type::TYPE_X}},
+                {0b01011, {InstructionID::INSN_LDURSH, disxx::disasm::operand::Register::Type::TYPE_W}},
+                {0b01100, {InstructionID::INSN_STUR, disxx::disasm::operand::Register::Type::TYPE_H}},
+                {0b01101, {InstructionID::INSN_LDUR, disxx::disasm::operand::Register::Type::TYPE_H}},
+                {0b10000, {InstructionID::INSN_STUR, disxx::disasm::operand::Register::Type::TYPE_W}},
+                {0b10001, {InstructionID::INSN_LDUR, disxx::disasm::operand::Register::Type::TYPE_W}},
+                {0b10010, {InstructionID::INSN_LDURSW, disxx::disasm::operand::Register::Type::TYPE_X}},
+                {0b10100, {InstructionID::INSN_STUR, disxx::disasm::operand::Register::Type::TYPE_S}},
+                {0b10101, {InstructionID::INSN_LDUR, disxx::disasm::operand::Register::Type::TYPE_S}},
+                {0b11000, {InstructionID::INSN_STUR, disxx::disasm::operand::Register::Type::TYPE_X}},
+                {0b11001, {InstructionID::INSN_LDUR, disxx::disasm::operand::Register::Type::TYPE_X}},
+                {0b11100, {InstructionID::INSN_STUR, disxx::disasm::operand::Register::Type::TYPE_D}},
+                {0b11101, {InstructionID::INSN_LDUR, disxx::disasm::operand::Register::Type::TYPE_D}}
             };
 
             const unsigned short int encoding = (size << 3) | (VR << 2) | opc;
             const auto it{insnTable.find(encoding)};
             if (it == insnTable.end()) [[unlikely]]
                 return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
-            const auto &[other, regSize]{it->second};
+            const auto &[other, rtype]{it->second};
             insn = other;
 
-            this->m_Operands.emplace_back
-            (
-                std::make_unique<disxx::disasm::operand::Register>
-                (
-                    VR == 0b1
-                        ? disxx::disasm::operand::Register::Type::TYPE_NEON
-                        : disxx::disasm::operand::Register::Type::TYPE_GPR,
-                    Rt,
-                    regSize
-                )
-            );
+            this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(rtype, Rt));
         }
 
-		disxx::disasm::operand::Register reg{disxx::disasm::operand::Register::Type::TYPE_GPR, Rn, 64, true};
-        this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::LoadsAndStoresAddress>(std::move(reg)));
-        static_cast<disxx::disasm::operand::LoadsAndStoresAddress *>(this->m_Operands.rbegin()->get())->AddImmediatePreIndexedOffset(imm9.GetValue(), false);
+        this->m_Operands.emplace_back
+		(
+			std::make_unique<disxx::disasm::operand::LoadsAndStoresAddress>
+			(
+				disxx::disasm::operand::Register
+				{
+					disxx::disasm::operand::Register::Type::TYPE_X,
+					Rn,
+					true
+				}
+			)
+		);
+        static_cast<disxx::disasm::operand::LoadsAndStoresAddress *>(this->m_Operands.rbegin()->get())
+			->AddImmediatePreIndexedOffset(imm9, disxx::disasm::operand::LoadsAndStoresAddress::PreIndexedOffsetKind::IDX_REGULAR);
 
         return std::make_pair(insn, std::move(this->m_Operands));
 	}

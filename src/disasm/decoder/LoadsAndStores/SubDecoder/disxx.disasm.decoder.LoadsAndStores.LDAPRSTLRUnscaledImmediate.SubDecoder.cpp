@@ -49,7 +49,7 @@ namespace disxx::disasm::decoder::LoadsAndStores::LDAPRSTLRUnscaledImmediate
 	std::unique_ptr<disxx::disasm::decoder::abstract::SubDecoder> SubDecoder::Clone(void) const noexcept
 	{ return std::make_unique<std::decay_t<decltype(*this)>>(*this); }
 
-	DisassemblyResult SubDecoder::Decode(void) const noexcept(false)
+	DisassemblyResult SubDecoder::Decode(void) const noexcept
 	{
         // +----+------+---+-+----+--+--+--+
         // |size|011001|opc|0|imm9|00|Rn|Rt|
@@ -66,33 +66,44 @@ namespace disxx::disasm::decoder::LoadsAndStores::LDAPRSTLRUnscaledImmediate
             disxx::disasm::operand::Immediate<signed short int, 9>::Option::OPT_SIGNEXTEND
         };
 
-        static const std::unordered_map<unsigned short int, std::pair<InstructionID, unsigned short int>> insnTable = {
-            {0b0000, {InstructionID::INSN_STLURB, 32}},
-            {0b0001, {InstructionID::INSN_LDAPURB, 32}},
-            {0b0010, {InstructionID::INSN_LDAPURSB, 64}},
-            {0b0011, {InstructionID::INSN_LDAPURSB, 32}},
-            {0b0100, {InstructionID::INSN_STLURH, 32}},
-            {0b0101, {InstructionID::INSN_LDAPURH, 32}},
-            {0b0110, {InstructionID::INSN_LDAPURSH, 64}},
-            {0b0111, {InstructionID::INSN_LDAPURSH, 32}},
-            {0b1000, {InstructionID::INSN_STLUR, 32}},
-            {0b1001, {InstructionID::INSN_LDAPUR, 32}},
-            {0b1010, {InstructionID::INSN_LDAPURSW, 64}},
-            {0b1100, {InstructionID::INSN_STLUR, 64}},
-            {0b1101, {InstructionID::INSN_LDAPUR, 64}}
+        static const std::unordered_map<unsigned short int, std::pair<InstructionID, disxx::disasm::operand::Register::Type>> insnTable = {
+            {0b0000, {InstructionID::INSN_STLURB, disxx::disasm::operand::Register::Type::TYPE_W}},
+            {0b0001, {InstructionID::INSN_LDAPURB, disxx::disasm::operand::Register::Type::TYPE_W}},
+            {0b0010, {InstructionID::INSN_LDAPURSB, disxx::disasm::operand::Register::Type::TYPE_X}},
+            {0b0011, {InstructionID::INSN_LDAPURSB, disxx::disasm::operand::Register::Type::TYPE_W}},
+            {0b0100, {InstructionID::INSN_STLURH, disxx::disasm::operand::Register::Type::TYPE_W}},
+            {0b0101, {InstructionID::INSN_LDAPURH, disxx::disasm::operand::Register::Type::TYPE_W}},
+            {0b0110, {InstructionID::INSN_LDAPURSH, disxx::disasm::operand::Register::Type::TYPE_X}},
+            {0b0111, {InstructionID::INSN_LDAPURSH, disxx::disasm::operand::Register::Type::TYPE_W}},
+            {0b1000, {InstructionID::INSN_STLUR, disxx::disasm::operand::Register::Type::TYPE_W}},
+            {0b1001, {InstructionID::INSN_LDAPUR, disxx::disasm::operand::Register::Type::TYPE_W}},
+            {0b1010, {InstructionID::INSN_LDAPURSW, disxx::disasm::operand::Register::Type::TYPE_X}},
+            {0b1100, {InstructionID::INSN_STLUR, disxx::disasm::operand::Register::Type::TYPE_X}},
+            {0b1101, {InstructionID::INSN_LDAPUR, disxx::disasm::operand::Register::Type::TYPE_X}}
         };
 
         const unsigned short int encoding = (size << 2) | opc;
         const auto it{insnTable.find(encoding)};
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
-        const auto &[insn, regSize]{it->second};
+        const auto &[insn, rtype]{it->second};
         
-        this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(disxx::disasm::operand::Register::Type::TYPE_GPR, Rt, regSize));
-        disxx::disasm::operand::Register reg{disxx::disasm::operand::Register::Type::TYPE_GPR, Rn, 64, true};
-		this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::LoadsAndStoresAddress>(std::move(reg)));
+        this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(rtype, Rt));
+		this->m_Operands.emplace_back
+		(
+			std::make_unique<disxx::disasm::operand::LoadsAndStoresAddress>
+			(
+				disxx::disasm::operand::Register
+				{
+					disxx::disasm::operand::Register::Type::TYPE_X,
+					Rn,
+					true
+				}
+			)
+		);
         static_cast<disxx::disasm::operand::LoadsAndStoresAddress *>(this->m_Operands.rbegin()->get())
-            ->AddImmediatePreIndexedOffset(imm9.GetValue(), false);
+            ->AddImmediatePreIndexedOffset(imm9, disxx::disasm::operand::LoadsAndStoresAddress::PreIndexedOffsetKind::IDX_REGULAR);
+
         return std::make_pair(insn, std::move(this->m_Operands));
 	}
 } /* disxx::disasm::decoder::LoadsAndStores::LDAPRSTLRUnscaledImmediate */

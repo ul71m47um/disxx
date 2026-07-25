@@ -20,6 +20,15 @@ export namespace disxx::disasm::operand
 	class __DISXX_EXPORT__ LoadsAndStoresAddress final : public IOperand
 	{
 	  public:
+		using ImmediatePreIndexedOffset = std::variant
+		<
+			Immediate<signed short int, 7>,
+			Immediate<signed short int, 9>,
+			Immediate<signed short int, 10>,
+			Immediate<unsigned short int, 12>
+		>;
+
+	  public:
 		enum class PreIndexedOffsetKind : bool
 		{
 			IDX_REGULAR,
@@ -42,7 +51,7 @@ export namespace disxx::disasm::operand
 				Register,
 				std::pair
 				<
-					Immediate<signed short int, 9>,
+					ImmediatePreIndexedOffset,
 					PreIndexedOffsetKind
 				>
 			>
@@ -61,7 +70,7 @@ export namespace disxx::disasm::operand
 
         virtual std::unique_ptr<IOperand> Clone(void) const noexcept override;
 
-		inline void AddImmediatePreIndexedOffset(const Immediate<signed short int, 9>, const PreIndexedOffsetKind) noexcept;
+		inline void AddImmediatePreIndexedOffset(const ImmediatePreIndexedOffset, const PreIndexedOffsetKind) noexcept;
 		inline void AddRegisterOffset(Register &&) noexcept;
 
 		inline void AddExtension(Extension &&) noexcept;
@@ -74,7 +83,7 @@ export namespace disxx::disasm::operand
 				Register,
 				std::pair
 				<
-					Immediate<signed short int, 9>,
+					ImmediatePreIndexedOffset,
 					PreIndexedOffsetKind
 				>
 			>
@@ -89,7 +98,7 @@ export namespace disxx::disasm::operand
 		> GetModifier(void) const noexcept;
 	};
 
-	inline void LoadsAndStoresAddress::AddImmediatePreIndexedOffset(const Immediate<signed short int, 9> value, const PreIndexedOffsetKind kind) noexcept
+	inline void LoadsAndStoresAddress::AddImmediatePreIndexedOffset(const ImmediatePreIndexedOffset offset, const PreIndexedOffsetKind kind) noexcept
 	{
 		assert(!this->m_ExtraValue && "Adding offset twice");
 		this->m_PreIndexedOffset.emplace
@@ -98,11 +107,11 @@ export namespace disxx::disasm::operand
 			<
 				std::pair
 				<
-					Immediate<signed short int, 9>,
+					ImmediatePreIndexedOffset,
 					PreIndexedOffsetKind
 				>
 			>,
-			std::make_pair(value, kind)
+			std::make_pair(offset, kind)
 		);
 	}
 
@@ -143,7 +152,7 @@ export namespace disxx::disasm::operand
 			Register,
 			std::pair
 			<
-				Immediate<signed short int, 9>,
+				LoadsAndStoresAddress::ImmediatePreIndexedOffset,
 				LoadsAndStoresAddress::PreIndexedOffsetKind
 			>
 		>
