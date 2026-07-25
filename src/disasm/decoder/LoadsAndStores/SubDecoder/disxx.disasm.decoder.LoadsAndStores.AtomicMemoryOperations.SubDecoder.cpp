@@ -49,7 +49,7 @@ namespace disxx::disasm::decoder::LoadsAndStores::AtomicMemoryOperations
 	std::unique_ptr<disxx::disasm::decoder::abstract::SubDecoder> SubDecoder::Clone(void) const noexcept
 	{ return std::make_unique<std::decay_t<decltype(*this)>>(*this); }
 
-	DisassemblyResult SubDecoder::Decode(void) const noexcept(false)
+	DisassemblyResult SubDecoder::Decode(void) const noexcept
 	{
         // +----+---+--+--+-+-+-+--+--+---+--+--+--+
         // |size|111|VR|00|A|R|1|Rs|o3|opc|00|Rn|Rt|
@@ -377,40 +377,105 @@ namespace disxx::disasm::decoder::LoadsAndStores::AtomicMemoryOperations
             {0b11000111111101, InstructionID::INSN_LD64B}
         };
 
-        this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(disxx::disasm::operand::Register::Type::TYPE_GPR, Rn, 64));
+        this->m_Operands.emplace_back
+		(
+			std::make_unique<disxx::disasm::operand::Register>
+			(
+				disxx::disasm::operand::Register::Type::TYPE_X,
+				Rn
+			)
+		);
 
         const unsigned short int encoding = (size << 7) | (VR << 6) | (A << 5) | (R << 4) | (o3 << 3) | opc;
         if (const auto it{insnTable1.find(encoding)}; it != insnTable1.end())
         {
             const auto &[insn, alias]{it->second};
-            unsigned short int regSize = size == 0b11 ? 64 : 32;
-            this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(disxx::disasm::operand::Register::Type::TYPE_GPR, Rs, regSize));
-            disxx::disasm::operand::Register reg{disxx::disasm::operand::Register::Type::TYPE_GPR, Rt, regSize};
-			this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::LoadsAndStoresAddress>(std::move(reg)));
+            this->m_Operands.emplace_back
+			(
+				std::make_unique<disxx::disasm::operand::Register>
+				(
+					size == 0b11
+						? disxx::disasm::operand::Register::Type::TYPE_X
+						: disxx::disasm::operand::Register::Type::TYPE_W,
+					Rs
+				)
+			);
+			this->m_Operands.emplace_back
+			(
+				std::make_unique<disxx::disasm::operand::LoadsAndStoresAddress>
+				(
+					disxx::disasm::operand::Register
+					{
+						size == 0b11
+							? disxx::disasm::operand::Register::Type::TYPE_X
+							: disxx::disasm::operand::Register::Type::TYPE_W,
+						Rt
+					}
+				)
+			);
 
-            return std::make_pair(alias ? alias.value() : insn, std::move(this->m_Operands));
+            return std::make_pair(alias ? *alias : insn, std::move(this->m_Operands));
         }
         else if (const auto it2{insnTable2.find(encoding)}; it2 != insnTable2.end())
         {
-            constexpr std::array<unsigned short int, 4> sizeTable{16, 16, 32, 64};
-            this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(disxx::disasm::operand::Register::Type::TYPE_NEON, Rs, sizeTable.at(size)));
-            this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(disxx::disasm::operand::Register::Type::TYPE_NEON, Rt, sizeTable.at(size)));
+            static constexpr std::array<disxx::disasm::operand::Register::Type, 4> typeTable
+			{
+				disxx::disasm::operand::Register::Type::TYPE_H,
+				disxx::disasm::operand::Register::Type::TYPE_H,
+				disxx::disasm::operand::Register::Type::TYPE_S,
+				disxx::disasm::operand::Register::Type::TYPE_D
+			};
+
+            this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(typeTable[size], Rs));
+            this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(typeTable[size], Rt));
            
             return std::make_pair(it2->second, std::move(this->m_Operands));
         }
         else if (const auto it3{insnTable3.find(encoding)}; it3 != insnTable3.end())
         {
-        	this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(disxx::disasm::operand::Register::Type::TYPE_GPR, Rs, 64));
-            disxx::disasm::operand::Register reg{disxx::disasm::operand::Register::Type::TYPE_GPR, Rt, 64};
-			this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::LoadsAndStoresAddress>(std::move(reg)));
+        	this->m_Operands.emplace_back
+			(
+				std::make_unique<disxx::disasm::operand::Register>
+				(
+					disxx::disasm::operand::Register::Type::TYPE_X,
+					Rs
+				)
+			);
+			this->m_Operands.emplace_back
+			(
+				std::make_unique<disxx::disasm::operand::LoadsAndStoresAddress>
+				(
+					disxx::disasm::operand::Register
+					{
+						disxx::disasm::operand::Register::Type::TYPE_X,
+						Rt,
+					}
+				)
+			);
           
             return std::make_pair(it3->second, std::move(this->m_Operands));
         }
         else if (const auto it4{insnTable4.find((encoding << 5) | 0b11111)}; it4 != insnTable4.end())
         {
-            constexpr std::array<unsigned short int, 4> sizeTable{16, 16, 32, 64};
-            disxx::disasm::operand::Register reg{disxx::disasm::operand::Register::Type::TYPE_NEON, Rs, sizeTable.at(size)};
-			this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::LoadsAndStoresAddress>(std::move(reg)));
+			static constexpr std::array<disxx::disasm::operand::Register::Type, 4> typeTable
+			{
+				disxx::disasm::operand::Register::Type::TYPE_H,
+				disxx::disasm::operand::Register::Type::TYPE_H,
+				disxx::disasm::operand::Register::Type::TYPE_S,
+				disxx::disasm::operand::Register::Type::TYPE_D
+			};
+
+			this->m_Operands.emplace_back
+			(
+				std::make_unique<disxx::disasm::operand::LoadsAndStoresAddress>
+				(
+					disxx::disasm::operand::Register
+					{
+						typeTable[size],
+						Rs
+					}
+				)
+			);
 
             return std::make_pair(it4->second, std::move(this->m_Operands));
         }
@@ -419,8 +484,17 @@ namespace disxx::disasm::decoder::LoadsAndStores::AtomicMemoryOperations
         if (it5 == insnTable5.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
            
-		disxx::disasm::operand::Register reg{disxx::disasm::operand::Register::Type::TYPE_GPR, Rt, 64}; 
-        this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::LoadsAndStoresAddress>(std::move(reg)));
+        this->m_Operands.emplace_back
+		(
+			std::make_unique<disxx::disasm::operand::LoadsAndStoresAddress>
+			(
+				disxx::disasm::operand::Register
+				{
+					disxx::disasm::operand::Register::Type::TYPE_X,
+					Rt
+				}
+			)
+		);
 
         return std::make_pair(it5->second, std::move(this->m_Operands)); 
 	}

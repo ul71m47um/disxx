@@ -50,7 +50,7 @@ namespace disxx::disasm::decoder::LoadsAndStores::SIMDMultipleStructures
 	std::unique_ptr<disxx::disasm::decoder::abstract::SubDecoder> SubDecoder::Clone(void) const noexcept
 	{ return std::make_unique<std::decay_t<decltype(*this)>>(*this); }
 
-	DisassemblyResult SubDecoder::Decode(void) const noexcept(false)
+	DisassemblyResult SubDecoder::Decode(void) const noexcept
 	{
         // +-+-+-------+-+------+------+----+--+--+
         // |0|Q|0011000|L|000000|opcode|size|Rn|Rt|
@@ -84,15 +84,32 @@ namespace disxx::disasm::decoder::LoadsAndStores::SIMDMultipleStructures
         const auto it{insnTable.find((L << 1) | opcode)};
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
-        const auto &[insn, regs]{it->second};
-        for (const auto spec{disxx::disasm::operand::Register::GetArrangementSpecifier(size, Q)}; auto Ri : std::views::iota(Rt, std::add_sat<unsigned short int>(Rt, regs)))
+        const auto &[insn, nregs]{it->second};
+        
+		for (const disxx::disasm::operand::VectorArrangementSpecifier spec{static_cast<unsigned short int>((size << 1) | Q)}; auto Ri : std::views::iota(Rt, std::add_sat<unsigned short int>(Rt, nregs)))
         {
-            this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(disxx::disasm::operand::Register::Type::TYPE_NEON, Ri, 128 + 'V'));
-            static_cast<disxx::disasm::operand::Register *>(this->m_Operands.rbegin()->get())->SetArrangementSpecifier(spec.data());
+            this->m_Operands.emplace_back
+			(
+				std::make_unique<disxx::disasm::operand::Register>
+				(
+					disxx::disasm::operand::Register::Type::TYPE_V,
+					Ri
+				)
+			);
+            static_cast<disxx::disasm::operand::Register *>(this->m_Operands.rbegin()->get())->SetVectorArrangementSpecifier(spec);
         }
-       
-		disxx::disasm::operand::Register reg{disxx::disasm::operand::Register::Type::TYPE_GPR, Rn, 64, true};
-        this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::LoadsAndStoresAddress>(std::move(reg)));
+        this->m_Operands.emplace_back
+		(
+			std::make_unique<disxx::disasm::operand::LoadsAndStoresAddress>
+			(
+				disxx::disasm::operand::Register
+				{
+					disxx::disasm::operand::Register::Type::TYPE_X,
+					Rn,
+					true
+				}
+			)
+		);
     
         return std::make_pair(insn, std::move(this->m_Operands));
 	}

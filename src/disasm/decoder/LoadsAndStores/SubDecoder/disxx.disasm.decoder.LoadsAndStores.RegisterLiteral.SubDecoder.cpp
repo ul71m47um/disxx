@@ -50,7 +50,7 @@ namespace disxx::disasm::decoder::LoadsAndStores::RegisterLiteral
 	std::unique_ptr<disxx::disasm::decoder::abstract::SubDecoder> SubDecoder::Clone(void) const noexcept
 	{ return std::make_unique<std::decay_t<decltype(*this)>>(*this); }
 
-	DisassemblyResult SubDecoder::Decode(void) const noexcept(false)
+	DisassemblyResult SubDecoder::Decode(void) const noexcept
 	{
         // +---+---+--+--+-----+--+
         // |opc|011|VR|00|imm19|Rt|
@@ -69,7 +69,7 @@ namespace disxx::disasm::decoder::LoadsAndStores::RegisterLiteral
 
         auto &&[insn, opr]
         {
-            [opc, VR, Rt](void)
+            [opc, VR, Rt]
                 -> std::pair<InstructionID, std::variant<std::unique_ptr<disxx::disasm::operand::PrefetchOperand>, std::unique_ptr<disxx::disasm::operand::Register>>>
             {
                 if (opc == 0b11 && VR == 0b0)

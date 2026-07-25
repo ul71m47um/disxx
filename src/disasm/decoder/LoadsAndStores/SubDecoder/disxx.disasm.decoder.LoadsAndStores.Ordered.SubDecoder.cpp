@@ -48,7 +48,7 @@ namespace disxx::disasm::decoder::LoadsAndStores::Ordered
 	std::unique_ptr<disxx::disasm::decoder::abstract::SubDecoder> SubDecoder::Clone(void) const noexcept
 	{ return std::make_unique<std::decay_t<decltype(*this)>>(*this); }
 
-	DisassemblyResult SubDecoder::Decode(void) const noexcept(false)
+	DisassemblyResult SubDecoder::Decode(void) const noexcept
 	{
         // +----+-------+-+-+--+--+---+--+--+
         // |size|0010001|L|0|Rs|o0|Rt2|Rn|Rt|
@@ -63,7 +63,8 @@ namespace disxx::disasm::decoder::LoadsAndStores::Ordered
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rt = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
  
-        static constexpr std::array<InstructionID, 12> insnTable = {
+        static constexpr std::array<InstructionID, 12> insnTable
+		{
             InstructionID::INSN_STLLRB, InstructionID::INSN_STLRB,
             InstructionID::INSN_LDLARB, InstructionID::INSN_LDARB,
             InstructionID::INSN_STLLRH, InstructionID::INSN_STLRH,
@@ -74,7 +75,7 @@ namespace disxx::disasm::decoder::LoadsAndStores::Ordered
 
         const auto insn
         {
-            [size, L, o0](void) -> InstructionID
+            [size, L, o0] -> InstructionID
             {
                 const unsigned short int encoding = (L << 1) | o0;
                 if (size == 0b00)
@@ -85,9 +86,27 @@ namespace disxx::disasm::decoder::LoadsAndStores::Ordered
             }()
         };
 
-        this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(disxx::disasm::operand::Register::Type::TYPE_GPR, Rt, size == 0b11 ? 64 : 32));
-        disxx::disasm::operand::Register reg{disxx::disasm::operand::Register::Type::TYPE_GPR, Rn, 64};
-		this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::LoadsAndStoresAddress>(std::move(reg)));
+        this->m_Operands.emplace_back
+		(
+			std::make_unique<disxx::disasm::operand::Register>
+			(
+				size == 0b11
+					? disxx::disasm::operand::Register::Type::TYPE_X
+					: disxx::disasm::operand::Register::Type::TYPE_W,
+				Rt
+			)
+		);
+		this->m_Operands.emplace_back
+		(
+			std::make_unique<disxx::disasm::operand::LoadsAndStoresAddress>
+			(
+				disxx::disasm::operand::Register
+				{
+					disxx::disasm::operand::Register::Type::TYPE_X,
+					Rn
+				}
+			)
+		);
 
         return std::make_pair(insn, std::move(this->m_Operands));
 	}
