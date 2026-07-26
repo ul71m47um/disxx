@@ -50,7 +50,7 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::PSTAT
 	std::unique_ptr<disxx::disasm::decoder::abstract::SubDecoder> SubDecoder::Clone(void) const noexcept
 	{ return std::make_unique<std::decay_t<decltype(*this)>>(*this); }
 
-	DisassemblyResult SubDecoder::Decode(void) const noexcept(false)
+	DisassemblyResult SubDecoder::Decode(void) const noexcept
 	{
         // +-------------+---+----+---+---+--+
         // |1101010100000|op1|0100|CRm|op2|Rt|
@@ -65,7 +65,7 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::PSTAT
         std::unordered_map<unsigned short int, InstructionID> insnTable = {
             {0b000000, InstructionID::INSN_CFINV},
             {0b000001, InstructionID::INSN_XAFLAG},
-            {0b000010, InstructionID::INSN_AXFLAG}
+            {0b000010, InstructionID::INSN_AXFLAG},
         };
 
         if (Rt != 0b1111) [[unlikely]]
@@ -92,18 +92,8 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::PSTAT
 
         const auto pstate{disxx::disasm::operand::PState{encoding}};
         auto imm{CRm};
-        try
-        {
-            const auto _{pstate.GetMnemonic()};
-            // All good, can decode PSTATE
-            this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::PState>(pstate));
-        }
-        catch (...)
-        {
-            // Ok, should try to decode it with another encoding!
-            this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::PState>((CRm << 6) | encoding));
-            imm &= 1;
-        }
+        this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::PState>((CRm << 6) | encoding));
+        imm &= 1;
 
         this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Immediate<unsigned short int, 4>>(imm));
     

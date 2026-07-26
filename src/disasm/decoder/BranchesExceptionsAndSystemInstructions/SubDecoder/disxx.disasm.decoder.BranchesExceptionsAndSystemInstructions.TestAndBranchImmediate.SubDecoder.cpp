@@ -49,7 +49,7 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::TestA
 	std::unique_ptr<disxx::disasm::decoder::abstract::SubDecoder> SubDecoder::Clone(void) const noexcept
 	{ return std::make_unique<std::decay_t<decltype(*this)>>(*this); }
 
-	DisassemblyResult SubDecoder::Decode(void) const noexcept(false)
+	DisassemblyResult SubDecoder::Decode(void) const noexcept
 	{
         // +--+------+--+---+-----+--+
         // |b5|011011|op|b40|imm14|Rt|
@@ -71,7 +71,16 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::TestA
 
         this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Immediate<signed long long int, 64>>(imm + this->m_ProgramCounter));
         this->m_ProgramCounterRelevantAddress = std::ref(**this->m_Operands.rbegin());
-        this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(disxx::disasm::operand::Register::Type::TYPE_GPR, Rt, b5 == 0b1 ? 64 : 32));
+        this->m_Operands.emplace_back
+		(
+			std::make_unique<disxx::disasm::operand::Register>
+			(
+				b5
+					? disxx::disasm::operand::Register::Type::TYPE_X
+					: disxx::disasm::operand::Register::Type::TYPE_W,
+				Rt
+			)
+		);
     
         return std::make_pair(op ? InstructionID::INSN_TBNZ : InstructionID::INSN_TBZ, std::move(this->m_Operands));
 	}

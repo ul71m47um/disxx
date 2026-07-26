@@ -50,7 +50,7 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Syste
 	std::unique_ptr<disxx::disasm::decoder::abstract::SubDecoder> SubDecoder::Clone(void) const noexcept
 	{ return std::make_unique<std::decay_t<decltype(*this)>>(*this); }
 
-	DisassemblyResult SubDecoder::Decode(void) const noexcept(false)
+	DisassemblyResult SubDecoder::Decode(void) const noexcept
 	{
         // +----------+-+--+---+---+---+---+--+
         // |1101010100|L|01|op1|CRn|CRm|op2|Rt|
@@ -67,7 +67,14 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Syste
         const unsigned short int encoding = (op1 << 11) | (CRn << 7) | (CRm << 3) | op2;
         if (L == 0b1)
         {
-            this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(disxx::disasm::operand::Register::Type::TYPE_GPR, Rt, 64));
+            this->m_Operands.emplace_back
+			(
+				std::make_unique<disxx::disasm::operand::Register>
+				(
+					disxx::disasm::operand::Register::Type::TYPE_X,
+					Rt
+				)
+			);
 
             const std::unordered_map<unsigned short int, InstructionID> aliasTable = {
                 {0b01101110111001, InstructionID::INSN_GCSPOPM},
@@ -102,11 +109,27 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Syste
         if (auto it{aliasTable.find(encoding)}; it != aliasTable.end())
         {
             if (op2 == 0b000 || op2 == 0b010 || (CRm == 0b0010 && op2 == 0b111))
-                this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(disxx::disasm::operand::Register::Type::TYPE_GPR, Rt, 64));
-            else if (CRm == 0b0011)
+			{
+                this->m_Operands.emplace_back
+				(
+					std::make_unique<disxx::disasm::operand::Register>
+					(
+						disxx::disasm::operand::Register::Type::TYPE_X,
+						Rt
+					)
+				);
+            }
+			else if (CRm == 0b0011)
             {
                 this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::SystemOperand>(CRm));
-                this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(disxx::disasm::operand::Register::Type::TYPE_GPR, Rt, 64));
+                this->m_Operands.emplace_back
+				(
+					std::make_unique<disxx::disasm::operand::Register>
+					(
+						disxx::disasm::operand::Register::Type::TYPE_X,
+						Rt
+					)
+				);
             }
 
             return std::make_pair(it->second, std::move(this->m_Operands));
@@ -114,7 +137,14 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Syste
         else if (CRn == 0b0111 && (CRm & ~1) == 0b1000 && bits::SysOp(op1, 0b0111, CRm, op2) == 1)
         {
             this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::SystemOperand>(encoding));
-            this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(disxx::disasm::operand::Register::Type::TYPE_GPR, Rt, 64));
+            this->m_Operands.emplace_back
+			(
+				std::make_unique<disxx::disasm::operand::Register>
+				(
+					disxx::disasm::operand::Register::Type::TYPE_X,
+					Rt
+				)
+			);
         
             return std::make_pair(InstructionID::INSN_AT, std::move(this->m_Operands));
         }
@@ -127,21 +157,42 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Syste
         else if (CRn == 0b0111 && bits::SysOp(op1, 0b0111, CRm, op2) == 3)
         {
             this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::SystemOperand>(encoding));
-            this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(disxx::disasm::operand::Register::Type::TYPE_GPR, Rt, 64));
+            this->m_Operands.emplace_back
+			(
+				std::make_unique<disxx::disasm::operand::Register>
+				(
+					disxx::disasm::operand::Register::Type::TYPE_X,
+					Rt
+				)
+			);
 
             return std::make_pair(InstructionID::INSN_DC, std::move(this->m_Operands));
         }
         else if (CRn == 0b0111 && bits::SysOp(op1, 0b0111, CRm, op2) == 4)
         {
             this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::SystemOperand>(encoding));
-            this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(disxx::disasm::operand::Register::Type::TYPE_GPR, Rt, 64));
+            this->m_Operands.emplace_back
+			(
+				std::make_unique<disxx::disasm::operand::Register>
+				(
+					disxx::disasm::operand::Register::Type::TYPE_X,
+					Rt
+				)
+			);
         
             return std::make_pair(InstructionID::INSN_IC, std::move(this->m_Operands));
         }
         else if ((CRn & ~1) == 0b1000 && bits::SysOp(op1, CRn, CRm, op2) == 5)
         {
             this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::SystemOperand>(encoding));
-            this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(disxx::disasm::operand::Register::Type::TYPE_GPR, Rt, 64));
+            this->m_Operands.emplace_back
+			(
+				std::make_unique<disxx::disasm::operand::Register>
+				(
+					disxx::disasm::operand::Register::Type::TYPE_X,
+					Rt
+				)
+			);
         
             return std::make_pair(InstructionID::INSN_TLBI, std::move(this->m_Operands));
         }
@@ -150,7 +201,14 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Syste
         this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Immediate<unsigned short int, 4>>(CRn));
         this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Immediate<unsigned short int, 4>>(CRm));
         this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Immediate<unsigned short int, 3>>(op2));
-        this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(disxx::disasm::operand::Register::Type::TYPE_GPR, Rt, 64));
+        this->m_Operands.emplace_back
+		(
+			std::make_unique<disxx::disasm::operand::Register>
+			(
+				disxx::disasm::operand::Register::Type::TYPE_X,
+				Rt
+			)
+		);
 
         return std::make_pair(InstructionID::INSN_SYSL, std::move(this->m_Operands));
 	}

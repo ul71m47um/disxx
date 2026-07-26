@@ -12,11 +12,12 @@ module disxx.disasm.Disassembler;
 
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.decoder.DecoderFactory;
+import disxx.disasm.operand.Immediate;
 import disxx.disasm.Address;
 
 namespace disxx::disasm
 {
-	Disassembler::Result Disassembler::Disassemble(Bytes word, Address addr) const noexcept(false)
+	Disassembler::Result Disassembler::Disassemble(Bytes word, Address addr) const noexcept
 	{
 		const auto &obj
 		{
@@ -45,24 +46,13 @@ namespace disxx::disasm
                 	(
                 	    oprs,
                 	    [](const auto &ptr) -> bool
-                	    { return ptr->GetType() == operand::AbstractOperand::Type::TYPE_IMMEDIATE; }
+                	    { return dynamic_cast<operand::Immediate<signed long long int, 64> *>(ptr.get()) != nullptr; }
                 	)
             	};
 
             	if (it == oprs.end()) [[unlikely]]
             		return std::nullopt;
-               
-            	auto str{(*it)->GetMnemonic()};
-            	// Is this value non-hex?
-            	if (!str.starts_with("#0x")) [[unlikely]]
-            		return std::nullopt;
-
-            	// Remove the "#0x" substring
-            	str = std::regex_replace(str, std::regex{R"(#0x)"}, std::string{""});
-            	
-				if (signed long long int val{}; std::from_chars(str.data(), str.data() + str.size(), val, 16)) [[likely]]
-					return val;
-				return std::nullopt;
+				return static_cast<operand::Immediate<signed long long int, 64> *>(it->get())->GetValue();
 			}()
 		};
 

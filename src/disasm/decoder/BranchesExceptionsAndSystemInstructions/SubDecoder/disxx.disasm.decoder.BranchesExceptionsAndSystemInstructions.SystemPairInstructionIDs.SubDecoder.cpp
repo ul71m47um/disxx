@@ -50,7 +50,7 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Syste
 	std::unique_ptr<disxx::disasm::decoder::abstract::SubDecoder> SubDecoder::Clone(void) const noexcept
 	{ return std::make_unique<std::decay_t<decltype(*this)>>(*this); }
 
-	DisassemblyResult SubDecoder::Decode(void) const noexcept(false)
+	DisassemblyResult SubDecoder::Decode(void) const noexcept
 	{
         // +----------+-+--+---+---+---+---+--+
         // |1101010101|L|01|op1|CRn|CRm|op2|Rt|
@@ -71,8 +71,22 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Syste
         {
             const unsigned short int encoding = (op1 << 11) | (CRn << 7) | (CRm << 3) | op2;
             this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::SystemOperand>(encoding));
-            this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(disxx::disasm::operand::Register::Type::TYPE_GPR, Rt, 64));
-            this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(disxx::disasm::operand::Register::Type::TYPE_GPR, Rt + (Rt != 0b11111 ? 1 : 0), 64));
+            this->m_Operands.emplace_back
+			(
+				std::make_unique<disxx::disasm::operand::Register>
+				(
+					disxx::disasm::operand::Register::Type::TYPE_X,
+					Rt
+				)
+			);
+            this->m_Operands.emplace_back
+			(
+				std::make_unique<disxx::disasm::operand::Register>
+				(
+					disxx::disasm::operand::Register::Type::TYPE_X,
+					std::clamp(Rt + 1, 0, 0b11111)
+				)
+			);
         
             return std::make_pair(InstructionID::INSN_TLBIP, std::move(this->m_Operands));
         }
@@ -81,8 +95,22 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Syste
         this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Immediate<unsigned short int, 4>>(CRn));
         this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Immediate<unsigned short int, 4>>(CRm));
         this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Immediate<unsigned short int, 3>>(op2));
-        this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(disxx::disasm::operand::Register::Type::TYPE_GPR, Rt, 64));
-        this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(disxx::disasm::operand::Register::Type::TYPE_GPR, Rt + (Rt != 0b11111 ? 1 : 0), 64));
+        this->m_Operands.emplace_back
+		(
+			std::make_unique<disxx::disasm::operand::Register>
+			(
+				disxx::disasm::operand::Register::Type::TYPE_X,
+				Rt
+			)
+		);
+        this->m_Operands.emplace_back
+		(
+			std::make_unique<disxx::disasm::operand::Register>
+			(
+				disxx::disasm::operand::Register::Type::TYPE_X,
+				std::clamp(Rt + 1, 0, 0b11111)
+			)
+		);
 
         return std::make_pair(InstructionID::INSN_SYSP, std::move(this->m_Operands));
 	}

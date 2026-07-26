@@ -49,7 +49,7 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Compa
 	std::unique_ptr<disxx::disasm::decoder::abstract::SubDecoder> SubDecoder::Clone(void) const noexcept
 	{ return std::make_unique<std::decay_t<decltype(*this)>>(*this); }
 
-	DisassemblyResult SubDecoder::Decode(void) const noexcept(false)
+	DisassemblyResult SubDecoder::Decode(void) const noexcept
 	{
         // +--+-------+--+--+--+----+--+
         // |sf|1110100|cc|Rm|00|imm9|Rt|
@@ -89,8 +89,14 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Compa
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
 
-        this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(disxx::disasm::operand::Register::Type::TYPE_GPR, Rt, sf == 0b1 ? 64 : 32));
-        this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(disxx::disasm::operand::Register::Type::TYPE_GPR, Rm, sf == 0b1 ? 64 : 32));
+		const auto rtype
+		{
+			sf
+				? disxx::disasm::operand::Register::Type::TYPE_X
+				: disxx::disasm::operand::Register::Type::TYPE_W
+		};
+        this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(rtype, Rt));
+        this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(rtype, Rm));
         this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Immediate<signed long long int, 64>>(imm + this->m_ProgramCounter));
         this->m_ProgramCounterRelevantAddress = std::ref(**this->m_Operands.rbegin());
     

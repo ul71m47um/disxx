@@ -39,6 +39,6 @@ export namespace disxx::disasm
 
 		~Disassembler(void) noexcept = default;
 
-		Result Disassemble(const Bytes, const Address) const noexcept(false);
+		Result Disassemble(const Bytes, const Address) const noexcept;
 	};
 } /* disxx::disasm */

@@ -48,7 +48,7 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Syste
 	std::unique_ptr<disxx::disasm::decoder::abstract::SubDecoder> SubDecoder::Clone(void) const noexcept
 	{ return std::make_unique<std::decay_t<decltype(*this)>>(*this); }
 
-	DisassemblyResult SubDecoder::Decode(void) const noexcept(false)
+	DisassemblyResult SubDecoder::Decode(void) const noexcept
 	{
         // +--------------------+---+---+--+
         // |11010101000000110001|CRm|op2|Rt|
@@ -62,7 +62,14 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Syste
         if (CRm != 0b0000 || op2 > 0b001) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
 
-        this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(disxx::disasm::operand::Register::Type::TYPE_GPR, Rt, 64));
+        this->m_Operands.emplace_back
+		(
+			std::make_unique<disxx::disasm::operand::Register>
+			(
+				disxx::disasm::operand::Register::Type::TYPE_X,
+				Rt
+			)
+		);
 
         return std::make_pair
         (

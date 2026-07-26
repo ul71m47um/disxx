@@ -50,7 +50,7 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Uncon
 	std::unique_ptr<disxx::disasm::decoder::abstract::SubDecoder> SubDecoder::Clone(void) const noexcept
 	{ return std::make_unique<std::decay_t<decltype(*this)>>(*this); }
 
-	DisassemblyResult SubDecoder::Decode(void) const noexcept(false)
+	DisassemblyResult SubDecoder::Decode(void) const noexcept
 	{
         // +-------+---+---+---+--+---+
         // |1101011|opc|op2|op3|Rn|op4|
@@ -63,41 +63,82 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Uncon
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         op4 = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        auto fmtRn = [Rn](void) -> std::vector<disxx::disasm::operand::Register>
-        { return std::vector<disxx::disasm::operand::Register>{disxx::disasm::operand::Register{disxx::disasm::operand::Register::Type::TYPE_GPR, Rn, 64}}; };
+		const auto mknull
+		{
+			[] -> std::vector<disxx::disasm::operand::Register>
+			{ return std::vector<disxx::disasm::operand::Register>{}; }
+		};
 
-        auto fmtRm = [op4](void) -> std::vector<disxx::disasm::operand::Register>
-        { return std::vector<disxx::disasm::operand::Register>{disxx::disasm::operand::Register{disxx::disasm::operand::Register::Type::TYPE_GPR, op4, 64}}; };
+        const auto mkRn
+		{
+			[Rn] -> std::vector<disxx::disasm::operand::Register>
+        	{
+				return std::vector<disxx::disasm::operand::Register>
+				{
+					disxx::disasm::operand::Register
+					{
+						disxx::disasm::operand::Register::Type::TYPE_X,
+						Rn
+					}
+				};
+			}
+		};
 
-        auto fmtRnAndRn = [Rn, op4](void) -> std::vector<disxx::disasm::operand::Register>
-        {
-            return std::vector<disxx::disasm::operand::Register>
-            {
-                disxx::disasm::operand::Register{disxx::disasm::operand::Register::Type::TYPE_GPR, Rn, 64},
-                disxx::disasm::operand::Register{disxx::disasm::operand::Register::Type::TYPE_GPR, op4, 64}
-            };
+        const auto mkRm
+		{
+			[op4] -> std::vector<disxx::disasm::operand::Register>
+        	{
+				return std::vector<disxx::disasm::operand::Register>
+				{
+					disxx::disasm::operand::Register
+					{
+						disxx::disasm::operand::Register::Type::TYPE_X,
+						op4
+					}
+				};
+			}
+		};
+
+        const auto mkall
+		{
+			[Rn, op4] -> std::vector<disxx::disasm::operand::Register>
+        	{
+        	    return std::vector<disxx::disasm::operand::Register>
+        	    {
+        	        disxx::disasm::operand::Register
+					{
+						disxx::disasm::operand::Register::Type::TYPE_X,
+						Rn
+					},
+        	        disxx::disasm::operand::Register
+					{
+						disxx::disasm::operand::Register::Type::TYPE_X,
+						op4
+					}
+        	    };
+			}
         };
 
         const std::unordered_map<unsigned short int, std::tuple<InstructionID, bool, std::function<std::vector<disxx::disasm::operand::Register>(void)>>> insnTable = {
-            {0b000011111000000, {InstructionID::INSN_BR, op4 == 0b00000, fmtRn}},
-            {0b000011111000010, {InstructionID::INSN_BRAAZ, op4 == 0b11111, fmtRn}},
-            {0b000011111000011, {InstructionID::INSN_BRABZ, op4 == 0b11111, fmtRn}},
-            {0b000111111000000, {InstructionID::INSN_BLR, op4 == 0b00000, fmtRn}},
-            {0b000111111000010, {InstructionID::INSN_BLRAAZ, op4 == 0b11111, fmtRn}},
-            {0b000111111000011, {InstructionID::INSN_BLRABZ, op4 == 0b11111, fmtRn}},
-            {0b001011111000000, {InstructionID::INSN_RET, op4 == 0b00000, fmtRn}},
-            {0b001011111000010, {InstructionID::INSN_RETAA, Rn == 0b11111 && op4 == 0b11111, [](void) -> std::vector<disxx::disasm::operand::Register> { return std::vector<disxx::disasm::operand::Register>{}; }}},
-            {0b001011111000010, {InstructionID::INSN_RETAASPPCR, Rn == 0b11111 && op4 != 0b11111, fmtRm}},
-            {0b001011111000011, {InstructionID::INSN_RETAB, Rn == 0b11111 && op4 == 0b11111, [](void) -> std::vector<disxx::disasm::operand::Register> { return std::vector<disxx::disasm::operand::Register>{}; }}},
-            {0b001011111000011, {InstructionID::INSN_RETABSPPCR, Rn == 0b11111 && op4 != 0b11111, fmtRm}},
-            {0b010011111000000, {InstructionID::INSN_ERET, Rn == 0b11111 && op4 == 0b00000, [](void) -> std::vector<disxx::disasm::operand::Register> { return std::vector<disxx::disasm::operand::Register>{}; }}},
-            {0b010011111000010, {InstructionID::INSN_ERETAA, Rn == 0b11111 && op4 == 0b11111, [](void) -> std::vector<disxx::disasm::operand::Register> { return std::vector<disxx::disasm::operand::Register>{}; }}},
-            {0b010011111000011, {InstructionID::INSN_ERETAB, Rn == 0b11111 && op4 == 0b11111, [](void) -> std::vector<disxx::disasm::operand::Register> { return std::vector<disxx::disasm::operand::Register>{}; }}},
-            {0b010111111000000, {InstructionID::INSN_DRPS, Rn == 0b11111 && op4 == 0b00000, [](void) -> std::vector<disxx::disasm::operand::Register> { return std::vector<disxx::disasm::operand::Register>{}; }}},
-            {0b100011111000010, {InstructionID::INSN_BRAA, true, fmtRnAndRn}},
-            {0b100011111000011, {InstructionID::INSN_BRAB, true, fmtRnAndRn}},
-            {0b100111111000010, {InstructionID::INSN_BLRAA, true, fmtRnAndRn}},
-            {0b100111111000011, {InstructionID::INSN_BLRAB, true, fmtRnAndRn}}
+            {0b000011111000000, {InstructionID::INSN_BR, op4 == 0b00000, mkRn}},
+            {0b000011111000010, {InstructionID::INSN_BRAAZ, op4 == 0b11111, mkRn}},
+            {0b000011111000011, {InstructionID::INSN_BRABZ, op4 == 0b11111, mkRn}},
+            {0b000111111000000, {InstructionID::INSN_BLR, op4 == 0b00000, mkRn}},
+            {0b000111111000010, {InstructionID::INSN_BLRAAZ, op4 == 0b11111, mkRn}},
+            {0b000111111000011, {InstructionID::INSN_BLRABZ, op4 == 0b11111, mkRn}},
+            {0b001011111000000, {InstructionID::INSN_RET, op4 == 0b00000, mkRn}},
+            {0b001011111000010, {InstructionID::INSN_RETAA, Rn == 0b11111 && op4 == 0b11111, mknull}},
+            {0b001011111000010, {InstructionID::INSN_RETAASPPCR, Rn == 0b11111 && op4 != 0b11111, mkRm}},
+            {0b001011111000011, {InstructionID::INSN_RETAB, Rn == 0b11111 && op4 == 0b11111, mknull}},
+            {0b001011111000011, {InstructionID::INSN_RETABSPPCR, Rn == 0b11111 && op4 != 0b11111, mkRm}},
+            {0b010011111000000, {InstructionID::INSN_ERET, Rn == 0b11111 && op4 == 0b00000, mknull}},
+            {0b010011111000010, {InstructionID::INSN_ERETAA, Rn == 0b11111 && op4 == 0b11111, mknull}},
+            {0b010011111000011, {InstructionID::INSN_ERETAB, Rn == 0b11111 && op4 == 0b11111, mknull}},
+            {0b010111111000000, {InstructionID::INSN_DRPS, Rn == 0b11111 && op4 == 0b00000, mknull}},
+            {0b100011111000010, {InstructionID::INSN_BRAA, true, mkall}},
+            {0b100011111000011, {InstructionID::INSN_BRAB, true, mkall}},
+            {0b100111111000010, {InstructionID::INSN_BLRAA, true, mkall}},
+            {0b100111111000011, {InstructionID::INSN_BLRAB, true, mkall}}
         };
 
         const unsigned short int encoding = (opc << 11) | (op2 << 6) | op3;
@@ -105,11 +146,11 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Uncon
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
 
-        const auto &[insn, cond, fmt]{it->second};
+        const auto &[insn, cond, func]{it->second};
         if (!cond) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
 
-        for (const auto &reg : fmt())
+        for (const auto &reg : func())
             this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(std::move(reg)));
 
         return std::make_pair(insn, std::move(this->m_Operands));
