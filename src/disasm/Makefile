@@ -184,7 +184,8 @@ MODULES=\
 	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)public$(PATHSEP)disxx.disasm.Address.cppm \
 	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)public$(PATHSEP)disxx.disasm.Bytes.cppm \
 	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)public$(PATHSEP)disxx.disasm.Instruction.cppm \
-	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)public$(PATHSEP)disxx.disasm.Disassembler.cppm
+	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)public$(PATHSEP)disxx.disasm.Disassembler.cppm \
+	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)public$(PATHSEP)disxx.disasm.Printer.cppm
 
 SOURCES=\
 	.$(PATHSEP)utility$(PATHSEP)bits$(PATHSEP)disxx.disasm.utility.bits.cpp \

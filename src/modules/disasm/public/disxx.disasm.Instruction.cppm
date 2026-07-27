@@ -39,7 +39,7 @@ export namespace disxx::disasm
 		Bytes m_Bytes{};
 
 		// ID of the instruction's mnemonic
-		InstructionID m_InstructionID{};
+		InstructionID m_Identifier{};
 
 	  public:
 		explicit Instruction(void) noexcept;
@@ -64,11 +64,11 @@ export namespace disxx::disasm
 		inline const std::vector<std::unique_ptr<operand::IOperand>> &GetOperands(void) const noexcept [[clang::lifetimebound]];
 		inline std::optional<signed long long int> GetProgramCounterRelevantAddress(void) const noexcept;
 		inline Bytes GetBytes(void) const noexcept;
-		inline InstructionID GetInstructionID(void) const noexcept;
+		inline InstructionID GetIdentifier(void) const noexcept;
 	};
 
 	inline void Instruction::SetInstructionID(InstructionID &&insn) noexcept
-	{ this->m_InstructionID = std::move(insn); }
+	{ this->m_Identifier = std::move(insn); }
 
 	inline void Instruction::SetOperands(std::vector<std::unique_ptr<operand::IOperand>> &&oprs) noexcept
 	{ this->m_Operands = std::move(oprs); }
@@ -91,8 +91,8 @@ export namespace disxx::disasm
 	inline Bytes Instruction::GetBytes(void) const noexcept
 	{ return this->m_Bytes; }
 	
-	inline InstructionID Instruction::GetInstructionID(void) const noexcept
- 	{ return this->m_InstructionID; }
+	inline InstructionID Instruction::GetIdentifier(void) const noexcept
+ 	{ return this->m_Identifier; }
 } /* disxx::disasm */
 /*
 export template <> struct std::formatter<disxx::disasm::Instruction> : public std::formatter<std::string>

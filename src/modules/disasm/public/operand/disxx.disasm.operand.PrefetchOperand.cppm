@@ -12,7 +12,7 @@ export namespace disxx::disasm::operand
 {
 	class __DISXX_EXPORT__ PrefetchOperand final : public IOperand
 	{
-	  private:
+	  public:
 		enum class Identifier : unsigned short int
 		{
 			ID_PLDL1KEEP,
