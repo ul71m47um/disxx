@@ -76,6 +76,7 @@ export namespace disxx::disasm::operand
 		inline void AddExtension(Extension &&) noexcept;
 		inline void AddShift(Shift &&) noexcept;
 
+		inline const Register &GetRegister(void) const noexcept;
 		inline std::optional
 		<
 			std::variant
@@ -144,6 +145,9 @@ export namespace disxx::disasm::operand
 			std::forward<Shift &&>(shift)
 		);
 	}
+
+	inline const Register &LoadsAndStoresAddress::GetRegister(void) const noexcept
+	{ return this->m_BaseRegister; }
 
 	inline std::optional
 	<

@@ -38,8 +38,12 @@ export namespace disxx::disasm::operand
         virtual std::unique_ptr<IOperand> Clone(void) const noexcept override;
 	
 		inline Identifier GetIdentifier(void) const noexcept;
+		inline unsigned short int GetValue(void) const noexcept;
 	};
 
 	inline Extension::Identifier Extension::GetIdentifier(void) const noexcept
 	{ return this->m_Identifier; }
+
+	inline unsigned short int Extension::GetValue(void) const noexcept
+	{ return this->m_Value; }
 } /* disxx::disasm::operand */
