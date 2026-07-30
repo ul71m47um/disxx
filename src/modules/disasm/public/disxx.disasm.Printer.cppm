@@ -7,6 +7,7 @@ module;
 #include <flat_map>
 #include <concepts>
 #include <variant>
+#include <bit>
 
 export module disxx.disasm.Printer;
 
@@ -131,12 +132,78 @@ export namespace disxx::disasm
 		else if (const auto *pShift{dynamic_cast<operand::Shift *>(ptr.get())})
 			for (const auto ch : std::format("{} #{:#x}", s_ShiftTable.at(pShift->GetIdentifier()), pShift->GetAmount()))
 				**this->m_pIt++ = ch;
-		
+		else if (const auto *pF64{dynamic_cast<operand::Immediate<double, 64> *>(ptr.get())})
+			for (const auto ch : std::format("#{:f}", pF64->GetValue()))
+				**this->m_pIt++ = ch;
+		else if (const auto *pU64{dynamic_cast<operand::Immediate<unsigned long long int, 64> *>(ptr.get())})
+		{
+			if (pU64->GetOption() == operand::Immediate<unsigned long long int, 64>::Option::OPT_VFPEXPANDIMM)
+				for (const auto ch : std::format("#{:f}", std::bit_cast<double>(pU64->GetValue())))
+					**this->m_pIt++ = ch;
+			else
+				for (const auto ch : std::format("#{:#x}", pU64->GetValue()))
+					**this->m_pIt++ = ch;
+		}
+		else if (const auto *pI64{dynamic_cast<operand::Immediate<signed long long int, 64> *>(ptr.get())})
+		{
+			if (pI64->GetOption() == operand::Immediate<signed long long int, 64>::Option::OPT_VFPEXPANDIMM)
+				for (const auto ch : std::format("#{:f}", std::bit_cast<double>(pI64->GetValue())))
+					**this->m_pIt++ = ch;
+			else
+				for (const auto ch : std::format("#{:#x}", pI64->GetValue()))
+					**this->m_pIt++ = ch;
+		}
+		else if (const auto *pU32{dynamic_cast<operand::Immediate<unsigned int, 32> *>(ptr.get())})
+		{
+				if (pU32->GetOption() == operand::Immediate<unsigned int, 32>::Option::OPT_VFPEXPANDIMM)
+					for (const auto ch : std::format("#{:f}", std::bit_cast<float>(pU32->GetValue())))
+						**this->m_pIt++ = ch;
+				else
+					for (const auto ch : std::format("#{:#x}", pU32->GetValue()))
+						**this->m_pIt++ = ch;
+		}
+		else if (const auto *pU19{dynamic_cast<operand::Immediate<unsigned long int, 19> *>(ptr.get())})
+			for (const auto ch : std::format("#{:#x}", pU19->GetValue()))
+				**this->m_pIt++ = ch;
+		else if (const auto *pU16{dynamic_cast<operand::Immediate<unsigned short int, 16> *>(ptr.get())})
+			for (const auto ch : std::format("#{:#x}", pU16->GetValue()))
+				**this->m_pIt++ = ch;
+		else if (const auto *pU12{dynamic_cast<operand::Immediate<signed short int, 12> *>(ptr.get())})
+			for (const auto ch : std::format("#{:#x}", pU12->GetValue()))
+				**this->m_pIt++ = ch;
+		else if (const auto *pI10{dynamic_cast<operand::Immediate<signed short int, 10> *>(ptr.get())})
+			for (const auto ch : std::format("#{:#x}", pI10->GetValue()))
+				**this->m_pIt++ = ch;
+		else if (const auto *pI9{dynamic_cast<operand::Immediate<signed short int, 9> *>(ptr.get())})
+			for (const auto ch : std::format("#{:#x}", pI9->GetValue()))
+				**this->m_pIt++ = ch;
+		else if (const auto *pI8{dynamic_cast<operand::Immediate<signed short int, 8> *>(ptr.get())})
+			for (const auto ch : std::format("#{:#x}", pI8->GetValue()))
+				**this->m_pIt++ = ch;
+		else if (const auto *pI7{dynamic_cast<operand::Immediate<signed short int, 7> *>(ptr.get())})
+			for (const auto ch : std::format("#{:#x}", pI7->GetValue()))
+				**this->m_pIt++ = ch;
+		else if (const auto *pU6{dynamic_cast<operand::Immediate<unsigned short int, 6> *>(ptr.get())})
+			for (const auto ch : std::format("#{:#x}", pU6->GetValue()))
+				**this->m_pIt++ = ch;
+		else if (const auto *pI6{dynamic_cast<operand::Immediate<signed short int, 6> *>(ptr.get())})
+			for (const auto ch : std::format("#{:#x}", pI6->GetValue()))
+				**this->m_pIt++ = ch;
+		else if (const auto *pU4{dynamic_cast<operand::Immediate<unsigned short int, 4> *>(ptr.get())})
+			for (const auto ch : std::format("#{:#x}", pU4->GetValue()))
+				**this->m_pIt++ = ch;
+		else if (const auto *pF1{dynamic_cast<operand::Immediate<float, 1> *>(ptr.get())})
+			for (const auto ch : std::format("#{:f}", pF1->GetValue()))
+				**this->m_pIt++ = ch;
+		else if (const auto *pU1{dynamic_cast<operand::Immediate<unsigned short int, 1> *>(ptr.get())})
+			for (const auto ch : std::format("#{:#x}", pU1->GetValue()))
+				**this->m_pIt++ = ch;
+
 		if (!last)
 			for (const auto ch : ", ")
 				**this->m_pIt++ = ch;
 	}
-
+	
 	template <std::output_iterator<char> T>
 	void Printer<T>::Print(const Instruction &insn) noexcept
 	{
