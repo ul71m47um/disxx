@@ -82,7 +82,7 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::LogicalImmediate
 
         std::variant
         <
-            disxx::disasm::operand::Immediate<unsigned long long int, 32>,
+            disxx::disasm::operand::Immediate<unsigned int, 32>,
             disxx::disasm::operand::Immediate<unsigned long long int, 64>
         > imm{};
         if (sf == 0b1)
@@ -95,7 +95,7 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::LogicalImmediate
         else
         {
             if (const auto result{bits::DecodeBitMasks<unsigned long long int, 64>(N, imms, immr, true)})
-                imm.emplace<0>(disxx::disasm::operand::Immediate<unsigned long long int, 32>{std::get<0>(result.value())});
+                imm.emplace<0>(disxx::disasm::operand::Immediate<unsigned int, 32>{static_cast<unsigned int>(std::get<0>(result.value()))});
             else
                 return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
         }

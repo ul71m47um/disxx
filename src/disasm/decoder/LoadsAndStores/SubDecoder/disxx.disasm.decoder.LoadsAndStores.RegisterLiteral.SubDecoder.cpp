@@ -140,13 +140,13 @@ namespace disxx::disasm::decoder::LoadsAndStores::RegisterLiteral
         );
         this->m_Operands.emplace_back
         (
-            std::make_unique<disxx::disasm::operand::Immediate<unsigned long int, 19>>
+            std::make_unique<disxx::disasm::operand::Immediate<unsigned int, 19>>
             (
                 imm19,
-                disxx::disasm::operand::Immediate<unsigned long int, 19>::Option::OPT_SIGNEXTEND
+                disxx::disasm::operand::Immediate<unsigned int, 19>::Option::OPT_SIGNEXTEND
             )
         );
-        *static_cast<disxx::disasm::operand::Immediate<unsigned long int, 19> *>(this->m_Operands.rbegin()->get()) += this->m_ProgramCounter;
+        *static_cast<disxx::disasm::operand::Immediate<unsigned int, 19> *>(this->m_Operands.rbegin()->get()) += static_cast<unsigned int>(this->m_ProgramCounter);
         this->m_ProgramCounterRelevantAddress = std::ref(**this->m_Operands.rbegin());
 
         return std::make_pair(insn, std::move(this->m_Operands));
