@@ -11,7 +11,7 @@ module disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDSc
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
 import disxx.disasm.utility.bits;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 
 namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::AdvancedSIMDScalarThreeSame
 {
@@ -62,50 +62,50 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b000001, InstructionID::INSN_SQADD},
-            {0b000101, InstructionID::INSN_SQSUB},
-            {0b001001, InstructionID::INSN_SQSHL},
-            {0b001011, InstructionID::INSN_SQRSHL},
-            {0b010110, InstructionID::INSN_SQDMULH},
-            {0b100001, InstructionID::INSN_UQADD},
-            {0b100101, InstructionID::INSN_UQSUB},
-            {0b101001, InstructionID::INSN_UQSHL},
-            {0b101011, InstructionID::INSN_UQRSHL},
-            {0b110110, InstructionID::INSN_SQRDMULH}
+        std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b000001, InstructionIdentifier::ID_SQADD},
+            {0b000101, InstructionIdentifier::ID_SQSUB},
+            {0b001001, InstructionIdentifier::ID_SQSHL},
+            {0b001011, InstructionIdentifier::ID_SQRSHL},
+            {0b010110, InstructionIdentifier::ID_SQDMULH},
+            {0b100001, InstructionIdentifier::ID_UQADD},
+            {0b100101, InstructionIdentifier::ID_UQSUB},
+            {0b101001, InstructionIdentifier::ID_UQSHL},
+            {0b101011, InstructionIdentifier::ID_UQRSHL},
+            {0b110110, InstructionIdentifier::ID_SQRDMULH}
         };
 
-        std::unordered_map<unsigned short int, InstructionID> insnTableWithSize = {
-            {0b00011011, InstructionID::INSN_FMULX},
-            {0b00111011, InstructionID::INSN_FMULX},
-            {0b00011100, InstructionID::INSN_FCMEQ},
-            {0b00111100, InstructionID::INSN_FCMEQ},
-            {0b00011111, InstructionID::INSN_FRECPS},
-            {0b00111111, InstructionID::INSN_FRECPS},
-            {0b01011111, InstructionID::INSN_FRSQRTS},
-            {0b01111111, InstructionID::INSN_FRSQRTS},
-            {0b01100110, InstructionID::INSN_CMGT},
-            {0b01100111, InstructionID::INSN_CMGE},
-            {0b01101000, InstructionID::INSN_SSHL},
-            {0b01101010, InstructionID::INSN_SRSHL},
-            {0b01110000, InstructionID::INSN_ADD},
-            {0b01110001, InstructionID::INSN_CMTST},
-            {0b10011100, InstructionID::INSN_FCMGE},
-            {0b10111100, InstructionID::INSN_FCMGE},
-            {0b10011101, InstructionID::INSN_FACGE},
-            {0b10111101, InstructionID::INSN_FACGE},
-            {0b11011010, InstructionID::INSN_FABD},
-            {0b11111010, InstructionID::INSN_FABD},
-            {0b11011100, InstructionID::INSN_FCMGT},
-            {0b11111100, InstructionID::INSN_FCMGT},
-            {0b11011101, InstructionID::INSN_FACGT},
-            {0b11111101, InstructionID::INSN_FACGT},
-            {0b11100110, InstructionID::INSN_CMHI},
-            {0b11100111, InstructionID::INSN_CMHS},
-            {0b11101000, InstructionID::INSN_USHL},
-            {0b11101010, InstructionID::INSN_URSHL},
-            {0b11110000, InstructionID::INSN_SUB},
-            {0b11110001, InstructionID::INSN_CMEQ}
+        std::unordered_map<unsigned short int, InstructionIdentifier> insnTableWithSize = {
+            {0b00011011, InstructionIdentifier::ID_FMULX},
+            {0b00111011, InstructionIdentifier::ID_FMULX},
+            {0b00011100, InstructionIdentifier::ID_FCMEQ},
+            {0b00111100, InstructionIdentifier::ID_FCMEQ},
+            {0b00011111, InstructionIdentifier::ID_FRECPS},
+            {0b00111111, InstructionIdentifier::ID_FRECPS},
+            {0b01011111, InstructionIdentifier::ID_FRSQRTS},
+            {0b01111111, InstructionIdentifier::ID_FRSQRTS},
+            {0b01100110, InstructionIdentifier::ID_CMGT},
+            {0b01100111, InstructionIdentifier::ID_CMGE},
+            {0b01101000, InstructionIdentifier::ID_SSHL},
+            {0b01101010, InstructionIdentifier::ID_SRSHL},
+            {0b01110000, InstructionIdentifier::ID_ADD},
+            {0b01110001, InstructionIdentifier::ID_CMTST},
+            {0b10011100, InstructionIdentifier::ID_FCMGE},
+            {0b10111100, InstructionIdentifier::ID_FCMGE},
+            {0b10011101, InstructionIdentifier::ID_FACGE},
+            {0b10111101, InstructionIdentifier::ID_FACGE},
+            {0b11011010, InstructionIdentifier::ID_FABD},
+            {0b11111010, InstructionIdentifier::ID_FABD},
+            {0b11011100, InstructionIdentifier::ID_FCMGT},
+            {0b11111100, InstructionIdentifier::ID_FCMGT},
+            {0b11011101, InstructionIdentifier::ID_FACGT},
+            {0b11111101, InstructionIdentifier::ID_FACGT},
+            {0b11100110, InstructionIdentifier::ID_CMHI},
+            {0b11100111, InstructionIdentifier::ID_CMHS},
+            {0b11101000, InstructionIdentifier::ID_USHL},
+            {0b11101010, InstructionIdentifier::ID_URSHL},
+            {0b11110000, InstructionIdentifier::ID_SUB},
+            {0b11110001, InstructionIdentifier::ID_CMEQ}
         };
 
 		static constexpr std::array<disxx::disasm::operand::Register::Type, 4> types

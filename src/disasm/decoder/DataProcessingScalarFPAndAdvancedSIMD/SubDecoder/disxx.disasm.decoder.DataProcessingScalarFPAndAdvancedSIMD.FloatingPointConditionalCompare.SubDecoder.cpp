@@ -12,7 +12,7 @@ import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Condition;
 import disxx.disasm.operand.Register;
 import disxx.disasm.utility.bits;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 
 namespace
 {
@@ -85,13 +85,13 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Floatin
         op = bits::extract<unsigned short int, std::uint32_t, 4, 4>(this->m_Insn);
         nzcv = bits::extract<unsigned short int, std::uint32_t, 0, 3>(this->m_Insn);
 
-        std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b00000, InstructionID::INSN_FCCMP},
-            {0b00001, InstructionID::INSN_FCCMPE},
-            {0b00010, InstructionID::INSN_FCCMP},
-            {0b00011, InstructionID::INSN_FCCMPE},
-            {0b00110, InstructionID::INSN_FCCMP},
-            {0b00111, InstructionID::INSN_FCCMPE}
+        std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b00000, InstructionIdentifier::ID_FCCMP},
+            {0b00001, InstructionIdentifier::ID_FCCMPE},
+            {0b00010, InstructionIdentifier::ID_FCCMP},
+            {0b00011, InstructionIdentifier::ID_FCCMPE},
+            {0b00110, InstructionIdentifier::ID_FCCMP},
+            {0b00111, InstructionIdentifier::ID_FCCMPE}
         };
 
         const unsigned short int encoding = (M << 4) | (S << 3) | (ftype << 1) | op;

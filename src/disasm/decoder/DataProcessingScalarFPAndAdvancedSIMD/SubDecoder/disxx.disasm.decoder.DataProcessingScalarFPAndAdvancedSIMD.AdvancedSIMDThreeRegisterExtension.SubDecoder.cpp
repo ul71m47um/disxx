@@ -12,7 +12,7 @@ import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
 import disxx.disasm.utility.bits;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 
 namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::AdvancedSIMDThreeRegisterExtension
 {
@@ -64,45 +64,45 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b00000010, InstructionID::INSN_SDOT},
-            {0b10000010, InstructionID::INSN_SDOT},
-            {0b00001110, InstructionID::INSN_FCVTN},
-            {0b10001110, InstructionID::INSN_FCVTN2},
-            {0b00001111, InstructionID::INSN_FDOT},
-            {0b10001111, InstructionID::INSN_FDOT},
-            {0b00011110, InstructionID::INSN_FCVTN},
-            {0b10011110, InstructionID::INSN_FCVTN},
-            {0b00011111, InstructionID::INSN_FDOT},
-            {0b10011111, InstructionID::INSN_FDOT},
-            {0b00100011, InstructionID::INSN_USDOT},
-            {0b10100011, InstructionID::INSN_USDOT},
-            {0b01000000, InstructionID::INSN_SQRDMLAH},
-            {0b11000000, InstructionID::INSN_SQRDMLAH},
-            {0b01000001, InstructionID::INSN_SQRDMLSH},
-            {0b11000001, InstructionID::INSN_SQRDMLSH},
-            {0b01000010, InstructionID::INSN_UDOT},
-            {0b11000010, InstructionID::INSN_UDOT},
-            {0b01001000, InstructionID::INSN_FCMLA},
-            {0b11001000, InstructionID::INSN_FCMLA},
-            {0b01001100, InstructionID::INSN_FCADD},
-            {0b11001100, InstructionID::INSN_FCADD},
-            {0b01011111, InstructionID::INSN_BFDOT},
-            {0b11011111, InstructionID::INSN_BFDOT},
-            {0b01111111, InstructionID::INSN_BFMLALB},
-            {0b11111111, InstructionID::INSN_BFMLALT},
-            {0b00001000, InstructionID::INSN_FMLALLBB},
-            {0b00011000, InstructionID::INSN_FMLALLBT},
-            {0b00111111, InstructionID::INSN_FMLALB},
-            {0b10001000, InstructionID::INSN_FMLALLTB},
-            {0b10011000, InstructionID::INSN_FMLALLTT},
-            {0b10100100, InstructionID::INSN_SMMLA},
-            {0b10100101, InstructionID::INSN_USMMLA},
-            {0b10111111, InstructionID::INSN_FMLALT},
-            {0b11001101, InstructionID::INSN_FMMLA},
-            {0b11011101, InstructionID::INSN_BFMMLA},
-            {0b11100100, InstructionID::INSN_UMMLA},
-            {0b11101101, InstructionID::INSN_FMMLA}
+        std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b00000010, InstructionIdentifier::ID_SDOT},
+            {0b10000010, InstructionIdentifier::ID_SDOT},
+            {0b00001110, InstructionIdentifier::ID_FCVTN},
+            {0b10001110, InstructionIdentifier::ID_FCVTN2},
+            {0b00001111, InstructionIdentifier::ID_FDOT},
+            {0b10001111, InstructionIdentifier::ID_FDOT},
+            {0b00011110, InstructionIdentifier::ID_FCVTN},
+            {0b10011110, InstructionIdentifier::ID_FCVTN},
+            {0b00011111, InstructionIdentifier::ID_FDOT},
+            {0b10011111, InstructionIdentifier::ID_FDOT},
+            {0b00100011, InstructionIdentifier::ID_USDOT},
+            {0b10100011, InstructionIdentifier::ID_USDOT},
+            {0b01000000, InstructionIdentifier::ID_SQRDMLAH},
+            {0b11000000, InstructionIdentifier::ID_SQRDMLAH},
+            {0b01000001, InstructionIdentifier::ID_SQRDMLSH},
+            {0b11000001, InstructionIdentifier::ID_SQRDMLSH},
+            {0b01000010, InstructionIdentifier::ID_UDOT},
+            {0b11000010, InstructionIdentifier::ID_UDOT},
+            {0b01001000, InstructionIdentifier::ID_FCMLA},
+            {0b11001000, InstructionIdentifier::ID_FCMLA},
+            {0b01001100, InstructionIdentifier::ID_FCADD},
+            {0b11001100, InstructionIdentifier::ID_FCADD},
+            {0b01011111, InstructionIdentifier::ID_BFDOT},
+            {0b11011111, InstructionIdentifier::ID_BFDOT},
+            {0b01111111, InstructionIdentifier::ID_BFMLALB},
+            {0b11111111, InstructionIdentifier::ID_BFMLALT},
+            {0b00001000, InstructionIdentifier::ID_FMLALLBB},
+            {0b00011000, InstructionIdentifier::ID_FMLALLBT},
+            {0b00111111, InstructionIdentifier::ID_FMLALB},
+            {0b10001000, InstructionIdentifier::ID_FMLALLTB},
+            {0b10011000, InstructionIdentifier::ID_FMLALLTT},
+            {0b10100100, InstructionIdentifier::ID_SMMLA},
+            {0b10100101, InstructionIdentifier::ID_USMMLA},
+            {0b10111111, InstructionIdentifier::ID_FMLALT},
+            {0b11001101, InstructionIdentifier::ID_FMMLA},
+            {0b11011101, InstructionIdentifier::ID_BFMMLA},
+            {0b11100100, InstructionIdentifier::ID_UMMLA},
+            {0b11101101, InstructionIdentifier::ID_FMMLA}
         };
 
         unsigned short int encoding = (Q << 7) | (U << 6) | (size << 4) | opcode;

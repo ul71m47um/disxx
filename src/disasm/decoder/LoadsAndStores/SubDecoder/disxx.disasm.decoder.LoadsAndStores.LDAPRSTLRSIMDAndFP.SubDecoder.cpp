@@ -12,7 +12,7 @@ import disxx.disasm.operand.LoadsAndStoresAddress;
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 
 namespace disxx::disasm::decoder::LoadsAndStores::LDAPRSTLRSIMDAndFP
@@ -66,17 +66,17 @@ namespace disxx::disasm::decoder::LoadsAndStores::LDAPRSTLRSIMDAndFP
             disxx::disasm::operand::Immediate<signed short int, 9>::Option::OPT_SIGNEXTEND
         };
 
-        static const std::unordered_map<unsigned short int, std::pair<InstructionID, disxx::disasm::operand::Register::Type>> insnTable = {
-            {0b0000, {InstructionID::INSN_STLUR, disxx::disasm::operand::Register::Type::TYPE_B}},
-            {0b0001, {InstructionID::INSN_LDAPUR, disxx::disasm::operand::Register::Type::TYPE_B}},
-            {0b0010, {InstructionID::INSN_STLUR, disxx::disasm::operand::Register::Type::TYPE_Q}},
-            {0b0011, {InstructionID::INSN_LDAPUR, disxx::disasm::operand::Register::Type::TYPE_Q}},
-            {0b0100, {InstructionID::INSN_STLUR, disxx::disasm::operand::Register::Type::TYPE_H}},
-            {0b0101, {InstructionID::INSN_LDAPUR, disxx::disasm::operand::Register::Type::TYPE_H}},
-            {0b1000, {InstructionID::INSN_STLUR, disxx::disasm::operand::Register::Type::TYPE_S}},
-            {0b1001, {InstructionID::INSN_LDAPUR, disxx::disasm::operand::Register::Type::TYPE_S}},
-            {0b1100, {InstructionID::INSN_STLUR, disxx::disasm::operand::Register::Type::TYPE_D}},
-            {0b1101, {InstructionID::INSN_LDAPUR, disxx::disasm::operand::Register::Type::TYPE_D}}
+        static const std::unordered_map<unsigned short int, std::pair<InstructionIdentifier, disxx::disasm::operand::Register::Type>> insnTable = {
+            {0b0000, {InstructionIdentifier::ID_STLUR, disxx::disasm::operand::Register::Type::TYPE_B}},
+            {0b0001, {InstructionIdentifier::ID_LDAPUR, disxx::disasm::operand::Register::Type::TYPE_B}},
+            {0b0010, {InstructionIdentifier::ID_STLUR, disxx::disasm::operand::Register::Type::TYPE_Q}},
+            {0b0011, {InstructionIdentifier::ID_LDAPUR, disxx::disasm::operand::Register::Type::TYPE_Q}},
+            {0b0100, {InstructionIdentifier::ID_STLUR, disxx::disasm::operand::Register::Type::TYPE_H}},
+            {0b0101, {InstructionIdentifier::ID_LDAPUR, disxx::disasm::operand::Register::Type::TYPE_H}},
+            {0b1000, {InstructionIdentifier::ID_STLUR, disxx::disasm::operand::Register::Type::TYPE_S}},
+            {0b1001, {InstructionIdentifier::ID_LDAPUR, disxx::disasm::operand::Register::Type::TYPE_S}},
+            {0b1100, {InstructionIdentifier::ID_STLUR, disxx::disasm::operand::Register::Type::TYPE_D}},
+            {0b1101, {InstructionIdentifier::ID_LDAPUR, disxx::disasm::operand::Register::Type::TYPE_D}}
         };
 
         const unsigned short int encoding = (size << 2) | opc;

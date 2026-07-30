@@ -11,7 +11,7 @@ module disxx.disasm.decoder.DataProcessingRegister.AddSubstractExtendedRegister.
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Extension;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 import disxx.disasm.utility.bits;
 
@@ -67,15 +67,15 @@ namespace disxx::disasm::decoder::DataProcessingRegister::AddSubstractExtendedRe
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        static const std::unordered_map<unsigned short int, std::pair<InstructionID, std::optional<InstructionID>>> insnTable = {
-            {0b00000, {InstructionID::INSN_ADD, std::nullopt}},
-            {0b00100, {InstructionID::INSN_ADDS, InstructionID::INSN_CMN}},
-            {0b01000, {InstructionID::INSN_SUB, std::nullopt}},
-            {0b01100, {InstructionID::INSN_SUBS, InstructionID::INSN_CMP}},
-            {0b10000, {InstructionID::INSN_ADD, std::nullopt}},
-            {0b10100, {InstructionID::INSN_ADDS, InstructionID::INSN_CMN}},
-            {0b11000, {InstructionID::INSN_SUB, std::nullopt}},
-            {0b11100, {InstructionID::INSN_SUBS, InstructionID::INSN_CMP}}
+        static const std::unordered_map<unsigned short int, std::pair<InstructionIdentifier, std::optional<InstructionIdentifier>>> insnTable = {
+            {0b00000, {InstructionIdentifier::ID_ADD, std::nullopt}},
+            {0b00100, {InstructionIdentifier::ID_ADDS, InstructionIdentifier::ID_CMN}},
+            {0b01000, {InstructionIdentifier::ID_SUB, std::nullopt}},
+            {0b01100, {InstructionIdentifier::ID_SUBS, InstructionIdentifier::ID_CMP}},
+            {0b10000, {InstructionIdentifier::ID_ADD, std::nullopt}},
+            {0b10100, {InstructionIdentifier::ID_ADDS, InstructionIdentifier::ID_CMN}},
+            {0b11000, {InstructionIdentifier::ID_SUB, std::nullopt}},
+            {0b11100, {InstructionIdentifier::ID_SUBS, InstructionIdentifier::ID_CMP}}
         };
 
         const unsigned short int encoding = (sf << 4) | (op << 3) | (S << 2) | opt;

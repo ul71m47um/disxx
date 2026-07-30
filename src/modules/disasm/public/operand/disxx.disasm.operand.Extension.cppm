@@ -29,10 +29,10 @@ export namespace disxx::disasm::operand
 		explicit Extension(void) noexcept;
 		explicit Extension(unsigned short int, unsigned short int) noexcept;
 
-		explicit Extension(const Extension &) noexcept;
+		Extension(const Extension &) noexcept;
 		Extension &operator=(const Extension &) noexcept;
 
-		explicit Extension(Extension &&) noexcept;
+		Extension(Extension &&) noexcept;
 		Extension &operator=(Extension &&) noexcept;
  
         virtual std::unique_ptr<IOperand> Clone(void) const noexcept override;

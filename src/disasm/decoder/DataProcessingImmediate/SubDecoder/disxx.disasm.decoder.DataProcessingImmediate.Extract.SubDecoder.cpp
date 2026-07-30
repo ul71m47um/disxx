@@ -11,7 +11,7 @@ module disxx.disasm.decoder.DataProcessingImmediate.Extract.SubDecoder;
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 
 namespace disxx::disasm::decoder::DataProcessingImmediate::Extract
@@ -64,9 +64,9 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::Extract
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        static std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b00000100000, InstructionID::INSN_EXTR},
-            {0b10010000000, InstructionID::INSN_EXTR}
+        static std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b00000100000, InstructionIdentifier::ID_EXTR},
+            {0b10010000000, InstructionIdentifier::ID_EXTR}
         };
 
         const unsigned short int encoding = (sf << 10) | (op21 << 8) | (N << 7) | (o0 << 6) | (sf == 0b0 ? (imms & 0b100000) : 0b000000);
@@ -112,7 +112,7 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::Extract
         return std::make_pair
         (
             Rn == Rm
-                ? InstructionID::INSN_ROR
+                ? InstructionIdentifier::ID_ROR
                 : it->second,
             std::move(this->m_Operands)
         );

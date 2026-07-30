@@ -12,14 +12,14 @@ export import <vector>;
 
 export import disxx.utility.error.DisassemblyError;
 
-export import disxx.disasm.InstructionID;
+export import disxx.disasm.InstructionIdentifier;
 export import disxx.disasm.operand.IOperand;
 
 export using DisassemblyResult = std::expected
 <
 	std::pair
 	<
-		InstructionID,
+		InstructionIdentifier,
 		std::vector
 		<
 			std::unique_ptr

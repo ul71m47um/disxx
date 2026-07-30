@@ -13,7 +13,7 @@ import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
 import disxx.disasm.utility.bits;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 
 namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::AdvancedSIMDScalarShiftByImmediate
 {
@@ -69,31 +69,31 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
 		else if ((opcode == 0b010011 || (opcode >= 0b101100 && opcode <= 0b110011)) && !immh) [[unlikely]]
 			return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
 
-        std::unordered_map<unsigned short int, std::pair<InstructionID, unsigned short int>> insnTable = {
-            {0b000000, {InstructionID::INSN_SSHR, ((8 << 3) * 2) - ((immh << 3) | immb)}},
-            {0b000010, {InstructionID::INSN_SSRA, ((8 << 3) * 2) - ((immh << 3) | immb)}},
-            {0b000100, {InstructionID::INSN_SRSHR, ((8 << 3) * 2) - ((immh << 3) | immb)}},
-            {0b000110, {InstructionID::INSN_SRSRA, ((8 << 3) * 2) - ((immh << 3) | immb)}},
-            {0b001010, {InstructionID::INSN_SHL, ((immh << 3) | immb) - (8 << 3)}},
-            {0b001110, {InstructionID::INSN_SQSHL, ((immh << 3) | immb) - (8 << 3)}},
-            {0b010010, {InstructionID::INSN_SQSHRN, ((immh << 3) | immb) - (8 << *bits::HighestSetBitNZ<unsigned short int, 4>(immh))}},
-            {0b010011, {InstructionID::INSN_SQRSHRN, ((8 << *bits::HighestSetBitNZ<unsigned short int, 2>(bits::extract<unsigned short int, unsigned short int, 0, 2>(immh))) * 2) - ((immh << 3) | immb)}},
-            {0b011100, {InstructionID::INSN_SCVTF, std::array<unsigned short int, 4>{16, 16, 32, 64}[bits::HighestSetBit<unsigned short int, 4>(immh)] * 2 - ((immh << 3) | immb)}},
-            {0b011111, {InstructionID::INSN_FCVTZS, std::array<unsigned short int, 4>{16, 16, 32, 64}[bits::HighestSetBit<unsigned short int, 4>(immh)] * 2 - ((immh << 3) | immb)}},
-            {0b100000, {InstructionID::INSN_USHR, ((8 << 3) * 2) - ((immh << 3) | immb)}},
-            {0b100010, {InstructionID::INSN_USRA, ((8 << 3) * 2) - ((immh << 3) | immb)}},
-            {0b100100, {InstructionID::INSN_URSHR, ((8 << 3) * 2) - ((immh << 3) | immb)}},
-            {0b100110, {InstructionID::INSN_URSRA, ((8 << 3) * 2) - ((immh << 3) | immb)}},
-            {0b101000, {InstructionID::INSN_SRI, ((8 << 3) * 2) - ((immh << 3) | immb)}},
-            {0b101010, {InstructionID::INSN_SLI, ((8 << 3) * 2) - ((immh << 3) | immb)}},
-            {0b101100, {InstructionID::INSN_SQSHLU, ((immh << 3) | immb) - (8 << *bits::HighestSetBitNZ<unsigned short int, 4>(immh))}},
-            {0b101110, {InstructionID::INSN_UQSHL, ((immh << 3) | immb) - (8 << *bits::HighestSetBitNZ<unsigned short int, 4>(immh))}},
-            {0b110000, {InstructionID::INSN_SQSHRUN, ((8 << *bits::HighestSetBitNZ<unsigned short int, 2>(bits::extract<unsigned short int, unsigned short int, 0, 2>(immh))) * 2) - ((immh << 3) | immb)}},
-            {0b110001, {InstructionID::INSN_SQRSHRUN, ((8 << *bits::HighestSetBitNZ<unsigned short int, 2>(bits::extract<unsigned short int, unsigned short int, 0, 2>(immh))) * 2) - ((immh << 3) | immb)}},
-            {0b110010, {InstructionID::INSN_UQSHRN, ((8 << *bits::HighestSetBitNZ<unsigned short int, 2>(bits::extract<unsigned short int, unsigned short int, 0, 2>(immh))) * 2) - ((immh << 3) | immb)}},
-            {0b110011, {InstructionID::INSN_UQRSHRN, ((8 << *bits::HighestSetBitNZ<unsigned short int, 2>(bits::extract<unsigned short int, unsigned short int, 0, 2>(immh))) * 2) - ((immh << 3) | immb)}},
-            {0b111100, {InstructionID::INSN_UCVTF, std::array<unsigned short int, 4>{16, 16, 32, 64}[bits::HighestSetBit<unsigned short int, 4>(immh)] * 2 - ((immh << 3) | immb)}},
-            {0b111111, {InstructionID::INSN_FCVTZU, std::array<unsigned short int, 4>{16, 16, 32, 64}[bits::HighestSetBit<unsigned short int, 4>(immh)] * 2 - ((immh << 3) | immb)}}
+        std::unordered_map<unsigned short int, std::pair<InstructionIdentifier, unsigned short int>> insnTable = {
+            {0b000000, {InstructionIdentifier::ID_SSHR, ((8 << 3) * 2) - ((immh << 3) | immb)}},
+            {0b000010, {InstructionIdentifier::ID_SSRA, ((8 << 3) * 2) - ((immh << 3) | immb)}},
+            {0b000100, {InstructionIdentifier::ID_SRSHR, ((8 << 3) * 2) - ((immh << 3) | immb)}},
+            {0b000110, {InstructionIdentifier::ID_SRSRA, ((8 << 3) * 2) - ((immh << 3) | immb)}},
+            {0b001010, {InstructionIdentifier::ID_SHL, ((immh << 3) | immb) - (8 << 3)}},
+            {0b001110, {InstructionIdentifier::ID_SQSHL, ((immh << 3) | immb) - (8 << 3)}},
+            {0b010010, {InstructionIdentifier::ID_SQSHRN, ((immh << 3) | immb) - (8 << *bits::HighestSetBitNZ<unsigned short int, 4>(immh))}},
+            {0b010011, {InstructionIdentifier::ID_SQRSHRN, ((8 << *bits::HighestSetBitNZ<unsigned short int, 2>(bits::extract<unsigned short int, unsigned short int, 0, 2>(immh))) * 2) - ((immh << 3) | immb)}},
+            {0b011100, {InstructionIdentifier::ID_SCVTF, std::array<unsigned short int, 4>{16, 16, 32, 64}[bits::HighestSetBit<unsigned short int, 4>(immh)] * 2 - ((immh << 3) | immb)}},
+            {0b011111, {InstructionIdentifier::ID_FCVTZS, std::array<unsigned short int, 4>{16, 16, 32, 64}[bits::HighestSetBit<unsigned short int, 4>(immh)] * 2 - ((immh << 3) | immb)}},
+            {0b100000, {InstructionIdentifier::ID_USHR, ((8 << 3) * 2) - ((immh << 3) | immb)}},
+            {0b100010, {InstructionIdentifier::ID_USRA, ((8 << 3) * 2) - ((immh << 3) | immb)}},
+            {0b100100, {InstructionIdentifier::ID_URSHR, ((8 << 3) * 2) - ((immh << 3) | immb)}},
+            {0b100110, {InstructionIdentifier::ID_URSRA, ((8 << 3) * 2) - ((immh << 3) | immb)}},
+            {0b101000, {InstructionIdentifier::ID_SRI, ((8 << 3) * 2) - ((immh << 3) | immb)}},
+            {0b101010, {InstructionIdentifier::ID_SLI, ((8 << 3) * 2) - ((immh << 3) | immb)}},
+            {0b101100, {InstructionIdentifier::ID_SQSHLU, ((immh << 3) | immb) - (8 << *bits::HighestSetBitNZ<unsigned short int, 4>(immh))}},
+            {0b101110, {InstructionIdentifier::ID_UQSHL, ((immh << 3) | immb) - (8 << *bits::HighestSetBitNZ<unsigned short int, 4>(immh))}},
+            {0b110000, {InstructionIdentifier::ID_SQSHRUN, ((8 << *bits::HighestSetBitNZ<unsigned short int, 2>(bits::extract<unsigned short int, unsigned short int, 0, 2>(immh))) * 2) - ((immh << 3) | immb)}},
+            {0b110001, {InstructionIdentifier::ID_SQRSHRUN, ((8 << *bits::HighestSetBitNZ<unsigned short int, 2>(bits::extract<unsigned short int, unsigned short int, 0, 2>(immh))) * 2) - ((immh << 3) | immb)}},
+            {0b110010, {InstructionIdentifier::ID_UQSHRN, ((8 << *bits::HighestSetBitNZ<unsigned short int, 2>(bits::extract<unsigned short int, unsigned short int, 0, 2>(immh))) * 2) - ((immh << 3) | immb)}},
+            {0b110011, {InstructionIdentifier::ID_UQRSHRN, ((8 << *bits::HighestSetBitNZ<unsigned short int, 2>(bits::extract<unsigned short int, unsigned short int, 0, 2>(immh))) * 2) - ((immh << 3) | immb)}},
+            {0b111100, {InstructionIdentifier::ID_UCVTF, std::array<unsigned short int, 4>{16, 16, 32, 64}[bits::HighestSetBit<unsigned short int, 4>(immh)] * 2 - ((immh << 3) | immb)}},
+            {0b111111, {InstructionIdentifier::ID_FCVTZU, std::array<unsigned short int, 4>{16, 16, 32, 64}[bits::HighestSetBit<unsigned short int, 4>(immh)] * 2 - ((immh << 3) | immb)}}
         };
 
 		static constexpr std::array<disxx::disasm::operand::Register::Type, 4> types

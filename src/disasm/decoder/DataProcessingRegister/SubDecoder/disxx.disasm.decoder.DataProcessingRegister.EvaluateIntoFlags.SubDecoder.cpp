@@ -10,7 +10,7 @@ module disxx.disasm.decoder.DataProcessingRegister.EvaluateIntoFlags.SubDecoder;
 
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 import disxx.disasm.utility.bits;
 
@@ -65,9 +65,9 @@ namespace disxx::disasm::decoder::DataProcessingRegister::EvaluateIntoFlags
         o3 = bits::extract<unsigned short int, std::uint32_t, 4, 4>(this->m_Insn);
         mask = bits::extract<unsigned short int, std::uint32_t, 0, 3>(this->m_Insn);
 
-        static const std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b001000000001101, InstructionID::INSN_SETF8},
-            {0b001000000101101, InstructionID::INSN_SETF16}
+        static const std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b001000000001101, InstructionIdentifier::ID_SETF8},
+            {0b001000000101101, InstructionIdentifier::ID_SETF16}
         };
 
         const unsigned short int encoding = (sf << 14) | (op << 13) | (S << 12) | (opcode2 << 6) | (sz << 5) | (o3 << 4) | mask;

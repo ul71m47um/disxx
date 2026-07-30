@@ -12,7 +12,7 @@ module disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDCo
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
 import disxx.disasm.utility.bits;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 
 namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::AdvancedSIMDCopy
 {
@@ -63,15 +63,15 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b000000, InstructionID::INSN_DUP},
-            {0b000001, InstructionID::INSN_DUP},
-            {0b000101, InstructionID::INSN_SMOV},
-            {0b000111, InstructionID::INSN_UMOV},
-            {0b100011, InstructionID::INSN_INS},
-            {0b100101, InstructionID::INSN_SMOV},
-            {0b100111, InstructionID::INSN_UMOV},
-            {0b110000, InstructionID::INSN_INS}
+        std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b000000, InstructionIdentifier::ID_DUP},
+            {0b000001, InstructionIdentifier::ID_DUP},
+            {0b000101, InstructionIdentifier::ID_SMOV},
+            {0b000111, InstructionIdentifier::ID_UMOV},
+            {0b100011, InstructionIdentifier::ID_INS},
+            {0b100101, InstructionIdentifier::ID_SMOV},
+            {0b100111, InstructionIdentifier::ID_UMOV},
+            {0b110000, InstructionIdentifier::ID_INS}
         };
 
         unsigned short int encoding = (Q << 5) | (op << 4) | imm4;

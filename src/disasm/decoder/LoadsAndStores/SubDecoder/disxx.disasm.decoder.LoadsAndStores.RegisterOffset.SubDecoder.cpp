@@ -14,7 +14,7 @@ import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.PrefetchOperand;
 import disxx.disasm.operand.Register;
 import disxx.disasm.operand.Shift;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 
 namespace disxx::disasm::decoder::LoadsAndStores::RegisterOffset
@@ -67,31 +67,31 @@ namespace disxx::disasm::decoder::LoadsAndStores::RegisterOffset
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rt = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        static const std::unordered_map<unsigned short int, std::tuple<InstructionID, disxx::disasm::operand::Register::Type, unsigned short int>> insnTable = {
+        static const std::unordered_map<unsigned short int, std::tuple<InstructionIdentifier, disxx::disasm::operand::Register::Type, unsigned short int>> insnTable = {
         // |encoding|mnemonic|size|amount|
-            {0b00000, {InstructionID::INSN_STRB, disxx::disasm::operand::Register::Type::TYPE_W, 1}},
-            {0b00001, {InstructionID::INSN_LDRB, disxx::disasm::operand::Register::Type::TYPE_W, 1}},
-            {0b00010, {InstructionID::INSN_LDRSB, disxx::disasm::operand::Register::Type::TYPE_X, 1}},
-            {0b00011, {InstructionID::INSN_LDRSB, disxx::disasm::operand::Register::Type::TYPE_W, 1}},
-            {0b00100, {InstructionID::INSN_STR, disxx::disasm::operand::Register::Type::TYPE_B, 1}},
-            {0b00101, {InstructionID::INSN_LDR, disxx::disasm::operand::Register::Type::TYPE_B, 1}},
-            {0b00110, {InstructionID::INSN_STR, disxx::disasm::operand::Register::Type::TYPE_Q, 4}},
-            {0b00111, {InstructionID::INSN_LDR, disxx::disasm::operand::Register::Type::TYPE_Q, 4}},
-            {0b01000, {InstructionID::INSN_STRH, disxx::disasm::operand::Register::Type::TYPE_W, 1}},
-            {0b01001, {InstructionID::INSN_LDRH, disxx::disasm::operand::Register::Type::TYPE_W, 1}},
-            {0b01010, {InstructionID::INSN_LDRSH, disxx::disasm::operand::Register::Type::TYPE_X, 1}},
-            {0b01011, {InstructionID::INSN_LDRSH, disxx::disasm::operand::Register::Type::TYPE_W, 1}},
-            {0b01100, {InstructionID::INSN_STR, disxx::disasm::operand::Register::Type::TYPE_H, 1}},
-            {0b01101, {InstructionID::INSN_LDR, disxx::disasm::operand::Register::Type::TYPE_H, 1}},
-            {0b10000, {InstructionID::INSN_STR, disxx::disasm::operand::Register::Type::TYPE_W, 2}},
-            {0b10001, {InstructionID::INSN_LDR, disxx::disasm::operand::Register::Type::TYPE_W, 2}},
-            {0b10010, {InstructionID::INSN_LDRSW, disxx::disasm::operand::Register::Type::TYPE_X, 2}},
-            {0b10100, {InstructionID::INSN_STR, disxx::disasm::operand::Register::Type::TYPE_S, 2}},
-            {0b10101, {InstructionID::INSN_LDR, disxx::disasm::operand::Register::Type::TYPE_S, 2}},
-            {0b11000, {InstructionID::INSN_STR, disxx::disasm::operand::Register::Type::TYPE_X, 3}},
-            {0b11001, {InstructionID::INSN_LDR, disxx::disasm::operand::Register::Type::TYPE_X, 3}},
-            {0b11100, {InstructionID::INSN_STR, disxx::disasm::operand::Register::Type::TYPE_D, 3}},
-            {0b11101, {InstructionID::INSN_LDR, disxx::disasm::operand::Register::Type::TYPE_D, 3}}
+            {0b00000, {InstructionIdentifier::ID_STRB, disxx::disasm::operand::Register::Type::TYPE_W, 1}},
+            {0b00001, {InstructionIdentifier::ID_LDRB, disxx::disasm::operand::Register::Type::TYPE_W, 1}},
+            {0b00010, {InstructionIdentifier::ID_LDRSB, disxx::disasm::operand::Register::Type::TYPE_X, 1}},
+            {0b00011, {InstructionIdentifier::ID_LDRSB, disxx::disasm::operand::Register::Type::TYPE_W, 1}},
+            {0b00100, {InstructionIdentifier::ID_STR, disxx::disasm::operand::Register::Type::TYPE_B, 1}},
+            {0b00101, {InstructionIdentifier::ID_LDR, disxx::disasm::operand::Register::Type::TYPE_B, 1}},
+            {0b00110, {InstructionIdentifier::ID_STR, disxx::disasm::operand::Register::Type::TYPE_Q, 4}},
+            {0b00111, {InstructionIdentifier::ID_LDR, disxx::disasm::operand::Register::Type::TYPE_Q, 4}},
+            {0b01000, {InstructionIdentifier::ID_STRH, disxx::disasm::operand::Register::Type::TYPE_W, 1}},
+            {0b01001, {InstructionIdentifier::ID_LDRH, disxx::disasm::operand::Register::Type::TYPE_W, 1}},
+            {0b01010, {InstructionIdentifier::ID_LDRSH, disxx::disasm::operand::Register::Type::TYPE_X, 1}},
+            {0b01011, {InstructionIdentifier::ID_LDRSH, disxx::disasm::operand::Register::Type::TYPE_W, 1}},
+            {0b01100, {InstructionIdentifier::ID_STR, disxx::disasm::operand::Register::Type::TYPE_H, 1}},
+            {0b01101, {InstructionIdentifier::ID_LDR, disxx::disasm::operand::Register::Type::TYPE_H, 1}},
+            {0b10000, {InstructionIdentifier::ID_STR, disxx::disasm::operand::Register::Type::TYPE_W, 2}},
+            {0b10001, {InstructionIdentifier::ID_LDR, disxx::disasm::operand::Register::Type::TYPE_W, 2}},
+            {0b10010, {InstructionIdentifier::ID_LDRSW, disxx::disasm::operand::Register::Type::TYPE_X, 2}},
+            {0b10100, {InstructionIdentifier::ID_STR, disxx::disasm::operand::Register::Type::TYPE_S, 2}},
+            {0b10101, {InstructionIdentifier::ID_LDR, disxx::disasm::operand::Register::Type::TYPE_S, 2}},
+            {0b11000, {InstructionIdentifier::ID_STR, disxx::disasm::operand::Register::Type::TYPE_X, 3}},
+            {0b11001, {InstructionIdentifier::ID_LDR, disxx::disasm::operand::Register::Type::TYPE_X, 3}},
+            {0b11100, {InstructionIdentifier::ID_STR, disxx::disasm::operand::Register::Type::TYPE_D, 3}},
+            {0b11101, {InstructionIdentifier::ID_LDR, disxx::disasm::operand::Register::Type::TYPE_D, 3}}
         };
 
         const unsigned short int encoding = (size << 3) | (VR << 2) | opc;
@@ -178,9 +178,9 @@ namespace disxx::disasm::decoder::LoadsAndStores::RegisterOffset
         if (encoding != 0b11010) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
 
-        InstructionID insn{};
+        InstructionIdentifier insn{};
         if ((option & 0b010) == 0b010) [[likely]]
-            insn = (Rt & 0b11000) == 0b11000 ? InstructionID::INSN_RPRFM : InstructionID::INSN_PRFM;
+            insn = (Rt & 0b11000) == 0b11000 ? InstructionIdentifier::ID_RPRFM : InstructionIdentifier::ID_PRFM;
         else [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
 

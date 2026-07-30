@@ -26,7 +26,7 @@ export template <> struct std::formatter<disxx::disasm::Address> : public std::f
 		return std::format_to
 		(
 			ctx.out(),
-			"{}",
+			"{:#016x}",
 			integer(addr)
 		);
 	}

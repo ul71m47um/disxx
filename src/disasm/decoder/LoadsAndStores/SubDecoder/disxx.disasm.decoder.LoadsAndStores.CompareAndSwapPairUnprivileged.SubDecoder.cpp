@@ -11,7 +11,7 @@ module disxx.disasm.decoder.LoadsAndStores.CompareAndSwapPairUnprivileged.SubDec
 import disxx.disasm.operand.LoadsAndStoresAddress;
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 
 namespace disxx::disasm::decoder::LoadsAndStores::CompareAndSwapPairUnprivileged
@@ -63,11 +63,11 @@ namespace disxx::disasm::decoder::LoadsAndStores::CompareAndSwapPairUnprivileged
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rt = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        const static std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b0011111, InstructionID::INSN_CASPT},
-            {0b0111111, InstructionID::INSN_CASPLT},
-            {0b1011111, InstructionID::INSN_CASPAT},
-            {0b1111111, InstructionID::INSN_CASPALT}
+        const static std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b0011111, InstructionIdentifier::ID_CASPT},
+            {0b0111111, InstructionIdentifier::ID_CASPLT},
+            {0b1011111, InstructionIdentifier::ID_CASPAT},
+            {0b1111111, InstructionIdentifier::ID_CASPALT}
         };
 
 

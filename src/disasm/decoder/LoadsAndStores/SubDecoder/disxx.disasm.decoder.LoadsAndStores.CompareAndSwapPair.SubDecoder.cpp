@@ -11,7 +11,7 @@ module disxx.disasm.decoder.LoadsAndStores.CompareAndSwapPair.SubDecoder;
 import disxx.disasm.operand.LoadsAndStoresAddress;
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 
 namespace disxx::disasm::decoder::LoadsAndStores::CompareAndSwapPair
@@ -63,11 +63,11 @@ namespace disxx::disasm::decoder::LoadsAndStores::CompareAndSwapPair
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rt = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        static const std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b0011111, InstructionID::INSN_CASP},
-            {0b0111111, InstructionID::INSN_CASPL},
-            {0b1011111, InstructionID::INSN_CASPA},
-            {0b1111111, InstructionID::INSN_CASPAL}
+        static const std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b0011111, InstructionIdentifier::ID_CASP},
+            {0b0111111, InstructionIdentifier::ID_CASPL},
+            {0b1011111, InstructionIdentifier::ID_CASPA},
+            {0b1111111, InstructionIdentifier::ID_CASPAL}
         };
 
         if (Rs == 0b11111 || Rt == 0b11111) [[unlikely]]

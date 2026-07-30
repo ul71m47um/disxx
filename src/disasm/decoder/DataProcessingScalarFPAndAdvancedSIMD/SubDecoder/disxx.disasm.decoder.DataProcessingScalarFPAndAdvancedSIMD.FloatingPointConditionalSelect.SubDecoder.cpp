@@ -11,7 +11,7 @@ import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Condition;
 import disxx.disasm.operand.Register;
 import disxx.disasm.utility.bits;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 
 namespace
 {
@@ -92,6 +92,6 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Floatin
         this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(type, Rm));
         this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Condition>(cond));
 
-        return std::make_pair(InstructionID::INSN_FCSEL, std::move(this->m_Operands));
+        return std::make_pair(InstructionIdentifier::ID_FCSEL, std::move(this->m_Operands));
 	}
 } /* disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::FloatingPointConditionalSelect */

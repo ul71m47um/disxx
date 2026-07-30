@@ -21,7 +21,7 @@ namespace disxx::disasm
 		, m_ProgramCounterRelevantAddress{std::nullopt}
 		, m_Address{std::numeric_limits<Address>::min()}
 		, m_Bytes{std::numeric_limits<Bytes>::min()}
-		, m_InstructionID{InstructionID::INSN_NONE}
+		, m_Identifier{}
 	{}
 
 	Instruction::Instruction(const Instruction &other) noexcept
@@ -29,7 +29,7 @@ namespace disxx::disasm
 		, m_ProgramCounterRelevantAddress{other.m_ProgramCounterRelevantAddress}
 		, m_Address{other.m_Address}
 		, m_Bytes{other.m_Bytes}
-		, m_InstructionID{other.m_InstructionID}
+		, m_Identifier{other.m_Identifier}
 	{
 		for (const auto &opr : other.m_Operands)
 			this->m_Operands.emplace_back(opr->Clone());
@@ -37,7 +37,7 @@ namespace disxx::disasm
 
 	Instruction &Instruction::operator=(const Instruction &other) noexcept
 	{
-		this->m_InstructionID = other.m_InstructionID;
+		this->m_Identifier = other.m_Identifier;
 		for (const auto &opr : other.m_Operands)
 			this->m_Operands.emplace_back(opr->Clone());
 		this->m_ProgramCounterRelevantAddress = other.m_ProgramCounterRelevantAddress;
@@ -52,12 +52,12 @@ namespace disxx::disasm
 		, m_ProgramCounterRelevantAddress{std::move(other.m_ProgramCounterRelevantAddress)}
 		, m_Address{std::move(other.m_Address)}
 		, m_Bytes{std::move(other.m_Bytes)}
-		, m_InstructionID{std::move(other.m_InstructionID)}
+		, m_Identifier{std::move(other.m_Identifier)}
 	{}
 
 	Instruction &Instruction::operator=(Instruction &&other) noexcept
 	{
-		this->m_InstructionID = std::move(other.m_InstructionID);
+		this->m_Identifier = std::move(other.m_Identifier);
 		this->m_Operands = std::move(other.m_Operands);
 		this->m_ProgramCounterRelevantAddress = std::move(other.m_ProgramCounterRelevantAddress);
 		this->m_Address = std::move(other.m_Address);

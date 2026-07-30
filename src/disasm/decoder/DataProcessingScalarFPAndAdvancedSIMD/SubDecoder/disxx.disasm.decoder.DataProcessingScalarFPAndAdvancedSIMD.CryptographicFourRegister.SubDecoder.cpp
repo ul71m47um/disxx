@@ -10,7 +10,7 @@ module disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicF
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
 import disxx.disasm.utility.bits;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 
 namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::CryptographicFourRegister
 {
@@ -60,10 +60,10 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Cryptog
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b00, InstructionID::INSN_EOR3},
-            {0b01, InstructionID::INSN_BCAX},
-            {0b10, InstructionID::INSN_SM3SS1}
+        std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b00, InstructionIdentifier::ID_EOR3},
+            {0b01, InstructionIdentifier::ID_BCAX},
+            {0b10, InstructionIdentifier::ID_SM3SS1}
         };
 
         const auto it{insnTable.find(Op0)};

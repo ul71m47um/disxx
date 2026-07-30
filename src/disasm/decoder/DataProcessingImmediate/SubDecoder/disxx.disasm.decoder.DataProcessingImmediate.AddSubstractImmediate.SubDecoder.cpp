@@ -12,7 +12,7 @@ import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
 import disxx.disasm.operand.Shift;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 
 namespace disxx::disasm::decoder::DataProcessingImmediate::AddSubstractImmediate
@@ -64,15 +64,15 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::AddSubstractImmediate
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        static const std::unordered_map<unsigned short int, std::pair<InstructionID, std::optional<InstructionID>>> insnTable = {
-            {0b000, {InstructionID::INSN_ADD, InstructionID::INSN_MOV}},
-            {0b001, {InstructionID::INSN_ADDS, InstructionID::INSN_CMN}},
-            {0b010, {InstructionID::INSN_SUB, std::nullopt}},
-            {0b011, {InstructionID::INSN_SUBS, InstructionID::INSN_CMP}},
-            {0b100, {InstructionID::INSN_ADD, InstructionID::INSN_MOV}},
-            {0b101, {InstructionID::INSN_ADDS, InstructionID::INSN_CMN}},
-            {0b110, {InstructionID::INSN_SUB, std::nullopt}},
-            {0b111, {InstructionID::INSN_SUBS, InstructionID::INSN_CMP}}
+        static const std::unordered_map<unsigned short int, std::pair<InstructionIdentifier, std::optional<InstructionIdentifier>>> insnTable = {
+            {0b000, {InstructionIdentifier::ID_ADD, InstructionIdentifier::ID_MOV}},
+            {0b001, {InstructionIdentifier::ID_ADDS, InstructionIdentifier::ID_CMN}},
+            {0b010, {InstructionIdentifier::ID_SUB, std::nullopt}},
+            {0b011, {InstructionIdentifier::ID_SUBS, InstructionIdentifier::ID_CMP}},
+            {0b100, {InstructionIdentifier::ID_ADD, InstructionIdentifier::ID_MOV}},
+            {0b101, {InstructionIdentifier::ID_ADDS, InstructionIdentifier::ID_CMN}},
+            {0b110, {InstructionIdentifier::ID_SUB, std::nullopt}},
+            {0b111, {InstructionIdentifier::ID_SUBS, InstructionIdentifier::ID_CMP}}
         };
 
         const unsigned short int encoding = (sf << 2) | (op << 1) | S;
@@ -83,7 +83,7 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::AddSubstractImmediate
 
         if (alias)
         {
-            if (const auto &value{*alias}; Rd == 0b11111 && (value == InstructionID::INSN_CMN || value == InstructionID::INSN_CMP))
+            if (const auto &value{*alias}; Rd == 0b11111 && (value == InstructionIdentifier::ID_CMN || value == InstructionIdentifier::ID_CMP))
             {
                 this->m_Operands.emplace_back
 				(
@@ -101,7 +101,7 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::AddSubstractImmediate
             
                 return std::make_pair(value, std::move(this->m_Operands));
             }
-            else if (value == InstructionID::INSN_MOV && (sh == 0b0 && imm12 == 0x000 && (Rd == 0b11111 || Rn == 0b11111)))
+            else if (value == InstructionIdentifier::ID_MOV && (sh == 0b0 && imm12 == 0x000 && (Rd == 0b11111 || Rn == 0b11111)))
             {
 				this->m_Operands.emplace_back
 				(

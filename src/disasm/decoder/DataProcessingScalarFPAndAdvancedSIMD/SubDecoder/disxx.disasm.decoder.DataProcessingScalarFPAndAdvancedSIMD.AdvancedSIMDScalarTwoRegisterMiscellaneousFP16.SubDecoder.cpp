@@ -14,7 +14,7 @@ import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
 import disxx.disasm.utility.bits;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 
 namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::AdvancedSIMDScalarTwoRegisterMiscellaneousFP16
 {
@@ -64,27 +64,27 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b0011010, InstructionID::INSN_FCVTNS},
-            {0b0011011, InstructionID::INSN_FCVTMS},
-            {0b0011100, InstructionID::INSN_FCVTAS},
-            {0b0011101, InstructionID::INSN_SCVTF},
-            {0b0101100, InstructionID::INSN_FCMGT},
-            {0b0101101, InstructionID::INSN_FCMEQ},
-            {0b0101110, InstructionID::INSN_FCMLT},
-            {0b0111010, InstructionID::INSN_FCVTPS},
-            {0b0111011, InstructionID::INSN_FCVTZS},
-            {0b0111101, InstructionID::INSN_FRECPE},
-            {0b0111111, InstructionID::INSN_FRECPX},
-            {0b1011010, InstructionID::INSN_FCVTNU},
-            {0b1011011, InstructionID::INSN_FCVTMU},
-            {0b1011100, InstructionID::INSN_FCVTAU},
-            {0b1011101, InstructionID::INSN_UCVTF},
-            {0b1101100, InstructionID::INSN_FCMGE},
-            {0b1101101, InstructionID::INSN_FCMLE},
-            {0b1111010, InstructionID::INSN_FCVTPU},
-            {0b1111011, InstructionID::INSN_FCVTZU},
-            {0b1111101, InstructionID::INSN_FRSQRTE}
+        std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b0011010, InstructionIdentifier::ID_FCVTNS},
+            {0b0011011, InstructionIdentifier::ID_FCVTMS},
+            {0b0011100, InstructionIdentifier::ID_FCVTAS},
+            {0b0011101, InstructionIdentifier::ID_SCVTF},
+            {0b0101100, InstructionIdentifier::ID_FCMGT},
+            {0b0101101, InstructionIdentifier::ID_FCMEQ},
+            {0b0101110, InstructionIdentifier::ID_FCMLT},
+            {0b0111010, InstructionIdentifier::ID_FCVTPS},
+            {0b0111011, InstructionIdentifier::ID_FCVTZS},
+            {0b0111101, InstructionIdentifier::ID_FRECPE},
+            {0b0111111, InstructionIdentifier::ID_FRECPX},
+            {0b1011010, InstructionIdentifier::ID_FCVTNU},
+            {0b1011011, InstructionIdentifier::ID_FCVTMU},
+            {0b1011100, InstructionIdentifier::ID_FCVTAU},
+            {0b1011101, InstructionIdentifier::ID_UCVTF},
+            {0b1101100, InstructionIdentifier::ID_FCMGE},
+            {0b1101101, InstructionIdentifier::ID_FCMLE},
+            {0b1111010, InstructionIdentifier::ID_FCVTPU},
+            {0b1111011, InstructionIdentifier::ID_FCVTZU},
+            {0b1111101, InstructionIdentifier::ID_FRSQRTE}
         };
 
         const unsigned short int encoding = (U << 6) | (a << 5) | opcode;

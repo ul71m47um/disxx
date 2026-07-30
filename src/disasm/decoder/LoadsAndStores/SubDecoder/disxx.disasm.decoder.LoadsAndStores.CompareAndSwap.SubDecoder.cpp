@@ -12,7 +12,7 @@ module disxx.disasm.decoder.LoadsAndStores.CompareAndSwap.SubDecoder;
 import disxx.disasm.operand.LoadsAndStoresAddress;
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 
 namespace disxx::disasm::decoder::LoadsAndStores::CompareAndSwap
@@ -67,18 +67,18 @@ namespace disxx::disasm::decoder::LoadsAndStores::CompareAndSwap
         if (Rt2 != 0b11111) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
 
-        static constexpr std::array<InstructionID, 12> insnTable = {
-            InstructionID::INSN_CASB, InstructionID::INSN_CASLB,
-            InstructionID::INSN_CASAB, InstructionID::INSN_CASALB,
-            InstructionID::INSN_CASH, InstructionID::INSN_CASLH,
-            InstructionID::INSN_CASAH, InstructionID::INSN_CASALH,
-            InstructionID::INSN_CAS, InstructionID::INSN_CASL,
-            InstructionID::INSN_CASA, InstructionID::INSN_CASAL
+        static constexpr std::array<InstructionIdentifier, 12> insnTable = {
+            InstructionIdentifier::ID_CASB, InstructionIdentifier::ID_CASLB,
+            InstructionIdentifier::ID_CASAB, InstructionIdentifier::ID_CASALB,
+            InstructionIdentifier::ID_CASH, InstructionIdentifier::ID_CASLH,
+            InstructionIdentifier::ID_CASAH, InstructionIdentifier::ID_CASALH,
+            InstructionIdentifier::ID_CAS, InstructionIdentifier::ID_CASL,
+            InstructionIdentifier::ID_CASA, InstructionIdentifier::ID_CASAL
         };
 
         const auto insn
         {
-            [size, L, o0](void) -> InstructionID
+            [size, L, o0](void) -> InstructionIdentifier
             {
                 const unsigned short int encoding = (L << 1) | o0;
                 if (size == 0b00)

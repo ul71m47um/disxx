@@ -11,7 +11,7 @@ module disxx.disasm.decoder.DataProcessingImmediate.DataProcessing1SourceImmedia
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 
 namespace disxx::disasm::decoder::DataProcessingImmediate::DataProcessing1SourceImmediate
@@ -67,9 +67,9 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::DataProcessing1Source
             }
         };
 
-        static const std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b10011111, InstructionID::INSN_AUTIASPPC},
-            {0b10111111, InstructionID::INSN_AUTIBSPPC}
+        static const std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b10011111, InstructionIdentifier::ID_AUTIASPPC},
+            {0b10111111, InstructionIdentifier::ID_AUTIBSPPC}
         };
 
         const unsigned short int encoding = (sf << 7) | (opc << 5) | Rd;

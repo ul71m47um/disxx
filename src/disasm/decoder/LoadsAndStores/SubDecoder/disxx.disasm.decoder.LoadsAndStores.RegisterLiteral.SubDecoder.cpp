@@ -13,7 +13,7 @@ import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.PrefetchOperand;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 
 namespace disxx::disasm::decoder::LoadsAndStores::RegisterLiteral
@@ -70,17 +70,17 @@ namespace disxx::disasm::decoder::LoadsAndStores::RegisterLiteral
         auto &&[insn, opr]
         {
             [opc, VR, Rt]
-                -> std::pair<InstructionID, std::variant<std::unique_ptr<disxx::disasm::operand::PrefetchOperand>, std::unique_ptr<disxx::disasm::operand::Register>>>
+                -> std::pair<InstructionIdentifier, std::variant<std::unique_ptr<disxx::disasm::operand::PrefetchOperand>, std::unique_ptr<disxx::disasm::operand::Register>>>
             {
                 if (opc == 0b11 && VR == 0b0)
-                    return std::make_pair(InstructionID::INSN_PRFM, std::make_unique<disxx::disasm::operand::PrefetchOperand>(Rt));
+                    return std::make_pair(InstructionIdentifier::ID_PRFM, std::make_unique<disxx::disasm::operand::PrefetchOperand>(Rt));
                 else
                 {
                     return std::make_pair
                     (
                         opc == 0b10 && VR == 0b0
-                            ? InstructionID::INSN_LDRSW
-                            : InstructionID::INSN_LDR,
+                            ? InstructionIdentifier::ID_LDRSW
+                            : InstructionIdentifier::ID_LDR,
                         std::make_unique<disxx::disasm::operand::Register>
                         (
 							[VR, opc] -> disxx::disasm::operand::Register::Type

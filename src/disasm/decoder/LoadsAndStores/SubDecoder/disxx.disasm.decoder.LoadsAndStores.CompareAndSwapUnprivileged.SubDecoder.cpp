@@ -11,7 +11,7 @@ module disxx.disasm.decoder.LoadsAndStores.CompareAndSwapUnprivileged.SubDecoder
 import disxx.disasm.operand.LoadsAndStoresAddress;
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 
 namespace disxx::disasm::decoder::LoadsAndStores::CompareAndSwapUnprivileged
@@ -63,11 +63,11 @@ namespace disxx::disasm::decoder::LoadsAndStores::CompareAndSwapUnprivileged
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rt = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        static const std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b10011111, InstructionID::INSN_CAST},
-            {0b10111111, InstructionID::INSN_CASLT},
-            {0b11011111, InstructionID::INSN_CASAT},
-            {0b11111111, InstructionID::INSN_CASALT}
+        static const std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b10011111, InstructionIdentifier::ID_CAST},
+            {0b10111111, InstructionIdentifier::ID_CASLT},
+            {0b11011111, InstructionIdentifier::ID_CASAT},
+            {0b11111111, InstructionIdentifier::ID_CASALT}
         };
 
         const unsigned short int encoding = (sz << 7) | (L << 6) | (o0 << 5) | Rt2;

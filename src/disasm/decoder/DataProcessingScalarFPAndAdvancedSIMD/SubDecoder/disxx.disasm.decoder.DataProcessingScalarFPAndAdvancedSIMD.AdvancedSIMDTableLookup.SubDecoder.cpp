@@ -13,7 +13,7 @@ import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
 import disxx.disasm.utility.bits;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 
 namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::AdvancedSIMDTableLookup
 {
@@ -65,13 +65,13 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b0000, InstructionID::INSN_TBL},
-            {0b0001, InstructionID::INSN_TBLX},
-            {0b1011, InstructionID::INSN_LUTI4},
-            {0b1010, InstructionID::INSN_LUTI4},
-            {0b1101, InstructionID::INSN_LUTI2},
-            {0b1110, InstructionID::INSN_LUTI2}
+        std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b0000, InstructionIdentifier::ID_TBL},
+            {0b0001, InstructionIdentifier::ID_TBLX},
+            {0b1011, InstructionIdentifier::ID_LUTI4},
+            {0b1010, InstructionIdentifier::ID_LUTI4},
+            {0b1101, InstructionIdentifier::ID_LUTI2},
+            {0b1110, InstructionIdentifier::ID_LUTI2}
         };
 
         unsigned short int encoding = (Q << 3) | (op2 << 1) | op;

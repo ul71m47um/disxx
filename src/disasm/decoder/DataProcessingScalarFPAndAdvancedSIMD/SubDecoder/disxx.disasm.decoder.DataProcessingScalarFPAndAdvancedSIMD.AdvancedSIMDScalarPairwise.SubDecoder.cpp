@@ -10,7 +10,7 @@ module disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDSc
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
 import disxx.disasm.utility.bits;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 
 namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::AdvancedSIMDScalarPairwise
 {
@@ -60,18 +60,18 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b00001100, InstructionID::INSN_FMAXNMP},
-            {0b00001101, InstructionID::INSN_FADDP},
-            {0b00001111, InstructionID::INSN_FMAXP},
-            {0b01001100, InstructionID::INSN_FMINNMP},
-            {0b01001111, InstructionID::INSN_FMINP},
-            {0b01111011, InstructionID::INSN_ADDP},
-            {0b10001100, InstructionID::INSN_FMAXNMP},
-            {0b10001101, InstructionID::INSN_FADDP},
-            {0b10001111, InstructionID::INSN_FMAXP},
-            {0b11001100, InstructionID::INSN_FMINNMP},
-            {0b11001111, InstructionID::INSN_FMINP}
+        std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b00001100, InstructionIdentifier::ID_FMAXNMP},
+            {0b00001101, InstructionIdentifier::ID_FADDP},
+            {0b00001111, InstructionIdentifier::ID_FMAXP},
+            {0b01001100, InstructionIdentifier::ID_FMINNMP},
+            {0b01001111, InstructionIdentifier::ID_FMINP},
+            {0b01111011, InstructionIdentifier::ID_ADDP},
+            {0b10001100, InstructionIdentifier::ID_FMAXNMP},
+            {0b10001101, InstructionIdentifier::ID_FADDP},
+            {0b10001111, InstructionIdentifier::ID_FMAXP},
+            {0b11001100, InstructionIdentifier::ID_FMINNMP},
+            {0b11001111, InstructionIdentifier::ID_FMINP}
         };
 
         unsigned short int encoding = (U << 7) | (size << 5) | opcode;

@@ -14,7 +14,7 @@ import disxx.disasm.operand.LoadsAndStoresAddress;
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 
 namespace disxx::disasm::decoder::LoadsAndStores::SIMDSingleStructurePostIndexed
@@ -77,35 +77,35 @@ namespace disxx::disasm::decoder::LoadsAndStores::SIMDSingleStructurePostIndexed
         else if (L == 0b0 && (opcode & 0b110) == 0b110) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
 
-        static const std::unordered_map<unsigned short int, std::pair<InstructionID, unsigned short int>> insnTable = {
-            {0b00000, {InstructionID::INSN_ST1, 1}},
-            {0b00001, {InstructionID::INSN_ST3, 3}},
-            {0b00010, {InstructionID::INSN_ST1, 1}},
-            {0b00011, {InstructionID::INSN_ST3, 3}},
-            {0b00100, {InstructionID::INSN_ST1, 1}},
-            {0b00101, {InstructionID::INSN_ST3, 3}},
-            {0b01000, {InstructionID::INSN_ST2, 2}},
-            {0b01001, {InstructionID::INSN_ST4, 4}},
-            {0b01010, {InstructionID::INSN_ST2, 2}},
-            {0b01011, {InstructionID::INSN_ST4, 4}},
-            {0b01100, {InstructionID::INSN_ST2, 2}},
-            {0b01101, {InstructionID::INSN_ST4, 4}},
-            {0b10000, {InstructionID::INSN_LD1, 1}},
-            {0b10001, {InstructionID::INSN_LD3, 3}},
-            {0b10010, {InstructionID::INSN_LD1, 1}},
-            {0b10011, {InstructionID::INSN_LD3, 3}},
-            {0b10100, {InstructionID::INSN_LD1, 1}},
-            {0b10101, {InstructionID::INSN_LD3, 3}},
-            {0b10110, {InstructionID::INSN_LD1R, 1}},
-            {0b10111, {InstructionID::INSN_LD3R, 3}},
-            {0b11000, {InstructionID::INSN_LD2, 2}},
-            {0b11001, {InstructionID::INSN_LD4, 4}},
-            {0b11010, {InstructionID::INSN_LD2, 2}},
-            {0b11011, {InstructionID::INSN_LD4, 4}},
-            {0b11100, {InstructionID::INSN_LD2, 2}},
-            {0b11101, {InstructionID::INSN_LD4, 4}},
-            {0b11110, {InstructionID::INSN_LD2R, 2}},
-            {0b11111, {InstructionID::INSN_LD4R, 4}}
+        static const std::unordered_map<unsigned short int, std::pair<InstructionIdentifier, unsigned short int>> insnTable = {
+            {0b00000, {InstructionIdentifier::ID_ST1, 1}},
+            {0b00001, {InstructionIdentifier::ID_ST3, 3}},
+            {0b00010, {InstructionIdentifier::ID_ST1, 1}},
+            {0b00011, {InstructionIdentifier::ID_ST3, 3}},
+            {0b00100, {InstructionIdentifier::ID_ST1, 1}},
+            {0b00101, {InstructionIdentifier::ID_ST3, 3}},
+            {0b01000, {InstructionIdentifier::ID_ST2, 2}},
+            {0b01001, {InstructionIdentifier::ID_ST4, 4}},
+            {0b01010, {InstructionIdentifier::ID_ST2, 2}},
+            {0b01011, {InstructionIdentifier::ID_ST4, 4}},
+            {0b01100, {InstructionIdentifier::ID_ST2, 2}},
+            {0b01101, {InstructionIdentifier::ID_ST4, 4}},
+            {0b10000, {InstructionIdentifier::ID_LD1, 1}},
+            {0b10001, {InstructionIdentifier::ID_LD3, 3}},
+            {0b10010, {InstructionIdentifier::ID_LD1, 1}},
+            {0b10011, {InstructionIdentifier::ID_LD3, 3}},
+            {0b10100, {InstructionIdentifier::ID_LD1, 1}},
+            {0b10101, {InstructionIdentifier::ID_LD3, 3}},
+            {0b10110, {InstructionIdentifier::ID_LD1R, 1}},
+            {0b10111, {InstructionIdentifier::ID_LD3R, 3}},
+            {0b11000, {InstructionIdentifier::ID_LD2, 2}},
+            {0b11001, {InstructionIdentifier::ID_LD4, 4}},
+            {0b11010, {InstructionIdentifier::ID_LD2, 2}},
+            {0b11011, {InstructionIdentifier::ID_LD4, 4}},
+            {0b11100, {InstructionIdentifier::ID_LD2, 2}},
+            {0b11101, {InstructionIdentifier::ID_LD4, 4}},
+            {0b11110, {InstructionIdentifier::ID_LD2R, 2}},
+            {0b11111, {InstructionIdentifier::ID_LD4R, 4}}
         };
 
         const unsigned short int encoding = ((L << 4) | (R << 3) | opcode);

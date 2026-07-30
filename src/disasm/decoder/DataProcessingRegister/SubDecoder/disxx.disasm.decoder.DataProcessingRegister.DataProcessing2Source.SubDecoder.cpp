@@ -10,7 +10,7 @@ module disxx.disasm.decoder.DataProcessingRegister.DataProcessing2Source.SubDeco
 
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 import disxx.disasm.utility.bits;
 
@@ -63,40 +63,40 @@ namespace disxx::disasm::decoder::DataProcessingRegister::DataProcessing2Source
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        static const std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b00000010, InstructionID::INSN_UDIV},
-            {0b00000011, InstructionID::INSN_SDIV},
-            {0b00001000, InstructionID::INSN_LSLV},
-            {0b00001001, InstructionID::INSN_LSRV},
-            {0b00001010, InstructionID::INSN_ASRV},
-            {0b00001011, InstructionID::INSN_RORV},
-            {0b00010000, InstructionID::INSN_CRC32B},
-            {0b00010001, InstructionID::INSN_CRC32H},
-            {0b00010010, InstructionID::INSN_CRC32W},
-            {0b00010100, InstructionID::INSN_CRC32CB},
-            {0b00010101, InstructionID::INSN_CRC32CH},
-            {0b00010110, InstructionID::INSN_CRC32CW},
-            {0b00011000, InstructionID::INSN_SMAX},
-            {0b00011001, InstructionID::INSN_UMAX},
-            {0b00011010, InstructionID::INSN_SMIN},
-            {0b00011011, InstructionID::INSN_UMIN},
-            {0b10000000, InstructionID::INSN_SUBP},
-            {0b10000010, InstructionID::INSN_UDIV},
-            {0b10000011, InstructionID::INSN_SDIV},
-            {0b10000100, InstructionID::INSN_IRG},
-            {0b10000101, InstructionID::INSN_GMI},
-            {0b10001000, InstructionID::INSN_LSLV},
-            {0b10001001, InstructionID::INSN_LSRV},
-            {0b10001010, InstructionID::INSN_ASRV},
-            {0b10001011, InstructionID::INSN_RORV},
-            {0b10001100, InstructionID::INSN_PACGA},
-            {0b10010011, InstructionID::INSN_CRC32X},
-            {0b10010111, InstructionID::INSN_CRC32CX},
-            {0b10011000, InstructionID::INSN_SMAX},
-            {0b10011001, InstructionID::INSN_UMAX},
-            {0b10011010, InstructionID::INSN_SMIN},
-            {0b10011011, InstructionID::INSN_UMIN},
-            {0b11000000, InstructionID::INSN_SUBPS}
+        static const std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b00000010, InstructionIdentifier::ID_UDIV},
+            {0b00000011, InstructionIdentifier::ID_SDIV},
+            {0b00001000, InstructionIdentifier::ID_LSLV},
+            {0b00001001, InstructionIdentifier::ID_LSRV},
+            {0b00001010, InstructionIdentifier::ID_ASRV},
+            {0b00001011, InstructionIdentifier::ID_RORV},
+            {0b00010000, InstructionIdentifier::ID_CRC32B},
+            {0b00010001, InstructionIdentifier::ID_CRC32H},
+            {0b00010010, InstructionIdentifier::ID_CRC32W},
+            {0b00010100, InstructionIdentifier::ID_CRC32CB},
+            {0b00010101, InstructionIdentifier::ID_CRC32CH},
+            {0b00010110, InstructionIdentifier::ID_CRC32CW},
+            {0b00011000, InstructionIdentifier::ID_SMAX},
+            {0b00011001, InstructionIdentifier::ID_UMAX},
+            {0b00011010, InstructionIdentifier::ID_SMIN},
+            {0b00011011, InstructionIdentifier::ID_UMIN},
+            {0b10000000, InstructionIdentifier::ID_SUBP},
+            {0b10000010, InstructionIdentifier::ID_UDIV},
+            {0b10000011, InstructionIdentifier::ID_SDIV},
+            {0b10000100, InstructionIdentifier::ID_IRG},
+            {0b10000101, InstructionIdentifier::ID_GMI},
+            {0b10001000, InstructionIdentifier::ID_LSLV},
+            {0b10001001, InstructionIdentifier::ID_LSRV},
+            {0b10001010, InstructionIdentifier::ID_ASRV},
+            {0b10001011, InstructionIdentifier::ID_RORV},
+            {0b10001100, InstructionIdentifier::ID_PACGA},
+            {0b10010011, InstructionIdentifier::ID_CRC32X},
+            {0b10010111, InstructionIdentifier::ID_CRC32CX},
+            {0b10011000, InstructionIdentifier::ID_SMAX},
+            {0b10011001, InstructionIdentifier::ID_UMAX},
+            {0b10011010, InstructionIdentifier::ID_SMIN},
+            {0b10011011, InstructionIdentifier::ID_UMIN},
+            {0b11000000, InstructionIdentifier::ID_SUBPS}
         };
 
         const unsigned short int encoding = (sf << 7) | (S << 6) | opcode;

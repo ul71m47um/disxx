@@ -12,7 +12,7 @@ module disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.Unconditiona
 
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 import disxx.disasm.utility.bits;
 
@@ -119,26 +119,26 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Uncon
 			}
         };
 
-        const std::unordered_map<unsigned short int, std::tuple<InstructionID, bool, std::function<std::vector<disxx::disasm::operand::Register>(void)>>> insnTable = {
-            {0b000011111000000, {InstructionID::INSN_BR, op4 == 0b00000, mkRn}},
-            {0b000011111000010, {InstructionID::INSN_BRAAZ, op4 == 0b11111, mkRn}},
-            {0b000011111000011, {InstructionID::INSN_BRABZ, op4 == 0b11111, mkRn}},
-            {0b000111111000000, {InstructionID::INSN_BLR, op4 == 0b00000, mkRn}},
-            {0b000111111000010, {InstructionID::INSN_BLRAAZ, op4 == 0b11111, mkRn}},
-            {0b000111111000011, {InstructionID::INSN_BLRABZ, op4 == 0b11111, mkRn}},
-            {0b001011111000000, {InstructionID::INSN_RET, op4 == 0b00000, mkRn}},
-            {0b001011111000010, {InstructionID::INSN_RETAA, Rn == 0b11111 && op4 == 0b11111, mknull}},
-            {0b001011111000010, {InstructionID::INSN_RETAASPPCR, Rn == 0b11111 && op4 != 0b11111, mkRm}},
-            {0b001011111000011, {InstructionID::INSN_RETAB, Rn == 0b11111 && op4 == 0b11111, mknull}},
-            {0b001011111000011, {InstructionID::INSN_RETABSPPCR, Rn == 0b11111 && op4 != 0b11111, mkRm}},
-            {0b010011111000000, {InstructionID::INSN_ERET, Rn == 0b11111 && op4 == 0b00000, mknull}},
-            {0b010011111000010, {InstructionID::INSN_ERETAA, Rn == 0b11111 && op4 == 0b11111, mknull}},
-            {0b010011111000011, {InstructionID::INSN_ERETAB, Rn == 0b11111 && op4 == 0b11111, mknull}},
-            {0b010111111000000, {InstructionID::INSN_DRPS, Rn == 0b11111 && op4 == 0b00000, mknull}},
-            {0b100011111000010, {InstructionID::INSN_BRAA, true, mkall}},
-            {0b100011111000011, {InstructionID::INSN_BRAB, true, mkall}},
-            {0b100111111000010, {InstructionID::INSN_BLRAA, true, mkall}},
-            {0b100111111000011, {InstructionID::INSN_BLRAB, true, mkall}}
+        const std::unordered_map<unsigned short int, std::tuple<InstructionIdentifier, bool, std::function<std::vector<disxx::disasm::operand::Register>(void)>>> insnTable = {
+            {0b000011111000000, {InstructionIdentifier::ID_BR, op4 == 0b00000, mkRn}},
+            {0b000011111000010, {InstructionIdentifier::ID_BRAAZ, op4 == 0b11111, mkRn}},
+            {0b000011111000011, {InstructionIdentifier::ID_BRABZ, op4 == 0b11111, mkRn}},
+            {0b000111111000000, {InstructionIdentifier::ID_BLR, op4 == 0b00000, mkRn}},
+            {0b000111111000010, {InstructionIdentifier::ID_BLRAAZ, op4 == 0b11111, mkRn}},
+            {0b000111111000011, {InstructionIdentifier::ID_BLRABZ, op4 == 0b11111, mkRn}},
+            {0b001011111000000, {InstructionIdentifier::ID_RET, op4 == 0b00000, mkRn}},
+            {0b001011111000010, {InstructionIdentifier::ID_RETAA, Rn == 0b11111 && op4 == 0b11111, mknull}},
+            {0b001011111000010, {InstructionIdentifier::ID_RETAASPPCR, Rn == 0b11111 && op4 != 0b11111, mkRm}},
+            {0b001011111000011, {InstructionIdentifier::ID_RETAB, Rn == 0b11111 && op4 == 0b11111, mknull}},
+            {0b001011111000011, {InstructionIdentifier::ID_RETABSPPCR, Rn == 0b11111 && op4 != 0b11111, mkRm}},
+            {0b010011111000000, {InstructionIdentifier::ID_ERET, Rn == 0b11111 && op4 == 0b00000, mknull}},
+            {0b010011111000010, {InstructionIdentifier::ID_ERETAA, Rn == 0b11111 && op4 == 0b11111, mknull}},
+            {0b010011111000011, {InstructionIdentifier::ID_ERETAB, Rn == 0b11111 && op4 == 0b11111, mknull}},
+            {0b010111111000000, {InstructionIdentifier::ID_DRPS, Rn == 0b11111 && op4 == 0b00000, mknull}},
+            {0b100011111000010, {InstructionIdentifier::ID_BRAA, true, mkall}},
+            {0b100011111000011, {InstructionIdentifier::ID_BRAB, true, mkall}},
+            {0b100111111000010, {InstructionIdentifier::ID_BLRAA, true, mkall}},
+            {0b100111111000011, {InstructionIdentifier::ID_BLRAB, true, mkall}}
         };
 
         const unsigned short int encoding = (opc << 11) | (op2 << 6) | op3;

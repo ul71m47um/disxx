@@ -13,7 +13,7 @@ import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
 import disxx.disasm.utility.bits;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 
 namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::AdvancedSIMDShiftByImmediate
 {
@@ -115,34 +115,34 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             }
         };
 
-        std::unordered_map<unsigned short int, std::pair<InstructionID, std::function<std::optional<signed short int>(void)>>> insnTable = {
-            {0b000000, {InstructionID::INSN_SSHR, getAmountInTheRange1}},
-            {0b000010, {InstructionID::INSN_SSRA, getAmountInTheRange1}},
-            {0b000100, {InstructionID::INSN_SRSRA, getAmountInTheRange1}},
-            {0b001010, {InstructionID::INSN_SHL, getAmountInTheRange0}},
-            {0b001110, {InstructionID::INSN_SQSHL, getAmountInTheRange0}},
-            {0b010000, {Q == 0b1 ? InstructionID::INSN_SHRN2 : InstructionID::INSN_SHRN, std::bind(getAmountInTheRange1, 3, true)}},
-            {0b010001, {Q == 0b1 ? InstructionID::INSN_RSHRN2 : InstructionID::INSN_RSHRN, std::bind(getAmountInTheRange1, 3, true)}},
-            {0b010010, {Q == 0b1 ? InstructionID::INSN_SQSHRN2 : InstructionID::INSN_SQSHRN, std::bind(getAmountInTheRange1, 3, true)}},
-            {0b010011, {Q == 0b1 ? InstructionID::INSN_SQRSHRN2 : InstructionID::INSN_SQRSHRN, std::bind(getAmountInTheRange1, 3, true)}},
-            {0b010100, {Q == 0b1 ? InstructionID::INSN_SSHLL2 : InstructionID::INSN_SSHLL, std::bind(getAmountInTheRange0, 3, true)}},        // Alias!
-            {0b011100, {InstructionID::INSN_SCVTF, std::bind(getAmountInTheRange1, 0)}},
-            {0b011111, {InstructionID::INSN_FCVTZS, std::bind(getAmountInTheRange1, 0)}},
-            {0b100000, {InstructionID::INSN_USHR, getAmountInTheRange1}},
-            {0b100010, {InstructionID::INSN_USRA, getAmountInTheRange1}},
-            {0b100100, {InstructionID::INSN_URSHR, getAmountInTheRange1}},
-            {0b100110, {InstructionID::INSN_URSRA, getAmountInTheRange1}},
-            {0b110000, {InstructionID::INSN_SRI, getAmountInTheRange1}},
-            {0b101010, {InstructionID::INSN_SLI, getAmountInTheRange0}},
-            {0b101100, {InstructionID::INSN_SQSHLU, getAmountInTheRange0}},
-            {0b101110, {InstructionID::INSN_UQSHL, getAmountInTheRange0}},
-            {0b110000, {Q == 0b1 ? InstructionID::INSN_SQSHRUN2 : InstructionID::INSN_SQSHRUN, std::bind(getAmountInTheRange1, 3, true)}},
-            {0b110001, {Q == 0b1 ? InstructionID::INSN_SQRSHRUN2 : InstructionID::INSN_SQRSHRUN, std::bind(getAmountInTheRange1, 3, true)}},
-            {0b110010, {Q == 0b1 ? InstructionID::INSN_UQSHRN2 : InstructionID::INSN_UQSHRN, std::bind(getAmountInTheRange1, 3, true)}},
-            {0b110011, {Q == 0b1 ? InstructionID::INSN_UQRSHRN2 : InstructionID::INSN_UQRSHRN, std::bind(getAmountInTheRange1, 3, true)}},
-            {0b110100, {Q == 0b1 ? InstructionID::INSN_USHLL2 : InstructionID::INSN_USHLL, std::bind(getAmountInTheRange0, 3, true)}},        // Alias!
-            {0b111100, {InstructionID::INSN_UCVTF, std::bind(getAmountInTheRange1, 0)}},
-            {0b111111, {InstructionID::INSN_FCVTZU, std::bind(getAmountInTheRange1, 0)}}
+        std::unordered_map<unsigned short int, std::pair<InstructionIdentifier, std::function<std::optional<signed short int>(void)>>> insnTable = {
+            {0b000000, {InstructionIdentifier::ID_SSHR, getAmountInTheRange1}},
+            {0b000010, {InstructionIdentifier::ID_SSRA, getAmountInTheRange1}},
+            {0b000100, {InstructionIdentifier::ID_SRSRA, getAmountInTheRange1}},
+            {0b001010, {InstructionIdentifier::ID_SHL, getAmountInTheRange0}},
+            {0b001110, {InstructionIdentifier::ID_SQSHL, getAmountInTheRange0}},
+            {0b010000, {Q == 0b1 ? InstructionIdentifier::ID_SHRN2 : InstructionIdentifier::ID_SHRN, std::bind(getAmountInTheRange1, 3, true)}},
+            {0b010001, {Q == 0b1 ? InstructionIdentifier::ID_RSHRN2 : InstructionIdentifier::ID_RSHRN, std::bind(getAmountInTheRange1, 3, true)}},
+            {0b010010, {Q == 0b1 ? InstructionIdentifier::ID_SQSHRN2 : InstructionIdentifier::ID_SQSHRN, std::bind(getAmountInTheRange1, 3, true)}},
+            {0b010011, {Q == 0b1 ? InstructionIdentifier::ID_SQRSHRN2 : InstructionIdentifier::ID_SQRSHRN, std::bind(getAmountInTheRange1, 3, true)}},
+            {0b010100, {Q == 0b1 ? InstructionIdentifier::ID_SSHLL2 : InstructionIdentifier::ID_SSHLL, std::bind(getAmountInTheRange0, 3, true)}},        // Alias!
+            {0b011100, {InstructionIdentifier::ID_SCVTF, std::bind(getAmountInTheRange1, 0)}},
+            {0b011111, {InstructionIdentifier::ID_FCVTZS, std::bind(getAmountInTheRange1, 0)}},
+            {0b100000, {InstructionIdentifier::ID_USHR, getAmountInTheRange1}},
+            {0b100010, {InstructionIdentifier::ID_USRA, getAmountInTheRange1}},
+            {0b100100, {InstructionIdentifier::ID_URSHR, getAmountInTheRange1}},
+            {0b100110, {InstructionIdentifier::ID_URSRA, getAmountInTheRange1}},
+            {0b110000, {InstructionIdentifier::ID_SRI, getAmountInTheRange1}},
+            {0b101010, {InstructionIdentifier::ID_SLI, getAmountInTheRange0}},
+            {0b101100, {InstructionIdentifier::ID_SQSHLU, getAmountInTheRange0}},
+            {0b101110, {InstructionIdentifier::ID_UQSHL, getAmountInTheRange0}},
+            {0b110000, {Q == 0b1 ? InstructionIdentifier::ID_SQSHRUN2 : InstructionIdentifier::ID_SQSHRUN, std::bind(getAmountInTheRange1, 3, true)}},
+            {0b110001, {Q == 0b1 ? InstructionIdentifier::ID_SQRSHRUN2 : InstructionIdentifier::ID_SQRSHRUN, std::bind(getAmountInTheRange1, 3, true)}},
+            {0b110010, {Q == 0b1 ? InstructionIdentifier::ID_UQSHRN2 : InstructionIdentifier::ID_UQSHRN, std::bind(getAmountInTheRange1, 3, true)}},
+            {0b110011, {Q == 0b1 ? InstructionIdentifier::ID_UQRSHRN2 : InstructionIdentifier::ID_UQRSHRN, std::bind(getAmountInTheRange1, 3, true)}},
+            {0b110100, {Q == 0b1 ? InstructionIdentifier::ID_USHLL2 : InstructionIdentifier::ID_USHLL, std::bind(getAmountInTheRange0, 3, true)}},        // Alias!
+            {0b111100, {InstructionIdentifier::ID_UCVTF, std::bind(getAmountInTheRange1, 0)}},
+            {0b111111, {InstructionIdentifier::ID_FCVTZU, std::bind(getAmountInTheRange1, 0)}}
         };
 
         const unsigned short int encoding = (U << 9) | (immh << 5) | opcode;
@@ -191,12 +191,12 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
                 if (immb == 0b000 && bits::BitCount<unsigned short int, 4>(immh) == 1)
 				{
-                    insn = std::array<InstructionID, 4>
+                    insn = std::array<InstructionIdentifier, 4>
 					{
-						InstructionID::INSN_SXTL,
-						InstructionID::INSN_SXTL2,
-						InstructionID::INSN_UXTL,
-						InstructionID::INSN_UXTL2
+						InstructionIdentifier::ID_SXTL,
+						InstructionIdentifier::ID_SXTL2,
+						InstructionIdentifier::ID_UXTL,
+						InstructionIdentifier::ID_UXTL2
 					}[(U << 1) | Q];
 				}
                 

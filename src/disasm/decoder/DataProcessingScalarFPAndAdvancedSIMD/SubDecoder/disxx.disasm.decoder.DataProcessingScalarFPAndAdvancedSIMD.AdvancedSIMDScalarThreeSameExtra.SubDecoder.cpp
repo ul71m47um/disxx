@@ -9,7 +9,7 @@ module disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDSc
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
 import disxx.disasm.utility.bits;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 
 namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::AdvancedSIMDScalarThreeSameExtra
 {
@@ -101,8 +101,8 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
         return std::make_pair
         (
             encoding == 0b10000
-                ? InstructionID::INSN_SQRDMLAH
-                : InstructionID::INSN_SQRDMLSH,
+                ? InstructionIdentifier::ID_SQRDMLAH
+                : InstructionIdentifier::ID_SQRDMLSH,
             std::move(this->m_Operands)
         );
 	}

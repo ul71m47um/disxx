@@ -12,7 +12,7 @@ import disxx.disasm.operand.LoadsAndStoresAddress;
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 
 namespace disxx::disasm::decoder::LoadsAndStores::LDAPRSTLRWriteback
@@ -92,8 +92,8 @@ namespace disxx::disasm::decoder::LoadsAndStores::LDAPRSTLRWriteback
         return std::make_pair
         (
             L == 0b0
-                ? InstructionID::INSN_STLR
-                : InstructionID::INSN_LDAPR,
+                ? InstructionIdentifier::ID_STLR
+                : InstructionIdentifier::ID_LDAPR,
             std::move(this->m_Operands)
         );
 	}

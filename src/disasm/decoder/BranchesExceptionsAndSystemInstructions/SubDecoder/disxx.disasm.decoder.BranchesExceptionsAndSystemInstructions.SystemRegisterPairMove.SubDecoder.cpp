@@ -10,7 +10,7 @@ module disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemRegist
 
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 import disxx.disasm.utility.bits;
 
@@ -91,7 +91,7 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Syste
 				)
 			);
 
-            return std::make_pair(InstructionID::INSN_MSRR, std::move(this->m_Operands));
+            return std::make_pair(InstructionIdentifier::ID_MSRR, std::move(this->m_Operands));
         }
 
         this->m_Operands.emplace_back
@@ -119,6 +119,6 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Syste
 			)
 		);
 
-        return std::make_pair(InstructionID::INSN_MRRS, std::move(this->m_Operands));
+        return std::make_pair(InstructionIdentifier::ID_MRRS, std::move(this->m_Operands));
 	}
 } /* disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::SystemRegisterPairMove */

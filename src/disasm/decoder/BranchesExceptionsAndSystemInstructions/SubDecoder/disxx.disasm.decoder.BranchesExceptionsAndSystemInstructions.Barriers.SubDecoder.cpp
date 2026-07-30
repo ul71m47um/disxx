@@ -12,7 +12,7 @@ import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.MemoryBarrier;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 import disxx.disasm.utility.bits;
 
@@ -61,24 +61,24 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Barri
         op2 = bits::extract<unsigned short int, std::uint32_t, 5, 7>(this->m_Insn);
         Rt = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b01011111, InstructionID::INSN_CLREX},
-            {0b10011111, InstructionID::INSN_DSB},
-            {0b10111111, InstructionID::INSN_DMB},
-            {0b11011111, InstructionID::INSN_ISB},
-            {0b11111111, InstructionID::INSN_SB}
+        std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b01011111, InstructionIdentifier::ID_CLREX},
+            {0b10011111, InstructionIdentifier::ID_DSB},
+            {0b10111111, InstructionIdentifier::ID_DMB},
+            {0b11011111, InstructionIdentifier::ID_ISB},
+            {0b11111111, InstructionIdentifier::ID_SB}
         };
 
         // It has no any instruction yet
-        InstructionID insn{};
+        InstructionIdentifier insn{};
 
         const unsigned short int encoding = (op2 << 5) | Rt;
         if (const auto it{insnTable.find(encoding)}; it != insnTable.end()) [[likely]]
             insn = it->second;
         else if ((CRm & 0b0011) == 0b0010 && encoding == 0b00111111) [[likely]]
-            insn = InstructionID::INSN_DSB;
+            insn = InstructionIdentifier::ID_DSB;
         else if (CRm == 0b0000 && encoding == 0b01111111) [[likely]]
-            insn = InstructionID::INSN_TCOMMIT;
+            insn = InstructionIdentifier::ID_TCOMMIT;
         else [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
 

@@ -11,7 +11,7 @@ module disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDSc
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
 import disxx.disasm.utility.bits;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 
 namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::AdvancedSIMDScalarCopy
 {
@@ -99,6 +99,6 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
         	}
 		);
 
-        return std::make_pair(InstructionID::INSN_MOV, std::move(this->m_Operands));
+        return std::make_pair(InstructionIdentifier::ID_MOV, std::move(this->m_Operands));
 	}
 } /* disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::AdvancedSIMDScalarCopy */

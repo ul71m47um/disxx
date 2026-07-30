@@ -59,7 +59,7 @@ namespace disxx::disasm
 		Instruction insn{};
 		insn.SetBytes(std::move(word));
 		insn.SetAddress(std::move(addr));
-		insn.SetInstructionID(std::move(id));
+		insn.SetInstructionIdentifier(std::move(id));
 		insn.SetOperands(std::move(oprs));
 		insn.SetProgramCounterRelevantAddress(std::move(programCounterRelevantAddress));
 	

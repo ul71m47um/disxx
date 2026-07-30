@@ -13,7 +13,7 @@ module disxx.disasm.decoder.LoadsAndStores.SIMDMultipleStructures.SubDecoder;
 import disxx.disasm.operand.LoadsAndStoresAddress;
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 
 namespace disxx::disasm::decoder::LoadsAndStores::SIMDMultipleStructures
@@ -64,21 +64,21 @@ namespace disxx::disasm::decoder::LoadsAndStores::SIMDMultipleStructures
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rt = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        static const std::unordered_map<unsigned short int, std::pair<InstructionID, unsigned short int>> insnTable = {
-            {0b00000, {InstructionID::INSN_ST4, 4}},
-            {0b00010, {InstructionID::INSN_ST4, 4}},
-            {0b00100, {InstructionID::INSN_ST3, 3}},
-            {0b00110, {InstructionID::INSN_ST3, 3}},
-            {0b00111, {InstructionID::INSN_ST1, 1}},
-            {0b01000, {InstructionID::INSN_ST2, 2}},
-            {0b01010, {InstructionID::INSN_ST2, 2}},
-            {0b10000, {InstructionID::INSN_LD4, 4}},
-            {0b10010, {InstructionID::INSN_LD4, 4}},
-            {0b10100, {InstructionID::INSN_LD3, 3}},
-            {0b10110, {InstructionID::INSN_LD3, 3}},
-            {0b10111, {InstructionID::INSN_LD1, 1}},
-            {0b11000, {InstructionID::INSN_LD2, 2}},
-            {0b11010, {InstructionID::INSN_LD2, 2}}
+        static const std::unordered_map<unsigned short int, std::pair<InstructionIdentifier, unsigned short int>> insnTable = {
+            {0b00000, {InstructionIdentifier::ID_ST4, 4}},
+            {0b00010, {InstructionIdentifier::ID_ST4, 4}},
+            {0b00100, {InstructionIdentifier::ID_ST3, 3}},
+            {0b00110, {InstructionIdentifier::ID_ST3, 3}},
+            {0b00111, {InstructionIdentifier::ID_ST1, 1}},
+            {0b01000, {InstructionIdentifier::ID_ST2, 2}},
+            {0b01010, {InstructionIdentifier::ID_ST2, 2}},
+            {0b10000, {InstructionIdentifier::ID_LD4, 4}},
+            {0b10010, {InstructionIdentifier::ID_LD4, 4}},
+            {0b10100, {InstructionIdentifier::ID_LD3, 3}},
+            {0b10110, {InstructionIdentifier::ID_LD3, 3}},
+            {0b10111, {InstructionIdentifier::ID_LD1, 1}},
+            {0b11000, {InstructionIdentifier::ID_LD2, 2}},
+            {0b11010, {InstructionIdentifier::ID_LD2, 2}}
         };
 
         const auto it{insnTable.find((L << 1) | opcode)};

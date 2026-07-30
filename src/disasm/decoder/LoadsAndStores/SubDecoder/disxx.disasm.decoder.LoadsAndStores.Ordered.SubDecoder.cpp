@@ -11,7 +11,7 @@ module disxx.disasm.decoder.LoadsAndStores.Ordered.SubDecoder;
 import disxx.disasm.operand.LoadsAndStoresAddress;
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 
 namespace disxx::disasm::decoder::LoadsAndStores::Ordered
@@ -63,19 +63,19 @@ namespace disxx::disasm::decoder::LoadsAndStores::Ordered
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rt = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
  
-        static constexpr std::array<InstructionID, 12> insnTable
+        static constexpr std::array<InstructionIdentifier, 12> insnTable
 		{
-            InstructionID::INSN_STLLRB, InstructionID::INSN_STLRB,
-            InstructionID::INSN_LDLARB, InstructionID::INSN_LDARB,
-            InstructionID::INSN_STLLRH, InstructionID::INSN_STLRH,
-            InstructionID::INSN_LDLARH, InstructionID::INSN_LDARH,
-            InstructionID::INSN_STLLR, InstructionID::INSN_STLR,
-            InstructionID::INSN_LDLAR, InstructionID::INSN_LDAR
+            InstructionIdentifier::ID_STLLRB, InstructionIdentifier::ID_STLRB,
+            InstructionIdentifier::ID_LDLARB, InstructionIdentifier::ID_LDARB,
+            InstructionIdentifier::ID_STLLRH, InstructionIdentifier::ID_STLRH,
+            InstructionIdentifier::ID_LDLARH, InstructionIdentifier::ID_LDARH,
+            InstructionIdentifier::ID_STLLR, InstructionIdentifier::ID_STLR,
+            InstructionIdentifier::ID_LDLAR, InstructionIdentifier::ID_LDAR
         };
 
         const auto insn
         {
-            [size, L, o0] -> InstructionID
+            [size, L, o0] -> InstructionIdentifier
             {
                 const unsigned short int encoding = (L << 1) | o0;
                 if (size == 0b00)

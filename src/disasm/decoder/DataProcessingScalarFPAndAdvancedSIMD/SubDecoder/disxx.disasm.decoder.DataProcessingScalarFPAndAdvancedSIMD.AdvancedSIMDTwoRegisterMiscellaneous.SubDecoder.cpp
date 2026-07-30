@@ -13,7 +13,7 @@ import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
 import disxx.disasm.utility.bits;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 
 namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::AdvancedSIMDTwoRegisterMiscellaneous
 {
@@ -22,7 +22,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
         unsigned short int,
         std::tuple
         <
-            InstructionID,
+            InstructionIdentifier,
             std::function<std::optional<disxx::disasm::operand::VectorArrangementSpecifier>(void)>,
             std::function<std::optional<disxx::disasm::operand::VectorArrangementSpecifier>(void)>
         >
@@ -139,7 +139,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b000000,
 				{
-					InstructionID::INSN_REV64,
+					InstructionIdentifier::ID_REV64,
 					getAllArrangementSpecifiers,
 					getAllArrangementSpecifiers
 				}
@@ -147,7 +147,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b000001,
 				{
-					InstructionID::INSN_REV16,
+					InstructionIdentifier::ID_REV16,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getAllArrangementSpecifiers(0, 0b01); },
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getAllArrangementSpecifiers(0, 0b01); }
 				}
@@ -155,7 +155,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b000010,
 				{
-					InstructionID::INSN_SADDLP,
+					InstructionIdentifier::ID_SADDLP,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getAllArrangementSpecifiers(1); },
 					getAllArrangementSpecifiers
 				}
@@ -163,7 +163,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b000011,
 				{
-					InstructionID::INSN_SUQADD,
+					InstructionIdentifier::ID_SUQADD,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>((size << 1) | Q)}; },
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>((size << 1) | Q)}; }
 				}
@@ -171,7 +171,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b000100,
 				{
-					InstructionID::INSN_CLS,
+					InstructionIdentifier::ID_CLS,
 					getAllArrangementSpecifiers,
 					getAllArrangementSpecifiers
 				}
@@ -179,7 +179,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b000101,
 				{
-					InstructionID::INSN_CNT,
+					InstructionIdentifier::ID_CNT,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getAllArrangementSpecifiers(0, 0b01); },
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getAllArrangementSpecifiers(0, 0b01); }
 				}
@@ -187,7 +187,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b000110,
 				{
-					InstructionID::INSN_SADALP,
+					InstructionIdentifier::ID_SADALP,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getAllArrangementSpecifiers(1); },
 					getAllArrangementSpecifiers
 				}
@@ -195,7 +195,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b000111,
 				{
-					InstructionID::INSN_SQABS,
+					InstructionIdentifier::ID_SQABS,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>((size << 1) | Q)}; },
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>((size << 1) | Q)}; }
 				}
@@ -203,7 +203,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b001000,
 				{
-					InstructionID::INSN_CMGT,
+					InstructionIdentifier::ID_CMGT,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>((size << 1) | Q)}; },
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>((size << 1) | Q)}; }
 				}
@@ -211,7 +211,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b001001,
 				{
-					InstructionID::INSN_CMEQ,
+					InstructionIdentifier::ID_CMEQ,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>((size << 1) | Q)}; },
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>((size << 1) | Q)}; }
 				}
@@ -219,7 +219,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b001010,
 				{
-					InstructionID::INSN_CMLT,
+					InstructionIdentifier::ID_CMLT,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>((size << 1) | Q)}; },
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>((size << 1) | Q)}; }
 				}
@@ -227,7 +227,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b001011,
 				{
-					InstructionID::INSN_ABS,
+					InstructionIdentifier::ID_ABS,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>((size << 1) | Q)}; },
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>((size << 1) | Q)}; }
 				}
@@ -235,7 +235,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b010010,
 				{
-					Q == 0b1 ? InstructionID::INSN_XTN2 : InstructionID::INSN_XTN,
+					Q == 0b1 ? InstructionIdentifier::ID_XTN2 : InstructionIdentifier::ID_XTN,
 					getAllArrangementSpecifiers,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSizeBasedArrangementSpecifier(1); }
 				}
@@ -243,7 +243,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b010100,
 				{
-					Q == 0b1 ? InstructionID::INSN_SQXTN2 : InstructionID::INSN_SQXTN,
+					Q == 0b1 ? InstructionIdentifier::ID_SQXTN2 : InstructionIdentifier::ID_SQXTN,
 					getAllArrangementSpecifiers,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSizeBasedArrangementSpecifier(1); }
 				}
@@ -251,7 +251,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b100000,
 				{
-					InstructionID::INSN_REV32,
+					InstructionIdentifier::ID_REV32,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getAllArrangementSpecifiers(0, 0b10); },
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getAllArrangementSpecifiers(0, 0b10); }
 				}
@@ -259,7 +259,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b100010,
 				{
-					InstructionID::INSN_UADDLP,
+					InstructionIdentifier::ID_UADDLP,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getAllArrangementSpecifiers(1); },
 					getAllArrangementSpecifiers
 				}
@@ -267,7 +267,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b100011,
 				{
-					InstructionID::INSN_USQADD,
+					InstructionIdentifier::ID_USQADD,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>((size << 1) | Q)}; },
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>((size << 1) | Q)}; }
 				}
@@ -275,7 +275,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b100100,
 				{
-					InstructionID::INSN_CLZ,
+					InstructionIdentifier::ID_CLZ,
 					getAllArrangementSpecifiers,
 					getAllArrangementSpecifiers
 				}
@@ -283,7 +283,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b100110,
 				{
-					InstructionID::INSN_UADALP,
+					InstructionIdentifier::ID_UADALP,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getAllArrangementSpecifiers(1); },
 					getAllArrangementSpecifiers
 				}
@@ -291,7 +291,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b100111,
 				{
-					InstructionID::INSN_SQNEG,
+					InstructionIdentifier::ID_SQNEG,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>((size << 1) | Q)}; },
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>((size << 1) | Q)}; }
 				}
@@ -299,7 +299,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b101000,
 				{
-					InstructionID::INSN_CMGE,
+					InstructionIdentifier::ID_CMGE,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>((size << 1) | Q)}; },
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>((size << 1) | Q)}; }
 				}
@@ -307,7 +307,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b101001,
 				{
-					InstructionID::INSN_CMLE,
+					InstructionIdentifier::ID_CMLE,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>((size << 1) | Q)}; },
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>((size << 1) | Q)}; }
 				}
@@ -315,7 +315,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b101011,
 				{
-					InstructionID::INSN_NEG,
+					InstructionIdentifier::ID_NEG,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>((size << 1) | Q)}; },
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>((size << 1) | Q)}; }
 				}
@@ -323,7 +323,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b110010,
 				{
-					Q == 0b1 ? InstructionID::INSN_SQXTUN2 : InstructionID::INSN_SQXTUN,
+					Q == 0b1 ? InstructionIdentifier::ID_SQXTUN2 : InstructionIdentifier::ID_SQXTUN,
 					getAllArrangementSpecifiers,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSizeBasedArrangementSpecifier(1); }
 				}
@@ -332,7 +332,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b110011,
 				{
-					Q == 0b1 ? InstructionID::INSN_SHLL2 : InstructionID::INSN_SHLL,
+					Q == 0b1 ? InstructionIdentifier::ID_SHLL2 : InstructionIdentifier::ID_SHLL,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSizeBasedArrangementSpecifier(1); },
 					getAllArrangementSpecifiers
 				}
@@ -340,7 +340,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b110100,
 				{
-					Q == 0b1 ? InstructionID::INSN_UQXTN2 : InstructionID::INSN_UQXTN,
+					Q == 0b1 ? InstructionIdentifier::ID_UQXTN2 : InstructionIdentifier::ID_UQXTN,
 					getAllArrangementSpecifiers,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSizeBasedArrangementSpecifier(1); }
 				}
@@ -352,7 +352,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b00010110,
 				{
-					Q == 0b1 ? InstructionID::INSN_FCVTN2 : InstructionID::INSN_FCVTN,
+					Q == 0b1 ? InstructionIdentifier::ID_FCVTN2 : InstructionIdentifier::ID_FCVTN,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(1); },
 					[size] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>(0b100 | ((size & 0b01) << 1) | 0b1)}; }
 				}
@@ -360,7 +360,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b00010111,
 				{
-					Q == 0b1 ? InstructionID::INSN_FCVTL2 : InstructionID::INSN_FCVTL,
+					Q == 0b1 ? InstructionIdentifier::ID_FCVTL2 : InstructionIdentifier::ID_FCVTL,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(1); },
 					[size] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>(0b100 | ((size & 0b01) << 1) | 0b1)}; }
 				}
@@ -368,7 +368,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b00011000,
 				{
-					InstructionID::INSN_FRINTN,
+					InstructionIdentifier::ID_FRINTN,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); },
 					[size] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>(0b010 | (size & 0b01))}; }
 				}
@@ -376,7 +376,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b00011001,
 				{
-					InstructionID::INSN_FRINTM,
+					InstructionIdentifier::ID_FRINTM,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); },
 					[size] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>(0b010 | (size & 0b01))}; }
 				}
@@ -384,7 +384,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b00011010,
 				{
-					InstructionID::INSN_FCVTNS,
+					InstructionIdentifier::ID_FCVTNS,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); },
 					[size] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>(0b010 | (size & 0b01))}; }
 				}
@@ -392,7 +392,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b00011011,
 				{
-					InstructionID::INSN_FCVTMS,
+					InstructionIdentifier::ID_FCVTMS,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); },
 					[size] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>(0b010 | (size & 0b01))}; }
 				}
@@ -400,7 +400,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b00011100,
 				{
-					InstructionID::INSN_FCVTAS,
+					InstructionIdentifier::ID_FCVTAS,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); },
 					[size] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>(0b010 | (size & 0b01))}; }
 				}
@@ -408,7 +408,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b00011101,
 				{
-					InstructionID::INSN_SCVTF,
+					InstructionIdentifier::ID_SCVTF,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); },
 					[size] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>(0b010 | (size & 0b01))}; }
 				}
@@ -416,7 +416,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b00011110,
 				{
-					InstructionID::INSN_FRINT32Z,
+					InstructionIdentifier::ID_FRINT32Z,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); },
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); }
 				}
@@ -424,7 +424,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b00011111,
 				{
-					InstructionID::INSN_FRINT64Z,
+					InstructionIdentifier::ID_FRINT64Z,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); },
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); }
 				}
@@ -432,7 +432,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b01001100,
 				{
-					InstructionID::INSN_FCMGT,
+					InstructionIdentifier::ID_FCMGT,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); },
 					[size] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>(0b010 | (size & 0b01))}; }
 				}
@@ -440,7 +440,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b01001101,
 				{
-					InstructionID::INSN_FCMEQ,
+					InstructionIdentifier::ID_FCMEQ,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); },
 					[size] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>(0b010 | (size & 0b01))}; }
 				}
@@ -448,7 +448,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b01001110,
 				{
-					InstructionID::INSN_FCMLT,
+					InstructionIdentifier::ID_FCMLT,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); },
 					[size] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>(0b010 | (size & 0b01))}; }
 				}
@@ -456,7 +456,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b01001111,
 				{
-					InstructionID::INSN_FABS,
+					InstructionIdentifier::ID_FABS,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); },
 					[size] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>(0b010 | (size & 0b01))}; }
 				}
@@ -464,7 +464,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b01011000,
 				{
-					InstructionID::INSN_FRINTP,
+					InstructionIdentifier::ID_FRINTP,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); },
 					[size] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>(0b010 | (size & 0b01))}; }
 				}
@@ -472,7 +472,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b01011001,
 				{
-					InstructionID::INSN_FRINTZ,	
+					InstructionIdentifier::ID_FRINTZ,	
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); },
 					[size] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>(0b010 | (size & 0b01))}; }
 				}
@@ -480,7 +480,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b01011010,
 				{
-					InstructionID::INSN_FCVTPS,
+					InstructionIdentifier::ID_FCVTPS,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); },
 					[size] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>(0b010 | (size & 0b01))}; }
 				}
@@ -488,7 +488,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b01011011,
 				{
-					InstructionID::INSN_FCVTZS,
+					InstructionIdentifier::ID_FCVTZS,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); },
 					[size] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>(0b010 | (size & 0b01))}; }
 				}
@@ -496,7 +496,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b01011100,
 				{
-					InstructionID::INSN_URECPE,
+					InstructionIdentifier::ID_URECPE,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2, 1); },
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2, 1); }
 				}
@@ -504,7 +504,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b01011101,
 				{
-					InstructionID::INSN_FRECPE,
+					InstructionIdentifier::ID_FRECPE,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); },
 					[size] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>(0b010 | (size & 0b01))}; }
 				}
@@ -512,7 +512,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b01010110,
 				{
-					Q == 0b1 ? InstructionID::INSN_BFCVTN2 : InstructionID::INSN_BFCVTN,
+					Q == 0b1 ? InstructionIdentifier::ID_BFCVTN2 : InstructionIdentifier::ID_BFCVTN,
 					[size] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>(0b010 | (size & 0b01))}; },
 					[] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{0b101}; }
 				}
@@ -520,7 +520,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b10011000,
 				{
-					InstructionID::INSN_FRINTA,
+					InstructionIdentifier::ID_FRINTA,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); },
 					[size] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>(0b010 | (size & 0b01))}; }
 				}
@@ -528,7 +528,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b10011001,
 				{
-					InstructionID::INSN_FRINTX,
+					InstructionIdentifier::ID_FRINTX,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); },
 					[size] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>(0b010 | (size & 0b01))}; }
 				}
@@ -536,7 +536,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b10011010,
 				{
-					InstructionID::INSN_FCVTNU,
+					InstructionIdentifier::ID_FCVTNU,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); },
 					[size] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>(0b010 | (size & 0b01))}; }
 				}
@@ -544,7 +544,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b10011011,
 				{
-					InstructionID::INSN_FCVTMU,
+					InstructionIdentifier::ID_FCVTMU,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); },
 					[size] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>(0b010 | (size & 0b01))}; }
 				}
@@ -552,7 +552,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b10011100,
 				{
-					InstructionID::INSN_FCVTAU,
+					InstructionIdentifier::ID_FCVTAU,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); },
 					[size] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>(0b010 | (size & 0b01))}; }
 				}
@@ -560,7 +560,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b10011101,
 				{
-					InstructionID::INSN_UCVTF,
+					InstructionIdentifier::ID_UCVTF,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); },
 					[size] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>(0b010 | (size & 0b01))}; }
 				}
@@ -568,7 +568,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b10011110,
 				{
-					InstructionID::INSN_FRINT32X,
+					InstructionIdentifier::ID_FRINT32X,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); },
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); }
 				}
@@ -576,7 +576,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b10011111,
 				{
-					InstructionID::INSN_FRINT64X,
+					InstructionIdentifier::ID_FRINT64X,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); },
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); }
 				}
@@ -584,7 +584,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b10000101,
 				{
-					InstructionID::INSN_NOT,
+					InstructionIdentifier::ID_NOT,
 					[Q] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{Q}; },
 					[Q] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{Q}; }
 				}
@@ -592,7 +592,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b10010111,
 				{
-					Q == 0b1 ? InstructionID::INSN_F1CVTL2 : InstructionID::INSN_F1CVTL,
+					Q == 0b1 ? InstructionIdentifier::ID_F1CVTL2 : InstructionIdentifier::ID_F1CVTL,
 					[] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{0b011}; },
 					[Q] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{Q}; }
 				}
@@ -600,7 +600,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b10100101,
 				{
-					InstructionID::INSN_RBIT,
+					InstructionIdentifier::ID_RBIT,
 					[Q] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{Q}; },
 					[Q] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{Q}; }
 				}
@@ -608,7 +608,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b10110110,
 				{
-					Q == 0b1 ? InstructionID::INSN_FCVTXN2 : InstructionID::INSN_FCVTXN,
+					Q == 0b1 ? InstructionIdentifier::ID_FCVTXN2 : InstructionIdentifier::ID_FCVTXN,
 					[Q] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{static_cast<unsigned short int>(0b100 | Q)}; },
 					[] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{0b111}; }
 				}
@@ -616,7 +616,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
 			{
 				0b10110111,
 				{
-					Q == 0b1 ? InstructionID::INSN_F2CVTL2 : InstructionID::INSN_F2CVTL,
+					Q == 0b1 ? InstructionIdentifier::ID_F2CVTL2 : InstructionIdentifier::ID_F2CVTL,
 					[] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{0b011}; },
 					[Q] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{Q}; }
 				}
@@ -624,7 +624,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b11001100,
 				{
-					InstructionID::INSN_FCMGE,
+					InstructionIdentifier::ID_FCMGE,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); },
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); }
 				}
@@ -632,7 +632,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b11001101,
 				{
-					InstructionID::INSN_FCMLE,
+					InstructionIdentifier::ID_FCMLE,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); },
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); }
 				}
@@ -640,7 +640,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b11001111,
 				{
-					InstructionID::INSN_FNEG,
+					InstructionIdentifier::ID_FNEG,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); },
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); }
 				}
@@ -648,7 +648,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b11011001,
 				{
-					InstructionID::INSN_FRINTI,
+					InstructionIdentifier::ID_FRINTI,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); },
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); }
 				}
@@ -656,7 +656,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b11011010,
 				{
-					InstructionID::INSN_FCVTPU,
+					InstructionIdentifier::ID_FCVTPU,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); },
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); }
 				}
@@ -664,7 +664,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b11011011,
 				{
-					InstructionID::INSN_FCVTZU,
+					InstructionIdentifier::ID_FCVTZU,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); },
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); }
 				}
@@ -672,7 +672,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b11011100,
 				{
-					InstructionID::INSN_URSQRTE,
+					InstructionIdentifier::ID_URSQRTE,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2, 1); },
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2, 1); }
 				}
@@ -680,7 +680,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b11011101,
 				{
-					InstructionID::INSN_FRSQRTE,
+					InstructionIdentifier::ID_FRSQRTE,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); },
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); }
 				}
@@ -688,7 +688,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b11011111,
 				{
-					InstructionID::INSN_FSQRT,
+					InstructionIdentifier::ID_FSQRT,
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); },
 					[&] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return getSzQBasedArrangementSpecifier(2); }
 				}
@@ -696,7 +696,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b11010111,
 				{
-					Q == 0b1 ? InstructionID::INSN_BF1CVTL2 : InstructionID::INSN_BF1CVTL,
+					Q == 0b1 ? InstructionIdentifier::ID_BF1CVTL2 : InstructionIdentifier::ID_BF1CVTL,
 					[] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{0b011}; },
 					[Q] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{Q}; }
 				}
@@ -704,7 +704,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
 				0b11110111,
 				{
-					Q == 0b1 ? InstructionID::INSN_BF2CVTL2 : InstructionID::INSN_BF2CVTL,
+					Q == 0b1 ? InstructionIdentifier::ID_BF2CVTL2 : InstructionIdentifier::ID_BF2CVTL,
 					[] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{0b011}; },
 					[Q] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{Q}; }
 				}

@@ -12,7 +12,7 @@ import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
 import disxx.disasm.utility.bits;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 
 namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::AdvancedSIMDVectorXIndexedElement
 {
@@ -159,7 +159,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             unsigned short int,
             std::pair
             <
-                InstructionID,
+                InstructionIdentifier,
                 std::function
                 <
                     std::expected
@@ -174,50 +174,50 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
                 >
             >
         > insnTable = {
-            {0b00010, {Q == 0b1 ? InstructionID::INSN_SMLAL2 : InstructionID::INSN_SMLAL, getArrangementSpecifiers}},
-            {0b00011, {Q == 0b1 ? InstructionID::INSN_SQDMLAL2 : InstructionID::INSN_SQDMLAL, getArrangementSpecifiers}},
-            {0b00110, {Q == 0b1 ? InstructionID::INSN_SMLSL2 : InstructionID::INSN_SMLSL, getArrangementSpecifiers}},
-            {0b00111, {Q == 0b1 ? InstructionID::INSN_SQDMLSL2 : InstructionID::INSN_SQDMLSL, getArrangementSpecifiers}},
-            {0b01000, {InstructionID::INSN_MUL, std::bind(getArrangementSpecifiers, true)}},
-            {0b01010, {Q == 0b1 ? InstructionID::INSN_SMULL2 : InstructionID::INSN_SMULL, getArrangementSpecifiers}},
-            {0b01011, {Q == 0b1 ? InstructionID::INSN_SQDMULL2 : InstructionID::INSN_SQDMULL, getArrangementSpecifiers}},
-            {0b01100, {InstructionID::INSN_SQDMULH, std::bind(getArrangementSpecifiers, true)}},
-            {0b01101, {InstructionID::INSN_SQDRMULH, std::bind(getArrangementSpecifiers, true)}},
-            {0b01110, {InstructionID::INSN_SDOT, getArrangementSpecifiersDotProd}},
-            {0b10001, {InstructionID::INSN_FCMLA, std::bind(getArrangementSpecifiers, true)}},    // rotate
-            {0b10000, {InstructionID::INSN_MLA, std::bind(getArrangementSpecifiers, true)}},
-            {0b10010, {Q == 0b1 ? InstructionID::INSN_UMLAL2 : InstructionID::INSN_UMLAL, getArrangementSpecifiers}},
-            {0b10100, {InstructionID::INSN_MLS, std::bind(getArrangementSpecifiers, true)}},
-            {0b10110, {Q == 0b1 ? InstructionID::INSN_UMLSL2 : InstructionID::INSN_UMLSL, getArrangementSpecifiers}},
-            {0b11010, {Q == 0b1 ? InstructionID::INSN_UMULL2 : InstructionID::INSN_UMULL, getArrangementSpecifiers}},
-            {0b11101, {InstructionID::INSN_SQRDMLAH, std::bind(getArrangementSpecifiers, true)}},
-            {0b11110, {InstructionID::INSN_UDOT, getArrangementSpecifiersDotProd}},
-            {0b11111, {InstructionID::INSN_SQRDMLSH, std::bind(getArrangementSpecifiers, true)}}
+            {0b00010, {Q == 0b1 ? InstructionIdentifier::ID_SMLAL2 : InstructionIdentifier::ID_SMLAL, getArrangementSpecifiers}},
+            {0b00011, {Q == 0b1 ? InstructionIdentifier::ID_SQDMLAL2 : InstructionIdentifier::ID_SQDMLAL, getArrangementSpecifiers}},
+            {0b00110, {Q == 0b1 ? InstructionIdentifier::ID_SMLSL2 : InstructionIdentifier::ID_SMLSL, getArrangementSpecifiers}},
+            {0b00111, {Q == 0b1 ? InstructionIdentifier::ID_SQDMLSL2 : InstructionIdentifier::ID_SQDMLSL, getArrangementSpecifiers}},
+            {0b01000, {InstructionIdentifier::ID_MUL, std::bind(getArrangementSpecifiers, true)}},
+            {0b01010, {Q == 0b1 ? InstructionIdentifier::ID_SMULL2 : InstructionIdentifier::ID_SMULL, getArrangementSpecifiers}},
+            {0b01011, {Q == 0b1 ? InstructionIdentifier::ID_SQDMULL2 : InstructionIdentifier::ID_SQDMULL, getArrangementSpecifiers}},
+            {0b01100, {InstructionIdentifier::ID_SQDMULH, std::bind(getArrangementSpecifiers, true)}},
+            {0b01101, {InstructionIdentifier::ID_SQDRMULH, std::bind(getArrangementSpecifiers, true)}},
+            {0b01110, {InstructionIdentifier::ID_SDOT, getArrangementSpecifiersDotProd}},
+            {0b10001, {InstructionIdentifier::ID_FCMLA, std::bind(getArrangementSpecifiers, true)}},    // rotate
+            {0b10000, {InstructionIdentifier::ID_MLA, std::bind(getArrangementSpecifiers, true)}},
+            {0b10010, {Q == 0b1 ? InstructionIdentifier::ID_UMLAL2 : InstructionIdentifier::ID_UMLAL, getArrangementSpecifiers}},
+            {0b10100, {InstructionIdentifier::ID_MLS, std::bind(getArrangementSpecifiers, true)}},
+            {0b10110, {Q == 0b1 ? InstructionIdentifier::ID_UMLSL2 : InstructionIdentifier::ID_UMLSL, getArrangementSpecifiers}},
+            {0b11010, {Q == 0b1 ? InstructionIdentifier::ID_UMULL2 : InstructionIdentifier::ID_UMULL, getArrangementSpecifiers}},
+            {0b11101, {InstructionIdentifier::ID_SQRDMLAH, std::bind(getArrangementSpecifiers, true)}},
+            {0b11110, {InstructionIdentifier::ID_UDOT, getArrangementSpecifiersDotProd}},
+            {0b11111, {InstructionIdentifier::ID_SQRDMLSH, std::bind(getArrangementSpecifiers, true)}}
         }, insnTableWithSize = {
-            {0b00000000, {InstructionID::INSN_FDOT, getArrangementSpecifiersDotProd}},
-            {0b00000001, {InstructionID::INSN_FMLA, getArrangementSpecifiersHalfPrecision}},
-            {0b00000101, {InstructionID::INSN_FMLS, getArrangementSpecifiersHalfPrecision}},
-            {0b00001001, {InstructionID::INSN_FMUL, getArrangementSpecifiersHalfPrecision}},
-            {0b00001111, {InstructionID::INSN_SUDOT, getArrangementSpecifiersDotProd}},
-            {0b00010000, {InstructionID::INSN_FDOT, getArrangementSpecifiersFP8DOT2}},
-            {0b00011111, {InstructionID::INSN_BFDOT, getArrangementSpecifiersFHMAndBF16}},
-            {0b00100001, {InstructionID::INSN_FMLA, getArrangementSpecifiersSingleAndDoublePrecisions}},
-            {0b00100101, {InstructionID::INSN_FMLS, getArrangementSpecifiersSingleAndDoublePrecisions}},
-            {0b00101001, {InstructionID::INSN_FMUL, getArrangementSpecifiersSingleAndDoublePrecisions}},
-            {0b00100000, {InstructionID::INSN_FMLAL, getArrangementSpecifiersFHMAndBF16}},
-            {0b00100100, {InstructionID::INSN_FMLSL, getArrangementSpecifiersFHMAndBF16}},
-            {0b00101111, {InstructionID::INSN_USDOT, getArrangementSpecifiersDotProd}},
-            {0b00111111, {Q == 0b1 ? InstructionID::INSN_BFMLALT : InstructionID::INSN_BFMLALB, [](void) -> std::expected<std::pair<std::string_view, std::string_view>, disxx::utility::error::DisassemblyError> { return std::make_pair("4s", "8h"); }}},
-            {0b01001001, {InstructionID::INSN_FMULX, getArrangementSpecifiersHalfPrecision}},
-            {0b01101001, {InstructionID::INSN_FMULX, getArrangementSpecifiersSingleAndDoublePrecisions}},
-            {0b01101000, {InstructionID::INSN_FMLAL2, getArrangementSpecifiersFHMAndBF16}},
-            {0b01101100, {InstructionID::INSN_FMLSL2, getArrangementSpecifiersFHMAndBF16}},
-            {0b00110000, {InstructionID::INSN_FMLALB, [](void) -> std::expected<std::pair<std::string_view, std::string_view>, disxx::utility::error::DisassemblyError> { return std::make_pair("8h", "16b"); }}},
-            {0b01001000, {InstructionID::INSN_FMLALLBB, [](void) -> std::expected<std::pair<std::string_view, std::string_view>, disxx::utility::error::DisassemblyError> { return std::make_pair("4s", "16b"); }}},
-            {0b01011000, {InstructionID::INSN_FMLALLBT, [](void) -> std::expected<std::pair<std::string_view, std::string_view>, disxx::utility::error::DisassemblyError> { return std::make_pair("4s", "16b"); }}},
-            {0b10110000, {InstructionID::INSN_FMLALT, [](void) -> std::expected<std::pair<std::string_view, std::string_view>, disxx::utility::error::DisassemblyError> { return std::make_pair("8h", "16b"); }}},
-            {0b11001000, {InstructionID::INSN_FMLALLTB, [](void) -> std::expected<std::pair<std::string_view, std::string_view>, disxx::utility::error::DisassemblyError> { return std::make_pair("4s", "16b"); }}},
-            {0b11011000, {InstructionID::INSN_FMLALLTT, [](void) -> std::expected<std::pair<std::string_view, std::string_view>, disxx::utility::error::DisassemblyError> { return std::make_pair("4s", "16b"); }}}
+            {0b00000000, {InstructionIdentifier::ID_FDOT, getArrangementSpecifiersDotProd}},
+            {0b00000001, {InstructionIdentifier::ID_FMLA, getArrangementSpecifiersHalfPrecision}},
+            {0b00000101, {InstructionIdentifier::ID_FMLS, getArrangementSpecifiersHalfPrecision}},
+            {0b00001001, {InstructionIdentifier::ID_FMUL, getArrangementSpecifiersHalfPrecision}},
+            {0b00001111, {InstructionIdentifier::ID_SUDOT, getArrangementSpecifiersDotProd}},
+            {0b00010000, {InstructionIdentifier::ID_FDOT, getArrangementSpecifiersFP8DOT2}},
+            {0b00011111, {InstructionIdentifier::ID_BFDOT, getArrangementSpecifiersFHMAndBF16}},
+            {0b00100001, {InstructionIdentifier::ID_FMLA, getArrangementSpecifiersSingleAndDoublePrecisions}},
+            {0b00100101, {InstructionIdentifier::ID_FMLS, getArrangementSpecifiersSingleAndDoublePrecisions}},
+            {0b00101001, {InstructionIdentifier::ID_FMUL, getArrangementSpecifiersSingleAndDoublePrecisions}},
+            {0b00100000, {InstructionIdentifier::ID_FMLAL, getArrangementSpecifiersFHMAndBF16}},
+            {0b00100100, {InstructionIdentifier::ID_FMLSL, getArrangementSpecifiersFHMAndBF16}},
+            {0b00101111, {InstructionIdentifier::ID_USDOT, getArrangementSpecifiersDotProd}},
+            {0b00111111, {Q == 0b1 ? InstructionIdentifier::ID_BFMLALT : InstructionIdentifier::ID_BFMLALB, [](void) -> std::expected<std::pair<std::string_view, std::string_view>, disxx::utility::error::DisassemblyError> { return std::make_pair("4s", "8h"); }}},
+            {0b01001001, {InstructionIdentifier::ID_FMULX, getArrangementSpecifiersHalfPrecision}},
+            {0b01101001, {InstructionIdentifier::ID_FMULX, getArrangementSpecifiersSingleAndDoublePrecisions}},
+            {0b01101000, {InstructionIdentifier::ID_FMLAL2, getArrangementSpecifiersFHMAndBF16}},
+            {0b01101100, {InstructionIdentifier::ID_FMLSL2, getArrangementSpecifiersFHMAndBF16}},
+            {0b00110000, {InstructionIdentifier::ID_FMLALB, [](void) -> std::expected<std::pair<std::string_view, std::string_view>, disxx::utility::error::DisassemblyError> { return std::make_pair("8h", "16b"); }}},
+            {0b01001000, {InstructionIdentifier::ID_FMLALLBB, [](void) -> std::expected<std::pair<std::string_view, std::string_view>, disxx::utility::error::DisassemblyError> { return std::make_pair("4s", "16b"); }}},
+            {0b01011000, {InstructionIdentifier::ID_FMLALLBT, [](void) -> std::expected<std::pair<std::string_view, std::string_view>, disxx::utility::error::DisassemblyError> { return std::make_pair("4s", "16b"); }}},
+            {0b10110000, {InstructionIdentifier::ID_FMLALT, [](void) -> std::expected<std::pair<std::string_view, std::string_view>, disxx::utility::error::DisassemblyError> { return std::make_pair("8h", "16b"); }}},
+            {0b11001000, {InstructionIdentifier::ID_FMLALLTB, [](void) -> std::expected<std::pair<std::string_view, std::string_view>, disxx::utility::error::DisassemblyError> { return std::make_pair("4s", "16b"); }}},
+            {0b11011000, {InstructionIdentifier::ID_FMLALLTT, [](void) -> std::expected<std::pair<std::string_view, std::string_view>, disxx::utility::error::DisassemblyError> { return std::make_pair("4s", "16b"); }}}
         };
 
         this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(disxx::disasm::operand::Register::Type::TYPE_NEON, Rd, 128 + 'V'));

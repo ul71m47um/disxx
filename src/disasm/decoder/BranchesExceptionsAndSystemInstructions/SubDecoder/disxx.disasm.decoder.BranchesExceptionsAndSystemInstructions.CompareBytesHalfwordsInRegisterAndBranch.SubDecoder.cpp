@@ -11,7 +11,7 @@ module disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.CompareBytes
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 import disxx.disasm.utility.bits;
 
@@ -69,19 +69,19 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Compa
             }
         };
 
-        std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b0000, InstructionID::INSN_CBBGT},
-            {0b0001, InstructionID::INSN_CBHGT},
-            {0b0010, InstructionID::INSN_CBBGE},
-            {0b0011, InstructionID::INSN_CBHGE},
-            {0b0100, InstructionID::INSN_CBBHI},
-            {0b0101, InstructionID::INSN_CBHHI},
-            {0b0110, InstructionID::INSN_CBBHS},
-            {0b0111, InstructionID::INSN_CBHHS},
-            {0b1100, InstructionID::INSN_CBBEQ},
-            {0b1101, InstructionID::INSN_CBHEQ},
-            {0b1110, InstructionID::INSN_CBBNE},
-            {0b1111, InstructionID::INSN_CBHNE}
+        std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b0000, InstructionIdentifier::ID_CBBGT},
+            {0b0001, InstructionIdentifier::ID_CBHGT},
+            {0b0010, InstructionIdentifier::ID_CBBGE},
+            {0b0011, InstructionIdentifier::ID_CBHGE},
+            {0b0100, InstructionIdentifier::ID_CBBHI},
+            {0b0101, InstructionIdentifier::ID_CBHHI},
+            {0b0110, InstructionIdentifier::ID_CBBHS},
+            {0b0111, InstructionIdentifier::ID_CBHHS},
+            {0b1100, InstructionIdentifier::ID_CBBEQ},
+            {0b1101, InstructionIdentifier::ID_CBHEQ},
+            {0b1110, InstructionIdentifier::ID_CBBNE},
+            {0b1111, InstructionIdentifier::ID_CBHNE}
         };
 
         const unsigned short int encoding = (cc << 1) | H;

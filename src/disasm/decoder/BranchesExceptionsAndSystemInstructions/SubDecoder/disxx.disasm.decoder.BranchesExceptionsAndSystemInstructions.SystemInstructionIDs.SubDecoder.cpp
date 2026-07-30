@@ -12,7 +12,7 @@ import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.SystemOperand;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 import disxx.disasm.utility.bits;
 
@@ -76,9 +76,9 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Syste
 				)
 			);
 
-            const std::unordered_map<unsigned short int, InstructionID> aliasTable = {
-                {0b01101110111001, InstructionID::INSN_GCSPOPM},
-                {0b01101110111011, InstructionID::INSN_GCSSS2}
+            const std::unordered_map<unsigned short int, InstructionIdentifier> aliasTable = {
+                {0b01101110111001, InstructionIdentifier::ID_GCSPOPM},
+                {0b01101110111011, InstructionIdentifier::ID_GCSSS2}
             };
 
             if (auto it{aliasTable.find(encoding)}; it != aliasTable.end())
@@ -89,21 +89,21 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Syste
             this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Immediate<unsigned short int, 4>>(CRm));
             this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Immediate<unsigned short int, 3>>(op2));
 
-            return std::make_pair(InstructionID::INSN_SYSL, std::move(this->m_Operands));
+            return std::make_pair(InstructionIdentifier::ID_SYSL, std::move(this->m_Operands));
         }
         
-        const std::unordered_map<unsigned short int, InstructionID> aliasTable = {
-            {0b11001110000000, InstructionID::INSN_APAS},
-            {0b01101110011100, InstructionID::INSN_CFP},
-            {0b01101110011110, InstructionID::INSN_COSP},
-            {0b01101110011111, InstructionID::INSN_CPP},
-            {0b01101110011101, InstructionID::INSN_DVP},
-            {0b00001110111101, InstructionID::INSN_GCSPOPCX},
-            {0b00001110111110, InstructionID::INSN_GCSPOPX},
-            {0b01101110111000, InstructionID::INSN_GCSPUSHM},
-            {0b00001110111100, InstructionID::INSN_GCSPUSHX},
-            {0b01101110111010, InstructionID::INSN_GCSSS1},
-            {0b01101110010111, InstructionID::INSN_TRCIT}
+        const std::unordered_map<unsigned short int, InstructionIdentifier> aliasTable = {
+            {0b11001110000000, InstructionIdentifier::ID_APAS},
+            {0b01101110011100, InstructionIdentifier::ID_CFP},
+            {0b01101110011110, InstructionIdentifier::ID_COSP},
+            {0b01101110011111, InstructionIdentifier::ID_CPP},
+            {0b01101110011101, InstructionIdentifier::ID_DVP},
+            {0b00001110111101, InstructionIdentifier::ID_GCSPOPCX},
+            {0b00001110111110, InstructionIdentifier::ID_GCSPOPX},
+            {0b01101110111000, InstructionIdentifier::ID_GCSPUSHM},
+            {0b00001110111100, InstructionIdentifier::ID_GCSPUSHX},
+            {0b01101110111010, InstructionIdentifier::ID_GCSSS1},
+            {0b01101110010111, InstructionIdentifier::ID_TRCIT}
         };
 
         if (auto it{aliasTable.find(encoding)}; it != aliasTable.end())
@@ -146,13 +146,13 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Syste
 				)
 			);
         
-            return std::make_pair(InstructionID::INSN_AT, std::move(this->m_Operands));
+            return std::make_pair(InstructionIdentifier::ID_AT, std::move(this->m_Operands));
         }
         else if (op1 == 0b001 && CRn == 0b0111 && CRm == 0b0010 && bits::SysOp(0b001, 0b0111, 0b0010, op2) == 2)
         {
             this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::SystemOperand>(op2));
         
-            return std::make_pair(InstructionID::INSN_BRB, std::move(this->m_Operands));
+            return std::make_pair(InstructionIdentifier::ID_BRB, std::move(this->m_Operands));
         }
         else if (CRn == 0b0111 && bits::SysOp(op1, 0b0111, CRm, op2) == 3)
         {
@@ -166,7 +166,7 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Syste
 				)
 			);
 
-            return std::make_pair(InstructionID::INSN_DC, std::move(this->m_Operands));
+            return std::make_pair(InstructionIdentifier::ID_DC, std::move(this->m_Operands));
         }
         else if (CRn == 0b0111 && bits::SysOp(op1, 0b0111, CRm, op2) == 4)
         {
@@ -180,7 +180,7 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Syste
 				)
 			);
         
-            return std::make_pair(InstructionID::INSN_IC, std::move(this->m_Operands));
+            return std::make_pair(InstructionIdentifier::ID_IC, std::move(this->m_Operands));
         }
         else if ((CRn & ~1) == 0b1000 && bits::SysOp(op1, CRn, CRm, op2) == 5)
         {
@@ -194,7 +194,7 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Syste
 				)
 			);
         
-            return std::make_pair(InstructionID::INSN_TLBI, std::move(this->m_Operands));
+            return std::make_pair(InstructionIdentifier::ID_TLBI, std::move(this->m_Operands));
         }
         
         this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Immediate<unsigned short int, 3>>(op1));
@@ -210,6 +210,6 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Syste
 			)
 		);
 
-        return std::make_pair(InstructionID::INSN_SYSL, std::move(this->m_Operands));
+        return std::make_pair(InstructionIdentifier::ID_SYSL, std::move(this->m_Operands));
 	}
 } /* disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::SystemInstructionIDs */

@@ -11,7 +11,7 @@ module disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.CompareAndBr
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 import disxx.disasm.utility.bits;
 
@@ -81,6 +81,6 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Compa
         this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Immediate<signed long long int, 64>>(imm + this->m_ProgramCounter));
         this->m_ProgramCounterRelevantAddress = std::ref(**this->m_Operands.rbegin());
     
-        return std::make_pair(op ? InstructionID::INSN_CBNZ : InstructionID::INSN_CBZ, std::move(this->m_Operands));
+        return std::make_pair(op ? InstructionIdentifier::ID_CBNZ : InstructionIdentifier::ID_CBZ, std::move(this->m_Operands));
 	}
 } /* disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::CompareAndBranchImmediate */

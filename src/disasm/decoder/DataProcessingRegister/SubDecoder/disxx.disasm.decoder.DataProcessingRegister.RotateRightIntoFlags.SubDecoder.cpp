@@ -11,7 +11,7 @@ module disxx.disasm.decoder.DataProcessingRegister.RotateRightIntoFlags.SubDecod
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 import disxx.disasm.utility.bits;
 
@@ -78,6 +78,6 @@ namespace disxx::disasm::decoder::DataProcessingRegister::RotateRightIntoFlags
         this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Immediate<unsigned short int, 6>>(imm6));
         this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Immediate<unsigned short int, 4>>(mask));
 
-        return std::make_pair(InstructionID::INSN_RMIF, std::move(this->m_Operands));
+        return std::make_pair(InstructionIdentifier::ID_RMIF, std::move(this->m_Operands));
 	}
 } /* disxx::disasm::decoder::DataProcessingRegister::RotateRightIntoFlags */

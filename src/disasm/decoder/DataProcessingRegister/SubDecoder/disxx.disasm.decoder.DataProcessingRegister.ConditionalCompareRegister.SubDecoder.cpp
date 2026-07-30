@@ -12,7 +12,7 @@ import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Condition;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 import disxx.disasm.utility.bits;
 
@@ -68,11 +68,11 @@ namespace disxx::disasm::decoder::DataProcessingRegister::ConditionalCompareRegi
         o3 = bits::extract<unsigned short int, std::uint32_t, 4, 4>(this->m_Insn);
         nzcv = bits::extract<unsigned short int, std::uint32_t, 0, 3>(this->m_Insn);
 
-        static const std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b00100, InstructionID::INSN_CCMN},
-            {0b01100, InstructionID::INSN_CCMP},
-            {0b10100, InstructionID::INSN_CCMN},
-            {0b11100, InstructionID::INSN_CCMP}
+        static const std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b00100, InstructionIdentifier::ID_CCMN},
+            {0b01100, InstructionIdentifier::ID_CCMP},
+            {0b10100, InstructionIdentifier::ID_CCMN},
+            {0b11100, InstructionIdentifier::ID_CCMP}
         };
 
         const unsigned short int encoding = (sf << 4) | (op << 3) | (S << 2) | (o2 << 1) | o3;

@@ -12,7 +12,7 @@ module disxx.disasm.decoder.LoadsAndStores.ExclusiveRegister.SubDecoder;
 import disxx.disasm.operand.LoadsAndStoresAddress;
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 
 namespace disxx::disasm::decoder::LoadsAndStores::ExclusiveRegister
@@ -63,9 +63,9 @@ namespace disxx::disasm::decoder::LoadsAndStores::ExclusiveRegister
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rt = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        static std::array<InstructionID, 4> insnTable = {
-            InstructionID::INSN_STTXR, InstructionID::INSN_STLTXR,
-               InstructionID::INSN_LDTXR, InstructionID::INSN_LDATXR
+        static std::array<InstructionIdentifier, 4> insnTable = {
+            InstructionIdentifier::ID_STTXR, InstructionIdentifier::ID_STLTXR,
+               InstructionIdentifier::ID_LDTXR, InstructionIdentifier::ID_LDATXR
         };
 
 		const auto rtype

@@ -11,7 +11,7 @@ import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
 import disxx.disasm.utility.bits;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 
 namespace
 {
@@ -83,19 +83,19 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Floatin
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         opcode2 = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b00000000000, InstructionID::INSN_FCMP},
-            {0b00000001000, InstructionID::INSN_FCMP},
-            {0b00000010000, InstructionID::INSN_FCMPE},
-            {0b00000011000, InstructionID::INSN_FCMPE},
-            {0b00010000000, InstructionID::INSN_FCMP},
-            {0b00010001000, InstructionID::INSN_FCMP},
-            {0b00010010000, InstructionID::INSN_FCMPE},
-            {0b00010011000, InstructionID::INSN_FCMPE},
-            {0b00110000000, InstructionID::INSN_FCMP},
-            {0b00110001000, InstructionID::INSN_FCMP},
-            {0b00110010000, InstructionID::INSN_FCMPE},
-            {0b00110011000, InstructionID::INSN_FCMPE}
+        std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b00000000000, InstructionIdentifier::ID_FCMP},
+            {0b00000001000, InstructionIdentifier::ID_FCMP},
+            {0b00000010000, InstructionIdentifier::ID_FCMPE},
+            {0b00000011000, InstructionIdentifier::ID_FCMPE},
+            {0b00010000000, InstructionIdentifier::ID_FCMP},
+            {0b00010001000, InstructionIdentifier::ID_FCMP},
+            {0b00010010000, InstructionIdentifier::ID_FCMPE},
+            {0b00010011000, InstructionIdentifier::ID_FCMPE},
+            {0b00110000000, InstructionIdentifier::ID_FCMP},
+            {0b00110001000, InstructionIdentifier::ID_FCMP},
+            {0b00110010000, InstructionIdentifier::ID_FCMPE},
+            {0b00110011000, InstructionIdentifier::ID_FCMPE}
         };
 
         const unsigned short int encoding = (M << 10) | (S << 9) | (ftype << 7) | (op << 5) | opcode2;

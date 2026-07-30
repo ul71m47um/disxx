@@ -11,7 +11,7 @@ module disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.ExceptionGen
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 import disxx.disasm.utility.bits;
 
@@ -61,16 +61,16 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Excep
         op2 = bits::extract<unsigned short int, std::uint32_t, 2, 4>(this->m_Insn);
         LL = bits::extract<unsigned short int, std::uint32_t, 0, 1>(this->m_Insn);
 
-        std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b00000001, InstructionID::INSN_SVC},
-            {0b00000010, InstructionID::INSN_HVC},
-            {0b00000011, InstructionID::INSN_SMC},
-            {0b00100000, InstructionID::INSN_BRK},
-            {0100000000, InstructionID::INSN_HLT},
-            {0b01100000, InstructionID::INSN_TCANCEL},
-            {0b10100001, InstructionID::INSN_DCPS1},
-            {0b10100010, InstructionID::INSN_DCPS2},
-            {0b10100011, InstructionID::INSN_DCPS3}
+        std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b00000001, InstructionIdentifier::ID_SVC},
+            {0b00000010, InstructionIdentifier::ID_HVC},
+            {0b00000011, InstructionIdentifier::ID_SMC},
+            {0b00100000, InstructionIdentifier::ID_BRK},
+            {0100000000, InstructionIdentifier::ID_HLT},
+            {0b01100000, InstructionIdentifier::ID_TCANCEL},
+            {0b10100001, InstructionIdentifier::ID_DCPS1},
+            {0b10100010, InstructionIdentifier::ID_DCPS2},
+            {0b10100011, InstructionIdentifier::ID_DCPS3}
         };
 
         const unsigned short int encoding = (opc << 5) | (op2 << 2) | LL;

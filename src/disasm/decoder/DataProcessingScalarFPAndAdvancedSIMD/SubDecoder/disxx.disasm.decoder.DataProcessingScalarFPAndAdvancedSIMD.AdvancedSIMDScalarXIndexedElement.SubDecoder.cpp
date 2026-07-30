@@ -12,7 +12,7 @@ module disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDSc
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
 import disxx.disasm.utility.bits;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 
 namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::AdvancedSIMDScalarXIndexedElement
 {
@@ -104,25 +104,25 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             }
         };
 
-        std::unordered_map<unsigned short int, std::pair<InstructionID, std::optional<unsigned short int>>> insnTable = {
-            {0b00011, {InstructionID::INSN_SQDMLAL, calcIndexInsnTable()}},
-            {0b00111, {InstructionID::INSN_SQDMLSL, calcIndexInsnTable()}},
-            {0b01011, {InstructionID::INSN_SQDMULL, calcIndexInsnTable()}},
-            {0b01100, {InstructionID::INSN_SQDMULH, calcIndexInsnTable()}},
-            {0b01101, {InstructionID::INSN_SQRDMULH, calcIndexInsnTable()}},
-            {0b11101, {InstructionID::INSN_SQRDMLAH, calcIndexInsnTable()}},
-            {0b11111, {InstructionID::INSN_SQRDMLSH, calcIndexInsnTable()}}
+        std::unordered_map<unsigned short int, std::pair<InstructionIdentifier, std::optional<unsigned short int>>> insnTable = {
+            {0b00011, {InstructionIdentifier::ID_SQDMLAL, calcIndexInsnTable()}},
+            {0b00111, {InstructionIdentifier::ID_SQDMLSL, calcIndexInsnTable()}},
+            {0b01011, {InstructionIdentifier::ID_SQDMULL, calcIndexInsnTable()}},
+            {0b01100, {InstructionIdentifier::ID_SQDMULH, calcIndexInsnTable()}},
+            {0b01101, {InstructionIdentifier::ID_SQRDMULH, calcIndexInsnTable()}},
+            {0b11101, {InstructionIdentifier::ID_SQRDMLAH, calcIndexInsnTable()}},
+            {0b11111, {InstructionIdentifier::ID_SQRDMLSH, calcIndexInsnTable()}}
         };
 
-        std::unordered_map<unsigned short int, std::pair<InstructionID, std::optional<unsigned short int>>> insnTableWithSize = {
-            {0b0000001, {InstructionID::INSN_FMLA, (H << 2) | (L << 1) | M}},
-            {0b0000101, {InstructionID::INSN_FMLS, (H << 2) | (L << 1) | M}},
-            {0b0001001, {InstructionID::INSN_FMUL, (H << 2) | (L << 1) | M}},
-            {0b0100001, {InstructionID::INSN_FMLA, calcIndexInsnTableWithSize()}},
-            {0b0100101, {InstructionID::INSN_FMLS, calcIndexInsnTableWithSize()}},
-            {0b0101001, {InstructionID::INSN_FMUL, calcIndexInsnTableWithSize()}},
-            {0b1001001, {InstructionID::INSN_FMULX, (H << 2) | (L << 1) | M}},
-            {0b1101001, {InstructionID::INSN_FMULX, calcIndexInsnTableWithSize()}}
+        std::unordered_map<unsigned short int, std::pair<InstructionIdentifier, std::optional<unsigned short int>>> insnTableWithSize = {
+            {0b0000001, {InstructionIdentifier::ID_FMLA, (H << 2) | (L << 1) | M}},
+            {0b0000101, {InstructionIdentifier::ID_FMLS, (H << 2) | (L << 1) | M}},
+            {0b0001001, {InstructionIdentifier::ID_FMUL, (H << 2) | (L << 1) | M}},
+            {0b0100001, {InstructionIdentifier::ID_FMLA, calcIndexInsnTableWithSize()}},
+            {0b0100101, {InstructionIdentifier::ID_FMLS, calcIndexInsnTableWithSize()}},
+            {0b0101001, {InstructionIdentifier::ID_FMUL, calcIndexInsnTableWithSize()}},
+            {0b1001001, {InstructionIdentifier::ID_FMULX, (H << 2) | (L << 1) | M}},
+            {0b1101001, {InstructionIdentifier::ID_FMULX, calcIndexInsnTableWithSize()}}
         };
 
         unsigned short int Ts{};

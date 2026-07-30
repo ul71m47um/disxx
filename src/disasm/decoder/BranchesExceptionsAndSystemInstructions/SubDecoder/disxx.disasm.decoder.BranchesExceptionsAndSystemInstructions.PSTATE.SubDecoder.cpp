@@ -12,7 +12,7 @@ import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
 import disxx.disasm.operand.PState;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 import disxx.disasm.utility.bits;
 
@@ -62,10 +62,10 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::PSTAT
         op2 = bits::extract<unsigned short int, std::uint32_t, 5, 7>(this->m_Insn);
         Rt = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b000000, InstructionID::INSN_CFINV},
-            {0b000001, InstructionID::INSN_XAFLAG},
-            {0b000010, InstructionID::INSN_AXFLAG},
+        std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b000000, InstructionIdentifier::ID_CFINV},
+            {0b000001, InstructionIdentifier::ID_XAFLAG},
+            {0b000010, InstructionIdentifier::ID_AXFLAG},
         };
 
         if (Rt != 0b1111) [[unlikely]]
@@ -84,8 +84,8 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::PSTAT
             return std::make_pair
             (
                 (CRm & 0b1) == 0b1
-                    ? InstructionID::INSN_SMSTART
-                    : InstructionID::INSN_SMSTOP,
+                    ? InstructionIdentifier::ID_SMSTART
+                    : InstructionIdentifier::ID_SMSTOP,
                 std::move(this->m_Operands)
             );
         }
@@ -97,6 +97,6 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::PSTAT
 
         this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Immediate<unsigned short int, 4>>(imm));
     
-        return std::make_pair(InstructionID::INSN_MSR, std::move(this->m_Operands));
+        return std::make_pair(InstructionIdentifier::ID_MSR, std::move(this->m_Operands));
 	}
 } /* disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::PSTATE */

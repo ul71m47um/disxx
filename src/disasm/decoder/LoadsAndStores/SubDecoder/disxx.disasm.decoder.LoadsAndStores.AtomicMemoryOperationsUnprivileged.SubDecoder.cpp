@@ -11,7 +11,7 @@ module disxx.disasm.decoder.LoadsAndStores.AtomicMemoryOperationsUnprivileged.Su
 import disxx.disasm.operand.LoadsAndStoresAddress;
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 
 namespace disxx::disasm::decoder::LoadsAndStores::AtomicMemoryOperationsUnprivileged
@@ -64,23 +64,23 @@ namespace disxx::disasm::decoder::LoadsAndStores::AtomicMemoryOperationsUnprivil
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rt = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        const static std::unordered_map<unsigned short int, std::pair<InstructionID, std::optional<InstructionID>>> insnTable = {
-            {0b000000, {InstructionID::INSN_LDTADD, InstructionID::INSN_STTADD}},
-            {0b000001, {InstructionID::INSN_LDTCLR, InstructionID::INSN_STTCLR}},
-            {0b000011, {InstructionID::INSN_LDTSET, InstructionID::INSN_STTSET}},
-            {0b001000, {InstructionID::INSN_SWPT, std::nullopt}},
-            {0b010000, {InstructionID::INSN_LDTADDL, InstructionID::INSN_STTADDL}},
-            {0b010001, {InstructionID::INSN_LDTCLRL, InstructionID::INSN_STTCLRL}},
-            {0b010011, {InstructionID::INSN_LDTSETL, InstructionID::INSN_STTSETL}},
-            {0b011000, {InstructionID::INSN_SWPTL, std::nullopt}},
-            {0b100000, {InstructionID::INSN_LDTADDA, std::nullopt}},
-            {0b100001, {InstructionID::INSN_LDTCLRA, std::nullopt}},
-            {0b100011, {InstructionID::INSN_LDTSETA, std::nullopt}},
-            {0b101000, {InstructionID::INSN_SWPTA, std::nullopt}},
-            {0b110000, {InstructionID::INSN_LDTADDAL, std::nullopt}},
-            {0b110001, {InstructionID::INSN_LDTCLRAL, std::nullopt}},
-            {0b110011, {InstructionID::INSN_LDTSETAL, std::nullopt}},
-            {0b111000, {InstructionID::INSN_SWPTAL, std::nullopt}}
+        const static std::unordered_map<unsigned short int, std::pair<InstructionIdentifier, std::optional<InstructionIdentifier>>> insnTable = {
+            {0b000000, {InstructionIdentifier::ID_LDTADD, InstructionIdentifier::ID_STTADD}},
+            {0b000001, {InstructionIdentifier::ID_LDTCLR, InstructionIdentifier::ID_STTCLR}},
+            {0b000011, {InstructionIdentifier::ID_LDTSET, InstructionIdentifier::ID_STTSET}},
+            {0b001000, {InstructionIdentifier::ID_SWPT, std::nullopt}},
+            {0b010000, {InstructionIdentifier::ID_LDTADDL, InstructionIdentifier::ID_STTADDL}},
+            {0b010001, {InstructionIdentifier::ID_LDTCLRL, InstructionIdentifier::ID_STTCLRL}},
+            {0b010011, {InstructionIdentifier::ID_LDTSETL, InstructionIdentifier::ID_STTSETL}},
+            {0b011000, {InstructionIdentifier::ID_SWPTL, std::nullopt}},
+            {0b100000, {InstructionIdentifier::ID_LDTADDA, std::nullopt}},
+            {0b100001, {InstructionIdentifier::ID_LDTCLRA, std::nullopt}},
+            {0b100011, {InstructionIdentifier::ID_LDTSETA, std::nullopt}},
+            {0b101000, {InstructionIdentifier::ID_SWPTA, std::nullopt}},
+            {0b110000, {InstructionIdentifier::ID_LDTADDAL, std::nullopt}},
+            {0b110001, {InstructionIdentifier::ID_LDTCLRAL, std::nullopt}},
+            {0b110011, {InstructionIdentifier::ID_LDTSETAL, std::nullopt}},
+            {0b111000, {InstructionIdentifier::ID_SWPTAL, std::nullopt}}
         };
 
         this->m_Operands.emplace_back

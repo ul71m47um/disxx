@@ -10,7 +10,7 @@ module disxx.disasm.decoder.DataProcessingRegister.AddSubstractWithCarry.SubDeco
 
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 import disxx.disasm.utility.bits;
 
@@ -63,15 +63,15 @@ namespace disxx::disasm::decoder::DataProcessingRegister::AddSubstractWithCarry
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        static const std::unordered_map<unsigned short int, std::pair<InstructionID, std::optional<InstructionID>>> insnTable = {
-            {0b000, {InstructionID::INSN_ADC, std::nullopt}},
-            {0b001, {InstructionID::INSN_ADCS, std::nullopt}},
-            {0b010, {InstructionID::INSN_SBC, InstructionID::INSN_NGC}},
-            {0b011, {InstructionID::INSN_SBCS, InstructionID::INSN_NGCS}},
-            {0b100, {InstructionID::INSN_ADC, std::nullopt}},
-            {0b101, {InstructionID::INSN_ADCS, std::nullopt}},
-            {0b110, {InstructionID::INSN_SBC, std::nullopt}},
-            {0b111, {InstructionID::INSN_SBCS, std::nullopt}}
+        static const std::unordered_map<unsigned short int, std::pair<InstructionIdentifier, std::optional<InstructionIdentifier>>> insnTable = {
+            {0b000, {InstructionIdentifier::ID_ADC, std::nullopt}},
+            {0b001, {InstructionIdentifier::ID_ADCS, std::nullopt}},
+            {0b010, {InstructionIdentifier::ID_SBC, InstructionIdentifier::ID_NGC}},
+            {0b011, {InstructionIdentifier::ID_SBCS, InstructionIdentifier::ID_NGCS}},
+            {0b100, {InstructionIdentifier::ID_ADC, std::nullopt}},
+            {0b101, {InstructionIdentifier::ID_ADCS, std::nullopt}},
+            {0b110, {InstructionIdentifier::ID_SBC, std::nullopt}},
+            {0b111, {InstructionIdentifier::ID_SBCS, std::nullopt}}
         };
 
         const unsigned short int encoding = (sf << 2) | (op << 1) | S;

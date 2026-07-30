@@ -18,16 +18,21 @@ module;
 #include <tuple>
 #include <array>
 
+#include <print>
+
 #define MKHEX(x) (std::format("{:#x}", (x)))
 
 module Application;
 
 import disxx.utility.ini.Parser;
-
 import disxx.utility.error.NullPointerError;
+
 import disxx.loader.executable.ExecutableFile;
 import disxx.loader.macho.Loader;
+
 import disxx.disasm.Disassembler;
+import disxx.disasm.Printer;
+
 import disxx.ui.backend.GLUTContext;
 import disxx.ui.SourceEditor;
 import disxx.ui.TabbedPane;
@@ -38,6 +43,7 @@ import disxx.ui.Label;
 import disxx.ui.Frame;
 import disxx.ui.Menu;
 import disxx.ui.Widget;
+
 import ScriptEngine;
 import FileInput;
 import DisLog;
@@ -105,7 +111,7 @@ void Application::Disassemble(const std::filesystem::path &path) noexcept(false)
 			}
 		).or_else
 		(
-			[&editor](void) -> std::optional<long long int>
+			[&editor] -> std::optional<long long int>
 			{
 				editor.AddLine("\tImage base: unknown");
 				return std::nullopt; 
@@ -173,13 +179,17 @@ void Application::Disassemble(const std::filesystem::path &path) noexcept(false)
 				};
 	   		    for (disxx::disasm::Address addr{label.GetAddress()}; const auto &bytes : vec)
     		    {
+					std::println("{}", bytes);
 					if (const auto &insn{disasm.Disassemble(bytes, addr++)}) [[likely]]
 					{
 						auto mnemonic
 						{
-							[&insn](void) -> std::string
+							[&insn] -> std::string
 							{
-								auto str{std::format("{}", *insn)};
+								std::string str{};
+								disxx::disasm::Printer<std::back_insert_iterator<std::string>> printer{std::back_inserter(str)};
+								printer.Print(*insn);
+								std::println("{}", str);
 								
 								static const std::regex regs{R"(((b|h|s|d|q|v|w|x)\d{1,2})|(sp)|((w|x)zr))"};
 								for (std::sregex_iterator it{str.begin(), str.end(), regs}, end{}; it != end; ++it)

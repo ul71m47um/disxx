@@ -10,7 +10,7 @@ module disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemInstru
 
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 import disxx.disasm.utility.bits;
 
@@ -74,8 +74,8 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Syste
         return std::make_pair
         (
             op2 == 0b000
-                ? InstructionID::INSN_WFET
-                : InstructionID::INSN_WFIR,
+                ? InstructionIdentifier::ID_WFET
+                : InstructionIdentifier::ID_WFIR,
             std::move(this->m_Operands)
         );
 	}

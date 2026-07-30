@@ -11,7 +11,7 @@ module disxx.disasm.decoder.DataProcessingImmediate.LogicalImmediate.SubDecoder;
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 
 namespace disxx::disasm::decoder::DataProcessingImmediate::LogicalImmediate
@@ -63,15 +63,15 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::LogicalImmediate
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        static const std::unordered_map<unsigned short int, std::pair<InstructionID, std::optional<InstructionID>>> insnTable = {
-            {0b0000, {InstructionID::INSN_AND, std::nullopt}},
-            {0b0010, {InstructionID::INSN_ORR, InstructionID::INSN_MOV}},
-            {0b0100, {InstructionID::INSN_EOR, std::nullopt}},
-            {0b0110, {InstructionID::INSN_ANDS, InstructionID::INSN_TST}},
-            {0b1000, {InstructionID::INSN_AND, std::nullopt}},
-            {0b1010, {InstructionID::INSN_ORR, InstructionID::INSN_MOV}},
-            {0b1100, {InstructionID::INSN_EOR, std::nullopt}},
-            {0b1110, {InstructionID::INSN_ANDS, InstructionID::INSN_TST}}
+        static const std::unordered_map<unsigned short int, std::pair<InstructionIdentifier, std::optional<InstructionIdentifier>>> insnTable = {
+            {0b0000, {InstructionIdentifier::ID_AND, std::nullopt}},
+            {0b0010, {InstructionIdentifier::ID_ORR, InstructionIdentifier::ID_MOV}},
+            {0b0100, {InstructionIdentifier::ID_EOR, std::nullopt}},
+            {0b0110, {InstructionIdentifier::ID_ANDS, InstructionIdentifier::ID_TST}},
+            {0b1000, {InstructionIdentifier::ID_AND, std::nullopt}},
+            {0b1010, {InstructionIdentifier::ID_ORR, InstructionIdentifier::ID_MOV}},
+            {0b1100, {InstructionIdentifier::ID_EOR, std::nullopt}},
+            {0b1110, {InstructionIdentifier::ID_ANDS, InstructionIdentifier::ID_TST}}
         };
 
         const unsigned short int encoding = (sf << 3) | (opc << 2) | (sf == 0b1 ? 0 : N);

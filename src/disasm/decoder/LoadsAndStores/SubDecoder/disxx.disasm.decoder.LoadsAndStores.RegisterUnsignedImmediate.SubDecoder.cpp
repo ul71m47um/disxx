@@ -14,7 +14,7 @@ import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.PrefetchOperand;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 
 namespace disxx::disasm::decoder::LoadsAndStores::RegisterUnsignedImmediate
@@ -73,31 +73,31 @@ namespace disxx::disasm::decoder::LoadsAndStores::RegisterUnsignedImmediate
         */
 
 
-        std::unordered_map<unsigned short int, std::tuple<InstructionID, disxx::disasm::operand::Register::Type, unsigned short int>> insnTable = {
+        std::unordered_map<unsigned short int, std::tuple<InstructionIdentifier, disxx::disasm::operand::Register::Type, unsigned short int>> insnTable = {
         //  |encoding|mnemonic|register size|data size (already in bytes)|
-            {0b00000, {InstructionID::INSN_STRB, disxx::disasm::operand::Register::Type::TYPE_W, 1}},
-            {0b00001, {InstructionID::INSN_LDRB, disxx::disasm::operand::Register::Type::TYPE_W, 1}},
-            {0b00010, {InstructionID::INSN_LDRSB, disxx::disasm::operand::Register::Type::TYPE_X, 1}},
-            {0b00011, {InstructionID::INSN_LDRSB, disxx::disasm::operand::Register::Type::TYPE_W, 1}},
-            {0b00100, {InstructionID::INSN_STR, disxx::disasm::operand::Register::Type::TYPE_B, 1}},
-            {0b00101, {InstructionID::INSN_LDR, disxx::disasm::operand::Register::Type::TYPE_B, 1}},
-            {0b00110, {InstructionID::INSN_STR, disxx::disasm::operand::Register::Type::TYPE_Q, 16}},
-            {0b00111, {InstructionID::INSN_LDR, disxx::disasm::operand::Register::Type::TYPE_Q, 16}},
-            {0b01000, {InstructionID::INSN_STRH, disxx::disasm::operand::Register::Type::TYPE_W, 2}},
-            {0b01001, {InstructionID::INSN_LDRH, disxx::disasm::operand::Register::Type::TYPE_W, 2}},
-            {0b01010, {InstructionID::INSN_LDRSH, disxx::disasm::operand::Register::Type::TYPE_X, 2}},
-            {0b01011, {InstructionID::INSN_LDRSH, disxx::disasm::operand::Register::Type::TYPE_W, 2}},
-            {0b01100, {InstructionID::INSN_STR, disxx::disasm::operand::Register::Type::TYPE_H, 2}},
-            {0b01101, {InstructionID::INSN_LDR, disxx::disasm::operand::Register::Type::TYPE_H, 2}},
-            {0b10000, {InstructionID::INSN_STR, disxx::disasm::operand::Register::Type::TYPE_W, 4}},
-            {0b10001, {InstructionID::INSN_LDR, disxx::disasm::operand::Register::Type::TYPE_W, 4}},
-            {0b10010, {InstructionID::INSN_LDRSW, disxx::disasm::operand::Register::Type::TYPE_X, 4}},
-            {0b10100, {InstructionID::INSN_STR, disxx::disasm::operand::Register::Type::TYPE_S, 4}},
-            {0b10101, {InstructionID::INSN_LDR, disxx::disasm::operand::Register::Type::TYPE_S, 4}},
-            {0b11000, {InstructionID::INSN_STR, disxx::disasm::operand::Register::Type::TYPE_X, 8}},
-            {0b11001, {InstructionID::INSN_LDR, disxx::disasm::operand::Register::Type::TYPE_X, 8}},
-            {0b11100, {InstructionID::INSN_STR, disxx::disasm::operand::Register::Type::TYPE_D, 8}},
-            {0b11101, {InstructionID::INSN_LDR, disxx::disasm::operand::Register::Type::TYPE_D, 8}}
+            {0b00000, {InstructionIdentifier::ID_STRB, disxx::disasm::operand::Register::Type::TYPE_W, 1}},
+            {0b00001, {InstructionIdentifier::ID_LDRB, disxx::disasm::operand::Register::Type::TYPE_W, 1}},
+            {0b00010, {InstructionIdentifier::ID_LDRSB, disxx::disasm::operand::Register::Type::TYPE_X, 1}},
+            {0b00011, {InstructionIdentifier::ID_LDRSB, disxx::disasm::operand::Register::Type::TYPE_W, 1}},
+            {0b00100, {InstructionIdentifier::ID_STR, disxx::disasm::operand::Register::Type::TYPE_B, 1}},
+            {0b00101, {InstructionIdentifier::ID_LDR, disxx::disasm::operand::Register::Type::TYPE_B, 1}},
+            {0b00110, {InstructionIdentifier::ID_STR, disxx::disasm::operand::Register::Type::TYPE_Q, 16}},
+            {0b00111, {InstructionIdentifier::ID_LDR, disxx::disasm::operand::Register::Type::TYPE_Q, 16}},
+            {0b01000, {InstructionIdentifier::ID_STRH, disxx::disasm::operand::Register::Type::TYPE_W, 2}},
+            {0b01001, {InstructionIdentifier::ID_LDRH, disxx::disasm::operand::Register::Type::TYPE_W, 2}},
+            {0b01010, {InstructionIdentifier::ID_LDRSH, disxx::disasm::operand::Register::Type::TYPE_X, 2}},
+            {0b01011, {InstructionIdentifier::ID_LDRSH, disxx::disasm::operand::Register::Type::TYPE_W, 2}},
+            {0b01100, {InstructionIdentifier::ID_STR, disxx::disasm::operand::Register::Type::TYPE_H, 2}},
+            {0b01101, {InstructionIdentifier::ID_LDR, disxx::disasm::operand::Register::Type::TYPE_H, 2}},
+            {0b10000, {InstructionIdentifier::ID_STR, disxx::disasm::operand::Register::Type::TYPE_W, 4}},
+            {0b10001, {InstructionIdentifier::ID_LDR, disxx::disasm::operand::Register::Type::TYPE_W, 4}},
+            {0b10010, {InstructionIdentifier::ID_LDRSW, disxx::disasm::operand::Register::Type::TYPE_X, 4}},
+            {0b10100, {InstructionIdentifier::ID_STR, disxx::disasm::operand::Register::Type::TYPE_S, 4}},
+            {0b10101, {InstructionIdentifier::ID_LDR, disxx::disasm::operand::Register::Type::TYPE_S, 4}},
+            {0b11000, {InstructionIdentifier::ID_STR, disxx::disasm::operand::Register::Type::TYPE_X, 8}},
+            {0b11001, {InstructionIdentifier::ID_LDR, disxx::disasm::operand::Register::Type::TYPE_X, 8}},
+            {0b11100, {InstructionIdentifier::ID_STR, disxx::disasm::operand::Register::Type::TYPE_D, 8}},
+            {0b11101, {InstructionIdentifier::ID_LDR, disxx::disasm::operand::Register::Type::TYPE_D, 8}}
         };
 
         unsigned short int encoding = (size << 3) | (VR << 2) | opc;
@@ -155,6 +155,6 @@ namespace disxx::disasm::decoder::LoadsAndStores::RegisterUnsignedImmediate
 			);
         }
 
-		return std::make_pair(InstructionID::INSN_PRFM, std::move(this->m_Operands));
+		return std::make_pair(InstructionIdentifier::ID_PRFM, std::move(this->m_Operands));
 	}
 } /* disxx::disasm::decoder::LoadsAndStores::RegisterUnsignedImmediate */

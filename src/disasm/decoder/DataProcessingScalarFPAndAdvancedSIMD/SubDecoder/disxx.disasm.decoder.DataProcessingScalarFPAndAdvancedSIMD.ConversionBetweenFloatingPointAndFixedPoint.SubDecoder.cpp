@@ -11,7 +11,7 @@ import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
 import disxx.disasm.utility.bits;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 
 namespace
 {
@@ -84,31 +84,31 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Convers
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b000000010, InstructionID::INSN_SCVTF},
-            {0b000000011, InstructionID::INSN_UCVTF},
-            {0b000011000, InstructionID::INSN_FCVTZS},
-            {0b000011001, InstructionID::INSN_FCVTZU},
-            {0b000100010, InstructionID::INSN_SCVTF},
-            {0b000100011, InstructionID::INSN_UCVTF},
-            {0b000111000, InstructionID::INSN_FCVTZS},
-            {0b000111001, InstructionID::INSN_FCVTZU},
-            {0b001100010, InstructionID::INSN_SCVTF},
-            {0b001100011, InstructionID::INSN_UCVTF},
-            {0b001111000, InstructionID::INSN_FCVTZS},
-            {0b001111001, InstructionID::INSN_FCVTZU},
-            {0b100000010, InstructionID::INSN_SCVTF},
-            {0b100000011, InstructionID::INSN_UCVTF},
-            {0b100011000, InstructionID::INSN_FCVTZS},
-            {0b110011001, InstructionID::INSN_FCVTZU},
-            {0b100100010, InstructionID::INSN_SCVTF},
-            {0b100100011, InstructionID::INSN_UCVTF},
-            {0b100111000, InstructionID::INSN_FCVTZS},
-            {0b100111001, InstructionID::INSN_FCVTZU},
-            {0b101100010, InstructionID::INSN_SCVTF},
-            {0b101100011, InstructionID::INSN_UCVTF},
-            {0b101111000, InstructionID::INSN_FCVTZS},
-            {0b101111001, InstructionID::INSN_UCVTZS}
+        std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b000000010, InstructionIdentifier::ID_SCVTF},
+            {0b000000011, InstructionIdentifier::ID_UCVTF},
+            {0b000011000, InstructionIdentifier::ID_FCVTZS},
+            {0b000011001, InstructionIdentifier::ID_FCVTZU},
+            {0b000100010, InstructionIdentifier::ID_SCVTF},
+            {0b000100011, InstructionIdentifier::ID_UCVTF},
+            {0b000111000, InstructionIdentifier::ID_FCVTZS},
+            {0b000111001, InstructionIdentifier::ID_FCVTZU},
+            {0b001100010, InstructionIdentifier::ID_SCVTF},
+            {0b001100011, InstructionIdentifier::ID_UCVTF},
+            {0b001111000, InstructionIdentifier::ID_FCVTZS},
+            {0b001111001, InstructionIdentifier::ID_FCVTZU},
+            {0b100000010, InstructionIdentifier::ID_SCVTF},
+            {0b100000011, InstructionIdentifier::ID_UCVTF},
+            {0b100011000, InstructionIdentifier::ID_FCVTZS},
+            {0b110011001, InstructionIdentifier::ID_FCVTZU},
+            {0b100100010, InstructionIdentifier::ID_SCVTF},
+            {0b100100011, InstructionIdentifier::ID_UCVTF},
+            {0b100111000, InstructionIdentifier::ID_FCVTZS},
+            {0b100111001, InstructionIdentifier::ID_FCVTZU},
+            {0b101100010, InstructionIdentifier::ID_SCVTF},
+            {0b101100011, InstructionIdentifier::ID_UCVTF},
+            {0b101111000, InstructionIdentifier::ID_FCVTZS},
+            {0b101111001, InstructionIdentifier::ID_UCVTZS}
         };
 
         const unsigned short int encoding = (sf << 8) | (S << 7) | (ftype << 5) | (rmode << 3) | opcode;

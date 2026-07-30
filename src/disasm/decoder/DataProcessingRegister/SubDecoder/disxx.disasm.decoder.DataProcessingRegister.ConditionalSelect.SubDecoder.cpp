@@ -12,7 +12,7 @@ module disxx.disasm.decoder.DataProcessingRegister.ConditionalSelect.SubDecoder;
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Condition;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 import disxx.disasm.utility.bits;
 
@@ -69,47 +69,47 @@ namespace disxx::disasm::decoder::DataProcessingRegister::ConditionalSelect
 
         const auto csincAlias
         {
-            [Rm, Rn, cond](void) -> std::optional<InstructionID>
+            [Rm, Rn, cond](void) -> std::optional<InstructionIdentifier>
             {
                 if (Rm != 0b11111 && Rn != 0b11111 && (cond & ~0b1) != 0b1110 && Rn == Rm)
-                    return InstructionID::INSN_CINC;
+                    return InstructionIdentifier::ID_CINC;
                 else if (Rm == 0b11111 && Rn == 0b11111 && (cond & ~0b1) != 0b1110)
-                    return InstructionID::INSN_CSET;
+                    return InstructionIdentifier::ID_CSET;
                 return std::nullopt;
             }
         };
 
         const auto csinvAlias
         {
-            [Rm, Rn, cond](void) -> std::optional<InstructionID>
+            [Rm, Rn, cond](void) -> std::optional<InstructionIdentifier>
             {
                 if (Rm != 0b11111 && Rn != 0b11111 && (cond & ~0b1) != 0b1110 && Rn == Rm)
-                    return InstructionID::INSN_CINV;
+                    return InstructionIdentifier::ID_CINV;
                 else if (Rm == 0b11111 && Rn == 0b11111 && (cond & ~0b1) != 0b1110)
-                    return InstructionID::INSN_CSETM;
+                    return InstructionIdentifier::ID_CSETM;
                 return std::nullopt;
             }
         };
 
         const auto csnegAlias
         {
-            [Rm, Rn, cond](void) -> std::optional<InstructionID>
+            [Rm, Rn, cond](void) -> std::optional<InstructionIdentifier>
             {
                 if ((cond & ~0b1) != 0b1110 && Rn == Rm)
-                    return InstructionID::INSN_CNEG;
+                    return InstructionIdentifier::ID_CNEG;
                 return std::nullopt;
             }
         };
 
-        std::unordered_map<unsigned short int, std::pair<InstructionID, std::function<std::optional<InstructionID>(void)>>> insnTable = {
-            {0b00000, {InstructionID::INSN_CSEL, [] -> std::optional<InstructionID> { return std::nullopt; }}},
-            {0b00001, {InstructionID::INSN_CSINC, csincAlias}},
-            {0b01000, {InstructionID::INSN_CSINV, csinvAlias}},
-            {0b01001, {InstructionID::INSN_CSNEG, csnegAlias}},
-            {0b10000, {InstructionID::INSN_CSEL, [] -> std::optional<InstructionID> { return std::nullopt; }}},
-            {0b10001, {InstructionID::INSN_CSINC, csincAlias}},
-            {0b11000, {InstructionID::INSN_CSINV, csinvAlias}},
-            {0b11001, {InstructionID::INSN_CSNEG, csnegAlias}}
+        std::unordered_map<unsigned short int, std::pair<InstructionIdentifier, std::function<std::optional<InstructionIdentifier>(void)>>> insnTable = {
+            {0b00000, {InstructionIdentifier::ID_CSEL, [] -> std::optional<InstructionIdentifier> { return std::nullopt; }}},
+            {0b00001, {InstructionIdentifier::ID_CSINC, csincAlias}},
+            {0b01000, {InstructionIdentifier::ID_CSINV, csinvAlias}},
+            {0b01001, {InstructionIdentifier::ID_CSNEG, csnegAlias}},
+            {0b10000, {InstructionIdentifier::ID_CSEL, [] -> std::optional<InstructionIdentifier> { return std::nullopt; }}},
+            {0b10001, {InstructionIdentifier::ID_CSINC, csincAlias}},
+            {0b11000, {InstructionIdentifier::ID_CSINV, csinvAlias}},
+            {0b11001, {InstructionIdentifier::ID_CSNEG, csnegAlias}}
         };
 
         const unsigned short int encoding = (sf << 4) | (op << 3) | (S << 2) | op2;

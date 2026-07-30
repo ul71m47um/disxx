@@ -12,7 +12,7 @@ import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
 import disxx.disasm.operand.Shift;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 
 namespace disxx::disasm::decoder::DataProcessingImmediate::MoveWideImmediate
@@ -62,13 +62,13 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::MoveWideImmediate
         imm16 = bits::extract<unsigned short int, std::uint32_t, 5, 20>(this->m_Insn);
         Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        static std::unordered_map<unsigned short int, std::pair<InstructionID, std::optional<InstructionID>>> insnTable = {
-            {0b00000, {InstructionID::INSN_MOVN, InstructionID::INSN_MOV}},
-            {0b01000, {InstructionID::INSN_MOVZ, InstructionID::INSN_MOV}},
-            {0b01100, {InstructionID::INSN_MOVK, std::nullopt}},
-            {0b10000, {InstructionID::INSN_MOVN, InstructionID::INSN_MOV}},
-            {0b11000, {InstructionID::INSN_MOVZ, InstructionID::INSN_MOV}},
-            {0b11100, {InstructionID::INSN_MOVK, std::nullopt}}
+        static std::unordered_map<unsigned short int, std::pair<InstructionIdentifier, std::optional<InstructionIdentifier>>> insnTable = {
+            {0b00000, {InstructionIdentifier::ID_MOVN, InstructionIdentifier::ID_MOV}},
+            {0b01000, {InstructionIdentifier::ID_MOVZ, InstructionIdentifier::ID_MOV}},
+            {0b01100, {InstructionIdentifier::ID_MOVK, std::nullopt}},
+            {0b10000, {InstructionIdentifier::ID_MOVN, InstructionIdentifier::ID_MOV}},
+            {0b11000, {InstructionIdentifier::ID_MOVZ, InstructionIdentifier::ID_MOV}},
+            {0b11100, {InstructionIdentifier::ID_MOVK, std::nullopt}}
         };
 
         const unsigned short int encoding = (sf << 4) | (opc << 2) | (sf == 0b1 ? 0b00 : (hw & ~1));

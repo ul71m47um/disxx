@@ -11,7 +11,7 @@ module disxx.disasm.decoder.LoadsAndStores.OneHundredAndTwentyEightBitAtomicMemo
 import disxx.disasm.operand.LoadsAndStoresAddress;
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 
 namespace disxx::disasm::decoder::LoadsAndStores::OneHundredAndTwentyEightBitAtomicMemoryOperations
@@ -64,43 +64,43 @@ namespace disxx::disasm::decoder::LoadsAndStores::OneHundredAndTwentyEightBitAto
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rt = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        static const std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b0000001, InstructionID::INSN_LDCLRP},
-            {0b0000011, InstructionID::INSN_LDSETP},
-            {0b0001000, InstructionID::INSN_SWPP},
-            {0b0001001, InstructionID::INSN_RCWCLRP},
-            {0b0001010, InstructionID::INSN_RCWSWPP},
-            {0b0001011, InstructionID::INSN_RCWSETP},
-            {0b0010001, InstructionID::INSN_LDCLRPL},
-            {0b0010011, InstructionID::INSN_LDSETPL},
-            {0b0011000, InstructionID::INSN_SWPPL},
-            {0b0011001, InstructionID::INSN_RCWCLRPL},
-            {0b0011010, InstructionID::INSN_RCWSWPPL},
-            {0b0011011, InstructionID::INSN_RCWSETPL},
-            {0b0100001, InstructionID::INSN_LDCLRPA},
-            {0b0100011, InstructionID::INSN_LDSETPA},
-            {0b0101000, InstructionID::INSN_SWPPA},
-            {0b0101001, InstructionID::INSN_RCWCLRPA},
-            {0b0101010, InstructionID::INSN_RCWSWPPA},
-            {0b0101011, InstructionID::INSN_RCWSETPA},
-            {0b0110001, InstructionID::INSN_LDCLRPAL},
-            {0b0110011, InstructionID::INSN_LDSETPAL},
-            {0b0111000, InstructionID::INSN_SWPPAL},
-            {0b0111001, InstructionID::INSN_RCWCLRPAL},
-            {0b0111010, InstructionID::INSN_RCWSWPPAL},
-            {0b0111011, InstructionID::INSN_RCWSETPAL},
-            {0b1001001, InstructionID::INSN_RCWSCLRP},
-            {0b1001010, InstructionID::INSN_RCWSSWPP},
-            {0b1001011, InstructionID::INSN_RCWSSETP},
-            {0b1011001, InstructionID::INSN_RCWSCLRPL},
-            {0b1011010, InstructionID::INSN_RCWSSWPPL},
-            {0b1011011, InstructionID::INSN_RCWSSETPL},
-            {0b1101001, InstructionID::INSN_RCWSCLRPA},
-            {0b1101010, InstructionID::INSN_RCWSSWPPA},
-            {0b1101011, InstructionID::INSN_RCWSSETPA},
-            {0b1111001, InstructionID::INSN_RCWSCLRPAL},
-            {0b1111010, InstructionID::INSN_RCWSSWPPAL},
-            {0b1111011, InstructionID::INSN_RCWSSETPAL}
+        static const std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b0000001, InstructionIdentifier::ID_LDCLRP},
+            {0b0000011, InstructionIdentifier::ID_LDSETP},
+            {0b0001000, InstructionIdentifier::ID_SWPP},
+            {0b0001001, InstructionIdentifier::ID_RCWCLRP},
+            {0b0001010, InstructionIdentifier::ID_RCWSWPP},
+            {0b0001011, InstructionIdentifier::ID_RCWSETP},
+            {0b0010001, InstructionIdentifier::ID_LDCLRPL},
+            {0b0010011, InstructionIdentifier::ID_LDSETPL},
+            {0b0011000, InstructionIdentifier::ID_SWPPL},
+            {0b0011001, InstructionIdentifier::ID_RCWCLRPL},
+            {0b0011010, InstructionIdentifier::ID_RCWSWPPL},
+            {0b0011011, InstructionIdentifier::ID_RCWSETPL},
+            {0b0100001, InstructionIdentifier::ID_LDCLRPA},
+            {0b0100011, InstructionIdentifier::ID_LDSETPA},
+            {0b0101000, InstructionIdentifier::ID_SWPPA},
+            {0b0101001, InstructionIdentifier::ID_RCWCLRPA},
+            {0b0101010, InstructionIdentifier::ID_RCWSWPPA},
+            {0b0101011, InstructionIdentifier::ID_RCWSETPA},
+            {0b0110001, InstructionIdentifier::ID_LDCLRPAL},
+            {0b0110011, InstructionIdentifier::ID_LDSETPAL},
+            {0b0111000, InstructionIdentifier::ID_SWPPAL},
+            {0b0111001, InstructionIdentifier::ID_RCWCLRPAL},
+            {0b0111010, InstructionIdentifier::ID_RCWSWPPAL},
+            {0b0111011, InstructionIdentifier::ID_RCWSETPAL},
+            {0b1001001, InstructionIdentifier::ID_RCWSCLRP},
+            {0b1001010, InstructionIdentifier::ID_RCWSSWPP},
+            {0b1001011, InstructionIdentifier::ID_RCWSSETP},
+            {0b1011001, InstructionIdentifier::ID_RCWSCLRPL},
+            {0b1011010, InstructionIdentifier::ID_RCWSSWPPL},
+            {0b1011011, InstructionIdentifier::ID_RCWSSETPL},
+            {0b1101001, InstructionIdentifier::ID_RCWSCLRPA},
+            {0b1101010, InstructionIdentifier::ID_RCWSSWPPA},
+            {0b1101011, InstructionIdentifier::ID_RCWSSETPA},
+            {0b1111001, InstructionIdentifier::ID_RCWSCLRPAL},
+            {0b1111010, InstructionIdentifier::ID_RCWSSWPPAL},
+            {0b1111011, InstructionIdentifier::ID_RCWSSETPAL}
         };
 
         const unsigned short int encoding = (S << 6) | (A << 5) | (R << 4) | (o3 << 3) | opc;

@@ -12,7 +12,7 @@ import disxx.disasm.operand.LoadsAndStoresAddress;
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 
 namespace disxx::disasm::decoder::LoadsAndStores::LDIAPPSTILP
@@ -71,7 +71,7 @@ namespace disxx::disasm::decoder::LoadsAndStores::LDIAPPSTILP
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
         else if ((size & 0b10) == 0b10 && (opc2 & 0b1000) == 0b1000) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
-        const auto insn{L == 0b0 ? InstructionID::INSN_STILP : InstructionID::INSN_LDIAPP};
+        const auto insn{L == 0b0 ? InstructionIdentifier::ID_STILP : InstructionIdentifier::ID_LDIAPP};
    
 		const disxx::disasm::operand::Register::Type rtype
 		{

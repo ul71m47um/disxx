@@ -11,7 +11,7 @@ module disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.TestAndBranc
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 import disxx.disasm.utility.bits;
 
@@ -82,6 +82,6 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::TestA
 			)
 		);
     
-        return std::make_pair(op ? InstructionID::INSN_TBNZ : InstructionID::INSN_TBZ, std::move(this->m_Operands));
+        return std::make_pair(op ? InstructionIdentifier::ID_TBNZ : InstructionIdentifier::ID_TBZ, std::move(this->m_Operands));
 	}
 } /* disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::TestAndBranchImmediate */

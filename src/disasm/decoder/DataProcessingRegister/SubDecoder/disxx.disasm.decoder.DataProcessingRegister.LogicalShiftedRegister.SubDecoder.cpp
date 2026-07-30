@@ -12,7 +12,7 @@ module disxx.disasm.decoder.DataProcessingRegister.LogicalShiftedRegister.SubDec
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
 import disxx.disasm.operand.Shift;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 import disxx.disasm.utility.bits;
 
@@ -67,23 +67,23 @@ namespace disxx::disasm::decoder::DataProcessingRegister::LogicalShiftedRegister
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        static const std::unordered_map<unsigned short int, std::pair<InstructionID, std::optional<InstructionID>>> insnTable = {
-            {0b0000, {InstructionID::INSN_AND, std::nullopt}},
-            {0b0001, {InstructionID::INSN_BIC, std::nullopt}},
-            {0b0010, {InstructionID::INSN_ORR, InstructionID::INSN_MOV}},
-            {0b0011, {InstructionID::INSN_ORN, InstructionID::INSN_MVN}},
-            {0b0100, {InstructionID::INSN_EOR, std::nullopt}},
-            {0b0101, {InstructionID::INSN_EON, std::nullopt}},
-            {0b0110, {InstructionID::INSN_ANDS, InstructionID::INSN_TST}},
-            {0b0111, {InstructionID::INSN_BICS, std::nullopt}},
-            {0b1000, {InstructionID::INSN_AND, std::nullopt}},
-            {0b1001, {InstructionID::INSN_BIC, std::nullopt}},
-            {0b1010, {InstructionID::INSN_ORR, InstructionID::INSN_MOV}},
-            {0b1011, {InstructionID::INSN_ORN, InstructionID::INSN_MVN}},
-            {0b1100, {InstructionID::INSN_EOR, std::nullopt}},
-            {0b1101, {InstructionID::INSN_EON, std::nullopt}},
-            {0b1110, {InstructionID::INSN_ANDS, InstructionID::INSN_TST}},
-            {0b1111, {InstructionID::INSN_BICS, std::nullopt}}
+        static const std::unordered_map<unsigned short int, std::pair<InstructionIdentifier, std::optional<InstructionIdentifier>>> insnTable = {
+            {0b0000, {InstructionIdentifier::ID_AND, std::nullopt}},
+            {0b0001, {InstructionIdentifier::ID_BIC, std::nullopt}},
+            {0b0010, {InstructionIdentifier::ID_ORR, InstructionIdentifier::ID_MOV}},
+            {0b0011, {InstructionIdentifier::ID_ORN, InstructionIdentifier::ID_MVN}},
+            {0b0100, {InstructionIdentifier::ID_EOR, std::nullopt}},
+            {0b0101, {InstructionIdentifier::ID_EON, std::nullopt}},
+            {0b0110, {InstructionIdentifier::ID_ANDS, InstructionIdentifier::ID_TST}},
+            {0b0111, {InstructionIdentifier::ID_BICS, std::nullopt}},
+            {0b1000, {InstructionIdentifier::ID_AND, std::nullopt}},
+            {0b1001, {InstructionIdentifier::ID_BIC, std::nullopt}},
+            {0b1010, {InstructionIdentifier::ID_ORR, InstructionIdentifier::ID_MOV}},
+            {0b1011, {InstructionIdentifier::ID_ORN, InstructionIdentifier::ID_MVN}},
+            {0b1100, {InstructionIdentifier::ID_EOR, std::nullopt}},
+            {0b1101, {InstructionIdentifier::ID_EON, std::nullopt}},
+            {0b1110, {InstructionIdentifier::ID_ANDS, InstructionIdentifier::ID_TST}},
+            {0b1111, {InstructionIdentifier::ID_BICS, std::nullopt}}
         };
 
         const unsigned short int encoding = (sf << 3) | (opc << 1) | N;

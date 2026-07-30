@@ -11,7 +11,7 @@ module disxx.disasm.decoder.DataProcessingRegister.AddSubstractCheckedPointer.Su
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
 import disxx.disasm.operand.Shift;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 import disxx.disasm.utility.bits;
 
@@ -65,9 +65,9 @@ namespace disxx::disasm::decoder::DataProcessingRegister::AddSubstractCheckedPoi
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        static const std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b100, InstructionID::INSN_ADDPT},
-            {0b110, InstructionID::INSN_SUBPT}
+        static const std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b100, InstructionIdentifier::ID_ADDPT},
+            {0b110, InstructionIdentifier::ID_SUBPT}
         };
 
         const unsigned short int encoding = (sf << 2) | (op << 1) | S;

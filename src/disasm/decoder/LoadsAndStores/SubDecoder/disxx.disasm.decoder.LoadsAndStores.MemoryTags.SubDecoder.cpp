@@ -14,7 +14,7 @@ import disxx.disasm.operand.LoadsAndStoresAddress;
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 
 namespace disxx::disasm::decoder::LoadsAndStores::MemoryTags
@@ -57,9 +57,9 @@ namespace disxx::disasm::decoder::LoadsAndStores::MemoryTags
         // |11011001|opc|1|imm9|op2|Rn|Rt|
         // +--------+---+-+----+---+--+--+
 
-        static constexpr std::array<InstructionID, 4> insnTable = {
-            InstructionID::INSN_STG, InstructionID::INSN_STZG,
-            InstructionID::INSN_ST2G, InstructionID::INSN_STZ2G
+        static constexpr std::array<InstructionIdentifier, 4> insnTable = {
+            InstructionIdentifier::ID_STG, InstructionIdentifier::ID_STZG,
+            InstructionIdentifier::ID_ST2G, InstructionIdentifier::ID_STZ2G
         };
 
         unsigned short int opc, op2, Rn, Rt;
@@ -78,7 +78,7 @@ namespace disxx::disasm::decoder::LoadsAndStores::MemoryTags
 
         const auto result
         {
-            [this, opc, op2, &imm9](void) -> std::expected<InstructionID, disxx::utility::error::DisassemblyError>
+            [this, opc, op2, &imm9](void) -> std::expected<InstructionIdentifier, disxx::utility::error::DisassemblyError>
             {
                 if (op2 != 0b00)
                     return insnTable.at(opc);
@@ -89,20 +89,20 @@ namespace disxx::disasm::decoder::LoadsAndStores::MemoryTags
                 {
                   case 0b00:
                     if (raw == 0b000000000) [[likely]]
-                        return InstructionID::INSN_STZGM;
+                        return InstructionIdentifier::ID_STZGM;
                     return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
     
                   case 0b01:
-                    return InstructionID::INSN_LDG;
+                    return InstructionIdentifier::ID_LDG;
     
                   case 0b10:
                     if (raw == 0b000000000) [[likely]]
-                        return InstructionID::INSN_STGM;
+                        return InstructionIdentifier::ID_STGM;
                     return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
     
                   default:
                     if (raw == 0b000000000) [[likely]]
-                        return InstructionID::INSN_LDGM;
+                        return InstructionIdentifier::ID_LDGM;
                     return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
                 }
             }()

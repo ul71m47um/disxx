@@ -10,7 +10,7 @@ module disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointD
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
 import disxx.disasm.utility.bits;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 
 namespace
 {
@@ -84,19 +84,19 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Floatin
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b000000, InstructionID::INSN_FMADD},
-            {0b000001, InstructionID::INSN_FMSUB},
-            {0b000010, InstructionID::INSN_FNMADD},
-            {0b000011, InstructionID::INSN_FNMSUB},
-            {0b000100, InstructionID::INSN_FMADD},
-            {0b000101, InstructionID::INSN_FMSUB},
-            {0b000110, InstructionID::INSN_FNMADD},
-            {0b000111, InstructionID::INSN_FNMSUB},
-            {0b001100, InstructionID::INSN_FMADD},
-            {0b001101, InstructionID::INSN_FMSUB},
-            {0b001110, InstructionID::INSN_FNMADD},
-            {0b001111, InstructionID::INSN_FNMSUB}
+        std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b000000, InstructionIdentifier::ID_FMADD},
+            {0b000001, InstructionIdentifier::ID_FMSUB},
+            {0b000010, InstructionIdentifier::ID_FNMADD},
+            {0b000011, InstructionIdentifier::ID_FNMSUB},
+            {0b000100, InstructionIdentifier::ID_FMADD},
+            {0b000101, InstructionIdentifier::ID_FMSUB},
+            {0b000110, InstructionIdentifier::ID_FNMADD},
+            {0b000111, InstructionIdentifier::ID_FNMSUB},
+            {0b001100, InstructionIdentifier::ID_FMADD},
+            {0b001101, InstructionIdentifier::ID_FMSUB},
+            {0b001110, InstructionIdentifier::ID_FNMADD},
+            {0b001111, InstructionIdentifier::ID_FNMSUB}
         };
 
         const unsigned short int encoding = (M << 5) | (S << 4) | (ftype << 2) | (o1 << 1) | o0;

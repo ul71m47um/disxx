@@ -10,7 +10,7 @@ module disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDSc
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
 import disxx.disasm.utility.bits;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 
 namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::AdvancedSIMDScalarThreeSameFP16
 {
@@ -61,16 +61,16 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b00011, InstructionID::INSN_FMULX},
-            {0b00100, InstructionID::INSN_FCMEQ},
-            {0b00111, InstructionID::INSN_FRECPS},
-            {0b01111, InstructionID::INSN_FRSQRTS},
-            {0b10100, InstructionID::INSN_FCMGE},
-            {0b10101, InstructionID::INSN_FACGE},
-            {0b11010, InstructionID::INSN_FABD},
-            {0b11100, InstructionID::INSN_FCMGT},
-            {0b11101, InstructionID::INSN_FACGT}
+        std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b00011, InstructionIdentifier::ID_FMULX},
+            {0b00100, InstructionIdentifier::ID_FCMEQ},
+            {0b00111, InstructionIdentifier::ID_FRECPS},
+            {0b01111, InstructionIdentifier::ID_FRSQRTS},
+            {0b10100, InstructionIdentifier::ID_FCMGE},
+            {0b10101, InstructionIdentifier::ID_FACGE},
+            {0b11010, InstructionIdentifier::ID_FABD},
+            {0b11100, InstructionIdentifier::ID_FCMGT},
+            {0b11101, InstructionIdentifier::ID_FACGT}
         };
 
         const unsigned short int encoding = (U << 4) | (a << 3) | opcode;

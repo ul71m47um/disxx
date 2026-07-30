@@ -40,7 +40,7 @@ export namespace disxx::disasm::operand
             ID_PSTSLCKEEP,
 			ID_PSTSLCSTRM,
 			ID_IR,
-			// Part for INSN_RPRFM
+			// Part for ID_RPRFM
 			ID_PLDKEEP = 0b010011000,
 			ID_PSTKEEP = 0b010011001,
 			ID_PLDSTRM = 0b010011100,

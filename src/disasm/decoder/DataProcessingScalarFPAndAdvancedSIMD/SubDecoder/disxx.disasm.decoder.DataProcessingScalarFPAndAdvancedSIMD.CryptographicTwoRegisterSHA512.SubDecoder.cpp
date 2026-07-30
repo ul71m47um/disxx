@@ -10,7 +10,7 @@ module disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicT
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
 import disxx.disasm.utility.bits;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 
 namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::CryptographicTwoRegisterSHA512
 {
@@ -91,8 +91,8 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Cryptog
         return std::make_pair
         (
             opcode == 0b00
-                ? InstructionID::INSN_SHA512SU0
-                : InstructionID::INSN_SM4E,
+                ? InstructionIdentifier::ID_SHA512SU0
+                : InstructionIdentifier::ID_SM4E,
             std::move(this->m_Operands)
         );
 	}

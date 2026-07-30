@@ -11,7 +11,7 @@ module disxx.disasm.decoder.LoadsAndStores.RCWCompareAndSwapPair.SubDecoder;
 import disxx.disasm.operand.LoadsAndStoresAddress;
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 
 namespace disxx::disasm::decoder::LoadsAndStores::RCWCompareAndSwapPair
@@ -62,11 +62,11 @@ namespace disxx::disasm::decoder::LoadsAndStores::RCWCompareAndSwapPair
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rt = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
         
-        static constexpr std::array<InstructionID, 8> insnTable = {
-            InstructionID::INSN_RCWCASP, InstructionID::INSN_RCWCASPL,
-            InstructionID::INSN_RCWCASPA, InstructionID::INSN_RCWCASPAL,
-            InstructionID::INSN_RCWSCASP, InstructionID::INSN_RCWSCASPL,
-            InstructionID::INSN_RCWSCASPA, InstructionID::INSN_RCWSCASPAL
+        static constexpr std::array<InstructionIdentifier, 8> insnTable = {
+            InstructionIdentifier::ID_RCWCASP, InstructionIdentifier::ID_RCWCASPL,
+            InstructionIdentifier::ID_RCWCASPA, InstructionIdentifier::ID_RCWCASPAL,
+            InstructionIdentifier::ID_RCWSCASP, InstructionIdentifier::ID_RCWSCASPL,
+            InstructionIdentifier::ID_RCWSCASPA, InstructionIdentifier::ID_RCWSCASPAL
         };
 
         if (Rs == 0b11111 || Rt == 0b11111) [[unlikely]]

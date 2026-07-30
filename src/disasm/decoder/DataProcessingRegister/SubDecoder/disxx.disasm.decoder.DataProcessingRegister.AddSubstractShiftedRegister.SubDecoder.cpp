@@ -11,7 +11,7 @@ module disxx.disasm.decoder.DataProcessingRegister.AddSubstractShiftedRegister.S
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
 import disxx.disasm.operand.Shift;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 import disxx.disasm.utility.bits;
 
@@ -66,15 +66,15 @@ namespace disxx::disasm::decoder::DataProcessingRegister::AddSubstractShiftedReg
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        static const std::unordered_map<unsigned short int, std::pair<InstructionID, std::optional<InstructionID>>> insnTable = {
-            {0b000, {InstructionID::INSN_ADD, std::nullopt}},
-            {0b001, {InstructionID::INSN_ADDS, InstructionID::INSN_CMN}},
-            {0b010, {InstructionID::INSN_SUB, InstructionID::INSN_NEG}},
-            {0b011, {InstructionID::INSN_SUBS, std::nullopt}}, // 2 aliases: processing in other way
-            {0b100, {InstructionID::INSN_ADD, std::nullopt}},
-            {0b101, {InstructionID::INSN_ADDS, InstructionID::INSN_CMN}},
-            {0b110, {InstructionID::INSN_SUB, InstructionID::INSN_NEG}},
-            {0b111, {InstructionID::INSN_SUBS, std::nullopt}} // 2 aliases: processing in other way
+        static const std::unordered_map<unsigned short int, std::pair<InstructionIdentifier, std::optional<InstructionIdentifier>>> insnTable = {
+            {0b000, {InstructionIdentifier::ID_ADD, std::nullopt}},
+            {0b001, {InstructionIdentifier::ID_ADDS, InstructionIdentifier::ID_CMN}},
+            {0b010, {InstructionIdentifier::ID_SUB, InstructionIdentifier::ID_NEG}},
+            {0b011, {InstructionIdentifier::ID_SUBS, std::nullopt}}, // 2 aliases: processing in other way
+            {0b100, {InstructionIdentifier::ID_ADD, std::nullopt}},
+            {0b101, {InstructionIdentifier::ID_ADDS, InstructionIdentifier::ID_CMN}},
+            {0b110, {InstructionIdentifier::ID_SUB, InstructionIdentifier::ID_NEG}},
+            {0b111, {InstructionIdentifier::ID_SUBS, std::nullopt}} // 2 aliases: processing in other way
         };
 
         const unsigned short int encoding = (sf << 2) | (op << 1) | S;
@@ -202,8 +202,8 @@ namespace disxx::disasm::decoder::DataProcessingRegister::AddSubstractShiftedReg
             return std::make_pair
             (
                 Rd == 0b11111
-                    ? InstructionID::INSN_CMP
-                    : InstructionID::INSN_NEGS,
+                    ? InstructionIdentifier::ID_CMP
+                    : InstructionIdentifier::ID_NEGS,
                 std::move(this->m_Operands)
             );
         }

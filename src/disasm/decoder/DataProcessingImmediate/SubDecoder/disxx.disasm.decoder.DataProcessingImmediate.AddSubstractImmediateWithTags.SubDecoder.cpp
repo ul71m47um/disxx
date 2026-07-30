@@ -11,7 +11,7 @@ module disxx.disasm.decoder.DataProcessingImmediate.AddSubstractImmediateWithTag
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 
 namespace disxx::disasm::decoder::DataProcessingImmediate::AddSubstractImmediateWithTags
@@ -64,9 +64,9 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::AddSubstractImmediate
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        static const std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b100, InstructionID::INSN_ADDG},
-            {0b110, InstructionID::INSN_SUBG}
+        static const std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b100, InstructionIdentifier::ID_ADDG},
+            {0b110, InstructionIdentifier::ID_SUBG}
         };
 
         const unsigned short int encoding = (sf << 2) | (op << 1) | S;

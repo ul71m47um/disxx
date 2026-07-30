@@ -11,7 +11,7 @@ import disxx.disasm.operand.LoadsAndStoresAddress;
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 
 namespace disxx::disasm::decoder::LoadsAndStores::RegisterPAC
@@ -76,7 +76,7 @@ namespace disxx::disasm::decoder::LoadsAndStores::RegisterPAC
 
         if ((size == 0b11 && VR == 0b1) || size != 0b11) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
-        const auto insn{M ? InstructionID::INSN_LDRAB : InstructionID::INSN_LDRAA};
+        const auto insn{M ? InstructionIdentifier::ID_LDRAB : InstructionIdentifier::ID_LDRAA};
 
         this->m_Operands.emplace_back
 		(

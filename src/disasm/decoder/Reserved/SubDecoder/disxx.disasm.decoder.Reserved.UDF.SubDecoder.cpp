@@ -9,7 +9,7 @@ module disxx.disasm.decoder.Reserved.UDF.SubDecoder;
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 
 namespace disxx::disasm::decoder::Reserved::UDF
 {
@@ -60,6 +60,6 @@ namespace disxx::disasm::decoder::Reserved::UDF
 			)
 		);
 		
-		return std::make_pair(InstructionID::INSN_UDF, std::move(this->m_Operands));
+		return std::make_pair(InstructionIdentifier::ID_UDF, std::move(this->m_Operands));
 	}
 } /* disxx::disasm::decoder::Reserved::UDF */

@@ -10,7 +10,7 @@ module disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemWithRe
 
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 import disxx.disasm.utility.bits;
 
@@ -61,9 +61,9 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Syste
         op2 = bits::extract<unsigned short int, std::uint32_t, 5, 7>(this->m_Insn);
         Rt = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b01100110000011, InstructionID::INSN_TSTART},
-            {0b01100110001011, InstructionID::INSN_TTEST}
+        std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b01100110000011, InstructionIdentifier::ID_TSTART},
+            {0b01100110001011, InstructionIdentifier::ID_TTEST}
         };
 
         const unsigned short int encoding = (op1 << 11) | (CRn << 7) | (CRm << 3) | op2;

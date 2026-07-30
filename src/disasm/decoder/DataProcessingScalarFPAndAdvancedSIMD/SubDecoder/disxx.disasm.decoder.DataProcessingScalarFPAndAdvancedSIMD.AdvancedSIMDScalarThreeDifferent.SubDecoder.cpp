@@ -10,7 +10,7 @@ module disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDSc
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
 import disxx.disasm.utility.bits;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 
 namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::AdvancedSIMDScalarThreeDifferent
 {
@@ -61,10 +61,10 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b01001, InstructionID::INSN_SQDMLAL},
-            {0b01011, InstructionID::INSN_SQDMLSL},
-            {0b01101, InstructionID::INSN_SQDMULL}
+        std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b01001, InstructionIdentifier::ID_SQDMLAL},
+            {0b01011, InstructionIdentifier::ID_SQDMLSL},
+            {0b01101, InstructionIdentifier::ID_SQDMULL}
         };
 
         const unsigned short int encoding = (U << 4) | opcode;

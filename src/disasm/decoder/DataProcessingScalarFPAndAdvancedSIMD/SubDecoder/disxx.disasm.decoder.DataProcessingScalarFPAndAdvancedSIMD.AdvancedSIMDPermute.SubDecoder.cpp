@@ -10,7 +10,7 @@ module disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDPe
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
 import disxx.disasm.utility.bits;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 
 namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::AdvancedSIMDPermute
 {
@@ -61,13 +61,13 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b001, InstructionID::INSN_UZP1},
-            {0b010, InstructionID::INSN_TRN1},
-            {0b011, InstructionID::INSN_ZIP1},
-            {0b101, InstructionID::INSN_UZP2},
-            {0b110, InstructionID::INSN_TRN2},
-            {0b111, InstructionID::INSN_ZIP2}
+        std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b001, InstructionIdentifier::ID_UZP1},
+            {0b010, InstructionIdentifier::ID_TRN1},
+            {0b011, InstructionIdentifier::ID_ZIP1},
+            {0b101, InstructionIdentifier::ID_UZP2},
+            {0b110, InstructionIdentifier::ID_TRN2},
+            {0b111, InstructionIdentifier::ID_ZIP2}
         };
 
         const auto it{insnTable.find(opcode)};

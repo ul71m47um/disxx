@@ -12,7 +12,7 @@ import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
 import disxx.disasm.operand.Shift;
 import disxx.disasm.utility.bits;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 
 namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::AdvancedSIMDModifiedImmediate
 {
@@ -70,23 +70,23 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
         h = bits::extract<unsigned short int, std::uint32_t, 5, 5>(this->m_Insn);
         Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b0000000, InstructionID::INSN_MOVI},
-            {0b0000010, InstructionID::INSN_ORR},
-            {0b0010000, InstructionID::INSN_MOVI},
-            {0b0010010, InstructionID::INSN_ORR},
-            {0b0011000, InstructionID::INSN_MOVI},
-            {0b0011100, InstructionID::INSN_MOVI},
-            {0b0011110, InstructionID::INSN_FMOV},
-            {0b0011111, InstructionID::INSN_FMOV},
-            {0b0100000, InstructionID::INSN_MVNI},
-            {0b0100010, InstructionID::INSN_BIC},
-            {0b0110000, InstructionID::INSN_MVNI},
-            {0b0110010, InstructionID::INSN_BIC},
-            {0b0111000, InstructionID::INSN_MVNI},
-            {0b0111100, InstructionID::INSN_MOVI},
-            {0b1111100, InstructionID::INSN_MOVI},
-            {0b1111110, InstructionID::INSN_FMOV}
+        std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b0000000, InstructionIdentifier::ID_MOVI},
+            {0b0000010, InstructionIdentifier::ID_ORR},
+            {0b0010000, InstructionIdentifier::ID_MOVI},
+            {0b0010010, InstructionIdentifier::ID_ORR},
+            {0b0011000, InstructionIdentifier::ID_MOVI},
+            {0b0011100, InstructionIdentifier::ID_MOVI},
+            {0b0011110, InstructionIdentifier::ID_FMOV},
+            {0b0011111, InstructionIdentifier::ID_FMOV},
+            {0b0100000, InstructionIdentifier::ID_MVNI},
+            {0b0100010, InstructionIdentifier::ID_BIC},
+            {0b0110000, InstructionIdentifier::ID_MVNI},
+            {0b0110010, InstructionIdentifier::ID_BIC},
+            {0b0111000, InstructionIdentifier::ID_MVNI},
+            {0b0111100, InstructionIdentifier::ID_MOVI},
+            {0b1111100, InstructionIdentifier::ID_MOVI},
+            {0b1111110, InstructionIdentifier::ID_FMOV}
         };
 
         unsigned short int encoding = (Q << 6) | (op << 5) | (cmode << 1) | o2;

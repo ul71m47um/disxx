@@ -14,7 +14,6 @@ export module Application;
 export import <filesystem>;
 
 import disxx.utility.error.NullPointerError;
-import disxx.disasm.Printer;
 import disxx.ui.MainWindow;
 import disxx.ui.Widget;
 import ScriptEngine;
@@ -28,7 +27,6 @@ export class __DISXX_PRIVATE__ [[nodiscard]] Application
 	
   private:
 	disxx::ui::MainWindow m_Window{};
-	disxx::disasm::Printer<std::back_insert_iterator<std::string>> m_Printer{};
 	DisLog m_Logger{};
 	std::unique_ptr<FileInput> m_pInput{};
 

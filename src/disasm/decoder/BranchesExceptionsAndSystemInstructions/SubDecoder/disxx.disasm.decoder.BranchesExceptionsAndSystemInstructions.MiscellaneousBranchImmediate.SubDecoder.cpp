@@ -11,7 +11,7 @@ module disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.Miscellaneou
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 import disxx.disasm.utility.bits;
 
@@ -67,9 +67,9 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Misce
             }
         };
 
-        std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b00011111, InstructionID::INSN_RETAASPPC},
-            {0b00111111, InstructionID::INSN_RETABSPPC}
+        std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b00011111, InstructionIdentifier::ID_RETAASPPC},
+            {0b00111111, InstructionIdentifier::ID_RETABSPPC}
         };
 
         const unsigned short int encoding = (opc << 5) | op2;

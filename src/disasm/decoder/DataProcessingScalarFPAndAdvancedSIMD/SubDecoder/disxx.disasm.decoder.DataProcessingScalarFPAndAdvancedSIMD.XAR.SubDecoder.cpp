@@ -10,7 +10,7 @@ import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
 import disxx.disasm.utility.bits;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 
 namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::XAR
 {
@@ -88,6 +88,6 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::XAR
 				->SetVectorArrangementSpecifier(disxx::disasm::operand::VectorArrangementSpecifier{0b111});
         this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Immediate<unsigned short int, 6>>(imm6));
 
-        return std::make_pair(InstructionID::INSN_XAR, std::move(this->m_Operands));
+        return std::make_pair(InstructionIdentifier::ID_XAR, std::move(this->m_Operands));
 	}
 } /* disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::XAR */

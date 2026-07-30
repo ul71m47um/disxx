@@ -10,7 +10,7 @@ module disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointD
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
 import disxx.disasm.utility.bits;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 
 namespace
 {
@@ -82,34 +82,34 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Floatin
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b00000000, InstructionID::INSN_FMUL},
-            {0b00000001, InstructionID::INSN_FDIV},
-            {0b00000010, InstructionID::INSN_FADD},
-            {0b00000011, InstructionID::INSN_FSUB},
-            {0b00000100, InstructionID::INSN_FMAX},
-            {0b00000101, InstructionID::INSN_FMIN},
-            {0b00000110, InstructionID::INSN_FMAXNM},
-            {0b00000111, InstructionID::INSN_FMINNM},
-            {0b00001000, InstructionID::INSN_FNMUL},
-            {0b00010000, InstructionID::INSN_FMUL},
-            {0b00010001, InstructionID::INSN_FDIV},
-            {0b00010010, InstructionID::INSN_FADD},
-            {0b00010011, InstructionID::INSN_FSUB},
-            {0b00010100, InstructionID::INSN_FMAX},
-            {0b00010101, InstructionID::INSN_FMIN},
-            {0b00010110, InstructionID::INSN_FMAXNM},
-            {0b00010111, InstructionID::INSN_FMINNM},
-            {0b00011000, InstructionID::INSN_FNMUL},
-            {0b00110000, InstructionID::INSN_FMUL},
-            {0b00110001, InstructionID::INSN_FDIV},
-            {0b00110010, InstructionID::INSN_FADD},
-            {0b00110011, InstructionID::INSN_FSUB},
-            {0b00110100, InstructionID::INSN_FMAX},
-            {0b00110101, InstructionID::INSN_FMIN},
-            {0b00110110, InstructionID::INSN_FMAXNM},
-            {0b00110111, InstructionID::INSN_FMINNM},
-            {0b00111000, InstructionID::INSN_FNMUL}
+        std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b00000000, InstructionIdentifier::ID_FMUL},
+            {0b00000001, InstructionIdentifier::ID_FDIV},
+            {0b00000010, InstructionIdentifier::ID_FADD},
+            {0b00000011, InstructionIdentifier::ID_FSUB},
+            {0b00000100, InstructionIdentifier::ID_FMAX},
+            {0b00000101, InstructionIdentifier::ID_FMIN},
+            {0b00000110, InstructionIdentifier::ID_FMAXNM},
+            {0b00000111, InstructionIdentifier::ID_FMINNM},
+            {0b00001000, InstructionIdentifier::ID_FNMUL},
+            {0b00010000, InstructionIdentifier::ID_FMUL},
+            {0b00010001, InstructionIdentifier::ID_FDIV},
+            {0b00010010, InstructionIdentifier::ID_FADD},
+            {0b00010011, InstructionIdentifier::ID_FSUB},
+            {0b00010100, InstructionIdentifier::ID_FMAX},
+            {0b00010101, InstructionIdentifier::ID_FMIN},
+            {0b00010110, InstructionIdentifier::ID_FMAXNM},
+            {0b00010111, InstructionIdentifier::ID_FMINNM},
+            {0b00011000, InstructionIdentifier::ID_FNMUL},
+            {0b00110000, InstructionIdentifier::ID_FMUL},
+            {0b00110001, InstructionIdentifier::ID_FDIV},
+            {0b00110010, InstructionIdentifier::ID_FADD},
+            {0b00110011, InstructionIdentifier::ID_FSUB},
+            {0b00110100, InstructionIdentifier::ID_FMAX},
+            {0b00110101, InstructionIdentifier::ID_FMIN},
+            {0b00110110, InstructionIdentifier::ID_FMAXNM},
+            {0b00110111, InstructionIdentifier::ID_FMINNM},
+            {0b00111000, InstructionIdentifier::ID_FNMUL}
         };
 
         const unsigned short int encoding = (M << 7) | (S << 6) | (ftype << 4) | opcode;

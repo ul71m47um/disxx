@@ -12,7 +12,7 @@ import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.SystemOperand;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 import disxx.disasm.utility.bits;
 
@@ -88,7 +88,7 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Syste
 				)
 			);
         
-            return std::make_pair(InstructionID::INSN_TLBIP, std::move(this->m_Operands));
+            return std::make_pair(InstructionIdentifier::ID_TLBIP, std::move(this->m_Operands));
         }
     
         this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Immediate<unsigned short int, 3>>(op1));
@@ -112,6 +112,6 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Syste
 			)
 		);
 
-        return std::make_pair(InstructionID::INSN_SYSP, std::move(this->m_Operands));
+        return std::make_pair(InstructionIdentifier::ID_SYSP, std::move(this->m_Operands));
 	}
 } /* disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::SystemPairInstructionIDs */

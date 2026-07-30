@@ -12,7 +12,7 @@ import disxx.disasm.operand.LoadsAndStoresAddress;
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 
 namespace disxx::disasm::decoder::LoadsAndStores::RegisterImmediatePreIndexed
@@ -70,30 +70,30 @@ namespace disxx::disasm::decoder::LoadsAndStores::RegisterImmediatePreIndexed
             }
         };
 
-        static const std::unordered_map<unsigned short int, std::pair<InstructionID, disxx::disasm::operand::Register::Type>> insnTable = {
-            {0b00000, {InstructionID::INSN_STRB, disxx::disasm::operand::Register::Type::TYPE_W}},
-            {0b00001, {InstructionID::INSN_LDRB, disxx::disasm::operand::Register::Type::TYPE_W}},
-            {0b00010, {InstructionID::INSN_LDRSB, disxx::disasm::operand::Register::Type::TYPE_X}},
-            {0b00011, {InstructionID::INSN_LDRSB, disxx::disasm::operand::Register::Type::TYPE_W}},
-            {0b00100, {InstructionID::INSN_STR, disxx::disasm::operand::Register::Type::TYPE_B}},
-            {0b00101, {InstructionID::INSN_LDR, disxx::disasm::operand::Register::Type::TYPE_B}},
-            {0b00110, {InstructionID::INSN_STR, disxx::disasm::operand::Register::Type::TYPE_Q}},
-            {0b00111, {InstructionID::INSN_LDR, disxx::disasm::operand::Register::Type::TYPE_Q}},
-            {0b01000, {InstructionID::INSN_STRH, disxx::disasm::operand::Register::Type::TYPE_W}},
-            {0b01001, {InstructionID::INSN_LDRH, disxx::disasm::operand::Register::Type::TYPE_W}},
-            {0b01010, {InstructionID::INSN_LDRSH, disxx::disasm::operand::Register::Type::TYPE_X}},
-            {0b01011, {InstructionID::INSN_LDRSH, disxx::disasm::operand::Register::Type::TYPE_W}},
-            {0b01100, {InstructionID::INSN_STR, disxx::disasm::operand::Register::Type::TYPE_H}},
-            {0b01101, {InstructionID::INSN_LDR, disxx::disasm::operand::Register::Type::TYPE_H}},
-            {0b10000, {InstructionID::INSN_STR, disxx::disasm::operand::Register::Type::TYPE_W}},
-            {0b10001, {InstructionID::INSN_LDR, disxx::disasm::operand::Register::Type::TYPE_W}},
-            {0b10010, {InstructionID::INSN_LDRSW, disxx::disasm::operand::Register::Type::TYPE_X}},
-            {0b10100, {InstructionID::INSN_STR, disxx::disasm::operand::Register::Type::TYPE_S}},
-            {0b10101, {InstructionID::INSN_LDR, disxx::disasm::operand::Register::Type::TYPE_S}},
-            {0b11000, {InstructionID::INSN_STR, disxx::disasm::operand::Register::Type::TYPE_X}},
-            {0b11001, {InstructionID::INSN_LDR, disxx::disasm::operand::Register::Type::TYPE_X}},
-            {0b11100, {InstructionID::INSN_STR, disxx::disasm::operand::Register::Type::TYPE_D}},
-            {0b11101, {InstructionID::INSN_LDR, disxx::disasm::operand::Register::Type::TYPE_D}}
+        static const std::unordered_map<unsigned short int, std::pair<InstructionIdentifier, disxx::disasm::operand::Register::Type>> insnTable = {
+            {0b00000, {InstructionIdentifier::ID_STRB, disxx::disasm::operand::Register::Type::TYPE_W}},
+            {0b00001, {InstructionIdentifier::ID_LDRB, disxx::disasm::operand::Register::Type::TYPE_W}},
+            {0b00010, {InstructionIdentifier::ID_LDRSB, disxx::disasm::operand::Register::Type::TYPE_X}},
+            {0b00011, {InstructionIdentifier::ID_LDRSB, disxx::disasm::operand::Register::Type::TYPE_W}},
+            {0b00100, {InstructionIdentifier::ID_STR, disxx::disasm::operand::Register::Type::TYPE_B}},
+            {0b00101, {InstructionIdentifier::ID_LDR, disxx::disasm::operand::Register::Type::TYPE_B}},
+            {0b00110, {InstructionIdentifier::ID_STR, disxx::disasm::operand::Register::Type::TYPE_Q}},
+            {0b00111, {InstructionIdentifier::ID_LDR, disxx::disasm::operand::Register::Type::TYPE_Q}},
+            {0b01000, {InstructionIdentifier::ID_STRH, disxx::disasm::operand::Register::Type::TYPE_W}},
+            {0b01001, {InstructionIdentifier::ID_LDRH, disxx::disasm::operand::Register::Type::TYPE_W}},
+            {0b01010, {InstructionIdentifier::ID_LDRSH, disxx::disasm::operand::Register::Type::TYPE_X}},
+            {0b01011, {InstructionIdentifier::ID_LDRSH, disxx::disasm::operand::Register::Type::TYPE_W}},
+            {0b01100, {InstructionIdentifier::ID_STR, disxx::disasm::operand::Register::Type::TYPE_H}},
+            {0b01101, {InstructionIdentifier::ID_LDR, disxx::disasm::operand::Register::Type::TYPE_H}},
+            {0b10000, {InstructionIdentifier::ID_STR, disxx::disasm::operand::Register::Type::TYPE_W}},
+            {0b10001, {InstructionIdentifier::ID_LDR, disxx::disasm::operand::Register::Type::TYPE_W}},
+            {0b10010, {InstructionIdentifier::ID_LDRSW, disxx::disasm::operand::Register::Type::TYPE_X}},
+            {0b10100, {InstructionIdentifier::ID_STR, disxx::disasm::operand::Register::Type::TYPE_S}},
+            {0b10101, {InstructionIdentifier::ID_LDR, disxx::disasm::operand::Register::Type::TYPE_S}},
+            {0b11000, {InstructionIdentifier::ID_STR, disxx::disasm::operand::Register::Type::TYPE_X}},
+            {0b11001, {InstructionIdentifier::ID_LDR, disxx::disasm::operand::Register::Type::TYPE_X}},
+            {0b11100, {InstructionIdentifier::ID_STR, disxx::disasm::operand::Register::Type::TYPE_D}},
+            {0b11101, {InstructionIdentifier::ID_LDR, disxx::disasm::operand::Register::Type::TYPE_D}}
         };
 
         unsigned short int encoding = (size << 3) | (VR << 2) | opc;

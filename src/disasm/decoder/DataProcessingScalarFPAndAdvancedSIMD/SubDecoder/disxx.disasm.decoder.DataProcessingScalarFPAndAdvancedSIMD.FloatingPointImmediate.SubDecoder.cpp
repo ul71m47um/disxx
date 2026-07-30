@@ -11,7 +11,7 @@ import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
 import disxx.disasm.utility.bits;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 
 namespace
 {
@@ -82,10 +82,10 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Floatin
         imm5 = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b000000000, InstructionID::INSN_FMOV},
-            {0b000100000, InstructionID::INSN_FMOV},
-            {0b001100000, InstructionID::INSN_FMOV}
+        std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b000000000, InstructionIdentifier::ID_FMOV},
+            {0b000100000, InstructionIdentifier::ID_FMOV},
+            {0b001100000, InstructionIdentifier::ID_FMOV}
         };
 
         const unsigned short int encoding = (M << 8) | (S << 7) | (ftype << 5) | imm5;

@@ -12,7 +12,7 @@ import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Condition;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 import disxx.disasm.utility.bits;
 
@@ -72,6 +72,6 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Condi
         this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Immediate<signed long long int, 64>>(imm + this->m_ProgramCounter));
         this->m_ProgramCounterRelevantAddress = std::ref(**this->m_Operands.rbegin());
         
-		return std::make_pair(o0 == 0b1 ? InstructionID::INSN_BC : InstructionID::INSN_B, std::move(this->m_Operands));
+		return std::make_pair(o0 == 0b1 ? InstructionIdentifier::ID_BC : InstructionIdentifier::ID_B, std::move(this->m_Operands));
 	}
 } /* disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::ConditionalBranchImmediate */

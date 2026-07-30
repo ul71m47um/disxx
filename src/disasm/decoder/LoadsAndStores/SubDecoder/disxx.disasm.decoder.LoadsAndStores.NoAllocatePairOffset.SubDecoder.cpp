@@ -12,7 +12,7 @@ import disxx.disasm.operand.LoadsAndStoresAddress;
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 
 namespace disxx::disasm::decoder::LoadsAndStores::NoAllocatePairOffset
@@ -74,22 +74,22 @@ namespace disxx::disasm::decoder::LoadsAndStores::NoAllocatePairOffset
         if (opc == 0b01 && VR == 0b0) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
 
-        const std::unordered_map<unsigned short int, std::tuple<InstructionID, disxx::disasm::operand::Register::Type, unsigned short int>> insnTable = {
+        const std::unordered_map<unsigned short int, std::tuple<InstructionIdentifier, disxx::disasm::operand::Register::Type, unsigned short int>> insnTable = {
         //  |encoding|mnemonic|type|scale|
-            {0b0000, {InstructionID::INSN_STNP, disxx::disasm::operand::Register::Type::TYPE_W, 2 + bits::extract<unsigned short int, unsigned short int, 1, 1>(opc)}},
-            {0b0001, {InstructionID::INSN_LDNP, disxx::disasm::operand::Register::Type::TYPE_W, 2 + bits::extract<unsigned short int, unsigned short int, 1, 1>(opc)}},
-            {0b0010, {InstructionID::INSN_STNP, disxx::disasm::operand::Register::Type::TYPE_S, 2 + opc}},
-            {0b0011, {InstructionID::INSN_LDNP, disxx::disasm::operand::Register::Type::TYPE_S, 2 + opc}},
-            {0b0110, {InstructionID::INSN_STNP, disxx::disasm::operand::Register::Type::TYPE_D, 2 + opc}},
-            {0b0111, {InstructionID::INSN_LDNP, disxx::disasm::operand::Register::Type::TYPE_D, 2 + opc}},
-            {0b1000, {InstructionID::INSN_STNP, disxx::disasm::operand::Register::Type::TYPE_X, 2 + bits::extract<unsigned short int, unsigned short int, 1, 1>(opc)}},
-            {0b1001, {InstructionID::INSN_LDNP, disxx::disasm::operand::Register::Type::TYPE_X, 2 + bits::extract<unsigned short int, unsigned short int, 1, 1>(opc)}},
-            {0b1010, {InstructionID::INSN_STNP, disxx::disasm::operand::Register::Type::TYPE_Q, 2 + opc}},
-            {0b1011, {InstructionID::INSN_LDNP, disxx::disasm::operand::Register::Type::TYPE_Q, 2 + opc}},
-            {0b1100, {InstructionID::INSN_STTNP, disxx::disasm::operand::Register::Type::TYPE_D, 3}},
-            {0b1101, {InstructionID::INSN_LDTNP, disxx::disasm::operand::Register::Type::TYPE_X, 3}},
-            {0b1110, {InstructionID::INSN_STTNP, disxx::disasm::operand::Register::Type::TYPE_Q, 4}},
-            {0b1111, {InstructionID::INSN_LDTNP, disxx::disasm::operand::Register::Type::TYPE_Q, 4}}
+            {0b0000, {InstructionIdentifier::ID_STNP, disxx::disasm::operand::Register::Type::TYPE_W, 2 + bits::extract<unsigned short int, unsigned short int, 1, 1>(opc)}},
+            {0b0001, {InstructionIdentifier::ID_LDNP, disxx::disasm::operand::Register::Type::TYPE_W, 2 + bits::extract<unsigned short int, unsigned short int, 1, 1>(opc)}},
+            {0b0010, {InstructionIdentifier::ID_STNP, disxx::disasm::operand::Register::Type::TYPE_S, 2 + opc}},
+            {0b0011, {InstructionIdentifier::ID_LDNP, disxx::disasm::operand::Register::Type::TYPE_S, 2 + opc}},
+            {0b0110, {InstructionIdentifier::ID_STNP, disxx::disasm::operand::Register::Type::TYPE_D, 2 + opc}},
+            {0b0111, {InstructionIdentifier::ID_LDNP, disxx::disasm::operand::Register::Type::TYPE_D, 2 + opc}},
+            {0b1000, {InstructionIdentifier::ID_STNP, disxx::disasm::operand::Register::Type::TYPE_X, 2 + bits::extract<unsigned short int, unsigned short int, 1, 1>(opc)}},
+            {0b1001, {InstructionIdentifier::ID_LDNP, disxx::disasm::operand::Register::Type::TYPE_X, 2 + bits::extract<unsigned short int, unsigned short int, 1, 1>(opc)}},
+            {0b1010, {InstructionIdentifier::ID_STNP, disxx::disasm::operand::Register::Type::TYPE_Q, 2 + opc}},
+            {0b1011, {InstructionIdentifier::ID_LDNP, disxx::disasm::operand::Register::Type::TYPE_Q, 2 + opc}},
+            {0b1100, {InstructionIdentifier::ID_STTNP, disxx::disasm::operand::Register::Type::TYPE_D, 3}},
+            {0b1101, {InstructionIdentifier::ID_LDTNP, disxx::disasm::operand::Register::Type::TYPE_X, 3}},
+            {0b1110, {InstructionIdentifier::ID_STTNP, disxx::disasm::operand::Register::Type::TYPE_Q, 4}},
+            {0b1111, {InstructionIdentifier::ID_LDTNP, disxx::disasm::operand::Register::Type::TYPE_Q, 4}}
         };
 
         const unsigned short int encoding = (opc << 2) | (VR << 1) | L;

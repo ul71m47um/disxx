@@ -11,7 +11,7 @@ module disxx.disasm.decoder.DataProcessingImmediate.Bitfield.SubDecoder;
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 
 namespace disxx::disasm::decoder::DataProcessingImmediate::Bitfield
@@ -63,13 +63,13 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::Bitfield
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b0000, InstructionID::INSN_SBFM},
-            {0b0010, InstructionID::INSN_BFM},
-            {0b0100, InstructionID::INSN_UBFM},
-            {0b1001, InstructionID::INSN_SBFM},
-            {0b1011, InstructionID::INSN_BFM},
-            {0b1101, InstructionID::INSN_UBFM}
+        std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b0000, InstructionIdentifier::ID_SBFM},
+            {0b0010, InstructionIdentifier::ID_BFM},
+            {0b0100, InstructionIdentifier::ID_UBFM},
+            {0b1001, InstructionIdentifier::ID_SBFM},
+            {0b1011, InstructionIdentifier::ID_BFM},
+            {0b1101, InstructionIdentifier::ID_UBFM}
         };
 
         unsigned short int encoding = (sf << 3) | (opc << 1) | N;
@@ -79,7 +79,7 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::Bitfield
 
         switch (it->second)
         {
-          case InstructionID::INSN_SBFM:
+          case InstructionIdentifier::ID_SBFM:
           {
             if (imms == 0b011111 || imms == 0b111111)
             {
@@ -105,7 +105,7 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::Bitfield
 				);
                 this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Immediate<unsigned short int, 6>>(immr));
                 
-                return std::make_pair(InstructionID::INSN_ASR, std::move(this->m_Operands));
+                return std::make_pair(InstructionIdentifier::ID_ASR, std::move(this->m_Operands));
             }
             else if (imms < immr)
             {
@@ -132,7 +132,7 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::Bitfield
                 this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Immediate<unsigned short int, 6>>(immr));
                 this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Immediate<unsigned short int, 6>>(imms));
 
-                return std::make_pair(InstructionID::INSN_SBFIZ, std::move(this->m_Operands));
+                return std::make_pair(InstructionIdentifier::ID_SBFIZ, std::move(this->m_Operands));
             }
             else if (bits::BFXPreffered(sf, opc >> 1, imms, immr))
             {
@@ -159,14 +159,14 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::Bitfield
 				this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Immediate<unsigned short int, 6>>(immr));
                 this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Immediate<unsigned short int, 6>>(imms));
 
-                return std::make_pair(InstructionID::INSN_SBFX, std::move(this->m_Operands));
+                return std::make_pair(InstructionIdentifier::ID_SBFX, std::move(this->m_Operands));
             }
             else if (immr == 0b000000)
             {
-                static const std::unordered_map<unsigned short int, InstructionID> aliasTable = {
-                    {0b000111, InstructionID::INSN_SXTB},
-                    {0b001111, InstructionID::INSN_SXTH},
-                    {0b011111, InstructionID::INSN_SXTW}
+                static const std::unordered_map<unsigned short int, InstructionIdentifier> aliasTable = {
+                    {0b000111, InstructionIdentifier::ID_SXTB},
+                    {0b001111, InstructionIdentifier::ID_SXTH},
+                    {0b011111, InstructionIdentifier::ID_SXTW}
                 };
 
                 const auto aliasIt{aliasTable.find(imms)};
@@ -200,7 +200,7 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::Bitfield
             break;
           }
 
-          case InstructionID::INSN_BFM:
+          case InstructionIdentifier::ID_BFM:
           {
             if (imms < immr)
             {
@@ -230,7 +230,7 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::Bitfield
                 this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Immediate<unsigned short int, 6>>(immr));
                 this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Immediate<unsigned short int, 6>>(imms));
                
-                return std::make_pair(Rn == 0b11111 ? InstructionID::INSN_BFC : InstructionID::INSN_BFI, std::move(this->m_Operands));
+                return std::make_pair(Rn == 0b11111 ? InstructionIdentifier::ID_BFC : InstructionIdentifier::ID_BFI, std::move(this->m_Operands));
             }
             else if (imms >= immr)
             {
@@ -257,13 +257,13 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::Bitfield
                 this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Immediate<unsigned short int, 6>>(immr));
                 this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Immediate<unsigned short int, 6>>(imms));
                
-                return std::make_pair(InstructionID::INSN_BFXIL, std::move(this->m_Operands));
+                return std::make_pair(InstructionIdentifier::ID_BFXIL, std::move(this->m_Operands));
             }
 
             break;
           }
 
-          case InstructionID::INSN_UBFM:
+          case InstructionIdentifier::ID_UBFM:
           {
             if ((imms != 0b011111 || imms != 0b11111) && imms + 1 == immr)
             {
@@ -289,7 +289,7 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::Bitfield
 				);
                 this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Immediate<unsigned short int, 6>>(immr));
 
-                return std::make_pair(InstructionID::INSN_LSL, std::move(this->m_Operands));
+                return std::make_pair(InstructionIdentifier::ID_LSL, std::move(this->m_Operands));
             }
             else if (imms == 0b011111 || imms == 0b111111)
             {
@@ -315,7 +315,7 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::Bitfield
 				);
                 this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Immediate<unsigned short int, 6>>(immr));
 
-                return std::make_pair(InstructionID::INSN_LSR, std::move(this->m_Operands));
+                return std::make_pair(InstructionIdentifier::ID_LSR, std::move(this->m_Operands));
             }
             else if (imms < immr)
             {
@@ -342,7 +342,7 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::Bitfield
                 this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Immediate<unsigned short int, 6>>(immr));
                 this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Immediate<unsigned short int, 6>>(imms));
               
-                return std::make_pair(InstructionID::INSN_UBFIZ, std::move(this->m_Operands));
+                return std::make_pair(InstructionIdentifier::ID_UBFIZ, std::move(this->m_Operands));
             }
             else if (bits::BFXPreffered(sf, opc >> 1, imms, immr))
             {
@@ -369,13 +369,13 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::Bitfield
                 this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Immediate<unsigned short int, 6>>(immr));
                 this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Immediate<unsigned short int, 6>>(imms));
               
-                return std::make_pair(InstructionID::INSN_UBFX, std::move(this->m_Operands));
+                return std::make_pair(InstructionIdentifier::ID_UBFX, std::move(this->m_Operands));
             }
             else if (immr == 0b000000 && (imms == 0b000111 || imms == 0b001111))
             {
-                static const std::unordered_map<unsigned short int, InstructionID> aliasTable = {
-                    {0b000111, InstructionID::INSN_UXTB},
-                    {0b001111, InstructionID::INSN_UXTH}
+                static const std::unordered_map<unsigned short int, InstructionIdentifier> aliasTable = {
+                    {0b000111, InstructionIdentifier::ID_UXTB},
+                    {0b001111, InstructionIdentifier::ID_UXTH}
                 };
 
                 const auto aliasIt{aliasTable.find(imms)};

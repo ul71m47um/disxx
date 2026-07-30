@@ -13,7 +13,7 @@ import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.PrefetchOperand;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 
 namespace disxx::disasm::decoder::LoadsAndStores::RegisterUnscaledImmediate
@@ -71,38 +71,38 @@ namespace disxx::disasm::decoder::LoadsAndStores::RegisterUnscaledImmediate
             }
         };
 
-        InstructionID insn{};
+        InstructionIdentifier insn{};
         if (size == 0b11 && VR == 0b0 && opc == 0b10)
         {
-            insn = InstructionID::INSN_PRFUM;
+            insn = InstructionIdentifier::ID_PRFUM;
             this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::PrefetchOperand>(Rt));
         }
         else
         {
-            static const std::unordered_map<unsigned short int, std::pair<InstructionID, disxx::disasm::operand::Register::Type>> insnTable = {
-                {0b00000, {InstructionID::INSN_STURB, disxx::disasm::operand::Register::Type::TYPE_W}},
-                {0b00001, {InstructionID::INSN_LDURB, disxx::disasm::operand::Register::Type::TYPE_W}},
-                {0b00010, {InstructionID::INSN_LDURSB, disxx::disasm::operand::Register::Type::TYPE_X}},
-                {0b00011, {InstructionID::INSN_LDURSB, disxx::disasm::operand::Register::Type::TYPE_W}},
-                {0b00100, {InstructionID::INSN_STUR, disxx::disasm::operand::Register::Type::TYPE_B}},
-                {0b00101, {InstructionID::INSN_LDUR, disxx::disasm::operand::Register::Type::TYPE_B}},
-                {0b00110, {InstructionID::INSN_STUR, disxx::disasm::operand::Register::Type::TYPE_Q}},
-                {0b00111, {InstructionID::INSN_LDUR, disxx::disasm::operand::Register::Type::TYPE_Q}},
-                {0b01000, {InstructionID::INSN_STURH, disxx::disasm::operand::Register::Type::TYPE_W}},
-                {0b01001, {InstructionID::INSN_LDURH, disxx::disasm::operand::Register::Type::TYPE_W}},
-                {0b01010, {InstructionID::INSN_LDURSH, disxx::disasm::operand::Register::Type::TYPE_X}},
-                {0b01011, {InstructionID::INSN_LDURSH, disxx::disasm::operand::Register::Type::TYPE_W}},
-                {0b01100, {InstructionID::INSN_STUR, disxx::disasm::operand::Register::Type::TYPE_H}},
-                {0b01101, {InstructionID::INSN_LDUR, disxx::disasm::operand::Register::Type::TYPE_H}},
-                {0b10000, {InstructionID::INSN_STUR, disxx::disasm::operand::Register::Type::TYPE_W}},
-                {0b10001, {InstructionID::INSN_LDUR, disxx::disasm::operand::Register::Type::TYPE_W}},
-                {0b10010, {InstructionID::INSN_LDURSW, disxx::disasm::operand::Register::Type::TYPE_X}},
-                {0b10100, {InstructionID::INSN_STUR, disxx::disasm::operand::Register::Type::TYPE_S}},
-                {0b10101, {InstructionID::INSN_LDUR, disxx::disasm::operand::Register::Type::TYPE_S}},
-                {0b11000, {InstructionID::INSN_STUR, disxx::disasm::operand::Register::Type::TYPE_X}},
-                {0b11001, {InstructionID::INSN_LDUR, disxx::disasm::operand::Register::Type::TYPE_X}},
-                {0b11100, {InstructionID::INSN_STUR, disxx::disasm::operand::Register::Type::TYPE_D}},
-                {0b11101, {InstructionID::INSN_LDUR, disxx::disasm::operand::Register::Type::TYPE_D}}
+            static const std::unordered_map<unsigned short int, std::pair<InstructionIdentifier, disxx::disasm::operand::Register::Type>> insnTable = {
+                {0b00000, {InstructionIdentifier::ID_STURB, disxx::disasm::operand::Register::Type::TYPE_W}},
+                {0b00001, {InstructionIdentifier::ID_LDURB, disxx::disasm::operand::Register::Type::TYPE_W}},
+                {0b00010, {InstructionIdentifier::ID_LDURSB, disxx::disasm::operand::Register::Type::TYPE_X}},
+                {0b00011, {InstructionIdentifier::ID_LDURSB, disxx::disasm::operand::Register::Type::TYPE_W}},
+                {0b00100, {InstructionIdentifier::ID_STUR, disxx::disasm::operand::Register::Type::TYPE_B}},
+                {0b00101, {InstructionIdentifier::ID_LDUR, disxx::disasm::operand::Register::Type::TYPE_B}},
+                {0b00110, {InstructionIdentifier::ID_STUR, disxx::disasm::operand::Register::Type::TYPE_Q}},
+                {0b00111, {InstructionIdentifier::ID_LDUR, disxx::disasm::operand::Register::Type::TYPE_Q}},
+                {0b01000, {InstructionIdentifier::ID_STURH, disxx::disasm::operand::Register::Type::TYPE_W}},
+                {0b01001, {InstructionIdentifier::ID_LDURH, disxx::disasm::operand::Register::Type::TYPE_W}},
+                {0b01010, {InstructionIdentifier::ID_LDURSH, disxx::disasm::operand::Register::Type::TYPE_X}},
+                {0b01011, {InstructionIdentifier::ID_LDURSH, disxx::disasm::operand::Register::Type::TYPE_W}},
+                {0b01100, {InstructionIdentifier::ID_STUR, disxx::disasm::operand::Register::Type::TYPE_H}},
+                {0b01101, {InstructionIdentifier::ID_LDUR, disxx::disasm::operand::Register::Type::TYPE_H}},
+                {0b10000, {InstructionIdentifier::ID_STUR, disxx::disasm::operand::Register::Type::TYPE_W}},
+                {0b10001, {InstructionIdentifier::ID_LDUR, disxx::disasm::operand::Register::Type::TYPE_W}},
+                {0b10010, {InstructionIdentifier::ID_LDURSW, disxx::disasm::operand::Register::Type::TYPE_X}},
+                {0b10100, {InstructionIdentifier::ID_STUR, disxx::disasm::operand::Register::Type::TYPE_S}},
+                {0b10101, {InstructionIdentifier::ID_LDUR, disxx::disasm::operand::Register::Type::TYPE_S}},
+                {0b11000, {InstructionIdentifier::ID_STUR, disxx::disasm::operand::Register::Type::TYPE_X}},
+                {0b11001, {InstructionIdentifier::ID_LDUR, disxx::disasm::operand::Register::Type::TYPE_X}},
+                {0b11100, {InstructionIdentifier::ID_STUR, disxx::disasm::operand::Register::Type::TYPE_D}},
+                {0b11101, {InstructionIdentifier::ID_LDUR, disxx::disasm::operand::Register::Type::TYPE_D}}
             };
 
             const unsigned short int encoding = (size << 3) | (VR << 2) | opc;

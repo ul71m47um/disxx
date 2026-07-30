@@ -10,7 +10,7 @@ module disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicA
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
 import disxx.disasm.utility.bits;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 
 namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::CryptographicAES
 {
@@ -59,11 +59,11 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Cryptog
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b00100, InstructionID::INSN_AESE},
-            {0b00101, InstructionID::INSN_AESD},
-            {0b00110, InstructionID::INSN_AESMC},
-            {0b00111, InstructionID::INSN_AESIMC}
+        std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b00100, InstructionIdentifier::ID_AESE},
+            {0b00101, InstructionIdentifier::ID_AESD},
+            {0b00110, InstructionIdentifier::ID_AESMC},
+            {0b00111, InstructionIdentifier::ID_AESIMC}
         };
 
         const auto it{insnTable.find(opcode)};

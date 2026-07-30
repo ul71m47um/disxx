@@ -9,7 +9,7 @@ import disxx.utility.pointer.NonNull;
 
 export import <expected>;
 
-export import disxx.disasm.InstructionID;
+export import disxx.disasm.InstructionIdentifier;
 export import disxx.disasm.operand.IOperand;
 
 export import disxx.disasm.decoder.abstract.SubDecoder;

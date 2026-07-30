@@ -10,7 +10,7 @@ module disxx.disasm.decoder.DataProcessingRegister.DataProcessing3Source.SubDeco
 
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 import disxx.disasm.utility.bits;
 
@@ -65,19 +65,19 @@ namespace disxx::disasm::decoder::DataProcessingRegister::DataProcessing3Source
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
     
-        static const std::unordered_map<unsigned short int, std::pair<InstructionID, std::optional<InstructionID>>> insnTable = {
-            {0b0000000, {InstructionID::INSN_MADD, InstructionID::INSN_MUL}},
-            {0b0000001, {InstructionID::INSN_MSUB, InstructionID::INSN_MNEG}},
-            {0b1000000, {InstructionID::INSN_MADD, InstructionID::INSN_MUL}},
-            {0b1000001, {InstructionID::INSN_MSUB, InstructionID::INSN_MNEG}},
-            {0b1000010, {InstructionID::INSN_SMADDL, InstructionID::INSN_SMULL}},
-            {0b1000011, {InstructionID::INSN_SMSUBL, InstructionID::INSN_SMNEGL}},
-            {0b1000100, {InstructionID::INSN_SMULH, std::nullopt}},
-            {0b1000110, {InstructionID::INSN_SMADDPT, std::nullopt}},
-            {0b1000111, {InstructionID::INSN_SMSUBPT, std::nullopt}},
-            {0b1001010, {InstructionID::INSN_UMADDL, InstructionID::INSN_UMULL}},
-            {0b1001011, {InstructionID::INSN_UMSUBL, InstructionID::INSN_UMNEGL}},
-            {0b1001100, {InstructionID::INSN_UMULH, std::nullopt}}
+        static const std::unordered_map<unsigned short int, std::pair<InstructionIdentifier, std::optional<InstructionIdentifier>>> insnTable = {
+            {0b0000000, {InstructionIdentifier::ID_MADD, InstructionIdentifier::ID_MUL}},
+            {0b0000001, {InstructionIdentifier::ID_MSUB, InstructionIdentifier::ID_MNEG}},
+            {0b1000000, {InstructionIdentifier::ID_MADD, InstructionIdentifier::ID_MUL}},
+            {0b1000001, {InstructionIdentifier::ID_MSUB, InstructionIdentifier::ID_MNEG}},
+            {0b1000010, {InstructionIdentifier::ID_SMADDL, InstructionIdentifier::ID_SMULL}},
+            {0b1000011, {InstructionIdentifier::ID_SMSUBL, InstructionIdentifier::ID_SMNEGL}},
+            {0b1000100, {InstructionIdentifier::ID_SMULH, std::nullopt}},
+            {0b1000110, {InstructionIdentifier::ID_SMADDPT, std::nullopt}},
+            {0b1000111, {InstructionIdentifier::ID_SMSUBPT, std::nullopt}},
+            {0b1001010, {InstructionIdentifier::ID_UMADDL, InstructionIdentifier::ID_UMULL}},
+            {0b1001011, {InstructionIdentifier::ID_UMSUBL, InstructionIdentifier::ID_UMNEGL}},
+            {0b1001100, {InstructionIdentifier::ID_UMULH, std::nullopt}}
         };
 
         const unsigned short int encoding = (sf << 6) | (op54 << 4) | (op31 << 1) | o0;

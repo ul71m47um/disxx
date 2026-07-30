@@ -10,7 +10,7 @@ import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
 import disxx.disasm.utility.bits;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 
 namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::AdvancedSIMDExtract
 {
@@ -100,6 +100,6 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             )
         );
 
-        return std::make_pair(InstructionID::INSN_EXT, std::move(this->m_Operands));
+        return std::make_pair(InstructionIdentifier::ID_EXT, std::move(this->m_Operands));
 	}
 } /* disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::AdvancedSIMDExtract */

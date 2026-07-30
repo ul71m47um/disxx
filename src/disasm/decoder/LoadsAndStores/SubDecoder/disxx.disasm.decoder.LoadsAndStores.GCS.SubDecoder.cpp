@@ -11,7 +11,7 @@ module disxx.disasm.decoder.LoadsAndStores.GCS.SubDecoder;
 import disxx.disasm.operand.LoadsAndStoresAddress;
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 
 namespace disxx::disasm::decoder::LoadsAndStores::GCS
@@ -85,8 +85,8 @@ namespace disxx::disasm::decoder::LoadsAndStores::GCS
         return std::make_pair
         (
             opc == 0b000
-                ? InstructionID::INSN_GCSSTR
-                : InstructionID::INSN_GCSSTTR,
+                ? InstructionIdentifier::ID_GCSSTR
+                : InstructionIdentifier::ID_GCSSTTR,
             std::move(this->m_Operands)
         );
 	}

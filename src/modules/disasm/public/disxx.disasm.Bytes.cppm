@@ -24,7 +24,7 @@ export template <> struct std::formatter<disxx::disasm::Bytes> : public std::for
 		return std::format_to
 		(
 			ctx.out(),
-			"{}",
+			"{:#08x}",
 			integer(addr)
 		);
 	}

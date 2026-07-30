@@ -10,7 +10,7 @@ module disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicT
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
 import disxx.disasm.utility.bits;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 
 namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::CryptographicThreeRegisterSHA512
 {
@@ -60,14 +60,14 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Cryptog
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b000, InstructionID::INSN_SHA512H},
-            {0b001, InstructionID::INSN_SHA512H2},
-            {0b010, InstructionID::INSN_SHA512SU1},
-            {0b011, InstructionID::INSN_RAX1},
-            {0b100, InstructionID::INSN_SM3PARTW1},
-            {0b101, InstructionID::INSN_SM3PARTW2},
-            {0b110, InstructionID::INSN_SM4EKEY}
+        std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b000, InstructionIdentifier::ID_SHA512H},
+            {0b001, InstructionIdentifier::ID_SHA512H2},
+            {0b010, InstructionIdentifier::ID_SHA512SU1},
+            {0b011, InstructionIdentifier::ID_RAX1},
+            {0b100, InstructionIdentifier::ID_SM3PARTW1},
+            {0b101, InstructionIdentifier::ID_SM3PARTW2},
+            {0b110, InstructionIdentifier::ID_SM4EKEY}
         };
 
         const unsigned short int encoding = (O << 2) | opcode;

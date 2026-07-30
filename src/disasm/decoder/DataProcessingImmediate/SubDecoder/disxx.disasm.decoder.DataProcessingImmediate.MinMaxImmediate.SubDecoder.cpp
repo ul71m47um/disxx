@@ -11,7 +11,7 @@ module disxx.disasm.decoder.DataProcessingImmediate.MinMaxImmediate.SubDecoder;
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Immediate;
 import disxx.disasm.operand.Register;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 import disxx.disasm.utility.bits;
 
 namespace disxx::disasm::decoder::DataProcessingImmediate::MinMaxImmediate
@@ -62,15 +62,15 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::MinMaxImmediate
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        static const std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b0000000, InstructionID::INSN_SMAX},
-            {0b0000001, InstructionID::INSN_UMAX},
-            {0b0000010, InstructionID::INSN_SMIN},
-            {0b0000011, InstructionID::INSN_UMIN},
-            {0b1000000, InstructionID::INSN_SMAX},
-            {0b1000001, InstructionID::INSN_UMAX},
-            {0b1000010, InstructionID::INSN_SMIN},
-            {0b1000011, InstructionID::INSN_UMIN}
+        static const std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b0000000, InstructionIdentifier::ID_SMAX},
+            {0b0000001, InstructionIdentifier::ID_UMAX},
+            {0b0000010, InstructionIdentifier::ID_SMIN},
+            {0b0000011, InstructionIdentifier::ID_UMIN},
+            {0b1000000, InstructionIdentifier::ID_SMAX},
+            {0b1000001, InstructionIdentifier::ID_UMAX},
+            {0b1000010, InstructionIdentifier::ID_SMIN},
+            {0b1000011, InstructionIdentifier::ID_UMIN}
         };
 
         const unsigned short int encoding = (sf << 6) | (op << 5) | (S << 4) | opc;

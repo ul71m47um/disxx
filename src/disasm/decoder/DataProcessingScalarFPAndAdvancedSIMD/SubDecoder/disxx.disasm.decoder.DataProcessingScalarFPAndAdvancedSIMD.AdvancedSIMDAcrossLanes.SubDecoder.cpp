@@ -10,7 +10,7 @@ module disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDAc
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
 import disxx.disasm.utility.bits;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 
 namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::AdvancedSIMDAcrossLanes
 {
@@ -61,22 +61,22 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b000000011, InstructionID::INSN_SADDLV},
-            {0b000001010, InstructionID::INSN_SMAXV},
-            {0b000011010, InstructionID::INSN_SMINV},
-            {0b000011011, InstructionID::INSN_ADDV},
-            {0b000001100, InstructionID::INSN_FMAXNMV},
-            {0b000001111, InstructionID::INSN_FMAXV},
-            {0b001001100, InstructionID::INSN_FMINNV},
-            {0b001001111, InstructionID::INSN_FMINV},
-            {0b010000011, InstructionID::INSN_UADDLV},
-            {0b010001010, InstructionID::INSN_UMAXV},
-            {0b010011010, InstructionID::INSN_UMINV},
-            {0b110001100, InstructionID::INSN_FMAXNMV},
-            {0b110001111, InstructionID::INSN_FMAXV},
-            {0b111001100, InstructionID::INSN_FMINNMV},
-            {0b111001111, InstructionID::INSN_FMINV}
+        std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b000000011, InstructionIdentifier::ID_SADDLV},
+            {0b000001010, InstructionIdentifier::ID_SMAXV},
+            {0b000011010, InstructionIdentifier::ID_SMINV},
+            {0b000011011, InstructionIdentifier::ID_ADDV},
+            {0b000001100, InstructionIdentifier::ID_FMAXNMV},
+            {0b000001111, InstructionIdentifier::ID_FMAXV},
+            {0b001001100, InstructionIdentifier::ID_FMINNV},
+            {0b001001111, InstructionIdentifier::ID_FMINV},
+            {0b010000011, InstructionIdentifier::ID_UADDLV},
+            {0b010001010, InstructionIdentifier::ID_UMAXV},
+            {0b010011010, InstructionIdentifier::ID_UMINV},
+            {0b110001100, InstructionIdentifier::ID_FMAXNMV},
+            {0b110001111, InstructionIdentifier::ID_FMAXV},
+            {0b111001100, InstructionIdentifier::ID_FMINNMV},
+            {0b111001111, InstructionIdentifier::ID_FMINV}
         };
 
         unsigned short int encoding = (Q << 8) | (U << 7) | (size << 5) | opcode;

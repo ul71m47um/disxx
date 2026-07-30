@@ -10,7 +10,7 @@ module disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicT
 import disxx.utility.error.DisassemblyError;
 import disxx.disasm.operand.Register;
 import disxx.disasm.utility.bits;
-import disxx.disasm.InstructionID;
+import disxx.disasm.InstructionIdentifier;
 
 namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::CryptographicThreeRegisterSHA
 {
@@ -60,14 +60,14 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Cryptog
         Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        std::unordered_map<unsigned short int, InstructionID> insnTable = {
-            {0b000, InstructionID::INSN_SHA1C},
-            {0b001, InstructionID::INSN_SHA1P},
-            {0b010, InstructionID::INSN_SHA1M},
-            {0b011, InstructionID::INSN_SHA1SUO},
-            {0b100, InstructionID::INSN_SHA256H},
-            {0b101, InstructionID::INSN_SHA256H2},
-            {0b110, InstructionID::INSN_SHA256SU1}
+        std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
+            {0b000, InstructionIdentifier::ID_SHA1C},
+            {0b001, InstructionIdentifier::ID_SHA1P},
+            {0b010, InstructionIdentifier::ID_SHA1M},
+            {0b011, InstructionIdentifier::ID_SHA1SUO},
+            {0b100, InstructionIdentifier::ID_SHA256H},
+            {0b101, InstructionIdentifier::ID_SHA256H2},
+            {0b110, InstructionIdentifier::ID_SHA256SU1}
         };
 
         const auto it{insnTable.find(opcode)};
