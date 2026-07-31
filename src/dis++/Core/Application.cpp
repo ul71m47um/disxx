@@ -170,16 +170,16 @@ void Application::Disassemble(const std::filesystem::path &path) noexcept(false)
 		        editor.AddLine("<color value=\"0.6 0.6 0.2 1.0\">{}</color>:", label.GetName());
 
 				disxx::disasm::Disassembler disasm{};
-				const auto &vec
+				const auto vec
 				{
-					label.GetData<std::uint32_t>()
+					//label.GetData<std::uint32_t>()
+					std::vector<std::uint32_t>{0x3ce1f800, 0x3ce17800, 0x94000005, 0x3dc00000, 0xd2800602, 0x3dc00000}	
 						| std::views::all
 						| std::views::transform([](const auto &bytes) -> auto { return disxx::disasm::Bytes{bytes}; })
 						| std::ranges::to<std::vector<disxx::disasm::Bytes>>()
 				};
 	   		    for (disxx::disasm::Address addr{label.GetAddress()}; const auto &bytes : vec)
     		    {
-					std::println("{}", bytes);
 					if (const auto &insn{disasm.Disassemble(bytes, addr++)}) [[likely]]
 					{
 						auto mnemonic

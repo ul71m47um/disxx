@@ -276,7 +276,8 @@ namespace disxx::loader::macho
 
 	std::string_view Loader::GetFileType(void) const noexcept(false)
 	{
-		const static std::unordered_map<std::uint32_t, std::string_view> fileTypeTable = {
+		const static std::unordered_map<std::uint32_t, std::string_view> fileTypeTable
+		{
 			{MH_OBJECT,		"relocatable object file"},
 			{MH_EXECUTE,	"demand paged executable file"},
 			{MH_CORE,		"core file"},

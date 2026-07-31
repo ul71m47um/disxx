@@ -17,13 +17,13 @@ export namespace disxx::disasm::operand
 		enum class Type : unsigned short int
 		{
 			TYPE_W		= 0x0000,
-			TYPE_X		= 0x001f,
-			TYPE_B		= 0x003e,
-			TYPE_H		= 0x005d,
-			TYPE_S		= 0x007c,
-			TYPE_D		= 0x009b,
-			TYPE_Q		= 0x00ba,
-			TYPE_V		= 0x00d9,
+			TYPE_X		= 0x0020,
+			TYPE_B		= 0x0040,
+			TYPE_H		= 0x0060,
+			TYPE_S		= 0x0080,
+			TYPE_D		= 0x00a0,
+			TYPE_Q		= 0x00c0,
+			TYPE_V		= 0x00e0,
 			TYPE_SYS	= 0x0000 // Doesn't require any offset
 		};
 

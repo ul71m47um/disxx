@@ -2605,20 +2605,19 @@ export namespace disxx::disasm
 			const auto modifier{pLoadsAndStoresAddress->GetModifier()};
 		
 			const std::unique_ptr<operand::IOperand> pBaseRegister{std::make_unique<operand::Register>(pLoadsAndStoresAddress->GetRegister())};	
-			this->Print(pBaseRegister, !modifier || !offset);
-			
+			this->Print(pBaseRegister, !modifier && !offset);
+		
+			bool accumulative{false};	
 			if (offset)
 			{
 				std::visit
 				(
-					[this](auto &&opr) -> void
+					[this, &modifier, &accumulative](auto &&opr) mutable -> void
 					{
 						if constexpr (std::is_same<typename std::decay<decltype(opr)>::type, operand::Register>::value)
 						{
 							const std::unique_ptr<operand::IOperand> pRegister{std::make_unique<operand::Register>(opr)};
-							this->Print(pRegister, true);
-
-							*this->m_It++ = ']';
+							this->Print(pRegister, !modifier);
 						}
 						else
 						{
@@ -2632,15 +2631,13 @@ export namespace disxx::disasm
 								opr.first
 							);
 
-							*this->m_It++ = ']';
-							if (opr.second == operand::LoadsAndStoresAddress::PreIndexedOffsetKind::IDX_ACCUMULATIVE)
-								*this->m_It++ = '!';
+							accumulative = opr.second == operand::LoadsAndStoresAddress::PreIndexedOffsetKind::IDX_ACCUMULATIVE;
 						}
 					},
 					*offset
 				);
 			}
-			else if (modifier)
+			if (modifier)
 			{
 				std::visit
 				(
@@ -2648,12 +2645,14 @@ export namespace disxx::disasm
 					{
 						const std::unique_ptr<operand::IOperand> pModifier{std::make_unique<typename std::decay<decltype(mod)>::type>(mod)};
 						this->Print(pModifier, true);
-						
-						*this->m_It++ = ']';
 					},
 					*modifier
 				);
 			}
+
+			*this->m_It++ = ']';
+			if (accumulative)
+				*this->m_It++ = '!';
 		}
 		else if (const auto *pPrefetchOperand{dynamic_cast<operand::PrefetchOperand *>(ptr.get())})
 			for (const auto ch : s_PrefetchOperandTable.at(pPrefetchOperand->GetIdentifier()))
