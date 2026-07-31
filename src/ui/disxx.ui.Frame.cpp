@@ -43,6 +43,9 @@ namespace disxx::ui
 
 	void Frame::Render(void) const noexcept
 	{
+		if (!this->m_Visible)
+			return;
+
 		// Add a subframe
 		utility::Shape subframe{utility::Shape::Type::TYPE_RECTANGLE};
 		subframe.Replace(utility::Vec2<float>{this->m_Position.x - 1.f, this->m_Position.y - 1.f});

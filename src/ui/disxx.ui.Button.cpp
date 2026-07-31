@@ -72,6 +72,9 @@ namespace disxx::ui
 
 	void Button::Render(void) const noexcept
 	{
+		if (!this->m_Visible)
+			return;
+
 		// Add a frame
 		utility::Shape frame{utility::Shape::Type::TYPE_RECTANGLE};
 		frame.Replace(utility::Vec2<float>{this->m_Position.x - 1.f, this->m_Position.y - 1.f});

@@ -186,6 +186,9 @@ namespace disxx::ui
 	
 	void SourceEditor::Render(void) const noexcept
 	{
+		if (!this->m_Visible)
+			return;
+
 		// Render the text area
 		utility::ColorTag tag{};
         for (const auto i : std::views::iota(0UL, this->m_Lines.size()))

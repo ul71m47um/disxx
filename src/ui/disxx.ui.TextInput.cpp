@@ -71,6 +71,9 @@ namespace disxx::ui
 
 	void TextInput::Render(void) const noexcept
 	{
+		if (!this->m_Visible)
+			return;
+
 		utility::Shape subframe{utility::Shape::Type::TYPE_RECTANGLE};
 		subframe.Replace(utility::Vec2<float>{this->m_Position.x - 1, this->m_Position.y - 1});
 		subframe.Resize(utility::Vec2<float>{this->m_Size.x + 2, this->m_Size.y + 2});

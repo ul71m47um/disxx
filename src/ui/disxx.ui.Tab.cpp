@@ -61,6 +61,9 @@ namespace disxx::ui
 
 	void Tab::Render(void) const noexcept
 	{
+		if (!this->m_Visible)
+			return;
+
 		float heightModifier{this->m_IsClicked ? 5.f : 0.f};
 
 		// Add a frame

@@ -71,7 +71,7 @@ namespace disxx::ui
 			for (auto &entry : this->m_Entries)
 			{
 				entry.HandleMouse(button, state, x, y);
-				if (entry.Clicked())
+				if (entry.GetClicked())
 				{
 					entry();
 					return;
@@ -89,6 +89,9 @@ namespace disxx::ui
 
 	void Menu::Render(void) const noexcept
 	{
+		if (!this->m_Visible)
+			return;
+
 		// Add a frame
 		if (this->m_IsClicked && !this->m_Entries.empty())
 		{

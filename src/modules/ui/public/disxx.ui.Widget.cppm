@@ -27,6 +27,7 @@ export namespace disxx::ui
 		utility::Vec2<float> m_Position{};
 		utility::Vec2<float> m_Size{};
 		float m_pColor[3]{};
+		bool m_Visible{};
 		[[maybe_unused]] mutable bool
 			m_IsClicked{},
 			m_IsHovered{};
@@ -51,8 +52,10 @@ export namespace disxx::ui
 		virtual void Resize(utility::Vec2<float>) noexcept;
 		
 		inline void SetColor(float, float, float) noexcept;
-
-		inline bool Clicked(void) const noexcept;
+		inline void SetVisible(bool) noexcept;
+	
+		inline bool GetVisible(void) const noexcept;	
+		inline bool GetClicked(void) const noexcept;
 
 		virtual void Render(void) const noexcept = 0;
 		virtual void HandleKeyboard(unsigned char, int, int);
@@ -67,6 +70,9 @@ export namespace disxx::ui
 		this->m_pColor[2] = b;
 	}
 
+	inline bool Widget::GetVisible(void) const noexcept
+	{ return this->m_Visible; }
+
 	inline utility::Vec2<float> Widget::GetPosition(void) const noexcept
 	{ return utility::Vec2<float>{this->m_Position}; }
 
@@ -79,6 +85,9 @@ export namespace disxx::ui
 	inline void Widget::Resize(utility::Vec2<float> size) noexcept
 	{ this->m_Size = size; }
 
-	inline bool Widget::Clicked(void) const noexcept
+	inline void Widget::SetVisible(bool visible) noexcept
+	{ this->m_Visible = visible; }
+
+	inline bool Widget::GetClicked(void) const noexcept
 	{ return this->m_IsClicked; }
 } /* disxx::ui */

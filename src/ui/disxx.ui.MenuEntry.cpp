@@ -76,6 +76,9 @@ namespace disxx::ui
 
 	void MenuEntry::Render(void) const noexcept
 	{
+		if (!this->m_Visible)
+			return;
+
 		// Add a button
 		utility::Shape btn{utility::Shape::Type::TYPE_RECTANGLE};
 		btn.Replace(utility::Vec2<float>{this->m_Position.x, this->m_Position.y});

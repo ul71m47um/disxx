@@ -70,7 +70,7 @@ export namespace disxx::ui
 	inline std::optional<std::reference_wrapper<const Tab>> TabbedPane::GetActiveTab(void) const noexcept
 	{
 		for (const auto &tab : this->m_Tabs)
-			if (tab.Clicked())
+			if (tab.GetClicked())
 				return std::cref(tab);
 		return std::nullopt;
 	}

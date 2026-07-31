@@ -18,7 +18,21 @@ module;
 #include <tuple>
 #include <array>
 
-#include <print>
+#define SUPPRESS_LAST_WIDGETS(widgets, n) \
+	if (widgets.size() >= n) [[likely]] \
+		for (const auto it{widgets.rbegin()}; const auto i : std::views::iota(0, n)) \
+			(*(it + i))->SetVisible(false)
+
+#define CLEAR(widgets) \
+	const auto _ \
+	{ \
+		std::ranges::remove_if \
+		( \
+			widgets, \
+			[](const auto &pWidget) -> bool \
+			{ return !pWidget->GetVisible(); } \
+		) \
+	}
 
 #define MKHEX(x) (std::format("{:#x}", (x)))
 
@@ -172,8 +186,8 @@ void Application::Disassemble(const std::filesystem::path &path) noexcept(false)
 				disxx::disasm::Disassembler disasm{};
 				const auto vec
 				{
-					//label.GetData<std::uint32_t>()
-					std::vector<std::uint32_t>{0x3ce1f800, 0x3ce17800, 0x94000005, 0x3dc00000, 0xd2800602, 0x3dc00000}	
+					label.GetData<std::uint32_t>()
+					//std::vector<std::uint32_t>{0x3ce1f800, 0x3ce17800, 0x94000005, 0x3dc00000, 0xd2800602, 0x3dc00000}	
 						| std::views::all
 						| std::views::transform([](const auto &bytes) -> auto { return disxx::disasm::Bytes{bytes}; })
 						| std::ranges::to<std::vector<disxx::disasm::Bytes>>()
@@ -189,7 +203,6 @@ void Application::Disassemble(const std::filesystem::path &path) noexcept(false)
 								std::string str{};
 								disxx::disasm::Printer<std::back_insert_iterator<std::string>> printer{std::back_inserter(str)};
 								printer.Print(*insn);
-								std::println("{}", str);
 								
 								static const std::regex regs{R"(((b|h|s|d|q|v|w|x)\d{1,2})|(sp)|((w|x)zr))"};
 								for (std::sregex_iterator it{str.begin(), str.end(), regs}, end{}; it != end; ++it)
@@ -331,7 +344,7 @@ void Application::Init(void) noexcept(false)
 	if (s_pInstance->m_pInput) [[likely]]
 	{
 		path = s_pInstance->m_pInput->GetPath();
-		s_pInstance->m_pInput.reset();
+		s_pInstance->m_pInput->Suppress();
 	}
 
 	s_pInstance->m_Window.SetVisible(true);
@@ -379,6 +392,8 @@ void Application::Init(void) noexcept(false)
 			"Open...",
 			[] -> void
 			{
+				CLEAR(s_pInstance->m_Window.GetWidgets());
+	
 				// Do nothing if the entry has been activated
 				static bool openActive{false};
 				if (openActive) [[unlikely]]
@@ -441,19 +456,17 @@ void Application::Init(void) noexcept(false)
 						{
 							static_cast<disxx::ui::TextInput *>
 							(
-								(
-									s_pInstance
-										->m_Window
-										.GetWidgets()
-										.rbegin()
-								)->get()
+								s_pInstance
+									->m_Window
+									.GetWidgets()
+									.rbegin()
+									->get()
 							)->GetText()
 
 						};
 
-						for (const auto _ : std::views::iota(0, 5))
-							s_pInstance->m_Window.GetWidgets().pop_back();
-						
+						SUPPRESS_LAST_WIDGETS(s_pInstance->m_Window.GetWidgets(), 5);
+
 						s_pInstance->Disassemble(std::filesystem::path{p});
 					
 						openActive = false;
@@ -478,8 +491,7 @@ void Application::Init(void) noexcept(false)
 						if (s_pInstance->m_Window.GetWidgets().size() < 5) [[unlikely]]
 							return;
 
-						for (const auto _ : std::views::iota(0, 5))
-							s_pInstance->m_Window.GetWidgets().pop_back();
+						SUPPRESS_LAST_WIDGETS(s_pInstance->m_Window.GetWidgets(), 5);
 
 						openActive = false;
 					}
@@ -507,6 +519,8 @@ void Application::Init(void) noexcept(false)
 			"Save source",
 			[] -> void
 			{
+				CLEAR(s_pInstance->m_Window.GetWidgets());
+
 				// Do nothing if the entry has been activated
 				static bool saveActive{false};
 				if (saveActive) [[unlikely]]
@@ -569,19 +583,17 @@ void Application::Init(void) noexcept(false)
 						{
 							static_cast<disxx::ui::TextInput *>
 							(
-								(
-									s_pInstance
-										->m_Window
-										.GetWidgets()
-										.rbegin()
-								)->get()
+								s_pInstance
+									->m_Window
+									.GetWidgets()
+									.rbegin()
+									->get()
 							)->GetText()
 
 						};
 
-						for (const auto _ : std::views::iota(0, 5))
-							s_pInstance->m_Window.GetWidgets().pop_back();
-					
+						SUPPRESS_LAST_WIDGETS(s_pInstance->m_Window.GetWidgets(), 5);
+
 						if (const auto tab{static_cast<disxx::ui::TabbedPane *>(s_pInstance->m_Window.GetWidgets().begin()->get())->GetActiveTab()}) [[likely]]
 						{
 							std::fstream file{std::string{p}, std::fstream::out | std::fstream::binary | std::fstream::trunc};
@@ -616,8 +628,7 @@ void Application::Init(void) noexcept(false)
 						if (s_pInstance->m_Window.GetWidgets().size() < 5) [[unlikely]]
 							return;
 
-						for (const auto _ : std::views::iota(0, 5))
-							s_pInstance->m_Window.GetWidgets().pop_back();
+						SUPPRESS_LAST_WIDGETS(s_pInstance->m_Window.GetWidgets(), 5);
 
 						saveActive = false;
 					}
@@ -645,6 +656,8 @@ void Application::Init(void) noexcept(false)
 			"Script",
 			[] -> void
 			{
+				CLEAR(s_pInstance->m_Window.GetWidgets());
+
 				// Do nothing if the entry has been activated
 				static bool scriptActive{false};
 				if (scriptActive) [[unlikely]]
@@ -707,18 +720,16 @@ void Application::Init(void) noexcept(false)
 						{
 							static_cast<disxx::ui::TextInput *>
 							(
-								(
-									s_pInstance
-										->m_Window
-										.GetWidgets()
-										.rbegin()
-								)->get()
+								s_pInstance
+									->m_Window
+									.GetWidgets()
+									.rbegin()
+									->get()
 							)->GetText()
 
 						};
 
-						for (const auto _ : std::views::iota(0, 5))
-							s_pInstance->m_Window.GetWidgets().pop_back();
+						SUPPRESS_LAST_WIDGETS(s_pInstance->m_Window.GetWidgets(), 5);
 
 						static ScriptEngine engine{};
 						engine.ExecFile(p);
@@ -745,8 +756,7 @@ void Application::Init(void) noexcept(false)
 						if (s_pInstance->m_Window.GetWidgets().size() < 5) [[unlikely]]
 							return;
 
-						for (const auto _ : std::views::iota(0, 5))
-							s_pInstance->m_Window.GetWidgets().pop_back();
+						SUPPRESS_LAST_WIDGETS(s_pInstance->m_Window.GetWidgets(), 5);
 
 						scriptActive = false;
 					}
@@ -797,9 +807,8 @@ void Application::Init(void) noexcept(false)
 	if (!path.empty())	
 		s_pInstance->Disassemble(path);
 
-    s_pInstance
-		->m_Window
-		.Redisplay();
+	for (const auto _ : std::views::iota(0, 2))
+    	s_pInstance->m_Window.Redisplay();
 }
 
 int Application::Exec(void) const noexcept(false)

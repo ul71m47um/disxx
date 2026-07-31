@@ -55,6 +55,9 @@ namespace disxx::ui
 
 	void TabbedPane::Render(void) const noexcept
 	{
+		if (!this->m_Visible)
+			return;
+
 		// Add a subframe
 		utility::Shape subframe{utility::Shape::Type::TYPE_RECTANGLE};
 		subframe.Replace(utility::Vec2<float>{this->m_Position.x - 1.f, this->m_Position.y - 1.f});
@@ -72,7 +75,7 @@ namespace disxx::ui
 		for (const auto &tab : this->m_Tabs)
 		{
 			tab.Render();
-			if (tab.Clicked())
+			if (tab.GetClicked())
 				tab.GetTextArea().Render();
 		}
 	}
@@ -87,7 +90,7 @@ namespace disxx::ui
 			const auto [tabX, tabY]{tab.GetPosition()};
 			const auto [tabWidth, tabHeight]{tab.GetSize()};
 			const auto cond{x >= tabX && x <= tabX + tabWidth && y >= tabY && y <= tabY + tabHeight};
-			if (button == 0 && state == 0 && cond && tab.Clicked())
+			if (button == 0 && state == 0 && cond && tab.GetClicked())
 				tab.SetPassive();
 			else if (button == 0 && state == 0 && cond)
 			{
@@ -95,7 +98,7 @@ namespace disxx::ui
 					other.SetPassive();
 				tab.HandleMouse(button, state, x, y);
 			}
-			else if (cond || tab.Clicked())
+			else if (cond || tab.GetClicked())
 				tab.HandleMouse(button, state, x, y);
 		}
 	}
@@ -103,7 +106,7 @@ namespace disxx::ui
 	void TabbedPane::HandleMotion(int x, int y) noexcept(false)
 	{
 		for (auto &tab : this->m_Tabs)
-			if (tab.Clicked())
+			if (tab.GetClicked())
 				tab.GetTextArea().HandleMotion(x, y);
 	}
 } /* disxx::ui */

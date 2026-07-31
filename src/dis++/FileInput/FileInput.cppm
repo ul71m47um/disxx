@@ -31,4 +31,5 @@ export class FileInput
 	void SetPath(const std::filesystem::path &) noexcept;
 	const std::filesystem::path &GetPath(void) const noexcept;
 	void SetCallback(const std::function<void(void)>) noexcept;
+	void Suppress(void) noexcept;
 };

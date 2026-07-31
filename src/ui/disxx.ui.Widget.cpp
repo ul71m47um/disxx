@@ -26,6 +26,7 @@ namespace disxx::ui
 		: m_Position{0, 0}
 		, m_Size{0, 0}
 		, m_pColor{0.0f, 0.0f, 0.0f}
+		, m_Visible{true}
 		, m_IsClicked{false}
         , m_IsHovered{false}
 	{ INIT_GL_RENDERER(s_pRenderer); }
@@ -34,6 +35,7 @@ namespace disxx::ui
 		: m_Position{x, y}
 		, m_Size{width, height}
 		, m_pColor{0.0f, 0.0f, 0.0f}
+		, m_Visible{true}
 		, m_IsClicked{false}
         , m_IsHovered{false}
 	{ INIT_GL_RENDERER(s_pRenderer); }
@@ -42,6 +44,7 @@ namespace disxx::ui
 		: m_Position{other.m_Position}
 		, m_Size{other.m_Size}
 		, m_pColor{other.m_pColor[0], other.m_pColor[1], other.m_pColor[2]}
+		, m_Visible{true}
 		, m_IsClicked{false}
         , m_IsHovered{other.m_IsHovered}	
 	{}
@@ -54,6 +57,7 @@ namespace disxx::ui
 			this->m_Size = other.m_Size;
 			for (unsigned short int i{0}; i < 3; ++i)
 				this->m_pColor[i] = other.m_pColor[i];
+			this->m_Visible = other.m_Visible;
 			this->m_IsClicked = other.m_IsClicked;
             this->m_IsHovered = other.m_IsHovered;	
 		}

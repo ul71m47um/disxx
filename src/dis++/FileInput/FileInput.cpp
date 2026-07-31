@@ -144,3 +144,10 @@ void FileInput::SetCallback(std::function<void(void)> func) noexcept
 
 const std::filesystem::path &FileInput::GetPath(void) const noexcept
 { return this->m_Path; }
+
+void FileInput::Suppress(void) noexcept
+{
+	for (auto &pWidget : this->m_Window.GetWidgets())
+		pWidget->SetVisible(false);
+	this->m_Window.SetVisible(false);
+}
