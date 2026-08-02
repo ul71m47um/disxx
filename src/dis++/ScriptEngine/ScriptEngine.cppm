@@ -23,7 +23,8 @@ export class ScriptEngine
 	VALUE m_Disassembler{};
 
   public:
-	[[clang::always_inline]] static inline void Init(void) noexcept;
+	[[clang::always_inline]] static inline void Init(int &argc, char **&argv) noexcept;
+	static inline void ShutDown(void) noexcept;
 
   public:
 	class EngineError final : public std::exception
@@ -58,10 +59,20 @@ export class ScriptEngine
 	ScriptEngine(ScriptEngine &&) noexcept = delete;
 	ScriptEngine &operator=(ScriptEngine &&) noexcept = delete;
 
-	~ScriptEngine(void) noexcept;
+	~ScriptEngine(void) noexcept = default;
 
 	ExecResult ExecFile(const std::filesystem::path &) noexcept;
 	ExecResult ExecString(std::string_view) noexcept;
 };
 
-[[clang::always_inline]] inline void ScriptEngine::Init(void) noexcept { RUBY_INIT_STACK }
+[[clang::always_inline]] inline void ScriptEngine::Init(int &argc, char **&argv) noexcept
+{
+	RUBY_INIT_STACK
+
+	ruby_sysinit(&argc, &argv);
+    ruby_init();
+    ruby_init_loadpath();
+}
+
+inline void ScriptEngine::ShutDown(void) noexcept
+{ ruby_cleanup(0); }

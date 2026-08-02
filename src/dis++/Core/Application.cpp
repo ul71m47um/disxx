@@ -26,7 +26,7 @@ module;
 #define CLEAR(widgets) \
 	const auto _ \
 	{ \
-		std::ranges::remove_if \
+		std::erase_if \
 		( \
 			widgets, \
 			[](const auto &pWidget) -> bool \
@@ -80,8 +80,8 @@ Application *Application::s_pInstance{nullptr};
 Application::Application(void) noexcept(false)
 	: m_Window{disxx::ui::utility::Vec2<int>{800, 600}, "dis++ v" __DISXX_VERSION__}
 	, m_Logger{}
-	, m_pInput{std::make_unique<FileInput>()}
-{ this->m_pInput->SetCallback([] -> void { Application::Init(); }); }
+	, m_pInput{}
+{ this->m_pInput.SetCallback([] -> void { Application::Init(); }); }
 
 void Application::Disassemble(const std::filesystem::path &path) noexcept(false)
 {
@@ -203,29 +203,8 @@ void Application::Disassemble(const std::filesystem::path &path) noexcept(false)
 								std::string str{};
 								disxx::disasm::Printer<std::back_insert_iterator<std::string>> printer{std::back_inserter(str)};
 								printer.Print(*insn);
-								
-								static const std::regex regs{R"(((b|h|s|d|q|v|w|x)\d{1,2})|(sp)|((w|x)zr))"};
-								for (std::sregex_iterator it{str.begin(), str.end(), regs}, end{}; it != end; ++it)
-								{
-									// Check if it was accidentally confused with immediate operand
-									if (const auto &prev{str.at(it->position() - 1uz)}; prev == 'x' || std::isdigit(prev) || (prev >= 97 && prev <= 102)) [[unlikely]]
-										continue;
-									// Check if a number of the register is valid
-									else if (auto n{0ull}; std::from_chars(it->str().data() + 1, it->str().data() + it->str().size() - 1, n)) [[likely]]
-										if (n > 31) [[unlikely]]
-											continue;
-
-									str = std::regex_replace
-									(
-										str,
-										std::regex{it->str()},
-										std::format("<color value=\"0.3 0.7 0.7 1.0\">{}</color>", it->str())
-									);
-
-									it = {str.begin(), str.end(), regs};
-								}
-
-								static const std::regex imms{R"(#-?((0x[a-f0-9]+)|(\d+\.\d+)))"};
+							
+								const std::regex imms{R"(#-?((0x[a-f0-9]+)|(\d+\.\d+)))"};
 								for (std::sregex_iterator it{str.begin(), str.end(), imms}, end{}; it != end; ++it)
 								{
 									// Check if it's a pc-relevant address (using .value_or(0) instead of .value() method)
@@ -248,13 +227,34 @@ void Application::Disassemble(const std::filesystem::path &path) noexcept(false)
 										);
 									}
 
-									it = {str.begin(), str.end(), regs};
+									it = std::sregex_iterator{str.begin(), str.end(), imms};
 								}
 
+								const std::regex regs{R"(((b|h|s|d|q|v|w|x)\d{1,2})|(sp)|((w|x)zr))"};
+								for (std::sregex_iterator it{str.begin(), str.end(), regs}, end{}; it != end; ++it)
+								{
+									// Check if it was accidentally confused with immediate operand
+									if (const auto &prev{str.at(it->position() - 1uz)}; prev == 'x' || std::isdigit(prev) || (prev >= 97 && prev <= 102)) [[unlikely]]
+										continue;
+									// Check if a number of the register is valid
+									else if (auto n{0ull}; std::from_chars(it->str().data() + 1, it->str().data() + it->str().size() - 1, n)) [[likely]]
+										if (n > 31) [[unlikely]]
+											continue;
+
+									str = std::regex_replace
+									(
+										str,
+										std::regex{it->str()},
+										std::format("<color value=\"0.3 0.7 0.7 1.0\">{}</color>", it->str())
+									);
+
+									it = std::sregex_iterator{str.begin(), str.end(), regs};
+								}
+								
 								return str;
 							}()
 						};
-						
+
 						if (auto insnAddr{insn->GetProgramCounterRelevantAddress()})
     		        	{
     		            	if (auto it{names.find(*insnAddr)}; it != names.end())
@@ -282,7 +282,7 @@ void Application::Disassemble(const std::filesystem::path &path) noexcept(false)
 
 						editor.AddLine("<color value=\"0.7 0.7 0.7 1.0\">|</color>\t{}", mnemonic);
 					}
-					else	
+					else
 						editor.AddLine("<color value=\"0.7 0.7 0.7 1.0\">|</color>\t{}", insn.error().what());
 				}
     		}
@@ -339,13 +339,9 @@ void Application::Disassemble(const std::filesystem::path &path) noexcept(false)
 
 void Application::Init(void) noexcept(false)
 {
-	// Destroy the previous window
-    std::filesystem::path path{};
-	if (s_pInstance->m_pInput) [[likely]]
-	{
-		path = s_pInstance->m_pInput->GetPath();
-		s_pInstance->m_pInput->Suppress();
-	}
+	// Suppress the previous window
+    std::filesystem::path path{s_pInstance->m_pInput.GetPath()};
+	s_pInstance->m_pInput.Suppress();
 
 	s_pInstance->m_Window.SetVisible(true);
 	const auto [width, height]{s_pInstance->m_Window.GetSize()};
@@ -462,10 +458,9 @@ void Application::Init(void) noexcept(false)
 									.rbegin()
 									->get()
 							)->GetText()
-
 						};
 
-						SUPPRESS_LAST_WIDGETS(s_pInstance->m_Window.GetWidgets(), 5);
+						SUPPRESS_LAST_WIDGETS(s_pInstance->m_Window.GetWidgets(), 6);
 
 						s_pInstance->Disassemble(std::filesystem::path{p});
 					
@@ -491,7 +486,7 @@ void Application::Init(void) noexcept(false)
 						if (s_pInstance->m_Window.GetWidgets().size() < 5) [[unlikely]]
 							return;
 
-						SUPPRESS_LAST_WIDGETS(s_pInstance->m_Window.GetWidgets(), 5);
+						SUPPRESS_LAST_WIDGETS(s_pInstance->m_Window.GetWidgets(), 6);
 
 						openActive = false;
 					}
@@ -628,7 +623,7 @@ void Application::Init(void) noexcept(false)
 						if (s_pInstance->m_Window.GetWidgets().size() < 5) [[unlikely]]
 							return;
 
-						SUPPRESS_LAST_WIDGETS(s_pInstance->m_Window.GetWidgets(), 5);
+						SUPPRESS_LAST_WIDGETS(s_pInstance->m_Window.GetWidgets(), 6);
 
 						saveActive = false;
 					}
@@ -729,7 +724,7 @@ void Application::Init(void) noexcept(false)
 
 						};
 
-						SUPPRESS_LAST_WIDGETS(s_pInstance->m_Window.GetWidgets(), 5);
+						SUPPRESS_LAST_WIDGETS(s_pInstance->m_Window.GetWidgets(), 6);
 
 						static ScriptEngine engine{};
 						engine.ExecFile(p);
@@ -756,7 +751,7 @@ void Application::Init(void) noexcept(false)
 						if (s_pInstance->m_Window.GetWidgets().size() < 5) [[unlikely]]
 							return;
 
-						SUPPRESS_LAST_WIDGETS(s_pInstance->m_Window.GetWidgets(), 5);
+						SUPPRESS_LAST_WIDGETS(s_pInstance->m_Window.GetWidgets(), 6);
 
 						scriptActive = false;
 					}
@@ -804,11 +799,10 @@ void Application::Init(void) noexcept(false)
 		s_pInstance->m_Window.AddWidget(std::make_unique<disxx::ui::Menu>(menu));
 	}
 
-	if (!path.empty())	
+	if (!path.empty())
 		s_pInstance->Disassemble(path);
 
-	for (const auto _ : std::views::iota(0, 2))
-    	s_pInstance->m_Window.Redisplay();
+    s_pInstance->m_Window.Redisplay();
 }
 
 int Application::Exec(void) const noexcept(false)

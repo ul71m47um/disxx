@@ -28,7 +28,7 @@ export class __DISXX_PRIVATE__ [[nodiscard]] Application
   private:
 	disxx::ui::MainWindow m_Window{};
 	DisLog m_Logger{};
-	std::unique_ptr<FileInput> m_pInput{};
+	FileInput m_pInput{};
 
   private:
 	static void Init(void) noexcept(false);
@@ -43,25 +43,27 @@ export class __DISXX_PRIVATE__ [[nodiscard]] Application
 
   public:
 	// THIS FUNCTION CALLS ONCE!
-	[[clang::always_inline]] inline static Application *Init(int &, char **) noexcept(false);
+	[[clang::always_inline]] inline static Application *Init(int &, char **&) noexcept(false);
 	
 	~Application(void) noexcept = default;
 
 	int Exec(void) const noexcept(false);
 };
 
-inline Application *Application::Init(int &argc, char **argv) noexcept(false)
+inline Application *Application::Init(int &argc, char **&argv) noexcept(false)
 {
-	ScriptEngine::Init();
-	if (argv == nullptr) [[unlikely]]
+	// ScriptEngine should be defined first, so safety check is delayed
+	ScriptEngine::Init(argc, argv);
+
+	if (argv == nullptr || *argv == nullptr) [[unlikely]]
 		throw disxx::utility::error::NullPointerError{"NullPointerError"};
 	disxx::ui::MainWindow::Init(&argc, argv);
     
 	if (!s_pInstance) [[likely]]
         s_pInstance = new Application{};
 
-	static int sArgc{argc};
-	static char **sArgv{argv};
+	static auto &sArgc{argc};
+	static auto &sArgv{argv};
 	std::set_terminate
 	(
 		[] -> void

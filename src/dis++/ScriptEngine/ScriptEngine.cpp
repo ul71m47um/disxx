@@ -146,20 +146,6 @@ ScriptEngine::ScriptEngine(void) noexcept
 	, m_Label{Qnil}
 	, m_Disassembler{Qnil}
 {
-	static bool initialized{false};
-	if (!initialized) [[likely]]
-	{
-		auto argc{0};
-		char arg0[]{""};
-		auto argv0{arg0};
-		auto argv{&argv0};
-		ruby_sysinit(&argc, &argv);
-		ruby_init();
-		ruby_init_loadpath();
-	
-		initialized = true;	
-	}
-
 	this->m_Disxx = rb_define_module("Disxx");
 
 	// Ruby classes defenition
@@ -528,9 +514,6 @@ ScriptEngine::ScriptEngine(void) noexcept
 		0
 	);
 }
-
-ScriptEngine::~ScriptEngine() noexcept
-{ ruby_cleanup(0); }
 
 ScriptEngine::ExecResult ScriptEngine::ExecFile(const std::filesystem::path &path) noexcept
 {

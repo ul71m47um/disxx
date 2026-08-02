@@ -39,6 +39,7 @@ export namespace disxx::disasm
 		static const std::flat_map<operand::Condition::Identifier, std::string_view> s_ConditionTable;
 		static const std::flat_map<operand::Extension::Identifier, std::string_view> s_ExtensionTable;
 	 	static const std::flat_map<operand::Register::Identifier, std::string_view> s_RegisterTable;
+		static const std::flat_map<operand::VectorArrangementSpecifier::Identifier, std::string_view> s_VectorArrangementSpecifierTable;
 		static const std::flat_map<operand::PState::Identifier, std::string_view> s_PStateTable;
 		static const std::flat_map<operand::Shift::Identifier, std::string_view> s_ShiftTable;
  
@@ -1806,6 +1807,8 @@ export namespace disxx::disasm
 	template <std::output_iterator<char> T>
 	const std::flat_map<operand::Register::Identifier, std::string_view> Printer<T>::s_RegisterTable
 	{
+		/* General-purpose 32-bit registers */
+
 		{operand::Register::Identifier::ID_W0, "w0"},
         {operand::Register::Identifier::ID_W1, "w1"},
         {operand::Register::Identifier::ID_W2, "w2"},
@@ -1839,7 +1842,9 @@ export namespace disxx::disasm
         {operand::Register::Identifier::ID_W30, "w30"},
         {operand::Register::Identifier::ID_WSP, "wsp"},
         {operand::Register::Identifier::ID_WZR, "wzr"},
-           
+          
+		/* General-purpose 64-bit registers */
+ 
 		{operand::Register::Identifier::ID_X0, "x0"},
         {operand::Register::Identifier::ID_X1, "x1"},
         {operand::Register::Identifier::ID_X2, "x2"},
@@ -1873,7 +1878,9 @@ export namespace disxx::disasm
         {operand::Register::Identifier::ID_X30, "x30"},
         {operand::Register::Identifier::ID_SP, "sp"},
         {operand::Register::Identifier::ID_XZR, "xzr"},
-             
+            
+		/* NEON 8-bit registers */
+ 
 		{operand::Register::Identifier::ID_B0, "b0"},
         {operand::Register::Identifier::ID_B1, "b1"},
         {operand::Register::Identifier::ID_B2, "b2"},
@@ -1907,6 +1914,8 @@ export namespace disxx::disasm
         {operand::Register::Identifier::ID_B30, "b30"},
         {operand::Register::Identifier::ID_B31, "b31"},
               
+		/* NEON 16-bit registers */
+
 		{operand::Register::Identifier::ID_H0, "h0"},
         {operand::Register::Identifier::ID_H1, "h1"},
         {operand::Register::Identifier::ID_H2, "h2"},
@@ -1939,7 +1948,9 @@ export namespace disxx::disasm
         {operand::Register::Identifier::ID_H29, "h29"},
         {operand::Register::Identifier::ID_H30, "h30"},
         {operand::Register::Identifier::ID_H31, "h31"},
-                
+               
+		/* NEON 32-bit registers */
+ 
 		{operand::Register::Identifier::ID_S0, "s0"},
         {operand::Register::Identifier::ID_S1, "s1"},
         {operand::Register::Identifier::ID_S2, "s2"},
@@ -1972,7 +1983,9 @@ export namespace disxx::disasm
         {operand::Register::Identifier::ID_S29, "s29"},
         {operand::Register::Identifier::ID_S30, "s30"},
         {operand::Register::Identifier::ID_S31, "s31"},
-                
+               
+		/* NEON 64-bit registers */
+ 
 		{operand::Register::Identifier::ID_D0, "d0"},
         {operand::Register::Identifier::ID_D1, "d1"},
         {operand::Register::Identifier::ID_D2, "d2"},
@@ -2005,7 +2018,9 @@ export namespace disxx::disasm
         {operand::Register::Identifier::ID_D29, "d29"},
         {operand::Register::Identifier::ID_D30, "d30"},
         {operand::Register::Identifier::ID_D31, "d31"},
-                
+               
+		/* NEON 128-bit registers */
+	 
 		{operand::Register::Identifier::ID_Q0, "q0"},
         {operand::Register::Identifier::ID_Q1, "q1"},
         {operand::Register::Identifier::ID_Q2, "q2"},
@@ -2038,7 +2053,9 @@ export namespace disxx::disasm
         {operand::Register::Identifier::ID_Q29, "q29"},
         {operand::Register::Identifier::ID_Q30, "q30"},
         {operand::Register::Identifier::ID_Q31, "q31"},
-                
+       
+		/* NEON 128-bit registers */
+         
 		{operand::Register::Identifier::ID_V0, "v0"},
         {operand::Register::Identifier::ID_V1, "v1"},
         {operand::Register::Identifier::ID_V2, "v2"},
@@ -2072,7 +2089,9 @@ export namespace disxx::disasm
         {operand::Register::Identifier::ID_V30, "v30"},
         {operand::Register::Identifier::ID_V31, "v31"},
 
-        {operand::Register::Identifier::ID_ACTLR_EL1, "actlr_el1"},
+		/* System Registers */
+        
+		{operand::Register::Identifier::ID_ACTLR_EL1, "actlr_el1"},
         {operand::Register::Identifier::ID_ACTLR_EL2, "actlr_el2"},
         {operand::Register::Identifier::ID_ACTLR_EL3, "actlr_el3"},
         {operand::Register::Identifier::ID_AFSR0_EL1, "afsr0_el1"},
@@ -2560,6 +2579,25 @@ export namespace disxx::disasm
 	};
 
 	template <std::output_iterator<char> T>
+	const std::flat_map<operand::VectorArrangementSpecifier::Identifier, std::string_view> Printer<T>::s_VectorArrangementSpecifierTable
+	{
+		{operand::VectorArrangementSpecifier::Identifier::ID_8B, "8b"},
+		{operand::VectorArrangementSpecifier::Identifier::ID_16B, "16b"},
+		{operand::VectorArrangementSpecifier::Identifier::ID_2H, "2h"},
+		{operand::VectorArrangementSpecifier::Identifier::ID_4H, "4h"},
+		{operand::VectorArrangementSpecifier::Identifier::ID_8H, "8h"},
+		{operand::VectorArrangementSpecifier::Identifier::ID_2S, "2s"},
+		{operand::VectorArrangementSpecifier::Identifier::ID_4S, "4s"},
+		{operand::VectorArrangementSpecifier::Identifier::ID_1D, "1d"},
+		{operand::VectorArrangementSpecifier::Identifier::ID_2D, "2d"},
+		{operand::VectorArrangementSpecifier::Identifier::ID_1Q, "1q"},
+		{operand::VectorArrangementSpecifier::Identifier::ID_B, "b"},
+		{operand::VectorArrangementSpecifier::Identifier::ID_H, "h"},
+		{operand::VectorArrangementSpecifier::Identifier::ID_S, "s"},
+		{operand::VectorArrangementSpecifier::Identifier::ID_D, "d"},
+	};
+
+	template <std::output_iterator<char> T>
 	const std::flat_map<operand::PState::Identifier, std::string_view> Printer<T>::s_PStateTable
 	{
 		{operand::PState::Identifier::ID_ZA,        "za"},
@@ -2670,8 +2708,20 @@ export namespace disxx::disasm
 			for (const auto ch : std::format("{} #{:#x}", s_ExtensionTable.at(pExtension->GetIdentifier()), pExtension->GetValue()))
 				*this->m_It++ = ch;
 		else if (const auto *pRegister{dynamic_cast<operand::Register *>(ptr.get())})
+		{
 			for (const auto ch : s_RegisterTable.at(pRegister->GetIdentifier()))
 				*this->m_It++ = ch;
+
+			if (const auto spec{pRegister->GetVectorArrangementSpecifier()})
+			{
+				if (const auto id{spec->GetIdentifier()}; id >= operand::VectorArrangementSpecifier::Identifier::ID_B && id <= operand::VectorArrangementSpecifier::Identifier::ID_D)
+					for (const auto ch : std::format(".{}", s_VectorArrangementSpecifierTable.at(id)))
+						*this->m_It++ = ch;
+				if (const auto lanes{spec->GetLanes()})
+					for (const auto ch : std::format("[{}]", *lanes))
+						*this->m_It++ = ch;
+			}
+		}
 		else if (const auto *pPState{dynamic_cast<operand::PState *>(ptr.get())})
 			for (const auto ch : s_PStateTable.at(pPState->GetIdentifier()))
 				*this->m_It++ = ch;

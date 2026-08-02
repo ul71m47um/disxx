@@ -11,13 +11,14 @@ export namespace disxx::disasm::operand
 	class __DISXX_EXPORT__ [[nodiscard]] VectorArrangementSpecifier
 	{
 	  public:
+		// I forgot what is this variable for :b
 		static constexpr unsigned short int INDEX_ONLY{0xffff};
 
 	  public:
 		enum class Identifier : unsigned short int
 		{
 			ID_8B	= 0b0000,
-			ID_B16	= 0b0001,
+			ID_16B	= 0b0001,
 			ID_2H	= 0b1110,
 			ID_4H	= 0b0010,
 			ID_8H	= 0b0011,
