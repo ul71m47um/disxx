@@ -8,12 +8,14 @@ namespace disxx::loader::executable
 {
 	Label::Label(void) noexcept
 		: m_Name{}
+		, m_Address{}
 		, m_Offset{}
 		, m_Data{}
 	{}
 
 	Label::Label(const Label &other) noexcept
 		: m_Name{other.m_Name}
+		, m_Address{other.m_Address}
 		, m_Offset{other.m_Offset}
 		, m_Data{other.m_Data}
 	{}
@@ -23,6 +25,7 @@ namespace disxx::loader::executable
 		if (this != &other) [[likely]]
 		{
 			this->m_Name = other.m_Name;
+			this->m_Address = other.m_Address;
 			this->m_Offset = other.m_Offset;
 			this->m_Data = other.m_Data;
 		}
@@ -32,6 +35,7 @@ namespace disxx::loader::executable
 	
 	Label::Label(Label &&other) noexcept
 		: m_Name{std::move(other.m_Name)}
+		, m_Address{std::move(other.m_Address)}
 		, m_Offset{std::move(other.m_Offset)}
 		, m_Data{std::move(other.m_Data)}
 	{}
@@ -39,6 +43,7 @@ namespace disxx::loader::executable
 	Label &Label::operator=(Label &&other) noexcept
 	{
 		this->m_Name = std::move(other.m_Name);
+		this->m_Address = std::move(other.m_Address);
 		this->m_Offset = std::move(other.m_Offset);
 		this->m_Data = std::move(other.m_Data);
 

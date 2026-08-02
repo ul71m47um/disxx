@@ -117,7 +117,21 @@ namespace disxx::ui::backend
 	{ glutSetWindow(hWin); }
 
 	void GLUTContext::ShowWindow(void) noexcept
-	{ glutShowWindow(); }
+	{
+		glutShowWindow();
+	
+		// Set a timer to avoid a race
+		glutTimerFunc
+		(
+			0,
+			[](int hWin) -> void
+			{
+				glutSetWindow(hWin);
+				glutPostRedisplay();
+			},
+			glutGetWindow()
+		);
+	}
 	
 	void GLUTContext::HideWindow(void) noexcept
 	{ glutHideWindow(); }

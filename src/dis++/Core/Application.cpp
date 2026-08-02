@@ -105,7 +105,7 @@ void Application::Disassemble(const std::filesystem::path &path) noexcept(false)
 	editor.AddLine("");
 
 	// Load the executable
-    disxx::loader::macho::Loader ldr;
+    disxx::loader::macho::Loader ldr{};
 	ldr.LoadFile(path);
 	
 	// Load metadata of the executable
@@ -187,7 +187,6 @@ void Application::Disassemble(const std::filesystem::path &path) noexcept(false)
 				const auto vec
 				{
 					label.GetData<std::uint32_t>()
-					//std::vector<std::uint32_t>{0x3ce1f800, 0x3ce17800, 0x94000005, 0x3dc00000, 0xd2800602, 0x3dc00000}	
 						| std::views::all
 						| std::views::transform([](const auto &bytes) -> auto { return disxx::disasm::Bytes{bytes}; })
 						| std::ranges::to<std::vector<disxx::disasm::Bytes>>()
@@ -207,6 +206,9 @@ void Application::Disassemble(const std::filesystem::path &path) noexcept(false)
 								const std::regex imms{R"(#-?((0x[a-f0-9]+)|(\d+\.\d+)))"};
 								for (std::sregex_iterator it{str.begin(), str.end(), imms}, end{}; it != end; ++it)
 								{
+									if (const auto prev{str.at(it->position() - 1uz)}; prev == '>') [[unlikely]]
+										continue;
+
 									// Check if it's a pc-relevant address (using .value_or(0) instead of .value() method)
 									if (const auto insnAddr{insn->GetProgramCounterRelevantAddress()}; insnAddr && std::string{"#"} + MKHEX(insnAddr.value_or(0)) == it->str())
 									{
@@ -234,7 +236,7 @@ void Application::Disassemble(const std::filesystem::path &path) noexcept(false)
 								for (std::sregex_iterator it{str.begin(), str.end(), regs}, end{}; it != end; ++it)
 								{
 									// Check if it was accidentally confused with immediate operand
-									if (const auto &prev{str.at(it->position() - 1uz)}; prev == 'x' || std::isdigit(prev) || (prev >= 97 && prev <= 102)) [[unlikely]]
+									if (const auto prev{str.at(it->position() - 1uz)}; prev == 'x' || std::isdigit(prev) || (prev >= 97 && prev <= 102) || prev == '>') [[unlikely]]
 										continue;
 									// Check if a number of the register is valid
 									else if (auto n{0ull}; std::from_chars(it->str().data() + 1, it->str().data() + it->str().size() - 1, n)) [[likely]]

@@ -89,7 +89,7 @@ export namespace disxx::ui::backend
 		if constexpr (sizeof...(args) == 0)
 		{
 			static int argc{0};
-			static char *argv[] = {"\0"};
+			static char *argv[] = {""};
 			glutInit(&argc, argv);
 		}
 		else if constexpr (sizeof...(args) == 2)

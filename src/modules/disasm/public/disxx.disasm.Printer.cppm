@@ -2645,7 +2645,7 @@ export namespace disxx::disasm
 			const std::unique_ptr<operand::IOperand> pBaseRegister{std::make_unique<operand::Register>(pLoadsAndStoresAddress->GetRegister())};	
 			this->Print(pBaseRegister, !modifier && !offset);
 		
-			bool accumulative{false};	
+			bool accumulative{false};
 			if (offset)
 			{
 				std::visit
@@ -2702,7 +2702,7 @@ export namespace disxx::disasm
 			for (const auto ch : s_MemoryBarrierTable.at(pMemoryBarrier->GetIdentifier()))
 				*this->m_It++ = ch;
 		else if (const auto *pCondition{dynamic_cast<operand::Condition *>(ptr.get())})
-			for (const auto ch : std::format(".{}", s_ConditionTable.at(pCondition->GetIdentifier())))
+			for (const auto ch : std::format("{}", s_ConditionTable.at(pCondition->GetIdentifier())))
 				*this->m_It++ = ch;
 		else if (const auto *pExtension{dynamic_cast<operand::Extension *>(ptr.get())})
 			for (const auto ch : std::format("{} #{:#x}", s_ExtensionTable.at(pExtension->GetIdentifier()), pExtension->GetValue()))
@@ -2810,8 +2810,12 @@ export namespace disxx::disasm
 			return;
 		}
 
-		for (const auto ch : std::format("{} ", s_InstructionTable.at(insn.GetIdentifier())))
+		for (const auto ch : s_InstructionTable.at(insn.GetIdentifier()))
 			*this->m_It++ = ch;
+
+		// For instructions of type b.cond
+		if (const auto &oprs{insn.GetOperands()}; !oprs.empty())
+			*this->m_It++ = dynamic_cast<operand::Condition *>(oprs.begin()->get()) ? '.' : ' ';
 
 		for (const auto &ptr : insn.GetOperands())
 			this->Print(ptr, ptr == *insn.GetOperands().rbegin());

@@ -165,7 +165,7 @@ namespace disxx::loader::macho
 					section.SetOffset(this->m_Offset + nsect.offset);
 					section.SetSize(nsect.size);
 					section.SetIndex(sectionIndex++);
-					
+				
 					exec.AddSection(std::move(section));
 				}
 			}
@@ -205,7 +205,7 @@ namespace disxx::loader::macho
 					auto start{0ull};
 					if (const auto addr{it->GetAddress()}; pSymbols[j].n_value >= addr && pSymbols[j].n_value < addr + it->GetSize())
 						start = it->GetOffset() + (pSymbols[j].n_value - addr);
-					
+				
 					disxx::loader::executable::Label label{};
 					label.SetName(&pStrtab[pSymbols[j].n_un.n_strx]);
 					label.SetAddress(pSymbols[j].n_value);
