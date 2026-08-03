@@ -12,7 +12,7 @@ module;
 
 export module disxx.utility.pointer.NonNull;
 
-export import <cstdint>;
+export import std;
 
 export import disxx.utility.pointer.DefaultDeleter;
 export import disxx.utility.error.NullPointerError;
@@ -31,7 +31,7 @@ export namespace disxx::utility::pointer
 	 * if the pointer is null
 	 */
 	template <typename T, typename D = DefaultDeleter<T *>> requires Deleter<T *, D>
-	class __DISXX_EXPORT__ [[nodiscard]] NonNull
+	class [[clang::type_visibility("default")]] [[nodiscard]] NonNull
 	{
 	  private:
 		T *m_pPointer;

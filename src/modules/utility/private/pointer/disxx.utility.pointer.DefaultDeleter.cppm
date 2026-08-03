@@ -4,13 +4,12 @@ module;
 
 export module disxx.utility.pointer.DefaultDeleter;
 
-export import <type_traits>;
-export import <concepts>;
+import std;
 
 export namespace disxx::utility::pointer
 {
 	template <typename T>
-	class __DISXX_PRIVATE__ [[nodiscard]] DefaultDeleter
+	class [[clang::type_visibility("hidden")]] [[nodiscard]] DefaultDeleter
 	{
 	  public:
 		constexpr explicit DefaultDeleter(void) noexcept = default;

@@ -15,8 +15,8 @@ CXXFLAGS=\
 	-Wno-reserved-identifier -Wno-switch-enum -Wno-reserved-macro-identifier -Wno-writable-strings -Wno-weak-vtables \
 	-Wno-non-virtual-dtor -Wno-covered-switch-default -Wno-padded -Wno-sign-conversion -Wno-c++98-compat -Wno-c++98-compat-pedantic \
 	-Wno-implicit-int-float-conversion -Wno-disabled-macro-expansion -Wno-cast-function-type-strict -Wno-compound-token-split-by-macro \
-	-Wno-cast-function-type-mismatch \
-	-fmodules -Xclang -fmodules-local-submodule-visibility -fcxx-modules -fprebuilt-module-path=$(PRECOMPILEDDIR) \
+	-Wno-cast-function-type-mismatch -Xclang -fmodules-local-submodule-visibility \
+	-fno-implicit-modules -fno-implicit-module-maps -fmodules -fcxx-modules -fprebuilt-module-path=$(PRECOMPILEDDIR) \
 	-DGL_SILENCE_DEPRECATION -DBACKEND_CTX_GLUT -DNDEBUG -I..$(PATHSEP)include -fstack-protector-all -fvisibility=hidden
 
 LDFLAGS=\
@@ -26,6 +26,7 @@ LDFLAGS=\
 	-lclang_rt.ubsan_osx_dynamic -lclang_rt.asan_osx_dynamic -rpath /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/21/lib/darwin/
 
 MODULES=\
+	$(LIBCXX) \
 	..$(PATHSEP)modules$(PATHSEP)utility$(PATHSEP)public$(PATHSEP)trait$(PATHSEP)disxx.utility.trait.Cloneable.cppm \
 	..$(PATHSEP)modules$(PATHSEP)utility$(PATHSEP)private$(PATHSEP)error$(PATHSEP)disxx.utility.error.DisassemblyError.cppm \
 	..$(PATHSEP)modules$(PATHSEP)utility$(PATHSEP)private$(PATHSEP)error$(PATHSEP)disxx.utility.error.NullPointerError.cppm \

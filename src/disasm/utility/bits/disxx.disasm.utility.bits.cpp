@@ -1,9 +1,9 @@
-module;
 
-#include <unordered_map>
-#include <stdexcept>
-#include <cstdint>
-#include <limits>
+
+
+
+
+
 
 module disxx.disasm.utility.bits;
 
@@ -44,9 +44,9 @@ namespace bits
 
 		  case 0b110:
 			if (cmode & ~0b0)
-				imm64 = Replicate<std::uint64_t, std::uint32_t, 32>((imm8 << 16) | UINT16_MAX, 2);
+				imm64 = Replicate<std::uint64_t, std::uint32_t, 32>((imm8 << 16) | std::numeric_limits<unsigned short int>::max(), 2);
 			else
-				imm64 = Replicate<std::uint64_t, std::uint32_t, 32>((imm8 << 8) | UINT8_MAX, 2);
+				imm64 = Replicate<std::uint64_t, std::uint32_t, 32>((imm8 << 8) | std::numeric_limits<unsigned char>::max(), 2);
 			break;
 
 		  case 0b111:

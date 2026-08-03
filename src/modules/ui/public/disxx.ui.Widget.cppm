@@ -18,7 +18,7 @@ export import disxx.ui.utility.Vec;
 
 export namespace disxx::ui
 {
-	class __DISXX_EXPORT__ [[nodiscard]] Widget : public disxx::utility::trait::Cloneable<Widget>
+	class [[clang::type_visibility("default")]] [[nodiscard]] Widget : public disxx::utility::trait::Cloneable<Widget>
 	{
 	  protected:
 		static disxx::utility::pointer::NonNull<backend::IRenderer> s_pRenderer;

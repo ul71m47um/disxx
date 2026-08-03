@@ -17,7 +17,7 @@ export import disxx.disasm.operand.Shift;
 
 export namespace disxx::disasm::operand
 {
-	class __DISXX_EXPORT__ LoadsAndStoresAddress final : public IOperand
+	class [[clang::type_visibility("default")]] LoadsAndStoresAddress final : public IOperand
 	{
 	  public:
 		using ImmediatePreIndexedOffset = std::variant

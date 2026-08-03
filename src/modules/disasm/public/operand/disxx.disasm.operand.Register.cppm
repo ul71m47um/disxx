@@ -11,7 +11,7 @@ export import :VectorArrangementSpecifier;
 
 export namespace disxx::disasm::operand
 {
-	class __DISXX_EXPORT__ [[nodiscard]] Register final : public IOperand
+	class [[clang::type_visibility("default")]] [[nodiscard]] Register final : public IOperand
 	{
 	  public:
 		enum class Type : unsigned short int

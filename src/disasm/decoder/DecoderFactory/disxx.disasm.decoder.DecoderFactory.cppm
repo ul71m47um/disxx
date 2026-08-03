@@ -1,9 +1,9 @@
-module;
 
-#include <disconf.hpp>
 
-#include <cstdint>
-#include <memory>
+
+
+
+
 
 export module disxx.disasm.decoder.DecoderFactory;
 
@@ -19,7 +19,7 @@ export import disxx.disasm.decoder.abstract.Decoder;
 
 export namespace disxx::disasm::decoder
 {
-	class __DISXX_PRIVATE__ [[nodiscard]] DecoderFactory
+	class [[clang::type_visibility("hidden")]] [[nodiscard]] DecoderFactory
 	{
 	  public:
 		static std::unique_ptr<abstract::Decoder> GetDecoder(std::uint32_t insn, std::uint64_t PC) noexcept;

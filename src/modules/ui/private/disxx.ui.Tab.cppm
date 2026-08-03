@@ -15,7 +15,7 @@ import disxx.ui.Widget;
 
 export namespace disxx::ui
 {
-	class __DISXX_EXPORT__ [[nodiscard]] Tab final : public Widget
+	class [[clang::type_visibility("default")]] [[nodiscard]] Tab final : public Widget
 	{
 	  private:
 		SourceEditor m_TextArea{};

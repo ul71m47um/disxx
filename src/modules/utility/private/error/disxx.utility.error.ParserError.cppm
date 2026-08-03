@@ -9,7 +9,7 @@ export module disxx.utility.error.ParserError;
 
 export namespace disxx::utility::error
 {
-	class __DISXX_EXPORT__ [[nodiscard]] ParserError final : public std::exception
+	class [[clang::type_visibility("default")]] [[nodiscard]] ParserError final : public std::exception
 	{
 	  private:
 		std::string m_Error{};

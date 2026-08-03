@@ -2,22 +2,6 @@ module;
 
 #include <disconf.hpp>
 
-#include <unordered_map>
-#include <system_error>
-#include <functional>
-#include <filesystem>
-#include <exception>
-#include <charconv>
-#include <fstream>
-#include <memory>
-#include <ranges>
-#include <limits>
-#include <format>
-#include <vector>
-#include <regex>
-#include <tuple>
-#include <array>
-
 #define SUPPRESS_LAST_WIDGETS(widgets, n) \
 	if (widgets.size() >= n) [[likely]] \
 		for (const auto it{widgets.rbegin()}; const auto i : std::views::iota(0, n)) \
@@ -37,6 +21,8 @@ module;
 #define MKHEX(x) (std::format("{:#x}", (x)))
 
 module Application;
+
+import std;
 
 import disxx.utility.ini.Parser;
 import disxx.utility.error.NullPointerError;

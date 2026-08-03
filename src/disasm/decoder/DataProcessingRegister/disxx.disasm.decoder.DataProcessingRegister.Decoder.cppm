@@ -1,19 +1,15 @@
-module;
 
-#include <disconf.hpp>
+
+
 
 export module disxx.disasm.decoder.DataProcessingRegister.Decoder;
-
-export import <expected>;
-export import <cstdint>;
-export import <memory>;
 
 import disxx.disasm.decoder.abstract.Decoder;
 import disxx.utility.error.DisassemblyError;
 
 export namespace disxx::disasm::decoder::DataProcessingRegister
 {
-	class __DISXX_PRIVATE__ [[nodiscard]] Decoder final : public disxx::disasm::decoder::abstract::Decoder
+	class [[clang::type_visibility("hidden")]] [[nodiscard]] Decoder final : public disxx::disasm::decoder::abstract::Decoder
 	{
 	  protected:
 		virtual std::expected

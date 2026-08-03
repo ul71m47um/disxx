@@ -18,7 +18,7 @@ export import disxx.ui.MenuEntry;
 
 export namespace disxx::ui
 {
-	class __DISXX_EXPORT__ [[nodiscard]] Menu final : public Widget
+	class [[clang::type_visibility("default")]] [[nodiscard]] Menu final : public Widget
 	{
 	  private:
 		std::vector<MenuEntry> m_Entries{};

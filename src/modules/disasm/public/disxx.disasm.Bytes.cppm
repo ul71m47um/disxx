@@ -4,13 +4,11 @@ module;
 
 export module disxx.disasm.Bytes;
 
-export import <cstdint>;
-export import <format>;
-export import <string>;
+export import std;
 
 export namespace disxx::disasm
 {
-	enum class __DISXX_EXPORT__ Bytes : std::uint32_t {}; 
+	enum class [[clang::type_visibility("default")]] Bytes : std::uint32_t {}; 
 
 	[[nodiscard]] constexpr inline std::uint32_t integer(Bytes word) noexcept
 	{ return static_cast<std::uint32_t>(word); }

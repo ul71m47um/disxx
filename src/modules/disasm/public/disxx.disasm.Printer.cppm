@@ -2,12 +2,6 @@ module;
 
 #include <disconf.hpp>
 
-#include <string_view>
-#include <type_traits>
-#include <concepts>
-#include <variant>
-#include <bit>
-
 export module disxx.disasm.Printer;
 
 export import disxx.disasm.Instruction;
@@ -22,13 +16,12 @@ import disxx.disasm.operand.PState;
 import disxx.disasm.operand.Shift;
 import disxx.disasm.operand.IOperand;
 
-export import <flat_map>;
-export import <memory>;
+import std;
 
 export namespace disxx::disasm
 {
 	template <std::output_iterator<char> T>
-	class __DISXX_EXPORT__ [[nodiscard]] Printer
+	class [[clang::type_visibility("default")]] [[nodiscard]] Printer
 	{
 	  private:
 		static const std::flat_map<InstructionIdentifier, std::string_view> s_InstructionTable;

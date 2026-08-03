@@ -13,7 +13,7 @@ export import <string_view>;
 export namespace disxx::ui::backend
 {
 	template <typename T>
-	class __DISXX_PRIVATE__ [[nodiscard]] IContext
+	class [[clang::type_visibility("hidden")]] [[nodiscard]] IContext
 	{
 	  public:
 		using WindowHandle = T;

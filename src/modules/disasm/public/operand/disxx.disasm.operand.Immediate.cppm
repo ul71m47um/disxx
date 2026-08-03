@@ -9,12 +9,6 @@ export module disxx.disasm.operand.Immediate;
 
 import disxx.disasm.operand.IOperand;
 
-export import <type_traits>;
-export import <algorithm>;
-export import <numeric>;
-export import <ranges>;
-export import <cmath>;
-
 template <typename T>
 concept Imm = std::is_arithmetic<T>::value;
 
@@ -27,7 +21,7 @@ concept OverflowProof = sizeof(T) >= sizeof(U);
 export namespace disxx::disasm::operand
 {
     template <Imm T, unsigned short int _Size> requires ImmSize<T, _Size>
-	class __DISXX_EXPORT__ Immediate final : public IOperand
+	class [[clang::type_visibility("default")]] Immediate final : public IOperand
     {
 	  public:
 		enum class Option

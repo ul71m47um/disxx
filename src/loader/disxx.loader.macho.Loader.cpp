@@ -1,20 +1,7 @@
 module;
 
-#include <unordered_map>
-#include <filesystem>
-#include <algorithm>
-#include <optional>
-#include <numeric>
-#include <cstdint>
-#include <memory>
-#include <ranges>
-#include <format>
-#include <vector>
-#include <string>
-
 #include <mach-o/loader.h>
 #include <mach-o/nlist.h>
-#include <mach-o/dyld.h>
 #include <mach-o/fat.h>
 
 // For ntohl(1)
@@ -27,6 +14,8 @@ module;
 module disxx.loader.macho.Loader;
 
 import disxx.loader.executable.ExecutableFile;
+
+import std;
 
 namespace disxx::loader::macho
 {

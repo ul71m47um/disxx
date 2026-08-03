@@ -1,8 +1,8 @@
-module;
 
-#include <disconf.hpp>
 
-#include <cstdint>
+
+
+
 
 export module disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarThreeDifferent.SubDecoder;
 
@@ -10,7 +10,7 @@ import disxx.disasm.decoder.abstract.SubDecoder;
 
 export namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::AdvancedSIMDScalarThreeDifferent
 {
-	class __DISXX_PRIVATE__ [[nodiscard]] SubDecoder final : public disxx::disasm::decoder::abstract::SubDecoder
+	class [[clang::type_visibility("hidden")]] [[nodiscard]] SubDecoder final : public disxx::disasm::decoder::abstract::SubDecoder
 	{
 	  public:
 		explicit SubDecoder(void) noexcept;

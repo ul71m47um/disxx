@@ -1,7 +1,5 @@
 module;
 
-#include <disconf.hpp>
-
 #define WRITEF(file, path, table) \
 	(file).open \
 	( \
@@ -25,15 +23,11 @@ export module disxx.utility.ini.Writer;
 
 import disxx.utility.ini.BaseParser;
 
-export import <type_traits>;
-export import <expected>;
-export import <charconv>;
-export import <variant>;
-export import <format>;
+export import std;
 
 export namespace disxx::utility::ini
 {
-	class __DISXX_PRIVATE__ [[nodiscard]] Writer final : public BaseParser
+	class [[clang::type_visibility("hidden")]] [[nodiscard]] Writer final : public BaseParser
 	{
 	  public:
 		using WriteResult = std::expected

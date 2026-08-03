@@ -1,18 +1,6 @@
-module;
-
-#include <disconf.hpp>
-
 export module disxx.disasm.utility.bits;
 
-export import <type_traits>;
-export import <stdexcept>;
-export import <concepts>;
-export import <expected>;
-export import <variant>;
-export import <utility>;
-export import <cstdint>;
-export import <cmath>;
-export import <bit>;
+export import std;
 
 // Output (T) value can be less than input (U)
 template <typename T, typename U, unsigned short int _Start, unsigned int _Width>
@@ -64,7 +52,7 @@ export namespace bits
 
 	template <std::integral T, unsigned short int _Size>
 	requires (_Size + 1 <= sizeof(T) * 8)
-	__DISXX_PRIVATE__ short int HighestSetBit(T x) noexcept
+	short int HighestSetBit(T x) noexcept
 	{
 		for (short int i{_Size - 1}; i >= 0; --i)
 		{
@@ -77,7 +65,7 @@ export namespace bits
 
 	template <std::integral T, unsigned short int _Size>
     requires (_Size + 1 <= sizeof(T) * 8)
-	__DISXX_PRIVATE__ std::expected<signed short int, std::monostate> HighestSetBitNZ(T x) noexcept
+	std::expected<signed short int, std::monostate> HighestSetBitNZ(T x) noexcept
 	{
 		if (!x) [[unlikely]]
 			return std::unexpected{std::monostate{}};
@@ -87,7 +75,7 @@ export namespace bits
 
 	template <std::unsigned_integral T, unsigned short int _Size>
    	requires (_Size + 1 <= sizeof(T) * 8)
-   	__DISXX_PRIVATE__ signed short int LowestSetBit(T x) noexcept
+   	signed short int LowestSetBit(T x) noexcept
    	{
    	    for (short int i{0}; i < _Size; ++i)
    	    {
@@ -100,7 +88,7 @@ export namespace bits
 
 	template <std::unsigned_integral T, unsigned short int _Size>
     requires (_Size + 1 <= sizeof(T) * 8)
-    __DISXX_PRIVATE__ std::expected<signed short int, std::monostate> LowestSetBitNZ(T x) noexcept
+    std::expected<signed short int, std::monostate> LowestSetBitNZ(T x) noexcept
     {
 		if (!x) [[unlikely]]
 			return std::unexpected{std::monostate{}};
@@ -109,7 +97,7 @@ export namespace bits
     }
 
 	template <std::integral T, unsigned short int _Size>
-	__DISXX_PRIVATE__ unsigned short int BitCount(T x) noexcept
+	unsigned short int BitCount(T x) noexcept
 	{
 		unsigned short int result{0};
 		for (unsigned short int i{0}; i < _Size; ++i)
@@ -123,7 +111,7 @@ export namespace bits
 
 	template <std::unsigned_integral T, std::unsigned_integral U, unsigned short int _M>
 	requires (_M <= sizeof(U) * 8)
-	__DISXX_PRIVATE__ T Replicate(U x, unsigned short int N) noexcept
+	T Replicate(U x, unsigned short int N) noexcept
 	{
 		auto result{static_cast<T>(0)};
 		for (unsigned short int i{0}; i < N; ++i)
@@ -133,7 +121,7 @@ export namespace bits
 	}
 
 	template <std::integral T>
-	__DISXX_PRIVATE__ std::expected<T, std::monostate> Ones(unsigned short int N) noexcept
+	std::expected<T, std::monostate> Ones(unsigned short int N) noexcept
     {
 		if (N > sizeof(T) * 64) [[unlikely]]
 			return std::unexpected{std::monostate{}};
@@ -145,7 +133,7 @@ export namespace bits
     }
 
 	template <std::integral T, std::integral U, unsigned short int _M>
-	__DISXX_PRIVATE__ std::expected<T, std::monostate> ZeroExtend(U x, unsigned short int N) noexcept
+	std::expected<T, std::monostate> ZeroExtend(U x, unsigned short int N) noexcept
 	{
 		if (N < _M) [[unlikely]]
 			return std::unexpected{std::monostate{}};
@@ -158,10 +146,10 @@ export namespace bits
 	}
 
 	template <std::integral T, unsigned short int _N> requires (sizeof(T) * 8 == _N)
-	__DISXX_PRIVATE__ bool IsOnes(T x) { return x == Ones<T>(_N); }
+	bool IsOnes(T x) { return x == Ones<T>(_N); }
 
 	template<std::integral T, unsigned short int _M> requires (_M <= sizeof(T) * 8)
-	__DISXX_PRIVATE__ std::expected<std::pair<T, T>, std::monostate> DecodeBitMasks
+	std::expected<std::pair<T, T>, std::monostate> DecodeBitMasks
     (
         bool immN, unsigned short int imms,
 		unsigned short int immr, bool immediate
@@ -217,13 +205,11 @@ export namespace bits
 	 * Non-template functions
 	 */
 
-	__DISXX_PRIVATE__ std::expected<std::uint64_t, std::overflow_error> AdvSIMDExpandImm(unsigned short int, unsigned short int, unsigned short int) noexcept;
-
-	__DISXX_PRIVATE__ unsigned short int SysOp(unsigned short int, unsigned short int, unsigned short int, unsigned short int) noexcept;
-
-	__DISXX_PRIVATE__ bool SysOp128(unsigned short int, unsigned short int, unsigned short int, unsigned short int) noexcept;
-
-	__DISXX_PRIVATE__ bool MoveWidePreferred(bool, bool, unsigned short int, unsigned short int) noexcept;
-
-	__DISXX_PRIVATE__ bool BFXPreffered(bool, bool, unsigned short int, unsigned short int) noexcept;
+	std::expected<std::uint64_t, std::overflow_error> AdvSIMDExpandImm(unsigned short int, unsigned short int, unsigned short int) noexcept;
+	
+	unsigned short int SysOp(unsigned short int, unsigned short int, unsigned short int, unsigned short int) noexcept;
+	bool SysOp128(unsigned short int, unsigned short int, unsigned short int, unsigned short int) noexcept;
+	
+	bool MoveWidePreferred(bool, bool, unsigned short int, unsigned short int) noexcept;
+	bool BFXPreffered(bool, bool, unsigned short int, unsigned short int) noexcept;
 } /* bits */

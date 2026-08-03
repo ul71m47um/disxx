@@ -16,7 +16,7 @@ import disxx.ui.Widget;
 
 export namespace disxx::ui
 {
-	class __DISXX_EXPORT__ [[nodiscard]] MainWindow
+	class [[clang::type_visibility("default")]] [[nodiscard]] MainWindow
 	{
 	  private:
 		#ifdef BACKEND_CTX_GLUT

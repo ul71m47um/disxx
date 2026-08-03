@@ -6,7 +6,7 @@ export module disxx.loader.abstract.Loader;
 
 export namespace disxx::loader::abstact
 {
-	class __DISXX_PRIVATE__ [[nodiscard]] Loader
+	class [[clang::type_visibility("hidden")]] [[nodiscard]] Loader
 	{
 	  protected:
 		MappedFile m_Mapper{};

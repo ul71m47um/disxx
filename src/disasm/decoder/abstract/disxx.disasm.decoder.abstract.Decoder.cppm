@@ -1,22 +1,22 @@
-module;
 
-#include <disconf.hpp>
+
+
 
 export module disxx.disasm.decoder.abstract.Decoder;
 
 export import disxx.utility.error.DisassemblyError;
 import disxx.utility.pointer.NonNull;
 
-export import <expected>;
-
 export import disxx.disasm.InstructionIdentifier;
 export import disxx.disasm.operand.IOperand;
 
 export import disxx.disasm.decoder.abstract.SubDecoder;
 
+export import std;
+
 export namespace disxx::disasm::decoder::abstract
 {
-	class __DISXX_PRIVATE__ [[nodiscard]] Decoder
+	class [[clang::type_visibility("hidden")]] [[nodiscard]] Decoder
 	{
       protected:
 		// Subdecoder (in some cases may become nullptr)

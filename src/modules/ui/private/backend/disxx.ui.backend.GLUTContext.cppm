@@ -20,7 +20,7 @@ import disxx.ui.utility.Vec;
 
 export namespace disxx::ui::backend
 {
-	class __DISXX_EXPORT__ [[nodiscard]] GLUTContext final : public IContext<int>
+	class [[clang::type_visibility("default")]] [[nodiscard]] GLUTContext final : public IContext<int>
 	{
 	  private:
 		static std::unordered_map

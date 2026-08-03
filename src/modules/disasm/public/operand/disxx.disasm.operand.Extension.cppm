@@ -10,7 +10,7 @@ import disxx.disasm.operand.IOperand;
 
 export namespace disxx::disasm::operand
 {
-	class __DISXX_EXPORT__ Extension final : public IOperand
+	class [[clang::type_visibility("default")]] Extension final : public IOperand
 	{
 	  public:
 		enum class Identifier : unsigned short int

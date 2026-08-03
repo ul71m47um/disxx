@@ -17,7 +17,7 @@ import disxx.ui.Widget;
 
 export namespace disxx::ui
 {
-	class __DISXX_EXPORT__ [[nodiscard]] TabbedPane final : public Widget
+	class [[clang::type_visibility("default")]] [[nodiscard]] TabbedPane final : public Widget
 	{
 	  private:
 		std::vector<Tab> m_Tabs{};

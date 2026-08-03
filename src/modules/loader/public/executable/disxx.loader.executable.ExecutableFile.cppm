@@ -1,21 +1,12 @@
-module;
-
-#include <disconf.hpp>
-
-#include <algorithm>
-#include <utility>
-#include <ranges>
-
 export module disxx.loader.executable.ExecutableFile;
-
-export import <cstdint>;
-export import <vector>;
 
 export import disxx.loader.executable.Section;
 
+export import std;
+
 export namespace disxx::loader::executable
 {
-	class __DISXX_EXPORT__ [[nodiscard]] ExecutableFile
+	class [[clang::type_visibility("default")]] [[nodiscard]] ExecutableFile
 	{
 	  private:
 		std::vector<Section> m_Sections{};

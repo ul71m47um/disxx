@@ -10,7 +10,7 @@ import disxx.ui.Widget;
 
 export namespace disxx::ui
 {
-	class __DISXX_EXPORT__ [[nodiscard]] Frame final : public Widget
+	class [[clang::type_visibility("default")]] [[nodiscard]] Frame final : public Widget
 	{
 	  public:
 		explicit Frame(void) noexcept;

@@ -1,23 +1,12 @@
-module;
-
-#include <disconf.hpp>
-
-#include <algorithm>
-#include <utility>
-#include <ranges>
-
 export module disxx.loader.executable.Section;
-
-export import <string_view>;
-export import <cstdint>;
-export import <vector>;
-export import <string>;
 
 export import disxx.loader.executable.Label;
 
+export import std;
+
 export namespace disxx::loader::executable
 {
-	class __DISXX_EXPORT__ [[nodiscard]] Section
+	class [[clang::type_visibility("default")]] [[nodiscard]] Section
 	{
 	  private:
 		std::string m_Name{};

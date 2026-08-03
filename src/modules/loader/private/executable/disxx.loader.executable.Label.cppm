@@ -1,22 +1,10 @@
-module;
-
-#include <disconf.hpp>
-
-#include <utility>
-
 export module disxx.loader.executable.Label;
 
-export import <string_view>;
-export import <type_traits>;
-export import <algorithm>;
-export import <cstdint>;
-export import <ranges>;
-export import <vector>;
-export import <string>;
+export import std;
 
 export namespace disxx::loader::executable
 {
-	class __DISXX_EXPORT__ [[nodiscard]] Label
+	class [[clang::type_visibility("default")]] [[nodiscard]] Label
 	{
 	  public:
 		using Bytes = std::vector<std::uint8_t>;

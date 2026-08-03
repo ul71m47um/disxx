@@ -14,14 +14,13 @@ CFLAGS=-c -std=c99 -arch $(ARCH) -Weverything -Werror -Wno-misleading-indentatio
 	-Wno-sign-conversion -O3 -DNDEBUG -isysroot $(shell xcrun --show-sdk-path)
 
 CXXFLAGS=\
-	-c -std=c++26 -O3 -Wall -Wextra -Wpedantic -Wshadow -Werror -arch $(ARCH) -isysroot $(shell xcrun --show-sdk-path) \
+	-c -std=c++26 -O3 -Wall -Weverything -Werror -arch $(ARCH) -isysroot $(shell xcrun --show-sdk-path) \
 	-Xclang -fmodules-local-submodule-visibility -I..$(PATHSEP)include -fstack-protector-all -DNDEBUG \
-	-fno-omit-frame-pointer -Wdouble-promotion -Wfloat-equal -Wundef -Wswitch-default -Wimplicit-fallthrough \
-	-Wmissing-declarations -Wuninitialized -Wconditional-uninitialized -Wcast-qual -Wcast-align \
-	-Wnon-virtual-dtor -Woverloaded-virtual -Wdelete-non-virtual-dtor -Wold-style-cast -Wthread-safety \
-	-fstrict-aliasing -Wstrict-aliasing=2 -ftrapv -fwrapv -Wformat -Wformat-security -Wnull-dereference \
-	-Wrange-loop-analysis -Werror=return-type -Werror=format-security -Werror=null-dereference \
-	-fmodules -fcxx-modules -fvisibility=hidden -Wno-unused-command-line-argument \
+	-fstrict-aliasing -ftrapv -fno-implicit-modules -fno-implicit-module-maps \
+	-fmodules -fcxx-modules -fvisibility=default \
+	-Wno-reserved-module-identifier -Wno-unused-command-line-argument -Wno-c++98-compat \
+	-Wno-c++98-compat-pedantic -Wno-reserved-identifier -Wno-weak-vtables \
+	-Wno-decls-in-multiple-modules \
 	-fprebuilt-module-path=$(PRECOMPILEDDIR)
 
 LDFLAGS=\
@@ -55,6 +54,7 @@ endif
 BASEPATH=..$(PATHSEP)modules$(PATHSEP)utility$(PATHSEP)
 
 MODULES=\
+	$(LIBCXX) \
 	$(BASEPATH)public$(PATHSEP)trait$(PATHSEP)disxx.utility.trait.Cloneable.cppm \
 	$(BASEPATH)private$(PATHSEP)error$(PATHSEP)disxx.utility.error.DisassemblyError.cppm \
 	$(BASEPATH)private$(PATHSEP)error$(PATHSEP)disxx.utility.error.NullPointerError.cppm \

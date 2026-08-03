@@ -1,14 +1,8 @@
-module;
 
-#include <disconf.hpp>
+
+
 
 export module disxx.disasm.decoder.abstract.SubDecoder;
-
-export import <functional>;
-export import <expected>;
-export import <optional>;
-export import <memory>;
-export import <vector>;
 
 export import disxx.utility.error.DisassemblyError;
 
@@ -31,7 +25,7 @@ export using DisassemblyResult = std::expected
 
 export namespace disxx::disasm::decoder::abstract
 {
-	class __DISXX_PRIVATE__ [[nodiscard]] SubDecoder
+	class [[clang::type_visibility("hidden")]] [[nodiscard]] SubDecoder
 	{
 	  protected:
 		// m_Operands will be moved from this class after Decode call!

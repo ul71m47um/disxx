@@ -1,9 +1,9 @@
-module;
 
-#include <disconf.hpp>
 
-#include <cstdint>
-#include <memory>
+
+
+
+
 
 export module disxx.disasm.decoder.LoadsAndStores.Decoder;
 
@@ -12,7 +12,7 @@ import disxx.utility.error.DisassemblyError;
 
 export namespace disxx::disasm::decoder::LoadsAndStores
 {
-	class __DISXX_PRIVATE__ [[nodiscard]] Decoder final : public disxx::disasm::decoder::abstract::Decoder
+	class [[clang::type_visibility("hidden")]] [[nodiscard]] Decoder final : public disxx::disasm::decoder::abstract::Decoder
 	{
 	  protected:
 		std::expected

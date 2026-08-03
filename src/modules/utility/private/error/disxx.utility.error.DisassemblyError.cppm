@@ -2,16 +2,13 @@ module;
 
 #include <disconf.hpp>
 
-#include <exception>
-#include <string>
-
 export module disxx.utility.error.DisassemblyError;
 
-export import <cstdint>;
+export import std;
 
 export namespace disxx::utility::error
 {
-	class __DISXX_EXPORT__ [[nodiscard]] DisassemblyError : public std::exception
+	class [[clang::type_visibility("default")]] [[nodiscard]] DisassemblyError : public std::exception
 	{
 	  private:
 		std::string m_Error{};

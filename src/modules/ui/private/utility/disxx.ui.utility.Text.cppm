@@ -12,7 +12,7 @@ import disxx.ui.utility.Renderable;
 
 export namespace disxx::ui::utility
 {
-	class __DISXX_PRIVATE__ [[nodiscard]] Text final : public Renderable
+	class [[clang::type_visibility("hidden")]] [[nodiscard]] Text final : public Renderable
 	{
 	  private:
 		std::string m_Text{};

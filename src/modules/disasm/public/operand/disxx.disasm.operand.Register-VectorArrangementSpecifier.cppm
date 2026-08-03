@@ -4,11 +4,11 @@ module;
 
 export module disxx.disasm.operand.Register:VectorArrangementSpecifier;
 
-export import <optional>;
+export import std;
 
 export namespace disxx::disasm::operand
 {
-	class __DISXX_EXPORT__ [[nodiscard]] VectorArrangementSpecifier
+	class [[clang::type_visibility("default")]] [[nodiscard]] VectorArrangementSpecifier
 	{
 	  public:
 		// I forgot what is this variable for :b

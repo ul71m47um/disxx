@@ -4,7 +4,7 @@ module;
 
 export module disxx.utility.trait.Cloneable;
 
-export import <memory>;
+export import std;
 
 export namespace disxx::utility::trait
 {

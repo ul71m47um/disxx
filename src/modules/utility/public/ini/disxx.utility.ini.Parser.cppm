@@ -1,20 +1,14 @@
-module;
-
-#include <disconf.hpp>
-
 export module disxx.utility.ini.Parser;
 
 export import disxx.utility.error.ParserError;
-
-export import <string_view>;
-export import <filesystem>;
-
 export import disxx.utility.ini.Reader;
 export import disxx.utility.ini.Writer;
 
+export import std;
+
 export namespace disxx::utility::ini
 {
-	class __DISXX_EXPORT__ [[nodiscard]] Parser
+	class [[clang::type_visibility("default")]] [[nodiscard]] Parser
 	{
 	  private:
 		Reader m_Reader{};

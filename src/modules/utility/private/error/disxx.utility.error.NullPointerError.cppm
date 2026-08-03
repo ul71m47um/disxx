@@ -4,12 +4,11 @@ module;
 
 export module disxx.utility.error.NullPointerError;
 
-export import <stdexcept>;
-export import <string>;
+export import std;
 
 export namespace disxx::utility::error
 {
-	class __DISXX_EXPORT__ [[nodiscard]] NullPointerError : public std::runtime_error
+	class [[clang::type_visibility("default")]] [[nodiscard]] NullPointerError : public std::runtime_error
 	{
 	  public:
 		explicit NullPointerError(const char *) noexcept;

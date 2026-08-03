@@ -1,21 +1,14 @@
 module;
 
-#include <disconf.hpp>
-
-#include <filesystem>
-#include <numeric>
-#include <cstdint>
-#include <new>
-
 #include "mapped.h"
 
 export module disxx.utility.file.MappedFile;
 
-export import <bit>;
+export import std;
 
 export namespace disxx::utility::file
 {
-	class __DISXX_EXPORT__ [[nodiscard]] MappedFile final : private mapped_t
+	class [[clang::type_visibility("default")]] [[nodiscard]] MappedFile final : private mapped_t
 	{
 	  private:
 		std::filesystem::path m_Path{};
@@ -51,4 +44,4 @@ export namespace disxx::utility::file
 	        return *std::bit_cast<const T *>(std::add_sat(std::bit_cast<std::uint64_t>(this->mptr), offset));
 	   	#endif
 	}
-} /* disxx::loader::utility */
+} /* disxx::utility::file */

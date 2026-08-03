@@ -4,18 +4,16 @@ module;
 
 export module disxx.disasm.Address;
 
-export import <cstdint>;
-export import <format>;
-export import <string>;
+export import std;
 
 export namespace disxx::disasm
 {
-	enum class __DISXX_EXPORT__ Address : std::uint64_t {};
+	enum class [[clang::type_visibility("default")]] Address : std::uint64_t {};
 
 	[[nodiscard]] constexpr inline std::uint64_t integer(Address addr) noexcept
 	{ return static_cast<std::uint64_t>(addr); }
 
-	__DISXX_EXPORT__ Address operator++(Address &, int) noexcept;
+	[[clang::type_visibility("default")]] Address operator++(Address &, int) noexcept;
 } /* disxx::disasm */
 
 export template <> struct std::formatter<disxx::disasm::Address> : public std::formatter<std::string>

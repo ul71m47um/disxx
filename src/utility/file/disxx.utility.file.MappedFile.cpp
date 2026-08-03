@@ -1,15 +1,6 @@
 module;
 
-#include <system_error>
-#include <filesystem>
-#include <stdexcept>
-#include <utility>
-#include <cstdint>
-#include <memory>
-#include <limits>
-#include <new>
-
-#include "../../modules/utility/public/file/mapped.h"
+#include "../modules/utility/public/file/mapped.h"
 
 module disxx.utility.file.MappedFile;
 
@@ -97,4 +88,4 @@ namespace disxx::utility::file
 		this->mptr = pMapped.mptr;
 		this->msize = pMapped.msize;
 	}
-} /* disxx::loader::utility */
+} /* disxx::utility::file */

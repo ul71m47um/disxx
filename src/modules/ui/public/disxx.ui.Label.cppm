@@ -12,7 +12,7 @@ import disxx.ui.Widget;
 
 export namespace disxx::ui
 {
-	class __DISXX_EXPORT__ [[nodiscard]] Label final : public Widget
+	class [[clang::type_visibility("default")]] [[nodiscard]] Label final : public Widget
 	{
 	  private:
 		std::string m_Text{};

@@ -13,7 +13,7 @@ import disxx.ui.Widget;
 
 export namespace disxx::ui
 {
-	class __DISXX_EXPORT__ [[nodiscard]] MenuEntry final : public Widget
+	class [[clang::type_visibility("default")]] [[nodiscard]] MenuEntry final : public Widget
 	{
 	  private:
 		std::function<void(void)> m_Callback{};

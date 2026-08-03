@@ -1,7 +1,5 @@
 module;
 
-#include <disconf.hpp>
-
 #define CHECK_KEY(sect, key) \
 	if (!this->m_Table.contains(sect)) [[unlikely]] \
 		return std::unexpected{disxx::utility::error::ParserError{"ValueError"}}; \
@@ -13,12 +11,11 @@ export module disxx.utility.ini.Reader;
 import disxx.utility.ini.BaseParser;
 import disxx.utility.error.ParserError;
 
-export import <type_traits>;
-export import <charconv>;
+export import std;
 
 export namespace disxx::utility::ini
 {
-	class __DISXX_PRIVATE__ [[nodiscard]] Reader final : public BaseParser
+	class [[clang::type_visibility("hidden")]] [[nodiscard]] Reader final : public BaseParser
 	{
 	  public:
 		template <typename T>

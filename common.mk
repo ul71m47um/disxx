@@ -44,6 +44,9 @@ else
 	MKAPP=.$(PATHSEP)mkapp.sh
 
 	ifeq ($(OS), Darwin)
+		# C++ standart library module
+		LIBCXX=/usr/share/libc++/v1/std.cppm
+
 		# File extensions	
 		DYLIB=dylib
 

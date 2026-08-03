@@ -11,13 +11,16 @@ DEPENDENCIESDIR=$(BUILDDIR)$(PATHSEP)dependencies
 PRECOMPILEDDIR=.$(PATHSEP)build$(PATHSEP)precompiled
 OBJECTSDIR=.$(PATHSEP)build$(PATHSEP)objects
 
-CXXFLAGS=-std=c++26 -Weverything -Werror -O3 -arch $(ARCH) \
+CXXFLAGS=\
+	-std=c++26 -Weverything -Werror -O3 -arch $(ARCH) \
 	-isysroot $(shell xcrun --show-sdk-path) -I..$(PATHSEP)include \
 	-Wno-c99-extensions -Wno-global-constructors -Wno-exit-time-destructors -Wno-reserved-identifier -Wno-non-virtual-dtor \
 	-Wno-switch-enum -Wno-reserved-macro-identifier -Wno-writable-strings -Wno-weak-vtables -Wno-undefined-func-template \
 	-Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-covered-switch-default -Wno-padded -Wno-sign-conversion \
 	-Wno-unused-command-line-argument -fmodules -fcxx-modules -Xclang -fmodules-local-submodule-visibility \
-	-fprebuilt-module-path=$(PRECOMPILEDDIR) -fstack-protector-all -DNDEBUG
+	-fno-implicit-modules -fno-implicit-module-maps \
+	-Wno-decls-in-multiple-modules \
+	-fprebuilt-module-path=$(PRECOMPILEDDIR) -fvisibility=hidden -fstack-protector-all -DNDEBUG
 
 LDFLAGS=-dylib -arch $(ARCH) -O2 $(LTOFLAGS) -S -syslibroot $(shell xcrun --show-sdk-path) -lSystem -lc++ \
 	-L$(DEPENDENCIESDIR) -ldisxx-util
@@ -29,6 +32,7 @@ else
 endif
 
 MODULES=\
+	$(LIBCXX) \
 	..$(PATHSEP)modules$(PATHSEP)utility$(PATHSEP)public$(PATHSEP)file$(PATHSEP)disxx.utility.file.MappedFile.cppm \
 	$(MODULESPATH)private$(PATHSEP)utility$(PATHSEP)disxx.loader.utility.BinaryInfo.cppm \
 	$(MODULESPATH)private$(PATHSEP)utility$(PATHSEP)disxx.loader.utility.Label.cppm \

@@ -15,6 +15,7 @@ CXXFLAGS=\
 	-Wno-padded -Wno-c++98-c++11-compat-binary-literal -Wno-sign-conversion -Wno-reserved-identifier \
 	-Wno-c++98-compat-pedantic -Wno-global-constructors -Wno-exit-time-destructors -Wno-switch-enum \
 	-Wno-nrvo -Wno-undefined-func-template -Wno-shift-count-overflow -Wno-integer-overflow \
+	-fno-implicit-modules -fno-implicit-module-maps \
 	-ftrapv -fmodules -fcxx-modules -fvisibility=hidden -fprebuilt-module-path=$(PRECOMPILEDDIR) \
 	-Xclang -fmodules-local-submodule-visibility -I..$(PATHSEP)include -fstack-protector-all -DNDEBUG
 
@@ -33,6 +34,7 @@ OPERANDS=.$(PATHSEP)operand$(PATHSEP)
 INSNS=.$(PATHSEP)instruction$(PATHSEP)
  
 MODULES=\
+	$(LIBCXX) \
 	..$(PATHSEP)modules$(PATHSEP)utility$(PATHSEP)public$(PATHSEP)trait$(PATHSEP)disxx.utility.trait.Cloneable.cppm \
 	..$(PATHSEP)modules$(PATHSEP)utility$(PATHSEP)private$(PATHSEP)error$(PATHSEP)disxx.utility.error.DisassemblyError.cppm \
 	..$(PATHSEP)modules$(PATHSEP)utility$(PATHSEP)private$(PATHSEP)error$(PATHSEP)disxx.utility.error.NullPointerError.cppm \

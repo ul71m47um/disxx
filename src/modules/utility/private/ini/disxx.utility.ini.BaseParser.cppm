@@ -1,22 +1,12 @@
-module;
-
-#include <disconf.hpp>
-
 export module disxx.utility.ini.BaseParser;
-
-export import <filesystem>;
-export import <expected>;
-export import <variant>;
-export import <fstream>;
-export import <memory>;
-export import <string>;
-export import <map>;
 
 export import disxx.utility.error.ParserError;
 
+export import std;
+
 export namespace disxx::utility::ini
 {
-	class __DISXX_EXPORT__ [[nodiscard]] BaseParser
+	class [[clang::type_visibility("default")]] [[nodiscard]] BaseParser
 	{
 	  public:
 		using SectionsTable = std::map

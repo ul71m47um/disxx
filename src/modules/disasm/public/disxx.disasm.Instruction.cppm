@@ -2,18 +2,7 @@ module;
 
 #include <disconf.hpp>
 
-#include <unordered_map>
-#include <string_view>
-#include <sstream>
-#include <regex>
-
 export module disxx.disasm.Instruction;
-
-export import <optional>;
-export import <memory>;
-export import <format>;
-export import <vector>;
-export import <string>;
 
 export import disxx.utility.error.DisassemblyError;
 export import disxx.disasm.operand.IOperand;
@@ -21,9 +10,11 @@ export import disxx.disasm.InstructionIdentifier;
 export import disxx.disasm.Address;
 export import disxx.disasm.Bytes;
 
+export import std;
+
 export namespace disxx::disasm
 {
-	class __DISXX_EXPORT__ [[nodiscard]] Instruction
+	class [[clang::type_visibility("default")]] [[nodiscard]] Instruction
 	{
 	  private:
 		// Bunch of operands (may be empty)

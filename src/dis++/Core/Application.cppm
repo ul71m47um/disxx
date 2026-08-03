@@ -20,7 +20,7 @@ import ScriptEngine;
 import FileInput;
 import DisLog;
 
-export class __DISXX_PRIVATE__ [[nodiscard]] Application
+export class [[clang::type_visibility("hidden")]] [[nodiscard]] Application
 {
   private:
 	static Application *s_pInstance;
