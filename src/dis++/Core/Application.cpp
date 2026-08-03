@@ -511,6 +511,55 @@ void Application::Init(void) noexcept(false)
 		open.SetColor(0.2f, 0.2f, 0.2f);
 		menu.PushEntry(std::move(open));
 
+		disxx::ui::MenuEntry close
+		{
+			"Close",
+			[] -> void
+			{
+				auto &pane
+				{
+					dynamic_cast<disxx::ui::TabbedPane &>
+					(
+						**s_pInstance
+							->m_Window
+							.GetWidgets()
+							.begin()
+					)
+				};
+
+				// Check if there is an active tab
+				const auto currentTab{pane.GetActiveTab()};
+				if (!currentTab) [[unlikely]]
+					return;
+
+				// Get a file path
+				const auto currentPath
+				{
+					std::regex_replace
+					(
+						currentTab->get().GetText().data(),
+						std::regex{R"(\s+\-\s+[\s\S]+$)"},
+						""
+					)
+				};
+
+				std::erase_if
+				(
+					pane.GetTabs(),
+					[currentPath](const auto &tab) -> bool
+					{
+						return std::regex_search
+						(
+							tab.GetText().data(),
+							std::regex{currentPath}
+						);
+					}
+				);
+			}
+		};
+		close.SetColor(0.2f, 0.2f, 0.2f);
+		menu.PushEntry(std::move(close));
+
 		disxx::ui::MenuEntry save
 		{
 			"Save source",
@@ -797,6 +846,73 @@ void Application::Init(void) noexcept(false)
 		};
 		menu.SetColor(0.2f, 0.2f, 0.2f);
         menu.SetText("View");
+
+		disxx::ui::MenuEntry hex
+		{
+			"Hex",
+			[] -> void
+			{
+				auto &pane
+				{
+					dynamic_cast<disxx::ui::TabbedPane &>
+					(
+						**s_pInstance
+							->m_Window
+							.GetWidgets()
+							.begin()
+					)
+				};
+
+				// Check if there is an active tab
+				const auto currentTab{pane.GetActiveTab()};
+				if (!currentTab) [[unlikely]]
+					return;
+
+				// Get a file path
+				const auto currentPath
+				{
+					std::regex_replace
+					(
+						currentTab->get().GetText().data(),
+						std::regex{R"(\s+\-\s+[\s\S]+$)"},
+						""
+					)
+				};
+
+				// Check if this view already exists
+				for (const auto &tab : pane.GetTabs())
+					if (tab.GetText() == currentPath + " - hex") [[unlikely]]
+						return;
+				
+				disxx::ui::Tab tab{};
+				tab.SetColor(0.2f, 0.2f, 0.2f);
+				std::string fmt{currentPath + " - hex"};
+				tab.SetText(fmt);
+
+				std::fstream file{currentPath.c_str(), std::fstream::binary | std::fstream::in};
+				if (const std::error_code errc{}; !file.is_open()) [[unlikely]]
+					throw std::filesystem::filesystem_error{"FileNotFoundError", errc};
+
+				disxx::ui::SourceEditor src{};
+				for (unsigned long long int addr{0ull}; !file.eof(); addr += 8ull)
+				{
+					std::string str{};
+					for (auto i{0}; i < 8 && !file.eof(); ++i)
+					{
+						char byte{};
+						file.read(&byte, sizeof(byte));
+						str += std::format("{:#02x} ", byte);
+					}
+
+					src.AddLine("{:#016x}: {}", addr, str);
+				}
+				
+				tab.SetTextArea(std::move(src));
+				pane.Push(std::move(tab));
+			}
+		};
+		hex.SetColor(0.2f, 0.2f, 0.2f);
+		menu.PushEntry(std::move(hex));
 
 		s_pInstance->m_Window.AddWidget(std::make_unique<disxx::ui::Menu>(menu));
 	}

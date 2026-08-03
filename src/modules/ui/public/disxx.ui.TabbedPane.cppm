@@ -37,6 +37,7 @@ export namespace disxx::ui
 
 		inline std::optional<std::reference_wrapper<const Tab>> GetActiveTab(void) const noexcept;
 		inline const std::vector<Tab> &GetTabs(void) const noexcept;
+		inline std::vector<Tab> &GetTabs(void) noexcept;
 
 		virtual std::unique_ptr<Widget> Clone(void) const noexcept override;
 
@@ -76,5 +77,8 @@ export namespace disxx::ui
 	}
 
 	inline const std::vector<Tab> &TabbedPane::GetTabs(void) const noexcept
+	{ return this->m_Tabs; }
+
+	inline std::vector<Tab> &TabbedPane::GetTabs(void) noexcept
 	{ return this->m_Tabs; }
 } /* disxx::ui */
