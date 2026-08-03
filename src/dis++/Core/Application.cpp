@@ -202,7 +202,7 @@ void Application::Disassemble(const std::filesystem::path &path) noexcept(false)
 								std::string str{};
 								disxx::disasm::Printer<std::back_insert_iterator<std::string>> printer{std::back_inserter(str)};
 								printer.Print(*insn);
-							
+					
 								const std::regex imms{R"(#-?((0x[a-f0-9]+)|(\d+\.\d+)))"};
 								for (std::sregex_iterator it{str.begin(), str.end(), imms}, end{}; it != end; ++it)
 								{
@@ -232,7 +232,7 @@ void Application::Disassemble(const std::filesystem::path &path) noexcept(false)
 									it = std::sregex_iterator{str.begin(), str.end(), imms};
 								}
 
-								const std::regex regs{R"(((b|h|s|d|q|v|w|x)\d{1,2})|(sp)|((w|x)zr))"};
+								const std::regex regs{R"(((b|h|s|d|q|v|w|x)\d{1,2})|(((ws)|s)p)|((w|x)zr))"};
 								for (std::sregex_iterator it{str.begin(), str.end(), regs}, end{}; it != end; ++it)
 								{
 									// Check if it was accidentally confused with immediate operand

@@ -101,7 +101,7 @@ export namespace disxx::disasm::operand
 
 	inline void LoadsAndStoresAddress::AddImmediatePreIndexedOffset(const ImmediatePreIndexedOffset offset, const PreIndexedOffsetKind kind) noexcept
 	{
-		assert(!this->m_ExtraValue && "Adding offset twice");
+		assert(!this->m_PreIndexedOffset && "Adding offset twice");
 		this->m_PreIndexedOffset.emplace
 		(
 			std::in_place_type
@@ -118,7 +118,7 @@ export namespace disxx::disasm::operand
 
 	inline void LoadsAndStoresAddress::AddRegisterOffset(Register &&reg) noexcept
 	{
-		assert(!this->m_ExtraValue && "Adding offset twice");
+		assert(!this->m_PreIndexedOffset && "Adding offset twice");
 		this->m_PreIndexedOffset.emplace
 		(
 			std::in_place_type<Register>,

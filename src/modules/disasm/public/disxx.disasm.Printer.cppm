@@ -2653,10 +2653,7 @@ export namespace disxx::disasm
 					[this, &modifier, &accumulative](auto &&opr) mutable -> void
 					{
 						if constexpr (std::is_same<typename std::decay<decltype(opr)>::type, operand::Register>::value)
-						{
-							const std::unique_ptr<operand::IOperand> pRegister{std::make_unique<operand::Register>(opr)};
-							this->Print(pRegister, !modifier);
-						}
+							this->Print(std::make_unique<operand::Register>(opr), !modifier);
 						else
 						{
 							std::visit
@@ -2749,6 +2746,9 @@ export namespace disxx::disasm
 				for (const auto ch : std::format("#{:#x}", pI64->GetValue()))
 					*this->m_It++ = ch;
 		}
+		else if (const auto *pF32{dynamic_cast<operand::Immediate<float, 32> *>(ptr.get())})
+			for (const auto ch : std::format("#{:f}", pF32->GetValue()))
+				*this->m_It++ = ch;
 		else if (const auto *pU32{dynamic_cast<operand::Immediate<unsigned int, 32> *>(ptr.get())})
 		{
 				if (pU32->GetOption() == operand::Immediate<unsigned int, 32>::Option::OPT_VFPEXPANDIMM)
@@ -2758,13 +2758,19 @@ export namespace disxx::disasm
 					for (const auto ch : std::format("#{:#x}", pU32->GetValue()))
 						*this->m_It++ = ch;
 		}
-		else if (const auto *pU19{dynamic_cast<operand::Immediate<unsigned long int, 19> *>(ptr.get())})
+		else if (const auto *pU28{dynamic_cast<operand::Immediate<unsigned int, 28> *>(ptr.get())})
+			for (const auto ch : std::format("#{:#x}", pU28->GetValue()))
+				*this->m_It++ = ch;
+		else if (const auto *pU19{dynamic_cast<operand::Immediate<unsigned int, 19> *>(ptr.get())})
 			for (const auto ch : std::format("#{:#x}", pU19->GetValue()))
 				*this->m_It++ = ch;
 		else if (const auto *pU16{dynamic_cast<operand::Immediate<unsigned short int, 16> *>(ptr.get())})
 			for (const auto ch : std::format("#{:#x}", pU16->GetValue()))
 				*this->m_It++ = ch;
-		else if (const auto *pU12{dynamic_cast<operand::Immediate<signed short int, 12> *>(ptr.get())})
+		else if (const auto *pI16{dynamic_cast<operand::Immediate<signed short int, 16> *>(ptr.get())})
+			for (const auto ch : std::format("#{:#x}", pI16->GetValue()))
+				*this->m_It++ = ch;
+		else if (const auto *pU12{dynamic_cast<operand::Immediate<unsigned short int, 12> *>(ptr.get())})
 			for (const auto ch : std::format("#{:#x}", pU12->GetValue()))
 				*this->m_It++ = ch;
 		else if (const auto *pI10{dynamic_cast<operand::Immediate<signed short int, 10> *>(ptr.get())})
@@ -2772,6 +2778,9 @@ export namespace disxx::disasm
 				*this->m_It++ = ch;
 		else if (const auto *pI9{dynamic_cast<operand::Immediate<signed short int, 9> *>(ptr.get())})
 			for (const auto ch : std::format("#{:#x}", pI9->GetValue()))
+				*this->m_It++ = ch;
+		else if (const auto *pU8{dynamic_cast<operand::Immediate<unsigned short int, 8> *>(ptr.get())})
+			for (const auto ch : std::format("#{:#x}", pU8->GetValue()))
 				*this->m_It++ = ch;
 		else if (const auto *pI8{dynamic_cast<operand::Immediate<signed short int, 8> *>(ptr.get())})
 			for (const auto ch : std::format("#{:#x}", pI8->GetValue()))
@@ -2795,9 +2804,11 @@ export namespace disxx::disasm
 			for (const auto ch : std::format("#{:#x}", pU1->GetValue()))
 				*this->m_It++ = ch;
 
-		if (!last)
+		if (!last && dynamic_cast<operand::Condition *>(ptr.get()) == nullptr)
 			for (const auto ch : ", ")
 				*this->m_It++ = ch;
+		else if (!last)
+			*this->m_It++ = ' ';
 	}
 	
 	template <std::output_iterator<char> T>
