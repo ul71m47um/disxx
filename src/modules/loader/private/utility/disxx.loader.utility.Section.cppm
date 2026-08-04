@@ -1,12 +1,5 @@
 module;
 
-#include <type_traits>
-#include <concepts>
-#include <utility>
-#include <cstdint>
-#include <string>
-#include <vector>
-
 // For ntohl(1)
 #ifndef _WIN32
 #   include <arpa/inet.h>
@@ -16,7 +9,7 @@ module;
 
 export module disxx.loader.utility.Section;
 
-export import disxx.loader.utility.Label;
+export import std;
 
 export namespace disxx::loader::utility
 {

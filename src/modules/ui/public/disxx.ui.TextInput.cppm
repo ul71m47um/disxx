@@ -1,15 +1,8 @@
-module;
-
-#include <string_view>
-#include <functional>
-#include <string>
-
 export module disxx.ui.TextInput;
 
-export import <string_view>;
-export import <memory>;
-
 import disxx.ui.Widget;
+
+export import std;
 
 export namespace disxx::ui
 {

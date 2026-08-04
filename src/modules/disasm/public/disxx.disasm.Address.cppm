@@ -1,7 +1,3 @@
-module;
-
-#include <disconf.hpp>
-
 export module disxx.disasm.Address;
 
 export import std;
@@ -13,7 +9,7 @@ export namespace disxx::disasm
 	[[nodiscard]] constexpr inline std::uint64_t integer(Address addr) noexcept
 	{ return static_cast<std::uint64_t>(addr); }
 
-	[[clang::type_visibility("default")]] Address operator++(Address &, int) noexcept;
+	Address operator++(Address &, int) noexcept;
 } /* disxx::disasm */
 
 export template <> struct std::formatter<disxx::disasm::Address> : public std::formatter<std::string>

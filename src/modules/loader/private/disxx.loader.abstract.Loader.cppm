@@ -1,5 +1,4 @@
-export module;
-
+export 
 #include <disconf.hpp>
 
 export module disxx.loader.abstract.Loader;

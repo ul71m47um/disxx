@@ -1,7 +1,3 @@
-module;
-
-#include <disconf.hpp>
-
 export module disxx.utility.pointer.DefaultDeleter;
 
 import std;

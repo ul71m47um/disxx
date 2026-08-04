@@ -1,17 +1,9 @@
-module;
-
-#include <string_view>
-#include <utility>
-#include <ranges>
-#include <format>
-#include <string>
-#include <vector>
-#include <regex>
-
 export module disxx.ui.SourceEditor;
 
 import disxx.ui.utility.ColorTag;
 import disxx.ui.Widget;
+
+export import std;
 
 export namespace disxx::ui
 {

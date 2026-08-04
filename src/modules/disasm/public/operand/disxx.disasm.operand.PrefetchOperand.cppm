@@ -1,9 +1,3 @@
-module;
-
-#include <disconf.hpp>
-
-#include <unordered_map>
-
 export module disxx.disasm.operand.PrefetchOperand;
 
 import disxx.disasm.operand.IOperand;

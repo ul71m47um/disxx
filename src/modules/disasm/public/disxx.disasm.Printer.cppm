@@ -1,7 +1,3 @@
-module;
-
-#include <disconf.hpp>
-
 export module disxx.disasm.Printer;
 
 export import disxx.disasm.Instruction;

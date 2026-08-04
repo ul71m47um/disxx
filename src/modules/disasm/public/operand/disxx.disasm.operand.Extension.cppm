@@ -1,12 +1,8 @@
-module;
-
-#include <disconf.hpp>
-
-#include <unordered_map>
-
 export module disxx.disasm.operand.Extension;
 
 import disxx.disasm.operand.IOperand;
+
+import std;
 
 export namespace disxx::disasm::operand
 {

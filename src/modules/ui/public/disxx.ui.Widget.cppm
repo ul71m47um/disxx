@@ -1,19 +1,9 @@
-module;
-
-#include <disconf.hpp>
-
-#include <type_traits>
-#include <functional>
-#include <memory>
-#include <tuple>
-
 export module disxx.ui.Widget;
 
 import disxx.utility.trait.Cloneable;
 import disxx.utility.pointer.NonNull;
 import disxx.ui.backend.IRenderer;
 import disxx.ui.backend.GLRenderer;
-
 export import disxx.ui.utility.Vec;
 
 export namespace disxx::ui

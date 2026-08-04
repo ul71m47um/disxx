@@ -1,11 +1,6 @@
-module;
-
-#include <disconf.hpp>
-
-#include <exception>
-#include <string>
-
 export module disxx.utility.error.ParserError;
+
+export import std;
 
 export namespace disxx::utility::error
 {

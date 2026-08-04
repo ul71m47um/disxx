@@ -1,20 +1,9 @@
-module;
-
-#include <disconf.hpp>
-
-#include <algorithm>
-#include <ranges>
-#include <vector>
-#include <string>
-
 export module disxx.ui.Menu;
 
-export import <string_view>;
-export import <memory>;
-
 import disxx.ui.Widget;
-
 export import disxx.ui.MenuEntry;
+
+import std;
 
 export namespace disxx::ui
 {

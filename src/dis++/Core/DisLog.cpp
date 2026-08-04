@@ -28,24 +28,6 @@ module;
 #	include <unistd.h>
 #endif
 
-#include <filesystem>
-#include <exception>
-#include <typeinfo>
-#include <expected>
-#include <iostream>
-#include <utility>
-#include <cstdlib>
-#include <memory>
-#include <ranges>
-#include <format>
-#include <chrono>
-#include <vector>
-#include <string>
-#include <regex>
-#include <print>
-#include <array>
-#include <ctime>
-
 import disxx.utility.ini.Parser;
 
 #if defined(_WIN32)
@@ -238,7 +220,7 @@ std::expected<std::string, DisLog::UnwindingError> DisLog::__LogStack(void) noex
 			unw_word_t offset{}, pc{};
 			
 			// pSym should be of type std::unique_ptr<char, decltype(&std::free)>
-			std::unique_ptr<char, decltype(&std::free)> pSym{static_cast<char *>(std::malloc(BUFSIZ)), &std::free};
+			std::unique_ptr<char, decltype(&std::free)> pSym{static_cast<char *>(std::malloc(1024 * sizeof(char))), &std::free};
 			if (!pSym) [[unlikely]]
 				return std::unexpected{UnwindingError::ERR_BADALLOC};
 			
@@ -247,7 +229,7 @@ std::expected<std::string, DisLog::UnwindingError> DisLog::__LogStack(void) noex
 			else if (!pc) [[unlikely]]
 				return std::unexpected{UnwindingError::ERR_PROGRAMCOUNTERERROR};
 
-			if (unw_get_proc_name(&cursor, pSym.get(), BUFSIZ, &offset) == UNW_ESUCCESS) [[likely]]
+			if (unw_get_proc_name(&cursor, pSym.get(), 1024, &offset) == UNW_ESUCCESS) [[likely]]
 			{
 				const auto &demangled{__Demangle(pSym.get())};
 				calls += std::format

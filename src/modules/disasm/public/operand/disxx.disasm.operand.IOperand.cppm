@@ -1,7 +1,3 @@
-module;
-
-#include <disconf.hpp>
-
 export module disxx.disasm.operand.IOperand;
 
 export import disxx.utility.trait.Cloneable;

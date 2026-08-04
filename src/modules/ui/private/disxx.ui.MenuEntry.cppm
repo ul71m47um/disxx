@@ -1,15 +1,8 @@
-module;
-
-#include <disconf.hpp>
-
 export module disxx.ui.MenuEntry;
 
-export import <string_view>;
-export import <functional>;
-export import <memory>;
-export import <string>;
-
 import disxx.ui.Widget;
+
+export import std;
 
 export namespace disxx::ui
 {

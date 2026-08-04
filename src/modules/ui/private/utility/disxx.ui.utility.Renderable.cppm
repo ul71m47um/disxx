@@ -1,7 +1,3 @@
-module;
-
-#include <disconf.hpp>
-
 export module disxx.ui.utility.Renderable;
 
 import disxx.ui.utility.Vec;

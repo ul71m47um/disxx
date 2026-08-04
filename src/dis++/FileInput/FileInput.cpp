@@ -7,13 +7,6 @@ module;
 #	define PATH_MAX MAX_PATH
 #endif
 
-#include <functional>
-#include <filesystem>
-#include <cstdlib>
-#include <memory>
-#include <vector>
-#include <array>
-
 module FileInput;
 
 import disxx.ui.TextInput;
@@ -21,6 +14,8 @@ import disxx.ui.Widget;
 import disxx.ui.Button;
 import disxx.ui.Label;
 import disxx.ui.Frame;
+
+import std;
 
 FileInput::FileInput(void) noexcept
 	: m_Window{disxx::ui::utility::Vec2<int>{400, 300}, "Main menu"}

@@ -1,11 +1,3 @@
-module;
-
-#include <disconf.hpp>
-
-#include <utility>
-#include <tuple>
-#include <array>
-
 export module disxx.ui.utility.Shape;
 
 import disxx.ui.utility.Renderable;

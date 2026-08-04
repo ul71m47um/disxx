@@ -1,7 +1,3 @@
-module;
-
-#include <disconf.hpp>
-
 export module disxx.utility.trait.Cloneable;
 
 export import std;

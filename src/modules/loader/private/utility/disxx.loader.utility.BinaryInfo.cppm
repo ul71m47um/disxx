@@ -2,13 +2,9 @@ module;
 
 #include <mach-o/loader.h>
 
-#include <unordered_map>
-#include <string_view>
-#include <cstdint>
-#include <vector>
-#include <tuple>
-
 export module disxx.loader.utility.BinaryInfo;
+
+export import std;
 
 export namespace disxx::loader::utility
 {

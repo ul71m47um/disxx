@@ -1,12 +1,3 @@
-module;
-
-#include <fstream>
-#include <ranges>
-#include <format>
-#include <regex>
-
-#include <print>
-
 module disxx.utility.ini.BaseParser;
 
 namespace disxx::utility::ini

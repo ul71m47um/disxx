@@ -1,7 +1,3 @@
-module;
-
-#include <disconf.hpp>
-
 export module disxx.utility.error.NullPointerError;
 
 export import std;

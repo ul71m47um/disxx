@@ -1,7 +1,3 @@
-module;
-
-#include <disconf.hpp>
-
 export module disxx.disasm.operand.Register:VectorArrangementSpecifier;
 
 export import std;

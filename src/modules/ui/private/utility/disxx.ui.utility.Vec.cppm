@@ -1,6 +1,6 @@
 export module disxx.ui.utility.Vec;
 
-export import <type_traits>;
+export import std;
 
 export namespace disxx::ui::utility
 {

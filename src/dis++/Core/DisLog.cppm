@@ -18,18 +18,11 @@ module;
 #	define __GETTHREADSTATE_CONSTEVAL		consteval
 #endif
 
-#include <filesystem>
-#include <exception>
-#include <expected>
-#include <cstdlib>
-#include <memory>
-#include <vector>
-#include <string>
-#include <array>
-
 export module DisLog;
 
 import disxx.utility.ini.Parser;
+
+export import std;
 
 export class DisLog
 {

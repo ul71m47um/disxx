@@ -1,14 +1,8 @@
-module;
-
-#include <disconf.hpp>
-
-#include <string_view>
-#include <cstdint>
-#include <string>
-
 export module disxx.ui.utility.Text;
 
 import disxx.ui.utility.Renderable;
+
+export import std;
 
 export namespace disxx::ui::utility
 {

@@ -1,12 +1,8 @@
-module;
-
-#include <disconf.hpp>
-
 export module disxx.ui.backend.IRenderer;
 
-export import <memory>;
-
 export import disxx.ui.utility.Renderable;
+
+export import std;
 
 export namespace disxx::ui::backend
 {

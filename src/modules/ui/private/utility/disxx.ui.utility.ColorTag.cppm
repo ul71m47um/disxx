@@ -1,12 +1,6 @@
 export module disxx.ui.utility.ColorTag;
 
-export import <string_view>;
-export import <expected>;
-export import <utility>;
-export import <format>;
-export import <vector>;
-export import <string>;
-export import <array>;
+export import std;
 
 export namespace disxx::ui::utility
 {

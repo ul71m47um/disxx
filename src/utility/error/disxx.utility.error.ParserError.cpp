@@ -1,8 +1,3 @@
-module;
-
-#include <exception>
-#include <string>
-
 module disxx.utility.error.ParserError;
 
 namespace disxx::utility::error

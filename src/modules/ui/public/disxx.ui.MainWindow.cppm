@@ -1,18 +1,12 @@
-module;
-
-#include <disconf.hpp>
-
-#include <type_traits>
-#include <vector>
-#include <memory>
-
 export module disxx.ui.MainWindow;
 
-export import disxx.ui.utility.Vec;
 import disxx.utility.pointer.NonNull;
 import disxx.ui.backend.GLUTContext;
 import disxx.ui.backend.IContext;
 import disxx.ui.Widget;
+export import disxx.ui.utility.Vec;
+
+export import std;
 
 export namespace disxx::ui
 {

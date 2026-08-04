@@ -35,7 +35,6 @@ MODULES=\
 	$(LIBCXX) \
 	..$(PATHSEP)modules$(PATHSEP)utility$(PATHSEP)public$(PATHSEP)file$(PATHSEP)disxx.utility.file.MappedFile.cppm \
 	$(MODULESPATH)private$(PATHSEP)utility$(PATHSEP)disxx.loader.utility.BinaryInfo.cppm \
-	$(MODULESPATH)private$(PATHSEP)utility$(PATHSEP)disxx.loader.utility.Label.cppm \
 	$(MODULESPATH)private$(PATHSEP)executable$(PATHSEP)disxx.loader.executable.Label.cppm \
 	$(MODULESPATH)private$(PATHSEP)executable$(PATHSEP)disxx.loader.executable.Section.cppm \
 	$(MODULESPATH)public$(PATHSEP)executable$(PATHSEP)disxx.loader.executable.ExecutableFile.cppm \

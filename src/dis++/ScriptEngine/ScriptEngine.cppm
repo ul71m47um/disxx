@@ -2,15 +2,9 @@ module;
 
 #include <Ruby/ruby.h>
 
-#include <exception>
-#include <string>
-
 export module ScriptEngine;
 
-export import <string_view>;
-export import <filesystem>;
-export import <expected>;
-export import <variant>;
+export import std;
 
 export class ScriptEngine
 {

@@ -1,16 +1,9 @@
-module;
-
-#include <filesystem>
-#include <functional>
-#include <string>
-
 export module disxx.ui.Button;
-
-export import <string_view>;
-export import <memory>;
 
 import disxx.ui.utility.ImageLoader;
 import disxx.ui.Widget;
+
+export import std;
 
 export namespace disxx::ui
 {

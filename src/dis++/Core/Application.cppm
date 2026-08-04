@@ -1,17 +1,4 @@
-module;
-
-#include <disconf.hpp>
-
-#include <functional>
-#include <exception>
-#include <iterator>
-#include <cstdlib>
-#include <memory>
-#include <array>
-
 export module Application;
-
-export import <filesystem>;
 
 import disxx.utility.error.NullPointerError;
 import disxx.ui.MainWindow;
@@ -19,6 +6,8 @@ import disxx.ui.Widget;
 import ScriptEngine;
 import FileInput;
 import DisLog;
+
+export import std;
 
 export class [[clang::type_visibility("hidden")]] [[nodiscard]] Application
 {
@@ -97,7 +86,7 @@ inline Application *Application::Init(int &argc, char **&argv) noexcept(false)
 			};
 
 			std::system(path.c_str());
-			std::exit(EXIT_FAILURE);
+			std::exit(1);
 		}
 	);
 

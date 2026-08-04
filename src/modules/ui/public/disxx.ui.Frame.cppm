@@ -1,10 +1,4 @@
-module;
-
-#include <disconf.hpp>
-
 export module disxx.ui.Frame;
-
-export import <memory>;
 
 import disxx.ui.Widget;
 

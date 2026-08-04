@@ -1,4 +1,3 @@
-module;
 
 #include <mach-o/loader.h>
 

@@ -1,19 +1,9 @@
-module;
-
-#include <disconf.hpp>
-
-#include <algorithm>
-#include <ranges>
-
 export module disxx.ui.TabbedPane;
 
-export import <functional>;
-export import <optional>;
-export import <memory>;
-export import <vector>;
-
-export import disxx.ui.Tab;
 import disxx.ui.Widget;
+export import disxx.ui.Tab;
+
+export import std;
 
 export namespace disxx::ui
 {

@@ -1,7 +1,5 @@
 module;
 
-#include <disconf.hpp>
-
 #ifdef __APPLE__
 #	include <GLUT/glut.h>
 #else
@@ -10,13 +8,10 @@ module;
 
 export module disxx.ui.backend.GLUTContext;
 
-export import <unordered_map>;
-export import <string_view>;
-export import <functional>;
-export import <utility>;
-
 import disxx.ui.backend.IContext;
 import disxx.ui.utility.Vec;
+
+export import std;
 
 export namespace disxx::ui::backend
 {

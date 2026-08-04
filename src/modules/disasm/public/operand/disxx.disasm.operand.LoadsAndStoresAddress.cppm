@@ -1,11 +1,3 @@
-module;
-
-#include <disconf.hpp>
-
-#include <optional>
-#include <variant>
-#include <cassert>
-
 export module disxx.disasm.operand.LoadsAndStoresAddress;
 
 import disxx.disasm.operand.IOperand;
@@ -14,6 +6,8 @@ export import disxx.disasm.operand.Immediate;
 export import disxx.disasm.operand.Extension;
 export import disxx.disasm.operand.Register;
 export import disxx.disasm.operand.Shift;
+
+export import std;
 
 export namespace disxx::disasm::operand
 {
@@ -101,7 +95,6 @@ export namespace disxx::disasm::operand
 
 	inline void LoadsAndStoresAddress::AddImmediatePreIndexedOffset(const ImmediatePreIndexedOffset offset, const PreIndexedOffsetKind kind) noexcept
 	{
-		assert(!this->m_PreIndexedOffset && "Adding offset twice");
 		this->m_PreIndexedOffset.emplace
 		(
 			std::in_place_type
@@ -118,7 +111,6 @@ export namespace disxx::disasm::operand
 
 	inline void LoadsAndStoresAddress::AddRegisterOffset(Register &&reg) noexcept
 	{
-		assert(!this->m_PreIndexedOffset && "Adding offset twice");
 		this->m_PreIndexedOffset.emplace
 		(
 			std::in_place_type<Register>,
@@ -128,7 +120,6 @@ export namespace disxx::disasm::operand
 
 	inline void LoadsAndStoresAddress::AddExtension(Extension &&extension) noexcept
 	{
-		assert(!this->m_Modifier && "Adding modifier twice");
 		this->m_Modifier.emplace
 		(
 			std::in_place_type<Extension>,
@@ -138,7 +129,6 @@ export namespace disxx::disasm::operand
 
 	inline void LoadsAndStoresAddress::AddShift(Shift &&shift) noexcept
 	{
-		assert(!this->m_Modifier && "Adding modifier twice");
 		this->m_Modifier.emplace
 		(
 			std::in_place_type<Shift>,

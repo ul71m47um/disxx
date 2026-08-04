@@ -1,17 +1,9 @@
-module;
-
-#include <disconf.hpp>
-
-#include <utility>
-#include <string>
-
 export module disxx.ui.Tab;
-
-export import <string_view>;
-export import <memory>;
 
 export import disxx.ui.SourceEditor;
 import disxx.ui.Widget;
+
+export import std;
 
 export namespace disxx::ui
 {

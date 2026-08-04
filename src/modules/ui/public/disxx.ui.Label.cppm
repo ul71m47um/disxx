@@ -1,14 +1,8 @@
-module;
-
-#include <disconf.hpp>
-
 export module disxx.ui.Label;
 
-export import <string_view>;
-export import <memory>;
-export import <string>;
-
 import disxx.ui.Widget;
+
+export import std;
 
 export namespace disxx::ui
 {

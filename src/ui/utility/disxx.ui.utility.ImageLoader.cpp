@@ -1,4 +1,3 @@
-module;
 
 #ifdef __APPLE__
 #   include <OpenGL/gl.h>

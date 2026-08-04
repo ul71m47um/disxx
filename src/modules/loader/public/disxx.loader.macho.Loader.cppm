@@ -1,12 +1,5 @@
 module;
 
-#include <disconf.hpp>
-
-#include <filesystem>
-#include <optional>
-#include <cstdint>
-#include <vector>
-
 #include <mach-o/loader.h>
 #include <mach-o/nlist.h>
 

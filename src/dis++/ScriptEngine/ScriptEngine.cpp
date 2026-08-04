@@ -2,14 +2,10 @@ module;
 
 #include <Ruby/ruby.h>
 
-#include <utility>
-#include <format>
-#include <bit>
-
 module ScriptEngine;
 
 import disxx.loader.macho.Loader;
-//import disxx.disasm.Disassembler;
+import disxx.disasm.Disassembler;
 
 namespace
 {

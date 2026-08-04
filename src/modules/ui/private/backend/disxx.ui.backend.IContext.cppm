@@ -1,14 +1,8 @@
-module;
-
-#include <disconf.hpp>
-
-#include <utility>
-
 export module disxx.ui.backend.IContext;
 
 export import disxx.ui.utility.Vec;
 
-export import <string_view>;
+export import std;
 
 export namespace disxx::ui::backend
 {

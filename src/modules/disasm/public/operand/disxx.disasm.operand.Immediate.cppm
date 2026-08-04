@@ -1,13 +1,8 @@
-module;
-
-#include <disconf.hpp>
-
-#include <memory>
-#include <string>
-
 export module disxx.disasm.operand.Immediate;
 
 import disxx.disasm.operand.IOperand;
+
+export import std;
 
 template <typename T>
 concept Imm = std::is_arithmetic<T>::value;

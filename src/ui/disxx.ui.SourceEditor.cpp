@@ -1,4 +1,3 @@
-module;
 
 #include <string_view>
 #include <functional>

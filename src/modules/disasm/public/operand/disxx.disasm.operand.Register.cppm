@@ -1,13 +1,9 @@
-module;
-
-#include <disconf.hpp>
-
-#include <optional>
-
 export module disxx.disasm.operand.Register;
 
 import disxx.disasm.operand.IOperand;
 export import :VectorArrangementSpecifier;
+
+export import std;
 
 export namespace disxx::disasm::operand
 {

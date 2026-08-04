@@ -1,7 +1,5 @@
 module;
 
-#include <disconf.hpp>
-
 #define DANGLING(T) \
 	[] -> T * \
 	{ \
@@ -12,10 +10,10 @@ module;
 
 export module disxx.utility.pointer.NonNull;
 
-export import std;
-
 export import disxx.utility.pointer.DefaultDeleter;
 export import disxx.utility.error.NullPointerError;
+
+export import std;
 
 export namespace disxx::utility::pointer
 {

@@ -1,4 +1,3 @@
-module;
 
 #include <OpenGL/gl3.h>
 #include <GLUT/glut.h>

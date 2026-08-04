@@ -1,13 +1,8 @@
-module;
-
-#include <filesystem>
-#include <functional>
-#include <memory>
-#include <span>
-
 export module FileInput;
 
 import disxx.ui.MainWindow;
+
+export import std;
 
 export class FileInput
 {
