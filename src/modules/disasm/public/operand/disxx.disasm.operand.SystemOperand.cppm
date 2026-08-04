@@ -4,7 +4,7 @@ import disxx.disasm.operand.IOperand;
 
 export namespace disxx::disasm::operand
 {
-	class [[clang::type_visibility("default")]] SystemOperand final : public IOperand
+	class __attribute__((visibility("default"))) SystemOperand final : public IOperand
 	{
 	  public:
 		enum class Identifier : unsigned short int

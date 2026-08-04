@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 module disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicThreeRegisterSHA512.SubDecoder;
 
 import disxx.utility.error.DisassemblyError;

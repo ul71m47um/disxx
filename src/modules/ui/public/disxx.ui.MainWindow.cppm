@@ -10,7 +10,7 @@ export import std;
 
 export namespace disxx::ui
 {
-	class [[clang::type_visibility("default")]] [[nodiscard]] MainWindow
+	class __attribute__((visibility("default"))) [[nodiscard]] MainWindow
 	{
 	  private:
 		#ifdef BACKEND_CTX_GLUT

@@ -6,7 +6,7 @@ export import std;
 
 export namespace disxx::loader::executable
 {
-	class [[clang::type_visibility("default")]] [[nodiscard]] Section
+	class __attribute__((visibility("default"))) [[nodiscard]] Section
 	{
 	  private:
 		std::string m_Name{};

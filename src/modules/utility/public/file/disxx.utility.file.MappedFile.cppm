@@ -8,7 +8,7 @@ export import std;
 
 export namespace disxx::utility::file
 {
-	class [[clang::type_visibility("default")]] [[nodiscard]] MappedFile final : private mapped_t
+	class __attribute__((visibility("default"))) [[nodiscard]] MappedFile final : private mapped_t
 	{
 	  private:
 		std::filesystem::path m_Path{};

@@ -1,14 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
 export module disxx.disasm.decoder.DecoderFactory:PseudoDecoder;
 
 import disxx.disasm.decoder.abstract.Decoder;
@@ -18,7 +7,7 @@ namespace disxx::disasm::decoder::PseudoInstruction
 {
 	// This decoder serves as a stub for undecoded instructions.
 	// It always returns an error.
-	class [[clang::type_visibility("hidden")]] [[nodiscard]] Decoder final : public disxx::disasm::decoder::abstract::Decoder
+	class __attribute__((visibility("hidden"))) [[nodiscard]] Decoder final : public disxx::disasm::decoder::abstract::Decoder
 	{
 	  protected:
 		std::expected

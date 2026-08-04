@@ -6,7 +6,7 @@ export import std;
 
 export namespace disxx::loader::executable
 {
-	class [[clang::type_visibility("default")]] [[nodiscard]] ExecutableFile
+	class __attribute__((visibility("default"))) [[nodiscard]] ExecutableFile
 	{
 	  private:
 		std::vector<Section> m_Sections{};

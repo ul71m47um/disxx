@@ -6,7 +6,7 @@ export import std;
 
 export namespace disxx::ui
 {
-	class [[clang::type_visibility("default")]] [[nodiscard]] MenuEntry final : public Widget
+	class __attribute__((visibility("default"))) [[nodiscard]] MenuEntry final : public Widget
 	{
 	  private:
 		std::function<void(void)> m_Callback{};

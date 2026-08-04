@@ -1,6 +1,3 @@
-
-#include <utility>
-
 module disxx.ui.utility.Renderable;
 
 namespace disxx::ui::utility

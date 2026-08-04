@@ -4,7 +4,7 @@ export import std;
 
 export namespace disxx::loader::executable
 {
-	class [[clang::type_visibility("default")]] [[nodiscard]] Label
+	class __attribute__((visibility("default"))) [[nodiscard]] Label
 	{
 	  public:
 		using Bytes = std::vector<std::uint8_t>;

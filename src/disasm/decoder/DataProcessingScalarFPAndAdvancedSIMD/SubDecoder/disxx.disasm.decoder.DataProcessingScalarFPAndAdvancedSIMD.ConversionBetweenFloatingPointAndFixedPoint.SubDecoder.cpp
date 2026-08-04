@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 module disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.ConversionBetweenFloatingPointAndFixedPoint.SubDecoder;
 
 import disxx.utility.error.DisassemblyError;

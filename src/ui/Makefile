@@ -13,13 +13,13 @@ PRECOMPILEDDIR=$(BUILDDIR)$(PATHSEP)precompiled
 OBJECTSDIR=$(BUILDDIR)$(PATHSEP)objects
 
 CXXFLAGS=-c -std=c++26 -arch $(ARCH) -O3 -Weverything -Werror -DGL_SILENCE_DEPRECATION \
-	-DNDEBUG -DBACKEND_CTX_GLUT -I ..$(PATHSEP)include -isysroot $(shell xcrun --show-sdk-path) -fmodules -fcxx-modules \
+	-DNDEBUG -DBACKEND_CTX_GLUT -I ..$(PATHSEP)include -isysroot $(shell xcrun --show-sdk-path) -Wno-writable-strings -Wno-unused-command-line-argument \
 	-Wno-c99-extensions -Wno-global-constructors -Wno-exit-time-destructors -Wno-reserved-identifier -Wno-non-virtual-dtor \
 	-Wno-switch-enum -Wno-reserved-macro-identifier -Wno-writable-strings -Wno-weak-vtables -Wno-undefined-func-template \
 	-Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-covered-switch-default -Wno-padded -Wno-sign-conversion \
 	-Wno-float-conversion -Wno-implicit-int-float-conversion \
-	-Xclang -fmodules-local-submodule-visibility -fstack-protector-all \
-	-Wno-writable-strings -Wno-unused-command-line-argument -fprebuilt-module-path=$(PRECOMPILEDDIR)
+	-Xclang -fmodules-local-submodule-visibility -fstack-protector-all -fno-implicit-modules -fno-implicit-module-maps \
+	-fmodules -fcxx-modules -fprebuilt-module-path=$(PRECOMPILEDDIR) -fvisibility=hidden
 
 LDFLAGS=-O2 $(LTOFLAGS) -dylib -S -arch $(ARCH) -syslibroot $(shell xcrun --show-sdk-path) -lSystem -lc++ \
 	-L $(DEPENDENCIESDIR) -ldisxx-util -framework OpenGL -framework GLUT $(INSTALLFLAGS) $(RPATHFLAG)
@@ -31,12 +31,11 @@ else
 endif
 
 MODULES=\
+	$(LIBCXX) \
 	..$(PATHSEP)modules$(PATHSEP)utility$(PATHSEP)public$(PATHSEP)trait$(PATHSEP)disxx.utility.trait.Cloneable.cppm \
 	..$(PATHSEP)modules$(PATHSEP)utility$(PATHSEP)private$(PATHSEP)error$(PATHSEP)disxx.utility.error.NullPointerError.cppm \
 	..$(PATHSEP)modules$(PATHSEP)utility$(PATHSEP)private$(PATHSEP)pointer$(PATHSEP)disxx.utility.pointer.DefaultDeleter.cppm \
 	..$(PATHSEP)modules$(PATHSEP)utility$(PATHSEP)public$(PATHSEP)pointer$(PATHSEP)disxx.utility.pointer.NonNull.cppm \
-	$(MODULESPATH)private$(PATHSEP)utility$(PATHSEP)disxx.ui.utility.Image.cppm \
-	$(MODULESPATH)private$(PATHSEP)utility$(PATHSEP)disxx.ui.utility.ImageLoader.cppm \
 	$(MODULESPATH)private$(PATHSEP)utility$(PATHSEP)disxx.ui.utility.ColorTag.cppm \
 	$(MODULESPATH)private$(PATHSEP)utility$(PATHSEP)disxx.ui.utility.Vec.cppm \
 	$(MODULESPATH)private$(PATHSEP)utility$(PATHSEP)disxx.ui.utility.Vertex.cppm \
@@ -60,8 +59,6 @@ MODULES=\
 	$(MODULESPATH)public$(PATHSEP)disxx.ui.MainWindow.cppm
 
 SOURCES=\
-	.$(PATHSEP)utility$(PATHSEP)disxx.ui.utility.Image.cpp \
-	.$(PATHSEP)utility$(PATHSEP)disxx.ui.utility.ImageLoader.cpp \
 	.$(PATHSEP)utility$(PATHSEP)disxx.ui.utility.ColorTag.cpp \
 	.$(PATHSEP)utility$(PATHSEP)disxx.ui.utility.Renderable.cpp \
 	.$(PATHSEP)utility$(PATHSEP)disxx.ui.utility.Text.cpp \

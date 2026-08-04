@@ -6,7 +6,7 @@ export import std;
 
 export namespace disxx::ui::utility
 {
-	class [[clang::type_visibility("hidden")]] [[nodiscard]] Text final : public Renderable
+	class __attribute__((visibility("hidden"))) [[nodiscard]] Text final : public Renderable
 	{
 	  private:
 		std::string m_Text{};

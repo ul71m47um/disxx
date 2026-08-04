@@ -1,11 +1,5 @@
+module;
 
-#include <functional>
-#include <algorithm>
-#include <ranges>
-#include <memory>
-#include <vector>
-
-// Make y starts at left bottom corner
 #define TRANSLATE(y) \
 	const auto [_, height]{backend::GLUTContext::GetWindowSize()}; \
 	y = height - y

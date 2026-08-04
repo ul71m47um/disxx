@@ -1,7 +1,3 @@
-
-
-
-
 export module disxx.disasm.decoder.abstract.SubDecoder;
 
 export import disxx.utility.error.DisassemblyError;
@@ -25,7 +21,7 @@ export using DisassemblyResult = std::expected
 
 export namespace disxx::disasm::decoder::abstract
 {
-	class [[clang::type_visibility("hidden")]] [[nodiscard]] SubDecoder
+	class __attribute__((visibility("hidden"))) [[nodiscard]] SubDecoder
 	{
 	  protected:
 		// m_Operands will be moved from this class after Decode call!

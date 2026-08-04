@@ -1,7 +1,3 @@
-
-#include <utility>
-#include <memory>
-
 module disxx.ui.MenuEntry;
 
 import disxx.ui.backend.GLUTContext;

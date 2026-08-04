@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 module disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicAES.SubDecoder;
 
 import disxx.utility.error.DisassemblyError;

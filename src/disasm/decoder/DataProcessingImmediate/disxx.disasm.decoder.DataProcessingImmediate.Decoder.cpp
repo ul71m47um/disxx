@@ -1,8 +1,3 @@
-
-
-
-
-
 module disxx.disasm.decoder.DataProcessingImmediate.Decoder;
 
 import disxx.utility.error.DisassemblyError;

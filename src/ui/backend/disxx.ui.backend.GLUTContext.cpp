@@ -1,12 +1,10 @@
+module;
 
 #ifdef __APPLE__
 #	include <GLUT/glut.h>
 #else
 #	include <GL/freeglut.h>
 #endif
-
-#include <unordered_map>
-#include <utility>
 
 module disxx.ui.backend.GLUTContext;
 

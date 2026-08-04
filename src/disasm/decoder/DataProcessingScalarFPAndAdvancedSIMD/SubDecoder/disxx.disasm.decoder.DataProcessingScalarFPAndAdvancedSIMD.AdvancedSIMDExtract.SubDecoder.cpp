@@ -1,9 +1,3 @@
-
-
-
-
-
-
 module disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDExtract.SubDecoder;
 
 import disxx.utility.error.DisassemblyError;

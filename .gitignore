@@ -8,8 +8,6 @@ src/disasm/decoder/DataProcessingScalarFPAndAdvancedSIMD/SubDecoder/main.rb
 src/disasm/file.rb
 src/disasm/main.rb
 
-main.cpp
-
 src/utility/build/*
 src/ui/build/*
 src/loader/build/*

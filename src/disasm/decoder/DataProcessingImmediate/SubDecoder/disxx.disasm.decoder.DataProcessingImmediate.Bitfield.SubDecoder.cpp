@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 module disxx.disasm.decoder.DataProcessingImmediate.Bitfield.SubDecoder;
 
 import disxx.utility.error.DisassemblyError;

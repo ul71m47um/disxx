@@ -1,9 +1,3 @@
-
-
-
-
-
-
 module disxx.disasm.operand.MemoryBarrier;
 
 namespace disxx::disasm::operand

@@ -7,7 +7,7 @@ export import std;
 
 export namespace disxx::disasm::operand
 {
-	class [[clang::type_visibility("default")]] [[nodiscard]] Register final : public IOperand
+	class __attribute__((visibility("default"))) [[nodiscard]] Register final : public IOperand
 	{
 	  public:
 		enum class Type : unsigned short int

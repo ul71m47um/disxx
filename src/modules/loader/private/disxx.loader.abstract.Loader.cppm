@@ -1,11 +1,8 @@
-export 
-#include <disconf.hpp>
-
 export module disxx.loader.abstract.Loader;
 
 export namespace disxx::loader::abstact
 {
-	class [[clang::type_visibility("hidden")]] [[nodiscard]] Loader
+	class __attribute__((visibility("hidden"))) [[nodiscard]] Loader
 	{
 	  protected:
 		MappedFile m_Mapper{};

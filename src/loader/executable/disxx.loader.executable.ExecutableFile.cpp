@@ -1,6 +1,3 @@
-
-#include <utility>
-
 module disxx.loader.executable.ExecutableFile;
 
 namespace disxx::loader::executable

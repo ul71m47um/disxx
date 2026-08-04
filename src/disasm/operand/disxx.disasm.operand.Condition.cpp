@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 module disxx.disasm.operand.Condition;
 
 namespace disxx::disasm::operand

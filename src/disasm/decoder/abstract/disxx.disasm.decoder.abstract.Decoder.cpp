@@ -1,16 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
 module disxx.disasm.decoder.abstract.Decoder;
 
 import disxx.disasm.operand.IOperand;

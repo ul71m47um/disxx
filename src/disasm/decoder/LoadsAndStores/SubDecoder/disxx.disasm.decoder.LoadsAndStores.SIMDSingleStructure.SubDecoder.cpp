@@ -1,13 +1,3 @@
-
-
-
-
-
-
-
-
-
-
 module disxx.disasm.decoder.LoadsAndStores.SIMDSingleStructure.SubDecoder;
 
 import disxx.disasm.operand.LoadsAndStoresAddress;

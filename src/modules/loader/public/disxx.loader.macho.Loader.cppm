@@ -11,7 +11,7 @@ import disxx.utility.file.MappedFile;
 
 export namespace disxx::loader::macho
 {
-	class [[clang::type_visibility("default")]] [[nodiscard]] Loader
+	class __attribute__((visibility("default"))) [[nodiscard]] Loader
 	{
 	  private:
 		disxx::utility::file::MappedFile m_Mapper{};

@@ -1,10 +1,3 @@
-
-#include <functional>
-#include <algorithm>
-#include <memory>
-#include <ranges>
-#include <string>
-
 module disxx.ui.TextInput;
 
 import disxx.ui.backend.GLUTContext;

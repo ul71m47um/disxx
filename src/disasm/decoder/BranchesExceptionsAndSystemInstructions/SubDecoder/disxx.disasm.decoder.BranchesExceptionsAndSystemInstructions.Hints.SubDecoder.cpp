@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 module disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.Hints.SubDecoder;
 
 import disxx.utility.error.DisassemblyError;

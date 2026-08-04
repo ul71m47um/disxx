@@ -6,7 +6,7 @@ export import std;
 
 export namespace disxx::ui::backend
 {
-	class [[clang::type_visibility("default")]] [[nodiscard]] IRenderer
+	class __attribute__((visibility("default"))) [[nodiscard]] IRenderer
 	{
 	  public:
 		virtual void Push(std::unique_ptr<utility::Renderable> &&) noexcept = 0;

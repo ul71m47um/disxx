@@ -4,7 +4,7 @@ import disxx.ui.utility.Vec;
 
 export namespace disxx::ui::utility
 {
-	class [[clang::type_visibility("hidden")]] [[nodiscard]] Renderable
+	class __attribute__((visibility("hidden"))) [[nodiscard]] Renderable
 	{
 	  public:
 		enum class Type

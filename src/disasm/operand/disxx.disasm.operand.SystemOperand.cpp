@@ -1,8 +1,3 @@
-
-
-
-
-
 module disxx.disasm.operand.SystemOperand;
 
 namespace disxx::disasm::operand

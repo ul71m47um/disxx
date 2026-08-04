@@ -4,7 +4,7 @@ export import std;
 
 export namespace disxx::utility::error
 {
-	class [[clang::type_visibility("default")]] [[nodiscard]] ParserError final : public std::exception
+	class __attribute__((visibility("default"))) [[nodiscard]] ParserError final : public std::exception
 	{
 	  private:
 		std::string m_Error{};

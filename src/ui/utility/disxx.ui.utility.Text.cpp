@@ -1,8 +1,3 @@
-
-#include <string_view>
-#include <utility>
-#include <string>
-
 module disxx.ui.utility.Text;
 
 namespace disxx::ui::utility

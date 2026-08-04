@@ -5,7 +5,7 @@ import std;
 export namespace disxx::utility::pointer
 {
 	template <typename T>
-	class [[clang::type_visibility("hidden")]] [[nodiscard]] DefaultDeleter
+	class __attribute__((visibility("hidden"))) [[nodiscard]] DefaultDeleter
 	{
 	  public:
 		constexpr explicit DefaultDeleter(void) noexcept = default;

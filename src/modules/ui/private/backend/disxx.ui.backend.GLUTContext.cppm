@@ -15,7 +15,7 @@ export import std;
 
 export namespace disxx::ui::backend
 {
-	class [[clang::type_visibility("default")]] [[nodiscard]] GLUTContext final : public IContext<int>
+	class __attribute__((visibility("default"))) [[nodiscard]] GLUTContext final : public IContext<int>
 	{
 	  private:
 		static std::unordered_map

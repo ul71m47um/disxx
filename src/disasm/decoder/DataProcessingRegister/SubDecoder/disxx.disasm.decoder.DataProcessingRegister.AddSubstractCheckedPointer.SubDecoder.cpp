@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 module disxx.disasm.decoder.DataProcessingRegister.AddSubstractCheckedPointer.SubDecoder;
 
 import disxx.utility.error.DisassemblyError;

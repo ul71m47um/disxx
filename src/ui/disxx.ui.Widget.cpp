@@ -1,8 +1,4 @@
-
-#include <functional>
-#include <thread>
-#include <array>
-#include <tuple>
+module;
 
 #define INIT_GL_RENDERER(ptr) \
 	static bool first{true}; \

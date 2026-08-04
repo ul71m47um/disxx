@@ -1,13 +1,12 @@
 export module disxx.ui.Button;
 
-import disxx.ui.utility.ImageLoader;
 import disxx.ui.Widget;
 
 export import std;
 
 export namespace disxx::ui
 {
-	class Button final : public Widget
+	class __attribute__((visibility("default"))) [[nodiscard]] Button final : public Widget
 	{
 	  public:
 		enum class Trigger

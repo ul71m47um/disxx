@@ -20,7 +20,7 @@ CXXFLAGS=\
 	-Wno-unused-command-line-argument -fmodules -fcxx-modules -Xclang -fmodules-local-submodule-visibility \
 	-fno-implicit-modules -fno-implicit-module-maps \
 	-Wno-decls-in-multiple-modules \
-	-fprebuilt-module-path=$(PRECOMPILEDDIR) -fvisibility=hidden -fstack-protector-all -DNDEBUG
+	-fprebuilt-module-path=$(PRECOMPILEDDIR) -fvisibility=default -fstack-protector-all -DNDEBUG
 
 LDFLAGS=-dylib -arch $(ARCH) -O2 $(LTOFLAGS) -S -syslibroot $(shell xcrun --show-sdk-path) -lSystem -lc++ \
 	-L$(DEPENDENCIESDIR) -ldisxx-util

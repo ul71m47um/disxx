@@ -1,8 +1,3 @@
-
-#include <utility>
-#include <memory>
-#include <string>
-
 module disxx.ui.Tab;
 
 import disxx.ui.utility.Shape;

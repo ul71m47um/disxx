@@ -1,14 +1,14 @@
+module;
 
-#include <OpenGL/gl3.h>
-#include <GLUT/glut.h>
+#ifdef __APPLE__
+#	include <GLUT/glut.h>
+#	include <OpenGL/gl3.h>
+#else
+#	include <GL/freeglut.h>
+#	include <GL/gl.h>
+#endif
 
-#include <utility>
-#include <memory>
-#include <vector>
-#include <string>
-#include <array>
-#include <tuple>
-#include <bit>
+#include <cstddef> // For offsetof
 
 module disxx.ui.backend.GLRenderer;
 

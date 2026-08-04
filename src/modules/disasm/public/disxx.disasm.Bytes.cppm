@@ -4,7 +4,7 @@ export import std;
 
 export namespace disxx::disasm
 {
-	enum class [[clang::type_visibility("default")]] Bytes : std::uint32_t {}; 
+	enum class __attribute__((visibility("default"))) Bytes : std::uint32_t {}; 
 
 	[[nodiscard]] constexpr inline std::uint32_t integer(Bytes word) noexcept
 	{ return static_cast<std::uint32_t>(word); }

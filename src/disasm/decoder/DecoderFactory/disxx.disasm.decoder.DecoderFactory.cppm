@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 export module disxx.disasm.decoder.DecoderFactory;
 
 import disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.Decoder;
@@ -19,7 +12,7 @@ export import disxx.disasm.decoder.abstract.Decoder;
 
 export namespace disxx::disasm::decoder
 {
-	class [[clang::type_visibility("hidden")]] [[nodiscard]] DecoderFactory
+	class __attribute__((visibility("hidden"))) [[nodiscard]] DecoderFactory
 	{
 	  public:
 		static std::unique_ptr<abstract::Decoder> GetDecoder(std::uint32_t insn, std::uint64_t PC) noexcept;

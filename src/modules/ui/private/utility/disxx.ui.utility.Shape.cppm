@@ -4,7 +4,7 @@ import disxx.ui.utility.Renderable;
 
 export namespace disxx::ui::utility
 {
-	class [[clang::type_visibility("hidden")]] [[nodiscard]] Shape final : public Renderable
+	class __attribute__((visibility("hidden"))) [[nodiscard]] Shape final : public Renderable
 	{
 	  public:
 		enum class Type

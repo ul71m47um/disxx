@@ -15,7 +15,7 @@ export import std;
 
 export namespace disxx::utility::ini
 {
-	class [[clang::type_visibility("hidden")]] [[nodiscard]] Reader final : public BaseParser
+	class __attribute__((visibility("hidden"))) [[nodiscard]] Reader final : public BaseParser
 	{
 	  public:
 		template <typename T>

@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 module disxx.disasm.operand.Shift;
 
 namespace disxx::disasm::operand

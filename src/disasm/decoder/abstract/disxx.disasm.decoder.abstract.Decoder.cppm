@@ -1,7 +1,3 @@
-
-
-
-
 export module disxx.disasm.decoder.abstract.Decoder;
 
 export import disxx.utility.error.DisassemblyError;
@@ -16,7 +12,7 @@ export import std;
 
 export namespace disxx::disasm::decoder::abstract
 {
-	class [[clang::type_visibility("hidden")]] [[nodiscard]] Decoder
+	class __attribute__((visibility("hidden"))) [[nodiscard]] Decoder
 	{
       protected:
 		// Subdecoder (in some cases may become nullptr)

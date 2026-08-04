@@ -1,13 +1,3 @@
-
-
-
-
-
-
-
-
-
-
 module disxx.disasm.decoder.Reserved.Decoder;
 
 import disxx.utility.error.DisassemblyError;

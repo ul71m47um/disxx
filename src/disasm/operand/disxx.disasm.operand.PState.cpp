@@ -1,9 +1,3 @@
-
-
-
-
-
-
 module disxx.disasm.operand.PState;
 
 namespace disxx::disasm::operand

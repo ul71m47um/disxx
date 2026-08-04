@@ -7,7 +7,7 @@ export import std;
 
 export namespace disxx::ui
 {
-	class [[clang::type_visibility("default")]] [[nodiscard]] Tab final : public Widget
+	class __attribute__((visibility("default"))) [[nodiscard]] Tab final : public Widget
 	{
 	  private:
 		SourceEditor m_TextArea{};

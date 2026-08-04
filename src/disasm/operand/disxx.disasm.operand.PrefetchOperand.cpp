@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 module disxx.disasm.operand.PrefetchOperand;
 
 namespace disxx::disasm::operand

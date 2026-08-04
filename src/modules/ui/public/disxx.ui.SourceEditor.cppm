@@ -7,7 +7,7 @@ export import std;
 
 export namespace disxx::ui
 {
-	class SourceEditor final : public Widget
+	class __attribute__((visibility("default"))) [[nodiscard]] SourceEditor final : public Widget
 	{
 	  private:
 		std::vector<std::string> m_Lines;

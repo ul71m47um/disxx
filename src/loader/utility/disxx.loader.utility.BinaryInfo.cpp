@@ -1,14 +1,6 @@
+module;
 
 #include <mach-o/loader.h>
-
-#include <unordered_map>
-#include <string_view>
-#include <algorithm>
-#include <cstdint>
-#include <vector>
-#include <format>
-#include <string>
-#include <tuple>
 
 module disxx.loader.utility.BinaryInfo;
 

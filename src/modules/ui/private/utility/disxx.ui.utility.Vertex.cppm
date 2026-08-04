@@ -1,4 +1,3 @@
-
 export module disxx.ui.utility.Vertex;
 
 import disxx.ui.utility.Vec;

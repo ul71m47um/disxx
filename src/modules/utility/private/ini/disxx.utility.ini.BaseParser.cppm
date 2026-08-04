@@ -6,7 +6,7 @@ export import std;
 
 export namespace disxx::utility::ini
 {
-	class [[clang::type_visibility("default")]] [[nodiscard]] BaseParser
+	class __attribute__((visibility("default"))) [[nodiscard]] BaseParser
 	{
 	  public:
 		using SectionsTable = std::map

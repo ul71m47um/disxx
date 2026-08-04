@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 module disxx.disasm.utility.bits;
 
 namespace bits

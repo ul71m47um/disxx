@@ -1,17 +1,10 @@
-
-
-
-
-
-
-
 export module disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemInstructionIDs.SubDecoder;
 
 import disxx.disasm.decoder.abstract.SubDecoder;
 
 export namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::SystemInstructionIDs
 {
-	class [[clang::type_visibility("hidden")]] [[nodiscard]] SubDecoder final : public disxx::disasm::decoder::abstract::SubDecoder
+	class __attribute__((visibility("hidden"))) [[nodiscard]] SubDecoder final : public disxx::disasm::decoder::abstract::SubDecoder
 	{
 	  public:
 		explicit SubDecoder(void) noexcept;

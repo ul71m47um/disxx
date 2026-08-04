@@ -1,8 +1,3 @@
-
-#include <utility>
-#include <memory>
-#include <vector>
-
 module disxx.ui.TabbedPane;
 
 import disxx.ui.utility.Shape;

@@ -6,7 +6,7 @@ import std;
 
 export namespace disxx::disasm::operand
 {
-	class [[clang::type_visibility("default")]] Extension final : public IOperand
+	class __attribute__((visibility("default"))) Extension final : public IOperand
 	{
 	  public:
 		enum class Identifier : unsigned short int

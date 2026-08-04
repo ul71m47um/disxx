@@ -1,7 +1,3 @@
-
-#include <utility>
-#include <memory>
-
 module disxx.ui.Label;
 
 import disxx.ui.utility.Text;

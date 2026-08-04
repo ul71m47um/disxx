@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 module disxx.disasm.decoder.LoadsAndStores.MemoryCopyAndMemorySet.SubDecoder;
 
 import disxx.disasm.operand.LoadsAndStoresAddress;

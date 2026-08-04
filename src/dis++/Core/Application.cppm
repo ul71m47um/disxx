@@ -9,7 +9,7 @@ import DisLog;
 
 export import std;
 
-export class [[clang::type_visibility("hidden")]] [[nodiscard]] Application
+export class __attribute__((visibility("hidden"))) [[nodiscard]] Application
 {
   private:
 	static Application *s_pInstance;

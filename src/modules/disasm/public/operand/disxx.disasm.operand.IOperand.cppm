@@ -4,7 +4,7 @@ export import disxx.utility.trait.Cloneable;
 
 export namespace disxx::disasm::operand
 {
-    class [[clang::type_visibility("default")]] [[nodiscard]] IOperand : public disxx::utility::trait::Cloneable<IOperand>
+    class __attribute__((visibility("default"))) [[nodiscard]] IOperand : public disxx::utility::trait::Cloneable<IOperand>
     {
       public:
 		explicit IOperand(void) noexcept = default;

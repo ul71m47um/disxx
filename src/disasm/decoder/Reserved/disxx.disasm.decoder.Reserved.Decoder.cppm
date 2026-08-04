@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 export module disxx.disasm.decoder.Reserved.Decoder;
 
 import disxx.disasm.decoder.abstract.Decoder;
@@ -12,7 +5,7 @@ import disxx.utility.error.DisassemblyError;
 
 export namespace disxx::disasm::decoder::Reserved
 {
-	class [[clang::type_visibility("hidden")]] [[nodiscard]] Decoder final : public disxx::disasm::decoder::abstract::Decoder
+	class __attribute__((visibility("hidden"))) [[nodiscard]] Decoder final : public disxx::disasm::decoder::abstract::Decoder
 	{
 	  protected:
 		std::expected

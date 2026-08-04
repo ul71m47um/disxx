@@ -1,7 +1,3 @@
-
-#include <utility>
-#include <memory>
-
 module disxx.ui.Frame;
 
 import disxx.ui.utility.Shape;

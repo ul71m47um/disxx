@@ -4,7 +4,7 @@ export import std;
 
 export namespace disxx::disasm::operand
 {
-	class [[clang::type_visibility("default")]] [[nodiscard]] VectorArrangementSpecifier
+	class __attribute__((visibility("default"))) [[nodiscard]] VectorArrangementSpecifier
 	{
 	  public:
 		// I forgot what is this variable for :b

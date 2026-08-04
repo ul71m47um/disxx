@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 module disxx.disasm.decoder.DataProcessingImmediate.DataProcessing1SourceImmediate.SubDecoder;
 
 import disxx.utility.error.DisassemblyError;

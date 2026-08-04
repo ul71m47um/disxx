@@ -1,6 +1,3 @@
-
-#include <utility>
-
 module disxx.loader.executable.Section;
 
 namespace disxx::loader::executable

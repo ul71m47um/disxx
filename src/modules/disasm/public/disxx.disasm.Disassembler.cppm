@@ -9,7 +9,7 @@ export import std;
 
 export namespace disxx::disasm
 {
-	class [[nodiscard]] [[clang::type_visibility("default")]] Disassembler
+	class [[nodiscard]] __attribute__((visibility("default"))) Disassembler
 	{
 	  public:
 		using Result = std::expected

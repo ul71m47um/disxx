@@ -1,11 +1,4 @@
-
-#include <functional>
-#include <algorithm>
-#include <cstdlib>
-#include <ranges>
-#include <format>
-#include <vector>
-#include <regex>
+module;
 
 #define CLEARFRAME(frame) \
 	(frame) \
@@ -26,6 +19,8 @@ module FailHandler;
 import disxx.ui.Widget;
 import disxx.ui.Button;
 import disxx.ui.SourceEditor;
+
+import std;
 
 FailHandler *FailHandler::s_pInstance = nullptr;
 
@@ -188,9 +183,9 @@ FailHandler::FailHandler(void) noexcept(false)
 	this->m_Window.AddWidget(std::make_unique<disxx::ui::SourceEditor>(report));
 }
 
-FailHandler *FailHandler::Init(int &argc, const char *argv[]) noexcept(false)
+FailHandler *FailHandler::Init(int &argc, char **&argv) noexcept(false)
 {
-	disxx::ui::MainWindow::Init(&argc, const_cast<char **>(argv));
+	disxx::ui::MainWindow::Init(&argc, argv);
     if (!s_pInstance) [[likely]]
         s_pInstance = new FailHandler{};
 	return s_pInstance;
@@ -202,7 +197,7 @@ FailHandler *FailHandler::Init(int &argc, const char *argv[]) noexcept(false)
 	try
 	{ this->m_Window.Exec(); }
 	catch (...)
-	{ return EXIT_FAILURE; }
+	{ return 1; }
 
-	return EXIT_SUCCESS;
+	return 0;
 }

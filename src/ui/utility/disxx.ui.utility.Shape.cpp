@@ -1,9 +1,6 @@
-
-#include <utility>
-#include <tuple>
-#include <array>
-
 module disxx.ui.utility.Shape;
+
+import std;
 
 namespace disxx::ui::utility
 {

@@ -29,7 +29,7 @@ export namespace disxx::utility::pointer
 	 * if the pointer is null
 	 */
 	template <typename T, typename D = DefaultDeleter<T *>> requires Deleter<T *, D>
-	class [[clang::type_visibility("default")]] [[nodiscard]] NonNull
+	class __attribute__((visibility("default"))) [[nodiscard]] NonNull
 	{
 	  private:
 		T *m_pPointer;

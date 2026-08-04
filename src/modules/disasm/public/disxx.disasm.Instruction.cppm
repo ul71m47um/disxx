@@ -10,7 +10,7 @@ export import std;
 
 export namespace disxx::disasm
 {
-	class [[clang::type_visibility("default")]] [[nodiscard]] Instruction
+	class __attribute__((visibility("default"))) [[nodiscard]] Instruction
 	{
 	  private:
 		// Bunch of operands (may be empty)

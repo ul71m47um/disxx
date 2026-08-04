@@ -17,7 +17,7 @@ CXXFLAGS=\
 	-c -std=c++26 -O3 -Wall -Weverything -Werror -arch $(ARCH) -isysroot $(shell xcrun --show-sdk-path) \
 	-Xclang -fmodules-local-submodule-visibility -I..$(PATHSEP)include -fstack-protector-all -DNDEBUG \
 	-fstrict-aliasing -ftrapv -fno-implicit-modules -fno-implicit-module-maps \
-	-fmodules -fcxx-modules -fvisibility=default \
+	-fmodules -fcxx-modules -fvisibility=hidden \
 	-Wno-reserved-module-identifier -Wno-unused-command-line-argument -Wno-c++98-compat \
 	-Wno-c++98-compat-pedantic -Wno-reserved-identifier -Wno-weak-vtables \
 	-Wno-decls-in-multiple-modules \

@@ -1,13 +1,3 @@
-
-
-
-
-
-
-
-
-
-
 module disxx.disasm.operand.Register;
 
 namespace disxx::disasm::operand

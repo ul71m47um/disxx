@@ -1,13 +1,3 @@
-
-#include <string_view>
-#include <functional>
-#include <algorithm>
-#include <memory>
-#include <ranges>
-#include <format>
-#include <string>
-#include <vector>
-
 module disxx.ui.SourceEditor;
 
 import disxx.ui.backend.GLUTContext;

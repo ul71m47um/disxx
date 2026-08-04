@@ -1,17 +1,10 @@
-
-
-
-
-
-
-
 export module disxx.disasm.decoder.DataProcessingImmediate.AddSubstractImmediateWithTags.SubDecoder;
 
 import disxx.disasm.decoder.abstract.SubDecoder;
 
 export namespace disxx::disasm::decoder::DataProcessingImmediate::AddSubstractImmediateWithTags
 {
-	class [[clang::type_visibility("hidden")]] [[nodiscard]] SubDecoder final : public disxx::disasm::decoder::abstract::SubDecoder
+	class __attribute__((visibility("hidden"))) [[nodiscard]] SubDecoder final : public disxx::disasm::decoder::abstract::SubDecoder
 	{
 	  public:
 		explicit SubDecoder(void) noexcept;

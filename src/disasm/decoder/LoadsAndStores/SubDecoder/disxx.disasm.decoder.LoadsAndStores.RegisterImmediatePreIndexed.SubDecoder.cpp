@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 module disxx.disasm.decoder.LoadsAndStores.RegisterImmediatePreIndexed.SubDecoder;
 
 import disxx.disasm.operand.LoadsAndStoresAddress;

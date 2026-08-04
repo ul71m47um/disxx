@@ -6,7 +6,7 @@ export import std;
 
 export namespace disxx::ui
 {
-	class [[clang::type_visibility("default")]] [[nodiscard]] Label final : public Widget
+	class __attribute__((visibility("default"))) [[nodiscard]] Label final : public Widget
 	{
 	  private:
 		std::string m_Text{};

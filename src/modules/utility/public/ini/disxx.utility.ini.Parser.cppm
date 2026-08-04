@@ -8,7 +8,7 @@ export import std;
 
 export namespace disxx::utility::ini
 {
-	class [[clang::type_visibility("default")]] [[nodiscard]] Parser
+	class __attribute__((visibility("default"))) [[nodiscard]] Parser
 	{
 	  private:
 		Reader m_Reader{};

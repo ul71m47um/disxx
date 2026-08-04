@@ -21,7 +21,7 @@ export namespace disxx::ui::utility
 		std::runtime_error
 	>;
 
-	class ColorTag
+	class __attribute__((visibility("default"))) [[nodiscard]] ColorTag
 	{
 	  public:
 		explicit ColorTag(void) noexcept;

@@ -1,15 +1,9 @@
-
-#include <disconf.hpp>
-
-#include <functional>
-#include <memory>
-
 export module FailHandler;
 
 import disxx.utility.ini.Parser;
 import disxx.ui.MainWindow;
 
-export class [[clang::type_visibility("hidden")]] [[nodiscard]] FailHandler
+export class __attribute__((visibility("hidden"))) [[nodiscard]] FailHandler
 {
   private:
 	static FailHandler *s_pInstance;
@@ -26,7 +20,7 @@ export class [[clang::type_visibility("hidden")]] [[nodiscard]] FailHandler
 
   public:
 	// THIS FUNCTION CALLS ONCE!
-	static FailHandler *Init(int &, const char *[]) noexcept(false);
+	static FailHandler *Init(int &, char **&) noexcept(false);
 	
 	~FailHandler(void) noexcept = default;
 	int Exec(void) const noexcept(false);

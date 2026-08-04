@@ -1,9 +1,9 @@
+module;
 
 #include <mach-o/loader.h>
 #include <mach-o/nlist.h>
 #include <mach-o/fat.h>
 
-// For ntohl(1)
 #ifndef _WIN32
 #	include <arpa/inet.h>
 #else

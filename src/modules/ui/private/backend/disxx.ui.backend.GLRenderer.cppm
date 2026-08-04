@@ -15,7 +15,7 @@ import disxx.ui.backend.IRenderer;
 
 export namespace disxx::ui::backend
 {
-	class [[clang::type_visibility("default")]] [[nodiscard]] GLRenderer final : public IRenderer
+	class __attribute__((visibility("default"))) [[nodiscard]] GLRenderer final : public IRenderer
 	{
 	  private:
 		static constexpr char *s_pVertexSource = "#version 120\n"

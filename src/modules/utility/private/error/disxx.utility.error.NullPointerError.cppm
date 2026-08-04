@@ -4,7 +4,7 @@ export import std;
 
 export namespace disxx::utility::error
 {
-	class [[clang::type_visibility("default")]] [[nodiscard]] NullPointerError : public std::runtime_error
+	class __attribute__((visibility("default"))) [[nodiscard]] NullPointerError : public std::runtime_error
 	{
 	  public:
 		explicit NullPointerError(const char *) noexcept;

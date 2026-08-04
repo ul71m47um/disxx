@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 module disxx.disasm.decoder.DataProcessingRegister.AddSubstractWithCarry.SubDecoder;
 
 import disxx.utility.error.DisassemblyError;

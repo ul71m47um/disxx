@@ -27,7 +27,7 @@ export import std;
 
 export namespace disxx::utility::ini
 {
-	class [[clang::type_visibility("hidden")]] [[nodiscard]] Writer final : public BaseParser
+	class __attribute__((visibility("hidden"))) [[nodiscard]] Writer final : public BaseParser
 	{
 	  public:
 		using WriteResult = std::expected

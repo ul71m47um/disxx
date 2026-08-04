@@ -16,7 +16,7 @@ concept OverflowProof = sizeof(T) >= sizeof(U);
 export namespace disxx::disasm::operand
 {
     template <Imm T, unsigned short int _Size> requires ImmSize<T, _Size>
-	class [[clang::type_visibility("default")]] Immediate final : public IOperand
+	class __attribute__((visibility("default"))) Immediate final : public IOperand
     {
 	  public:
 		enum class Option

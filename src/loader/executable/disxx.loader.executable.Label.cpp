@@ -1,6 +1,3 @@
-
-#include <utility>
-
 module disxx.loader.executable.Label;
 
 namespace disxx::loader::executable

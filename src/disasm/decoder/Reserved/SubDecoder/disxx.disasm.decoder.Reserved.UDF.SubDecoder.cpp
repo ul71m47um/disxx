@@ -1,9 +1,3 @@
-
-
-
-
-
-
 module disxx.disasm.decoder.Reserved.UDF.SubDecoder;
 
 import disxx.utility.error.DisassemblyError;

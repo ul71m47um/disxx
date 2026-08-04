@@ -1,12 +1,3 @@
-
-
-
-
-
-
-
-
-
 module disxx.disasm.decoder.LoadsAndStores.AtomicMemoryOperations.SubDecoder;
 
 import disxx.disasm.operand.LoadsAndStoresAddress;

@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 module disxx.disasm.operand.Extension;
 
 namespace disxx::disasm::operand

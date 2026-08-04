@@ -11,7 +11,7 @@ export import std;
 
 export namespace disxx::disasm::operand
 {
-	class [[clang::type_visibility("default")]] LoadsAndStoresAddress final : public IOperand
+	class __attribute__((visibility("default"))) LoadsAndStoresAddress final : public IOperand
 	{
 	  public:
 		using ImmediatePreIndexedOffset = std::variant

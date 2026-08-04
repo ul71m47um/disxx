@@ -1,13 +1,3 @@
-
-
-
-
-
-
-
-
-
-
 module disxx.disasm.Disassembler;
 
 import disxx.utility.error.DisassemblyError;

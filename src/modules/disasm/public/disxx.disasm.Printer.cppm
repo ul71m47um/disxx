@@ -17,7 +17,7 @@ import std;
 export namespace disxx::disasm
 {
 	template <std::output_iterator<char> T>
-	class [[clang::type_visibility("default")]] [[nodiscard]] Printer
+	class __attribute__((visibility("default"))) [[nodiscard]] Printer
 	{
 	  private:
 		static const std::flat_map<InstructionIdentifier, std::string_view> s_InstructionTable;

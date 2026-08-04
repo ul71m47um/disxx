@@ -7,7 +7,7 @@ export import std;
 export namespace disxx::ui::backend
 {
 	template <typename T>
-	class [[clang::type_visibility("hidden")]] [[nodiscard]] IContext
+	class __attribute__((visibility("hidden"))) [[nodiscard]] IContext
 	{
 	  public:
 		using WindowHandle = T;

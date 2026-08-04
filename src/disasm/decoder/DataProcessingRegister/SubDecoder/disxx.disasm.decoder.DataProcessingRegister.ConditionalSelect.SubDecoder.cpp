@@ -1,12 +1,3 @@
-
-
-
-
-
-
-
-
-
 module disxx.disasm.decoder.DataProcessingRegister.ConditionalSelect.SubDecoder;
 
 import disxx.utility.error.DisassemblyError;

@@ -6,7 +6,7 @@ export import std;
 
 export namespace disxx::ui
 {
-	class TextInput final : public Widget
+	class __attribute__((visibility("default"))) [[nodiscard]] TextInput final : public Widget
 	{
 	  private:
 		std::function<void(const Widget *const)> m_Callback{};
