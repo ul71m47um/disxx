@@ -56,7 +56,8 @@ MODULES=\
 	$(MODULESPATH)public$(PATHSEP)disxx.ui.Label.cppm \
 	$(MODULESPATH)public$(PATHSEP)disxx.ui.Menu.cppm \
 	$(MODULESPATH)public$(PATHSEP)disxx.ui.TextInput.cppm \
-	$(MODULESPATH)public$(PATHSEP)disxx.ui.MainWindow.cppm
+	$(MODULESPATH)public$(PATHSEP)disxx.ui.MainWindow.cppm \
+	$(MODULESPATH)public$(PATHSEP)disxx.ui.MessageBox.cppm
 
 SOURCES=\
 	.$(PATHSEP)utility$(PATHSEP)disxx.ui.utility.ColorTag.cpp \
@@ -75,7 +76,8 @@ SOURCES=\
 	.$(PATHSEP)disxx.ui.Menu.cpp \
 	.$(PATHSEP)disxx.ui.TextInput.cpp \
 	.$(PATHSEP)disxx.ui.SourceEditor.cpp \
-	.$(PATHSEP)disxx.ui.MainWindow.cpp
+	.$(PATHSEP)disxx.ui.MainWindow.cpp \
+	.$(PATHSEP)disxx.ui.MessageBox.cpp
 
 .PHONY: all
 all: $(BUILDDIR)$(PATHSEP)libdisxx-ui.$(DYLIB)

@@ -77,6 +77,7 @@ MODULES=\
 	..$(PATHSEP)modules$(PATHSEP)ui$(PATHSEP)public$(PATHSEP)disxx.ui.TabbedPane.cppm \
 	..$(PATHSEP)modules$(PATHSEP)ui$(PATHSEP)public$(PATHSEP)disxx.ui.TextInput.cppm \
 	..$(PATHSEP)modules$(PATHSEP)ui$(PATHSEP)public$(PATHSEP)disxx.ui.MainWindow.cppm \
+	 ..$(PATHSEP)modules$(PATHSEP)ui$(PATHSEP)public$(PATHSEP)disxx.ui.MessageBox.cppm \
 	..$(PATHSEP)modules$(PATHSEP)loader$(PATHSEP)private$(PATHSEP)utility$(PATHSEP)disxx.loader.utility.BinaryInfo.cppm \
 	..$(PATHSEP)modules$(PATHSEP)loader$(PATHSEP)private$(PATHSEP)executable$(PATHSEP)disxx.loader.executable.Label.cppm \
 	..$(PATHSEP)modules$(PATHSEP)loader$(PATHSEP)private$(PATHSEP)executable$(PATHSEP)disxx.loader.executable.Section.cppm \

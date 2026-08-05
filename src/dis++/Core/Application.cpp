@@ -31,6 +31,7 @@ import disxx.disasm.Printer;
 
 import disxx.ui.backend.GLUTContext;
 import disxx.ui.SourceEditor;
+import disxx.ui.MessageBox;
 import disxx.ui.TabbedPane;
 import disxx.ui.MainWindow;
 import disxx.ui.TextInput;
@@ -69,13 +70,9 @@ Application::Application(void) noexcept(false)
 
 void Application::Disassemble(const std::filesystem::path &path) noexcept(false)
 {
-	// Check if path exists
-	if (std::error_code errc{}; !std::filesystem::exists(path, errc)) [[unlikely]]
-		throw std::filesystem::filesystem_error{"FileNotFoundError", errc};
-
 	// Just take the ptr, so I shouldn't cast it every time
-	auto *pLabels{static_cast<disxx::ui::SourceEditor *>(s_pInstance->m_Window.GetWidgets().at(1).get())};
-	pLabels->ClearText();
+	auto &labels{dynamic_cast<disxx::ui::SourceEditor &>(*s_pInstance->m_Window.GetWidgets().at(1))};
+	labels.ClearText();
 
 	disxx::ui::SourceEditor editor{};
 	editor.SetColor(0.2f, 0.2f, 0.2f);
@@ -155,7 +152,7 @@ void Application::Disassemble(const std::filesystem::path &path) noexcept(false)
 		
 			for (const auto &label : section.GetLabels())
 		    {
-		        pLabels->AddLine
+		        labels.AddLine
 				(
 					"<color value=\"0.7 0.6 0.2 1.0\">{}</color>:"
 					"<color value=\"0.8 0.6 0.2 1.0\">{:#016}</color>:"
@@ -277,7 +274,7 @@ void Application::Disassemble(const std::filesystem::path &path) noexcept(false)
 		{
 			for (const auto &label : section.GetLabels())
 			{
-				pLabels->AddLine
+				labels.AddLine
 				(
 					"<color value=\"0.7 0.6 0.2 1.0\">{}</color>:"
 					"<color value=\"0.8 0.6 0.2 1.0\">{:#016}</color>:"
@@ -306,21 +303,20 @@ void Application::Disassemble(const std::filesystem::path &path) noexcept(false)
 	}
 
 	const auto [width, height]{s_pInstance->m_Window.GetSize()};
-	pLabels->Resize(disxx::ui::utility::Vec2<float>{width * 1.f, height * 0.2f});
+	labels.Resize(disxx::ui::utility::Vec2<float>{width * 1.f, height * 0.2f});
 
 	disxx::ui::Tab tab{};
 	tab.SetColor(0.2f, 0.2f, 0.2f);
 	tab.SetText(path.string());
 	tab.SetTextArea(std::move(editor));
 
-	static_cast<disxx::ui::TabbedPane *>
+	dynamic_cast<disxx::ui::TabbedPane &>
 	(
-		s_pInstance
+		**s_pInstance
 			->m_Window
 			.GetWidgets()
 			.begin()
-			->get()
-	)->Push(std::move(tab));
+	).Push(std::move(tab));
 }
 
 void Application::Init(void) noexcept(false)
@@ -431,20 +427,22 @@ void Application::Init(void) noexcept(false)
 					disxx::ui::Button::Trigger::BTN_CLICKED,
 					[](const disxx::ui::Widget *const) -> void
 					{
-						if (s_pInstance->m_Window.GetWidgets().size() < 5) [[unlikely]]
-							return;
-
 						const auto p
 						{
-							static_cast<disxx::ui::TextInput *>
+							dynamic_cast<disxx::ui::TextInput &>
 							(
-								s_pInstance
+								**s_pInstance
 									->m_Window
 									.GetWidgets()
 									.rbegin()
-									->get()
-							)->GetText()
+							).GetText()
 						};
+
+						if (std::error_code errc{}; !std::filesystem::exists(p, errc)) [[unlikely]]
+						{
+							disxx::ui::MessageBox box{"Unable to open a file"};
+							box.Exec();
+						}
 
 						SUPPRESS_LAST_WIDGETS(s_pInstance->m_Window.GetWidgets(), 6);
 
@@ -469,9 +467,6 @@ void Application::Init(void) noexcept(false)
 					disxx::ui::Button::Trigger::BTN_CLICKED,
 					[](const disxx::ui::Widget *const) -> void
 					{
-						if (s_pInstance->m_Window.GetWidgets().size() < 5) [[unlikely]]
-							return;
-
 						SUPPRESS_LAST_WIDGETS(s_pInstance->m_Window.GetWidgets(), 6);
 
 						openActive = false;
@@ -606,25 +601,21 @@ void Application::Init(void) noexcept(false)
 					disxx::ui::Button::Trigger::BTN_CLICKED,
 					[](const disxx::ui::Widget *const) -> void
 					{
-						if (s_pInstance->m_Window.GetWidgets().size() < 5) [[unlikely]]
-							return;
-
 						const auto p
 						{
-							static_cast<disxx::ui::TextInput *>
+							dynamic_cast<disxx::ui::TextInput &>
 							(
-								s_pInstance
+								**s_pInstance
 									->m_Window
 									.GetWidgets()
 									.rbegin()
-									->get()
-							)->GetText()
+							).GetText()
 
 						};
 
 						SUPPRESS_LAST_WIDGETS(s_pInstance->m_Window.GetWidgets(), 5);
 
-						if (const auto tab{static_cast<disxx::ui::TabbedPane *>(s_pInstance->m_Window.GetWidgets().begin()->get())->GetActiveTab()}) [[likely]]
+						if (const auto tab{dynamic_cast<disxx::ui::TabbedPane &>(**s_pInstance->m_Window.GetWidgets().begin()).GetActiveTab()}) [[likely]]
 						{
 							std::fstream file{std::string{p}, std::fstream::out | std::fstream::binary | std::fstream::trunc};
 							if (const std::error_code errc{}; !file.is_open()) [[unlikely]]
@@ -655,9 +646,6 @@ void Application::Init(void) noexcept(false)
 					disxx::ui::Button::Trigger::BTN_CLICKED,
 					[](const disxx::ui::Widget *const) -> void
 					{
-						if (s_pInstance->m_Window.GetWidgets().size() < 5) [[unlikely]]
-							return;
-
 						SUPPRESS_LAST_WIDGETS(s_pInstance->m_Window.GetWidgets(), 6);
 
 						saveActive = false;
@@ -743,25 +731,27 @@ void Application::Init(void) noexcept(false)
 					disxx::ui::Button::Trigger::BTN_CLICKED,
 					[](const disxx::ui::Widget *const) -> void
 					{
-						if (s_pInstance->m_Window.GetWidgets().size() < 5) [[unlikely]]
-							return;
-
 						const auto p
 						{
-							static_cast<disxx::ui::TextInput *>
+							dynamic_cast<disxx::ui::TextInput &>
 							(
-								s_pInstance
+								**s_pInstance
 									->m_Window
 									.GetWidgets()
 									.rbegin()
-									->get()
-							)->GetText()
+							).GetText()
 
 						};
 
+						if (std::error_code errc{}; !std::filesystem::exists(p, errc)) [[unlikely]]
+						{
+							disxx::ui::MessageBox box{"Unable to open a file"};
+							box.Exec();
+						}
+
 						SUPPRESS_LAST_WIDGETS(s_pInstance->m_Window.GetWidgets(), 6);
 
-						static ScriptEngine engine{};
+						ScriptEngine engine{};
 						engine.ExecFile(p);
 	
 						scriptActive = false;
@@ -783,9 +773,6 @@ void Application::Init(void) noexcept(false)
 					disxx::ui::Button::Trigger::BTN_CLICKED,
 					[](const disxx::ui::Widget *const) -> void
 					{
-						if (s_pInstance->m_Window.GetWidgets().size() < 5) [[unlikely]]
-							return;
-
 						SUPPRESS_LAST_WIDGETS(s_pInstance->m_Window.GetWidgets(), 6);
 
 						scriptActive = false;

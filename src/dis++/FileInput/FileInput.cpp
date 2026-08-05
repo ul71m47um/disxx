@@ -9,6 +9,7 @@ module;
 
 module FileInput;
 
+import disxx.ui.MessageBox;
 import disxx.ui.TextInput;
 import disxx.ui.Widget;
 import disxx.ui.Button;
@@ -37,13 +38,42 @@ FileInput::FileInput(void) noexcept
 				frame.SetColor(0.2f, 0.2f, 0.2f);
 				this->m_Window.AddWidget(std::make_unique<disxx::ui::Frame>(frame));
 
-				disxx::ui::TextInput input{100.f, 150.f, 200.f, 40.f};
+				disxx::ui::Label upper
+				{
+					200.f,
+					250.f,
+					0.f,
+					0.f
+				};
+				upper.SetColor(1.f, 1.f, 1.f);
+				upper.SetText("Select an executable to disassemble");
+				this->m_Window.AddWidget(std::make_unique<disxx::ui::Label>(upper));
+				
+
+				disxx::ui::Label label
+				{
+					75.f,
+					195.f,
+					0.f,
+					0.f
+				};
+				label.SetColor(0.3f, 0.3f, 0.3f);
+				label.SetText("Executable:");
+				this->m_Window.AddWidget(std::make_unique<disxx::ui::Label>(label));
+
+				disxx::ui::TextInput input
+				{
+					400 / 3.f,
+					175.f,
+					250.f,
+					40.f
+				};
 				input.SetColor(0.3f, 0.3f, 0.3f);
 				this->m_Window.AddWidget(std::make_unique<disxx::ui::TextInput>(input));
-				
+
 				const auto &ref
 				{
-					static_cast<disxx::ui::TextInput &>
+					dynamic_cast<disxx::ui::TextInput &>
 					(
 						**this
 							->m_Window
@@ -61,7 +91,14 @@ FileInput::FileInput(void) noexcept
 					[this, &ref](const disxx::ui::Widget *const) mutable -> void
 					{
 						this->m_Path = ref.GetText();
-						this->m_Callback();
+						if (std::error_code errc{}; std::filesystem::exists(this->m_Path, errc)) [[likely]]
+							this->m_Callback();
+						else
+						{
+							this->m_Path.clear();
+							disxx::ui::MessageBox box{"Unable to open the file"};
+							box.Exec();
+						}
 					}
 				);
 				this->m_Window.AddWidget(std::make_unique<disxx::ui::Button>(ok));

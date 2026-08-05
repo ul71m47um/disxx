@@ -223,7 +223,8 @@ namespace disxx::ui
 		s_pContext->SwitchWindow(this->m_hWin);
 
 		for (const auto &pWidget : this->m_Widgets)
-			pWidget->Render();
+			if (pWidget->GetVisible())
+				pWidget->Render();
 		s_pContext->SwapBuffers();
 		Widget::ClearBuffer();
 	}
@@ -258,7 +259,8 @@ namespace disxx::ui
 		#endif
 
 		for (const auto i : std::views::iota(0ul, this->m_Widgets.size()))
-			this->m_Widgets.at(i)->HandleKeyboard(key, x, y);
+			if (auto &pWidget{this->m_Widgets.at(i)}; pWidget->GetVisible())
+				pWidget->HandleKeyboard(key, x, y);
 		s_pContext->Redisplay();
 	}
 
@@ -271,7 +273,8 @@ namespace disxx::ui
 		#endif
 
 		for (const auto i : std::views::iota(0ul, this->m_Widgets.size()))
-			this->m_Widgets.at(i)->HandleMouse(button, state, x, y);
+			if (auto &pWidget{this->m_Widgets.at(i)}; pWidget->GetVisible())
+				pWidget->HandleMouse(button, state, x, y);
 		s_pContext->Redisplay();
 	}
 
@@ -284,7 +287,8 @@ namespace disxx::ui
 		#endif
 
 		for (const auto i : std::views::iota(0ul, this->m_Widgets.size()))
-			this->m_Widgets.at(i)->HandleMotion(x, y);
+			if (auto &pWidget{this->m_Widgets.at(i)}; pWidget->GetVisible())
+				pWidget->HandleMotion(x, y);
 		s_pContext->Redisplay();
 	}
 } /* disxx::ui */
