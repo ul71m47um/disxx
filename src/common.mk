@@ -8,11 +8,14 @@ else
 	ARCH=$(shell uname -m)
 endif
 
-# Check if there is Windows, or else
+# Check if the OS is Windows, or else
 # treat this system as UNIX
 ifeq ($(OS), Windows_NT)
 	# Script for assembling all the binaries together
 	MKAPP=.$(PATHSEP)mkapp.bat
+
+	# C++ standart library module (TODO: check if this path is correct)
+	LIBCXX=$(shell echo %VCToolsInstallDir%)$(PATHSEP)module$(PATHSEP)std.ixx
 	
 	# File extensions
 	DYLIB=dll
@@ -30,11 +33,16 @@ ifeq ($(OS), Windows_NT)
 	ifeq ($(LD),)
 		$(error Unable to find a linker)
 	endif
+	ifeq ($(CC),)
+		$(error Unable to find a C compiler)
+	endif
 	ifeq ($(CXX),)
 		$(error Unable to find a C++ compiler)
 	endif
 
-	# Base commands (I infer they always should be in the current OS)
+	ASAN=$(shell $(CXX) -print-resource-dir)$(PATHSEP)lib$(PATHSEP)windows$(PATHSEP)libclang_rt.asan-x64
+
+	# Base commands
 	MKDIR=mkdir -p
 	MOVE=move /Y
 	RMDIR=rmdir /s /q
@@ -47,7 +55,7 @@ else
 		# C++ standart library module
 		LIBCXX=/usr/share/libc++/v1/std.cppm
 
-		# File extensions	
+		# File extensions
 		DYLIB=dylib
 
 		ASM=$(shell xcrun --find as 2>/dev/null)
