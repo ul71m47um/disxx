@@ -48,13 +48,13 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Misce
         // +--------+---+-----+---+
 
         unsigned short int opc, op2;
-        opc = bits::extract<unsigned short int, std::uint32_t, 21, 23>(this->m_Insn);
-        op2 = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        opc = utility::bits::extract<unsigned short int, std::uint32_t, 21, 23>(this->m_Insn);
+        op2 = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
         const auto imm
         {
             disxx::disasm::operand::Immediate<signed long long int, 64>
             {
-                bits::extract<signed long long int, std::uint32_t, 5, 20>(this->m_Insn) << 2,
+                utility::bits::extract<signed long long int, std::uint32_t, 5, 20>(this->m_Insn) << 2,
                 disxx::disasm::operand::Immediate<signed long long int, 64>::Option::OPT_SIGNEXTEND
             }
         };

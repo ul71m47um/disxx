@@ -47,13 +47,13 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::LogicalImmediate
         // +--+---+------+-+----+----+--+--+
 
         unsigned short int sf, opc, N, immr, imms, Rn, Rd;
-        sf = bits::extract<unsigned short int, std::uint32_t, 31, 31>(this->m_Insn);
-        opc = bits::extract<unsigned short int, std::uint32_t, 29, 30>(this->m_Insn);
-        N = bits::extract<unsigned short int, std::uint32_t, 22, 22>(this->m_Insn);
-        immr = bits::extract<unsigned short int, std::uint32_t, 16, 21>(this->m_Insn);
-        imms = bits::extract<unsigned short int, std::uint32_t, 10, 15>(this->m_Insn);
-        Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
-        Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        sf = utility::bits::extract<unsigned short int, std::uint32_t, 31, 31>(this->m_Insn);
+        opc = utility::bits::extract<unsigned short int, std::uint32_t, 29, 30>(this->m_Insn);
+        N = utility::bits::extract<unsigned short int, std::uint32_t, 22, 22>(this->m_Insn);
+        immr = utility::bits::extract<unsigned short int, std::uint32_t, 16, 21>(this->m_Insn);
+        imms = utility::bits::extract<unsigned short int, std::uint32_t, 10, 15>(this->m_Insn);
+        Rn = utility::bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
+        Rd = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
         static const std::unordered_map<unsigned short int, std::pair<InstructionIdentifier, std::optional<InstructionIdentifier>>> insnTable = {
             {0b0000, {InstructionIdentifier::ID_AND, std::nullopt}},
@@ -79,20 +79,20 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::LogicalImmediate
         > imm{};
         if (sf == 0b1)
         {
-            if (const auto result{bits::DecodeBitMasks<unsigned long long int, 64>(N, imms, immr, true)})
+            if (const auto result{utility::bits::DecodeBitMasks<unsigned long long int, 64>(N, imms, immr, true)})
                 imm.emplace<1>(disxx::disasm::operand::Immediate<unsigned long long int, 64>{std::get<0>(result.value())});
             else
                 return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
         }
         else
         {
-            if (const auto result{bits::DecodeBitMasks<unsigned long long int, 64>(N, imms, immr, true)})
+            if (const auto result{utility::bits::DecodeBitMasks<unsigned long long int, 64>(N, imms, immr, true)})
                 imm.emplace<0>(disxx::disasm::operand::Immediate<unsigned int, 32>{static_cast<unsigned int>(std::get<0>(result.value()))});
             else
                 return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
         }
 
-        if (alias && opc == 0b01 && Rn == 0b11111 && !bits::MoveWidePreferred(sf, N, imms, immr))
+        if (alias && opc == 0b01 && Rn == 0b11111 && !utility::bits::MoveWidePreferred(sf, N, imms, immr))
         {
             this->m_Operands.emplace_back
 			(

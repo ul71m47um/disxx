@@ -49,14 +49,14 @@ namespace disxx::disasm::decoder::LoadsAndStores::RegisterOffset
         // +----+---+--+--+---+-+--+------+-+--+--+--+
 
         unsigned short int size, VR, opc, Rm, option, S, Rn, Rt;
-        size = bits::extract<unsigned short int, std::uint32_t, 30, 31>(this->m_Insn);
-        VR = bits::extract<unsigned short int, std::uint32_t, 26, 26>(this->m_Insn);
-        opc = bits::extract<unsigned short int, std::uint32_t, 22, 23>(this->m_Insn);
-        Rm = bits::extract<unsigned short int, std::uint32_t, 16, 20>(this->m_Insn);
-        option = bits::extract<unsigned short int, std::uint32_t, 13, 15>(this->m_Insn);
-        S = bits::extract<unsigned short int, std::uint32_t, 12, 12>(this->m_Insn);
-        Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
-        Rt = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        size = utility::bits::extract<unsigned short int, std::uint32_t, 30, 31>(this->m_Insn);
+        VR = utility::bits::extract<unsigned short int, std::uint32_t, 26, 26>(this->m_Insn);
+        opc = utility::bits::extract<unsigned short int, std::uint32_t, 22, 23>(this->m_Insn);
+        Rm = utility::bits::extract<unsigned short int, std::uint32_t, 16, 20>(this->m_Insn);
+        option = utility::bits::extract<unsigned short int, std::uint32_t, 13, 15>(this->m_Insn);
+        S = utility::bits::extract<unsigned short int, std::uint32_t, 12, 12>(this->m_Insn);
+        Rn = utility::bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
+        Rt = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
         static const std::unordered_map<unsigned short int, std::tuple<InstructionIdentifier, disxx::disasm::operand::Register::Type, unsigned short int>> insnTable = {
         // |encoding|mnemonic|size|amount|
@@ -110,7 +110,7 @@ namespace disxx::disasm::decoder::LoadsAndStores::RegisterOffset
                 (
                     disxx::disasm::operand::Register
                     {
-						bits::extract<unsigned short int, unsigned short int, 0, 0>(option)
+						utility::bits::extract<unsigned short int, unsigned short int, 0, 0>(option)
 							? disxx::disasm::operand::Register::Type::TYPE_X
 							: disxx::disasm::operand::Register::Type::TYPE_W,
                         Rm
@@ -178,10 +178,10 @@ namespace disxx::disasm::decoder::LoadsAndStores::RegisterOffset
         /*
         if ((Rt & 0b11000) == 0b11000)
         {
-            auto imm6{bits::extract<unsigned short int, unsigned short int, 2, 2>(option) << 5};
-            imm6 |= bits::extract<unsigned short int, unsigned short int, 0, 0>(option) << 4;
+            auto imm6{utility::bits::extract<unsigned short int, unsigned short int, 2, 2>(option) << 5};
+            imm6 |= utility::bits::extract<unsigned short int, unsigned short int, 0, 0>(option) << 4;
             imm6 |= S << 3;
-            imm6 |= bits::extract<unsigned short int, unsigned short int, 0, 2>(Rt);
+            imm6 |= utility::bits::extract<unsigned short int, unsigned short int, 0, 2>(Rt);
             this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Immediate<unsigned short int, 6>>(imm6));
         }
         */
@@ -203,7 +203,7 @@ namespace disxx::disasm::decoder::LoadsAndStores::RegisterOffset
         (
             disxx::disasm::operand::Register
             {
-                ((Rt & 0b11000) == 0b11000 || bits::extract<unsigned short int, unsigned short int, 0, 0>(option) == 0b1)
+                ((Rt & 0b11000) == 0b11000 || utility::bits::extract<unsigned short int, unsigned short int, 0, 0>(option) == 0b1)
 					? disxx::disasm::operand::Register::Type::TYPE_X
 					: disxx::disasm::operand::Register::Type::TYPE_W,
 				Rm

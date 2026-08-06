@@ -49,19 +49,19 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
         // +-+-+--+----------+-+-+-+-----+--+-+-+-+-+-+-+--+
 
         unsigned short int Q, op, a, b, c, cmode, o2, d, e, f, g, h, Rd;
-        Q = bits::extract<unsigned short int, std::uint32_t, 30, 30>(this->m_Insn);
-        op = bits::extract<unsigned short int, std::uint32_t, 29, 29>(this->m_Insn);
-        a = bits::extract<unsigned short int, std::uint32_t, 18, 18>(this->m_Insn);
-        b = bits::extract<unsigned short int, std::uint32_t, 17, 17>(this->m_Insn);
-        c = bits::extract<unsigned short int, std::uint32_t, 16, 16>(this->m_Insn);
-        cmode = bits::extract<unsigned short int, std::uint32_t, 12, 15>(this->m_Insn);
-        o2 = bits::extract<unsigned short int, std::uint32_t, 11, 11>(this->m_Insn);
-        d = bits::extract<unsigned short int, std::uint32_t, 9, 9>(this->m_Insn);
-        e = bits::extract<unsigned short int, std::uint32_t, 8, 8>(this->m_Insn);
-        f = bits::extract<unsigned short int, std::uint32_t, 7, 7>(this->m_Insn);
-        g = bits::extract<unsigned short int, std::uint32_t, 6, 6>(this->m_Insn);
-        h = bits::extract<unsigned short int, std::uint32_t, 5, 5>(this->m_Insn);
-        Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        Q = utility::bits::extract<unsigned short int, std::uint32_t, 30, 30>(this->m_Insn);
+        op = utility::bits::extract<unsigned short int, std::uint32_t, 29, 29>(this->m_Insn);
+        a = utility::bits::extract<unsigned short int, std::uint32_t, 18, 18>(this->m_Insn);
+        b = utility::bits::extract<unsigned short int, std::uint32_t, 17, 17>(this->m_Insn);
+        c = utility::bits::extract<unsigned short int, std::uint32_t, 16, 16>(this->m_Insn);
+        cmode = utility::bits::extract<unsigned short int, std::uint32_t, 12, 15>(this->m_Insn);
+        o2 = utility::bits::extract<unsigned short int, std::uint32_t, 11, 11>(this->m_Insn);
+        d = utility::bits::extract<unsigned short int, std::uint32_t, 9, 9>(this->m_Insn);
+        e = utility::bits::extract<unsigned short int, std::uint32_t, 8, 8>(this->m_Insn);
+        f = utility::bits::extract<unsigned short int, std::uint32_t, 7, 7>(this->m_Insn);
+        g = utility::bits::extract<unsigned short int, std::uint32_t, 6, 6>(this->m_Insn);
+        h = utility::bits::extract<unsigned short int, std::uint32_t, 5, 5>(this->m_Insn);
+        Rd = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
         std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
             {0b0000000, InstructionIdentifier::ID_MOVI},
@@ -117,7 +117,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
 				}
 			);
 		
-			const auto imm{bits::AdvSIMDExpandImm(op, cmode, imm8)};
+			const auto imm{utility::bits::AdvSIMDExpandImm(op, cmode, imm8)};
 			if (!imm) [[unlikely]]
 				return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
 
@@ -150,14 +150,14 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
 
             std::uint16_t imm16{0};
             imm16 |= (imm8 >> 7) << 15;
-            imm16 |= ~bits::extract<unsigned short int, std::uint16_t, 6, 6>(imm8) << 14;
-            imm16 |= bits::Replicate<unsigned short int, unsigned short int, 1>(bits::extract<unsigned short int, unsigned short int, 6, 6>(imm8), 2) << 13;
-            imm16 |= bits::extract<unsigned short int, unsigned short int, 0, 5>(imm8) << 6;
+            imm16 |= ~utility::bits::extract<unsigned short int, std::uint16_t, 6, 6>(imm8) << 14;
+            imm16 |= utility::bits::Replicate<unsigned short int, unsigned short int, 1>(utility::bits::extract<unsigned short int, unsigned short int, 6, 6>(imm8), 2) << 13;
+            imm16 |= utility::bits::extract<unsigned short int, unsigned short int, 0, 5>(imm8) << 6;
             this->m_Operands.emplace_back
             (
                 std::make_unique<disxx::disasm::operand::Immediate<unsigned long long int, 64>>
                 (
-                    bits::Replicate<unsigned long long int, unsigned short int, 16>
+                    utility::bits::Replicate<unsigned long long int, unsigned short int, 16>
                     (
                         imm16,
                         64 << Q
@@ -197,7 +197,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
                     std::make_unique<disxx::disasm::operand::Shift>
                     (
                         0b000,
-                        bits::extract<unsigned short int, unsigned short int, 1, 2>(cmode) << 3
+                        utility::bits::extract<unsigned short int, unsigned short int, 1, 2>(cmode) << 3
                     )
                 );
             }
@@ -208,7 +208,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
                     std::make_unique<disxx::disasm::operand::Shift>
                     (
                         0b000,
-                        bits::extract<unsigned short int, unsigned short int, 1, 1>(cmode) << 3
+                        utility::bits::extract<unsigned short int, unsigned short int, 1, 1>(cmode) << 3
                     )
                 );
             }
@@ -247,7 +247,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
                     std::make_unique<disxx::disasm::operand::Shift>
                     (
                         0b000,
-                        bits::extract<unsigned short int, unsigned short int, 1, 1>(cmode) << 3
+                        utility::bits::extract<unsigned short int, unsigned short int, 1, 1>(cmode) << 3
                     )
                 );
 
@@ -270,7 +270,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
                     std::make_unique<disxx::disasm::operand::Shift>
                     (
                         0b000,
-                        bits::extract<unsigned short int, unsigned short int, 1, 2>(cmode) << 3
+                        utility::bits::extract<unsigned short int, unsigned short int, 1, 2>(cmode) << 3
                     )
                 );
 
@@ -304,14 +304,14 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
         if (op == 0b1 && cmode == 0b1110)
         {
             auto imm64{0ULL};
-            imm64 |= bits::Replicate<std::uint64_t, unsigned short int, 1>(a, 8) << 56;
-            imm64 |= bits::Replicate<std::uint64_t, unsigned short int, 1>(b, 8) << 48;
-            imm64 |= bits::Replicate<std::uint64_t, unsigned short int, 1>(c, 8) << 40;
-            imm64 |= bits::Replicate<std::uint64_t, unsigned short int, 1>(d, 8) << 32;
-            imm64 |= bits::Replicate<std::uint64_t, unsigned short int, 1>(e, 8) << 24;
-            imm64 |= bits::Replicate<std::uint64_t, unsigned short int, 1>(f, 8) << 16;
-            imm64 |= bits::Replicate<std::uint64_t, unsigned short int, 1>(g, 8) << 8;
-            imm64 |= bits::Replicate<std::uint64_t, unsigned short int, 1>(h, 8);
+            imm64 |= utility::bits::Replicate<std::uint64_t, unsigned short int, 1>(a, 8) << 56;
+            imm64 |= utility::bits::Replicate<std::uint64_t, unsigned short int, 1>(b, 8) << 48;
+            imm64 |= utility::bits::Replicate<std::uint64_t, unsigned short int, 1>(c, 8) << 40;
+            imm64 |= utility::bits::Replicate<std::uint64_t, unsigned short int, 1>(d, 8) << 32;
+            imm64 |= utility::bits::Replicate<std::uint64_t, unsigned short int, 1>(e, 8) << 24;
+            imm64 |= utility::bits::Replicate<std::uint64_t, unsigned short int, 1>(f, 8) << 16;
+            imm64 |= utility::bits::Replicate<std::uint64_t, unsigned short int, 1>(g, 8) << 8;
+            imm64 |= utility::bits::Replicate<std::uint64_t, unsigned short int, 1>(h, 8);
     
             if (Q == 0b0)
             {
@@ -379,7 +379,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
                 std::make_unique<disxx::disasm::operand::Shift>
                 (
                     0b000,
-                    bits::extract<unsigned short int, unsigned short int, 1, 1>(cmode) << 3
+                    utility::bits::extract<unsigned short int, unsigned short int, 1, 1>(cmode) << 3
                 )
             );
 
@@ -403,7 +403,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
                 std::make_unique<disxx::disasm::operand::Shift>
                 (
                     0b000,
-                    bits::extract<unsigned short int, unsigned short int, 1, 2>(cmode) << 3
+                    utility::bits::extract<unsigned short int, unsigned short int, 1, 2>(cmode) << 3
                 )
             );
 

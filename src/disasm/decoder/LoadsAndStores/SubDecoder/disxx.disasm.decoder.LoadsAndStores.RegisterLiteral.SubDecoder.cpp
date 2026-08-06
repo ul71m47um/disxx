@@ -51,10 +51,10 @@ namespace disxx::disasm::decoder::LoadsAndStores::RegisterLiteral
         unsigned short int opc, VR, Rt;
         unsigned long int imm19;
 
-        opc = bits::extract<unsigned short int, std::uint32_t, 30, 31>(this->m_Insn);
-        VR = bits::extract<unsigned short int, std::uint32_t, 26, 26>(this->m_Insn);
-        imm19 = bits::extract<unsigned long int, std::uint32_t, 5, 23>(this->m_Insn);
-        Rt = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        opc = utility::bits::extract<unsigned short int, std::uint32_t, 30, 31>(this->m_Insn);
+        VR = utility::bits::extract<unsigned short int, std::uint32_t, 26, 26>(this->m_Insn);
+        imm19 = utility::bits::extract<unsigned long int, std::uint32_t, 5, 23>(this->m_Insn);
+        Rt = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
         if (opc == 0b11 && VR == 0b1) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

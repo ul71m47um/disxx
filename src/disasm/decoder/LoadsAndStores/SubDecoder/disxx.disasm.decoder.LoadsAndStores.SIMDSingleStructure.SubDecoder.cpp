@@ -48,15 +48,15 @@ namespace disxx::disasm::decoder::LoadsAndStores::SIMDSingleStructure
         // +-+-+-------+-+-+----+--+------+-+----+--+--+
         
         unsigned short int Q, L, R, o2, opcode, S, size, Rn, Rt;
-        Q = bits::extract<unsigned short int, std::uint32_t, 30, 30>(this->m_Insn);
-        L = bits::extract<unsigned short int, std::uint32_t, 22, 22>(this->m_Insn);
-        R = bits::extract<unsigned short int, std::uint32_t, 21, 21>(this->m_Insn);
-        o2 = bits::extract<unsigned short int, std::uint32_t, 16, 16>(this->m_Insn);
-        opcode = bits::extract<unsigned short int, std::uint32_t, 13, 15>(this->m_Insn);
-        S = bits::extract<unsigned short int, std::uint32_t, 12, 12>(this->m_Insn);
-        size = bits::extract<unsigned short int, std::uint32_t, 10, 11>(this->m_Insn);
-        Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
-        Rt = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        Q = utility::bits::extract<unsigned short int, std::uint32_t, 30, 30>(this->m_Insn);
+        L = utility::bits::extract<unsigned short int, std::uint32_t, 22, 22>(this->m_Insn);
+        R = utility::bits::extract<unsigned short int, std::uint32_t, 21, 21>(this->m_Insn);
+        o2 = utility::bits::extract<unsigned short int, std::uint32_t, 16, 16>(this->m_Insn);
+        opcode = utility::bits::extract<unsigned short int, std::uint32_t, 13, 15>(this->m_Insn);
+        S = utility::bits::extract<unsigned short int, std::uint32_t, 12, 12>(this->m_Insn);
+        size = utility::bits::extract<unsigned short int, std::uint32_t, 10, 11>(this->m_Insn);
+        Rn = utility::bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
+        Rt = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
         static const std::unordered_map<unsigned short int, std::pair<InstructionIdentifier, unsigned short int>> insnTable = {
             {0b000000, {InstructionIdentifier::ID_ST1, 1}},
@@ -119,7 +119,7 @@ namespace disxx::disasm::decoder::LoadsAndStores::SIMDSingleStructure
                 {
                     [this, opcode, size, S] -> std::expected<unsigned short int, disxx::utility::error::DisassemblyError>
                     {
-                        const auto idx{bits::HighestSetBit<unsigned short int, 3>(opcode)};
+                        const auto idx{utility::bits::HighestSetBit<unsigned short int, 3>(opcode)};
                         if (idx == 2 && (size != 0b00 || (S != 0b0 && size != 0b01) || opcode & ~(1 << 2))) [[unlikely]]
                             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
                         return (8 << (idx + (idx < 0))) << (S == 0b0 && size == 0b01);

@@ -47,12 +47,12 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Uncon
         // |op|00101|imm26|
         // +--+-----+-----+
 
-        const auto op{bits::extract<bool, std::uint32_t, 31, 31>(this->m_Insn)};
+        const auto op{utility::bits::extract<bool, std::uint32_t, 31, 31>(this->m_Insn)};
         const auto imm
         {
             disxx::disasm::operand::Immediate<signed long long int, 64>
             {
-                bits::extract<signed long long int, std::uint32_t, 0, 25>(this->m_Insn) << 2,
+                utility::bits::extract<signed long long int, std::uint32_t, 0, 25>(this->m_Insn) << 2,
                 disxx::disasm::operand::Immediate<signed long long int, 64>::Option::OPT_SIGNEXTEND
             }
         };

@@ -47,14 +47,14 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::DataProcessing1Source
         // +--+--------+---+-----+--+
 
         unsigned short int sf, opc, Rd;
-        sf = bits::extract<unsigned short int, std::uint32_t, 31, 31>(this->m_Insn);
-        opc = bits::extract<unsigned short int, std::uint32_t, 21, 22>(this->m_Insn);
-        Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        sf = utility::bits::extract<unsigned short int, std::uint32_t, 31, 31>(this->m_Insn);
+        opc = utility::bits::extract<unsigned short int, std::uint32_t, 21, 22>(this->m_Insn);
+        Rd = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
         const auto imm
         {
             disxx::disasm::operand::Immediate<signed long long int, 64>
             {
-                bits::extract<signed long long int, std::uint32_t, 5, 20>(this->m_Insn) << 2,
+                utility::bits::extract<signed long long int, std::uint32_t, 5, 20>(this->m_Insn) << 2,
                 disxx::disasm::operand::Immediate<signed long long int, 64>::Option::OPT_ZEROEXTEND
             }
         };

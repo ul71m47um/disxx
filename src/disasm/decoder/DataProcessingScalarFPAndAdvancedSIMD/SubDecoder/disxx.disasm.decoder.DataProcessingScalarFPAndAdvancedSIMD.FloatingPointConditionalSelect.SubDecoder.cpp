@@ -68,13 +68,13 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Floatin
         // +-+-+-+-----+-----+-+--+----+--+--+--+
 
         unsigned short int M, S, ftype, Rm, cond, Rn, Rd;
-        M = bits::extract<unsigned short int, std::uint32_t, 31, 31>(this->m_Insn);
-        S = bits::extract<unsigned short int, std::uint32_t, 29, 29>(this->m_Insn);
-        ftype = bits::extract<unsigned short int, std::uint32_t, 22, 23>(this->m_Insn);
-        Rm = bits::extract<unsigned short int, std::uint32_t, 16, 20>(this->m_Insn);
-        cond = bits::extract<unsigned short int, std::uint32_t, 12, 15>(this->m_Insn);
-        Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
-        Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        M = utility::bits::extract<unsigned short int, std::uint32_t, 31, 31>(this->m_Insn);
+        S = utility::bits::extract<unsigned short int, std::uint32_t, 29, 29>(this->m_Insn);
+        ftype = utility::bits::extract<unsigned short int, std::uint32_t, 22, 23>(this->m_Insn);
+        Rm = utility::bits::extract<unsigned short int, std::uint32_t, 16, 20>(this->m_Insn);
+        cond = utility::bits::extract<unsigned short int, std::uint32_t, 12, 15>(this->m_Insn);
+        Rn = utility::bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
+        Rd = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
         if (M == 0b1 || S == 0b1 || ftype == 0b10) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

@@ -47,9 +47,9 @@ namespace disxx::disasm::decoder::LoadsAndStores::GCS
         // +-----------------+---+--+--+--+
 
         unsigned short int opc, Rn, Rt;
-        opc = bits::extract<unsigned short int, std::uint32_t, 12, 14>(this->m_Insn);
-        Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
-        Rt = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        opc = utility::bits::extract<unsigned short int, std::uint32_t, 12, 14>(this->m_Insn);
+        Rn = utility::bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
+        Rt = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
         this->m_Operands.emplace_back
 		(

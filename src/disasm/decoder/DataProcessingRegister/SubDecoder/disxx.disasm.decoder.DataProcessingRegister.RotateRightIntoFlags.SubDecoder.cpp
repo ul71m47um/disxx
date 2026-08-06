@@ -49,13 +49,13 @@ namespace disxx::disasm::decoder::DataProcessingRegister::RotateRightIntoFlags
         // +--+--+-+--------+----+-----+--+--+----+
 
         unsigned short int sf, op, S, imm6, Rn, o2, mask;
-        sf = bits::extract<unsigned short int, std::uint32_t, 31, 31>(this->m_Insn);
-        op = bits::extract<unsigned short int, std::uint32_t, 30, 30>(this->m_Insn);
-        S = bits::extract<unsigned short int, std::uint32_t, 29, 29>(this->m_Insn);
-        imm6 = bits::extract<unsigned short int, std::uint32_t, 15, 20>(this->m_Insn);
-        Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
-        o2 = bits::extract<unsigned short int, std::uint32_t, 4, 4>(this->m_Insn);
-        mask = bits::extract<unsigned short int, std::uint32_t, 0, 3>(this->m_Insn);
+        sf = utility::bits::extract<unsigned short int, std::uint32_t, 31, 31>(this->m_Insn);
+        op = utility::bits::extract<unsigned short int, std::uint32_t, 30, 30>(this->m_Insn);
+        S = utility::bits::extract<unsigned short int, std::uint32_t, 29, 29>(this->m_Insn);
+        imm6 = utility::bits::extract<unsigned short int, std::uint32_t, 15, 20>(this->m_Insn);
+        Rn = utility::bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
+        o2 = utility::bits::extract<unsigned short int, std::uint32_t, 4, 4>(this->m_Insn);
+        mask = utility::bits::extract<unsigned short int, std::uint32_t, 0, 3>(this->m_Insn);
 
         if (const unsigned short encoding = (sf << 3) | (op << 2) | (S << 1) | o2; encoding != 0b0101) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

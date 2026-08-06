@@ -49,14 +49,14 @@ namespace disxx::disasm::decoder::DataProcessingRegister::ConditionalSelect
         // +--+--+-+--------+--+----+---+--+--+
 
         unsigned short int sf, op, S, Rm, cond, op2, Rn, Rd;
-        sf = bits::extract<unsigned short int, std::uint32_t, 31, 31>(this->m_Insn);
-        op = bits::extract<unsigned short int, std::uint32_t, 30, 30>(this->m_Insn);
-        S = bits::extract<unsigned short int, std::uint32_t, 29, 29>(this->m_Insn);
-        Rm = bits::extract<unsigned short int, std::uint32_t, 16, 20>(this->m_Insn);
-        cond = bits::extract<unsigned short int, std::uint32_t, 12, 15>(this->m_Insn);
-        op2 = bits::extract<unsigned short int, std::uint32_t, 10, 11>(this->m_Insn);
-        Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
-        Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        sf = utility::bits::extract<unsigned short int, std::uint32_t, 31, 31>(this->m_Insn);
+        op = utility::bits::extract<unsigned short int, std::uint32_t, 30, 30>(this->m_Insn);
+        S = utility::bits::extract<unsigned short int, std::uint32_t, 29, 29>(this->m_Insn);
+        Rm = utility::bits::extract<unsigned short int, std::uint32_t, 16, 20>(this->m_Insn);
+        cond = utility::bits::extract<unsigned short int, std::uint32_t, 12, 15>(this->m_Insn);
+        op2 = utility::bits::extract<unsigned short int, std::uint32_t, 10, 11>(this->m_Insn);
+        Rn = utility::bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
+        Rd = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
         const auto csincAlias
         {

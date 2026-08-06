@@ -47,14 +47,14 @@ namespace disxx::disasm::decoder::LoadsAndStores::OneHundredAndTwentyEightBitAto
         // +-+-+------+-+-+-+---+--+---+--+--+--+
 
         unsigned short int S, A, R, Rt2, o3, opc, Rn, Rt;
-        S = bits::extract<unsigned short int, std::uint32_t, 30, 30>(this->m_Insn);
-        A = bits::extract<unsigned short int, std::uint32_t, 23, 23>(this->m_Insn);
-        R = bits::extract<unsigned short int, std::uint32_t, 22, 22>(this->m_Insn);
-        Rt2 = bits::extract<unsigned short int, std::uint32_t, 16, 20>(this->m_Insn);
-        o3 = bits::extract<unsigned short int, std::uint32_t, 15, 15>(this->m_Insn);
-        opc = bits::extract<unsigned short int, std::uint32_t, 12, 14>(this->m_Insn);
-        Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
-        Rt = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        S = utility::bits::extract<unsigned short int, std::uint32_t, 30, 30>(this->m_Insn);
+        A = utility::bits::extract<unsigned short int, std::uint32_t, 23, 23>(this->m_Insn);
+        R = utility::bits::extract<unsigned short int, std::uint32_t, 22, 22>(this->m_Insn);
+        Rt2 = utility::bits::extract<unsigned short int, std::uint32_t, 16, 20>(this->m_Insn);
+        o3 = utility::bits::extract<unsigned short int, std::uint32_t, 15, 15>(this->m_Insn);
+        opc = utility::bits::extract<unsigned short int, std::uint32_t, 12, 14>(this->m_Insn);
+        Rn = utility::bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
+        Rt = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
         static const std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
             {0b0000001, InstructionIdentifier::ID_LDCLRP},

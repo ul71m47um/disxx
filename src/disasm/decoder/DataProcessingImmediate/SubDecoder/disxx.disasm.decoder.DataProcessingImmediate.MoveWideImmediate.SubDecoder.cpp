@@ -48,11 +48,11 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::MoveWideImmediate
         // +--+---+------+--+-----+--+
 
         unsigned short int sf, opc, hw, imm16, Rd;
-        sf = bits::extract<unsigned short int, std::uint32_t, 31, 31>(this->m_Insn);
-        opc = bits::extract<unsigned short int, std::uint32_t, 29, 30>(this->m_Insn);
-        hw = bits::extract<unsigned short int, std::uint32_t, 21, 22>(this->m_Insn);
-        imm16 = bits::extract<unsigned short int, std::uint32_t, 5, 20>(this->m_Insn);
-        Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        sf = utility::bits::extract<unsigned short int, std::uint32_t, 31, 31>(this->m_Insn);
+        opc = utility::bits::extract<unsigned short int, std::uint32_t, 29, 30>(this->m_Insn);
+        hw = utility::bits::extract<unsigned short int, std::uint32_t, 21, 22>(this->m_Insn);
+        imm16 = utility::bits::extract<unsigned short int, std::uint32_t, 5, 20>(this->m_Insn);
+        Rd = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
         static std::unordered_map<unsigned short int, std::pair<InstructionIdentifier, std::optional<InstructionIdentifier>>> insnTable = {
             {0b00000, {InstructionIdentifier::ID_MOVN, InstructionIdentifier::ID_MOV}},
@@ -85,7 +85,7 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::MoveWideImmediate
             
             return std::make_pair(*alias, std::move(this->m_Operands));
         }
-        else if (alias && !(imm16 == 0x00 && hw != 0b00) && bits::IsOnes<unsigned short int, 16>(imm16))
+        else if (alias && !(imm16 == 0x00 && hw != 0b00) && utility::bits::IsOnes<unsigned short int, 16>(imm16))
         {
             this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Immediate<unsigned short int, 16>>(imm16 | hw));
 

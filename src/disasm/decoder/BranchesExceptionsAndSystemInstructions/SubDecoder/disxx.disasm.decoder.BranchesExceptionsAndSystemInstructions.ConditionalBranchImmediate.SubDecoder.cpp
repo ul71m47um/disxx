@@ -49,13 +49,13 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Condi
         // +--------+-----+--+----+
 
         unsigned short o0, cond;
-        o0 = bits::extract<unsigned short int, std::uint32_t, 4, 4>(this->m_Insn);
-        cond = bits::extract<unsigned short int, std::uint32_t, 0, 3>(this->m_Insn);
+        o0 = utility::bits::extract<unsigned short int, std::uint32_t, 4, 4>(this->m_Insn);
+        cond = utility::bits::extract<unsigned short int, std::uint32_t, 0, 3>(this->m_Insn);
         const auto imm
         {
             disxx::disasm::operand::Immediate<signed long long int, 64>
             {
-                bits::extract<signed long long int, std::uint32_t, 5, 23>(this->m_Insn) << 2,
+                utility::bits::extract<signed long long int, std::uint32_t, 5, 23>(this->m_Insn) << 2,
                 disxx::disasm::operand::Immediate<signed long long int, 64>::Option::OPT_SIGNEXTEND
             }
         };

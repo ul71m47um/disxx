@@ -48,14 +48,14 @@ namespace disxx::disasm::decoder::DataProcessingRegister::EvaluateIntoFlags
         // +--+--+-+--------+-------+--+----+--+--+----+
 
         unsigned short int sf, op, S, opcode2, sz, Rn, o3, mask;
-        sf = bits::extract<unsigned short int, std::uint32_t, 31, 31>(this->m_Insn);
-        op = bits::extract<unsigned short int, std::uint32_t, 30, 30>(this->m_Insn);
-        S = bits::extract<unsigned short int, std::uint32_t, 29, 29>(this->m_Insn);
-        opcode2 = bits::extract<unsigned short int, std::uint32_t, 15, 20>(this->m_Insn);
-        sz = bits::extract<unsigned short int, std::uint32_t, 14, 14>(this->m_Insn);
-        Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
-        o3 = bits::extract<unsigned short int, std::uint32_t, 4, 4>(this->m_Insn);
-        mask = bits::extract<unsigned short int, std::uint32_t, 0, 3>(this->m_Insn);
+        sf = utility::bits::extract<unsigned short int, std::uint32_t, 31, 31>(this->m_Insn);
+        op = utility::bits::extract<unsigned short int, std::uint32_t, 30, 30>(this->m_Insn);
+        S = utility::bits::extract<unsigned short int, std::uint32_t, 29, 29>(this->m_Insn);
+        opcode2 = utility::bits::extract<unsigned short int, std::uint32_t, 15, 20>(this->m_Insn);
+        sz = utility::bits::extract<unsigned short int, std::uint32_t, 14, 14>(this->m_Insn);
+        Rn = utility::bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
+        o3 = utility::bits::extract<unsigned short int, std::uint32_t, 4, 4>(this->m_Insn);
+        mask = utility::bits::extract<unsigned short int, std::uint32_t, 0, 3>(this->m_Insn);
 
         static const std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
             {0b001000000001101, InstructionIdentifier::ID_SETF8},

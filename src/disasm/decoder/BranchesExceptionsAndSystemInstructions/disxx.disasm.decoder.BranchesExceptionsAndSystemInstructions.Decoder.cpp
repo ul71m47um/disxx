@@ -76,9 +76,9 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions
 		// +---+---+---+---+
 
 		unsigned short int op0, op1, op2;
-		op0 = bits::extract<unsigned short int, std::uint32_t, 29, 31>(this->m_Insn);
-		op1 = bits::extract<unsigned short int, std::uint32_t, 12, 25>(this->m_Insn);
-		op2 = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+		op0 = utility::bits::extract<unsigned short int, std::uint32_t, 29, 31>(this->m_Insn);
+		op1 = utility::bits::extract<unsigned short int, std::uint32_t, 12, 25>(this->m_Insn);
+		op2 = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
 		if (op0 == 0b010 && (op1 & 0b11000000000000) == 0b00000000000000)
 			return std::make_unique<ConditionalBranchImmediate::SubDecoder>(ConditionalBranchImmediate::SubDecoder{this->m_Insn, this->m_ProgramCounter});

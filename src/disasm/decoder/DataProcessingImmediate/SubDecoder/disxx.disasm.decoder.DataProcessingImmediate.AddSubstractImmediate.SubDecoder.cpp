@@ -48,13 +48,13 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::AddSubstractImmediate
         // +--+--+-+------+--+-----+--+--+
 
         unsigned short int sf, op, S, sh, imm12, Rn, Rd;
-        sf = bits::extract<unsigned short int, std::uint32_t, 31, 31>(this->m_Insn);
-        op = bits::extract<unsigned short int, std::uint32_t, 30, 30>(this->m_Insn);
-        S = bits::extract<unsigned short int, std::uint32_t, 29, 29>(this->m_Insn);
-        sh = bits::extract<unsigned short int, std::uint32_t, 22, 22>(this->m_Insn);
-        imm12 = bits::extract<unsigned short int, std::uint32_t, 10, 21>(this->m_Insn);
-        Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
-        Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        sf = utility::bits::extract<unsigned short int, std::uint32_t, 31, 31>(this->m_Insn);
+        op = utility::bits::extract<unsigned short int, std::uint32_t, 30, 30>(this->m_Insn);
+        S = utility::bits::extract<unsigned short int, std::uint32_t, 29, 29>(this->m_Insn);
+        sh = utility::bits::extract<unsigned short int, std::uint32_t, 22, 22>(this->m_Insn);
+        imm12 = utility::bits::extract<unsigned short int, std::uint32_t, 10, 21>(this->m_Insn);
+        Rn = utility::bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
+        Rd = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
         static const std::unordered_map<unsigned short int, std::pair<InstructionIdentifier, std::optional<InstructionIdentifier>>> insnTable = {
             {0b000, {InstructionIdentifier::ID_ADD, InstructionIdentifier::ID_MOV}},

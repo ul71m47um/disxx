@@ -47,13 +47,13 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::Bitfield
         // +--+---+------+-+----+----+--+--+
 
         unsigned short int sf, opc, N, immr, imms, Rn, Rd;
-        sf = bits::extract<unsigned short int, std::uint32_t, 31, 31>(this->m_Insn);
-        opc = bits::extract<unsigned short int, std::uint32_t, 29, 30>(this->m_Insn);
-        N = bits::extract<unsigned short int, std::uint32_t, 22, 22>(this->m_Insn);
-        immr = bits::extract<unsigned short int, std::uint32_t, 16, 21>(this->m_Insn);
-        imms = bits::extract<unsigned short int, std::uint32_t, 10, 15>(this->m_Insn);
-        Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
-        Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        sf = utility::bits::extract<unsigned short int, std::uint32_t, 31, 31>(this->m_Insn);
+        opc = utility::bits::extract<unsigned short int, std::uint32_t, 29, 30>(this->m_Insn);
+        N = utility::bits::extract<unsigned short int, std::uint32_t, 22, 22>(this->m_Insn);
+        immr = utility::bits::extract<unsigned short int, std::uint32_t, 16, 21>(this->m_Insn);
+        imms = utility::bits::extract<unsigned short int, std::uint32_t, 10, 15>(this->m_Insn);
+        Rn = utility::bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
+        Rd = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
         std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
             {0b0000, InstructionIdentifier::ID_SBFM},
@@ -126,7 +126,7 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::Bitfield
 
                 return std::make_pair(InstructionIdentifier::ID_SBFIZ, std::move(this->m_Operands));
             }
-            else if (bits::BFXPreffered(sf, opc >> 1, imms, immr))
+            else if (utility::bits::BFXPreffered(sf, opc >> 1, imms, immr))
             {
                 this->m_Operands.emplace_back
 				(
@@ -336,7 +336,7 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::Bitfield
               
                 return std::make_pair(InstructionIdentifier::ID_UBFIZ, std::move(this->m_Operands));
             }
-            else if (bits::BFXPreffered(sf, opc >> 1, imms, immr))
+            else if (utility::bits::BFXPreffered(sf, opc >> 1, imms, immr))
             {
 				this->m_Operands.emplace_back
 				(

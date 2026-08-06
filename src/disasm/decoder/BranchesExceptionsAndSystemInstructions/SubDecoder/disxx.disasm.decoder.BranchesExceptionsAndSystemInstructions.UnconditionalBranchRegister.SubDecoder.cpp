@@ -47,11 +47,11 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Uncon
         // +-------+---+---+---+--+---+
 
         unsigned short int opc, op2, op3, Rn, op4;
-        opc = bits::extract<unsigned short int, std::uint32_t, 21, 24>(this->m_Insn);
-        op2 = bits::extract<unsigned short int, std::uint32_t, 16, 20>(this->m_Insn);
-        op3 = bits::extract<unsigned short int, std::uint32_t, 10, 15>(this->m_Insn);
-        Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
-        op4 = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        opc = utility::bits::extract<unsigned short int, std::uint32_t, 21, 24>(this->m_Insn);
+        op2 = utility::bits::extract<unsigned short int, std::uint32_t, 16, 20>(this->m_Insn);
+        op3 = utility::bits::extract<unsigned short int, std::uint32_t, 10, 15>(this->m_Insn);
+        Rn = utility::bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
+        op4 = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
 		const auto mknull
 		{

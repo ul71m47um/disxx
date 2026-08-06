@@ -48,14 +48,14 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
         // +--+-+------+----+----+------+-+--+--+
 
         unsigned short int U, immh, immb, opcode, Rn, Rd;
-        U = bits::extract<unsigned short int, std::uint32_t, 29, 29>(this->m_Insn);
-        immh = bits::extract<unsigned short int, std::uint32_t, 19, 22>(this->m_Insn);
-        immb = bits::extract<unsigned short int, std::uint32_t, 16, 18>(this->m_Insn);
-        opcode = bits::extract<unsigned short int, std::uint32_t, 11, 15>(this->m_Insn);
-        Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
-        Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        U = utility::bits::extract<unsigned short int, std::uint32_t, 29, 29>(this->m_Insn);
+        immh = utility::bits::extract<unsigned short int, std::uint32_t, 19, 22>(this->m_Insn);
+        immb = utility::bits::extract<unsigned short int, std::uint32_t, 16, 18>(this->m_Insn);
+        opcode = utility::bits::extract<unsigned short int, std::uint32_t, 11, 15>(this->m_Insn);
+        Rn = utility::bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
+        Rd = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-		if (opcode == 0b010010 && !bits::extract<unsigned short int, unsigned short int, 0, 2>(immh)) [[unlikely]]
+		if (opcode == 0b010010 && !utility::bits::extract<unsigned short int, unsigned short int, 0, 2>(immh)) [[unlikely]]
 			return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
 		else if ((opcode == 0b010011 || (opcode >= 0b101100 && opcode <= 0b110011)) && !immh) [[unlikely]]
 			return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
@@ -67,24 +67,24 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {0b000110, {InstructionIdentifier::ID_SRSRA, ((8 << 3) * 2) - ((immh << 3) | immb)}},
             {0b001010, {InstructionIdentifier::ID_SHL, ((immh << 3) | immb) - (8 << 3)}},
             {0b001110, {InstructionIdentifier::ID_SQSHL, ((immh << 3) | immb) - (8 << 3)}},
-            {0b010010, {InstructionIdentifier::ID_SQSHRN, ((immh << 3) | immb) - (8 << *bits::HighestSetBitNZ<unsigned short int, 4>(immh))}},
-            {0b010011, {InstructionIdentifier::ID_SQRSHRN, ((8 << *bits::HighestSetBitNZ<unsigned short int, 2>(bits::extract<unsigned short int, unsigned short int, 0, 2>(immh))) * 2) - ((immh << 3) | immb)}},
-            {0b011100, {InstructionIdentifier::ID_SCVTF, std::array<unsigned short int, 4>{16, 16, 32, 64}[bits::HighestSetBit<unsigned short int, 4>(immh)] * 2 - ((immh << 3) | immb)}},
-            {0b011111, {InstructionIdentifier::ID_FCVTZS, std::array<unsigned short int, 4>{16, 16, 32, 64}[bits::HighestSetBit<unsigned short int, 4>(immh)] * 2 - ((immh << 3) | immb)}},
+            {0b010010, {InstructionIdentifier::ID_SQSHRN, ((immh << 3) | immb) - (8 << *utility::bits::HighestSetBitNZ<unsigned short int, 4>(immh))}},
+            {0b010011, {InstructionIdentifier::ID_SQRSHRN, ((8 << *utility::bits::HighestSetBitNZ<unsigned short int, 2>(utility::bits::extract<unsigned short int, unsigned short int, 0, 2>(immh))) * 2) - ((immh << 3) | immb)}},
+            {0b011100, {InstructionIdentifier::ID_SCVTF, std::array<unsigned short int, 4>{16, 16, 32, 64}[utility::bits::HighestSetBit<unsigned short int, 4>(immh)] * 2 - ((immh << 3) | immb)}},
+            {0b011111, {InstructionIdentifier::ID_FCVTZS, std::array<unsigned short int, 4>{16, 16, 32, 64}[utility::bits::HighestSetBit<unsigned short int, 4>(immh)] * 2 - ((immh << 3) | immb)}},
             {0b100000, {InstructionIdentifier::ID_USHR, ((8 << 3) * 2) - ((immh << 3) | immb)}},
             {0b100010, {InstructionIdentifier::ID_USRA, ((8 << 3) * 2) - ((immh << 3) | immb)}},
             {0b100100, {InstructionIdentifier::ID_URSHR, ((8 << 3) * 2) - ((immh << 3) | immb)}},
             {0b100110, {InstructionIdentifier::ID_URSRA, ((8 << 3) * 2) - ((immh << 3) | immb)}},
             {0b101000, {InstructionIdentifier::ID_SRI, ((8 << 3) * 2) - ((immh << 3) | immb)}},
             {0b101010, {InstructionIdentifier::ID_SLI, ((8 << 3) * 2) - ((immh << 3) | immb)}},
-            {0b101100, {InstructionIdentifier::ID_SQSHLU, ((immh << 3) | immb) - (8 << *bits::HighestSetBitNZ<unsigned short int, 4>(immh))}},
-            {0b101110, {InstructionIdentifier::ID_UQSHL, ((immh << 3) | immb) - (8 << *bits::HighestSetBitNZ<unsigned short int, 4>(immh))}},
-            {0b110000, {InstructionIdentifier::ID_SQSHRUN, ((8 << *bits::HighestSetBitNZ<unsigned short int, 2>(bits::extract<unsigned short int, unsigned short int, 0, 2>(immh))) * 2) - ((immh << 3) | immb)}},
-            {0b110001, {InstructionIdentifier::ID_SQRSHRUN, ((8 << *bits::HighestSetBitNZ<unsigned short int, 2>(bits::extract<unsigned short int, unsigned short int, 0, 2>(immh))) * 2) - ((immh << 3) | immb)}},
-            {0b110010, {InstructionIdentifier::ID_UQSHRN, ((8 << *bits::HighestSetBitNZ<unsigned short int, 2>(bits::extract<unsigned short int, unsigned short int, 0, 2>(immh))) * 2) - ((immh << 3) | immb)}},
-            {0b110011, {InstructionIdentifier::ID_UQRSHRN, ((8 << *bits::HighestSetBitNZ<unsigned short int, 2>(bits::extract<unsigned short int, unsigned short int, 0, 2>(immh))) * 2) - ((immh << 3) | immb)}},
-            {0b111100, {InstructionIdentifier::ID_UCVTF, std::array<unsigned short int, 4>{16, 16, 32, 64}[bits::HighestSetBit<unsigned short int, 4>(immh)] * 2 - ((immh << 3) | immb)}},
-            {0b111111, {InstructionIdentifier::ID_FCVTZU, std::array<unsigned short int, 4>{16, 16, 32, 64}[bits::HighestSetBit<unsigned short int, 4>(immh)] * 2 - ((immh << 3) | immb)}}
+            {0b101100, {InstructionIdentifier::ID_SQSHLU, ((immh << 3) | immb) - (8 << *utility::bits::HighestSetBitNZ<unsigned short int, 4>(immh))}},
+            {0b101110, {InstructionIdentifier::ID_UQSHL, ((immh << 3) | immb) - (8 << *utility::bits::HighestSetBitNZ<unsigned short int, 4>(immh))}},
+            {0b110000, {InstructionIdentifier::ID_SQSHRUN, ((8 << *utility::bits::HighestSetBitNZ<unsigned short int, 2>(utility::bits::extract<unsigned short int, unsigned short int, 0, 2>(immh))) * 2) - ((immh << 3) | immb)}},
+            {0b110001, {InstructionIdentifier::ID_SQRSHRUN, ((8 << *utility::bits::HighestSetBitNZ<unsigned short int, 2>(utility::bits::extract<unsigned short int, unsigned short int, 0, 2>(immh))) * 2) - ((immh << 3) | immb)}},
+            {0b110010, {InstructionIdentifier::ID_UQSHRN, ((8 << *utility::bits::HighestSetBitNZ<unsigned short int, 2>(utility::bits::extract<unsigned short int, unsigned short int, 0, 2>(immh))) * 2) - ((immh << 3) | immb)}},
+            {0b110011, {InstructionIdentifier::ID_UQRSHRN, ((8 << *utility::bits::HighestSetBitNZ<unsigned short int, 2>(utility::bits::extract<unsigned short int, unsigned short int, 0, 2>(immh))) * 2) - ((immh << 3) | immb)}},
+            {0b111100, {InstructionIdentifier::ID_UCVTF, std::array<unsigned short int, 4>{16, 16, 32, 64}[utility::bits::HighestSetBit<unsigned short int, 4>(immh)] * 2 - ((immh << 3) | immb)}},
+            {0b111111, {InstructionIdentifier::ID_FCVTZU, std::array<unsigned short int, 4>{16, 16, 32, 64}[utility::bits::HighestSetBit<unsigned short int, 4>(immh)] * 2 - ((immh << 3) | immb)}}
         };
 
 		static constexpr std::array<disxx::disasm::operand::Register::Type, 4> types
@@ -123,7 +123,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             }(opcode)
         };
 
-        const auto index{bits::HighestSetBitNZ<unsigned short int, 4>(immh)};
+        const auto index{utility::bits::HighestSetBitNZ<unsigned short int, 4>(immh)};
 		if (!index) [[unlikely]]
 			return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
 

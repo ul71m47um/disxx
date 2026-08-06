@@ -47,11 +47,11 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Syste
         // +-------------+---+---+---+---+--+
 
         unsigned short int op1, CRn, CRm, op2, Rt;
-        op1 = bits::extract<unsigned short int, std::uint32_t, 16, 18>(this->m_Insn);
-        CRn = bits::extract<unsigned short int, std::uint32_t, 12, 15>(this->m_Insn);
-        CRm = bits::extract<unsigned short int, std::uint32_t, 8, 11>(this->m_Insn);
-        op2 = bits::extract<unsigned short int, std::uint32_t, 5, 7>(this->m_Insn);
-        Rt = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        op1 = utility::bits::extract<unsigned short int, std::uint32_t, 16, 18>(this->m_Insn);
+        CRn = utility::bits::extract<unsigned short int, std::uint32_t, 12, 15>(this->m_Insn);
+        CRm = utility::bits::extract<unsigned short int, std::uint32_t, 8, 11>(this->m_Insn);
+        op2 = utility::bits::extract<unsigned short int, std::uint32_t, 5, 7>(this->m_Insn);
+        Rt = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
         std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
             {0b01100110000011, InstructionIdentifier::ID_TSTART},

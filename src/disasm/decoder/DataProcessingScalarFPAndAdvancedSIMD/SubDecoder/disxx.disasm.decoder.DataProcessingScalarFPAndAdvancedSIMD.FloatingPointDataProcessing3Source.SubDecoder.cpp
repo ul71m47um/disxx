@@ -67,15 +67,15 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Floatin
         // +-+-+-+-----+-----+--+--+--+--+--+--+
 
         unsigned short int M, S, ftype, o1, Rm, o0, Ra, Rn, Rd;
-        M = bits::extract<unsigned short int, std::uint32_t, 31, 31>(this->m_Insn);
-        S = bits::extract<unsigned short int, std::uint32_t, 29, 29>(this->m_Insn);
-        ftype = bits::extract<unsigned short int, std::uint32_t, 22, 23>(this->m_Insn);
-        o1 = bits::extract<unsigned short int, std::uint32_t, 21, 21>(this->m_Insn);
-        Rm = bits::extract<unsigned short int, std::uint32_t, 16, 20>(this->m_Insn);
-        o0 = bits::extract<unsigned short int, std::uint32_t, 15, 15>(this->m_Insn);
-        Ra = bits::extract<unsigned short int, std::uint32_t, 10, 14>(this->m_Insn);
-        Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
-        Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        M = utility::bits::extract<unsigned short int, std::uint32_t, 31, 31>(this->m_Insn);
+        S = utility::bits::extract<unsigned short int, std::uint32_t, 29, 29>(this->m_Insn);
+        ftype = utility::bits::extract<unsigned short int, std::uint32_t, 22, 23>(this->m_Insn);
+        o1 = utility::bits::extract<unsigned short int, std::uint32_t, 21, 21>(this->m_Insn);
+        Rm = utility::bits::extract<unsigned short int, std::uint32_t, 16, 20>(this->m_Insn);
+        o0 = utility::bits::extract<unsigned short int, std::uint32_t, 15, 15>(this->m_Insn);
+        Ra = utility::bits::extract<unsigned short int, std::uint32_t, 10, 14>(this->m_Insn);
+        Rn = utility::bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
+        Rd = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
         std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
             {0b000000, InstructionIdentifier::ID_FMADD},

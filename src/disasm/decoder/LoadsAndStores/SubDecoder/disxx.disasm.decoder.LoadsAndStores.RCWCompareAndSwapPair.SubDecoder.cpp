@@ -47,12 +47,12 @@ namespace disxx::disasm::decoder::LoadsAndStores::RCWCompareAndSwapPair
         // +-+-+------+-+-+-+--+------+--+--+
 
         unsigned short int S, A, R, Rs, Rn, Rt;
-         S = bits::extract<unsigned short int, std::uint32_t, 30, 30>(this->m_Insn);
-        A = bits::extract<unsigned short int, std::uint32_t, 23, 23>(this->m_Insn);
-        R = bits::extract<unsigned short int, std::uint32_t, 22, 22>(this->m_Insn);
-        Rs = bits::extract<unsigned short int, std::uint32_t, 16, 20>(this->m_Insn);
-        Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
-        Rt = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+         S = utility::bits::extract<unsigned short int, std::uint32_t, 30, 30>(this->m_Insn);
+        A = utility::bits::extract<unsigned short int, std::uint32_t, 23, 23>(this->m_Insn);
+        R = utility::bits::extract<unsigned short int, std::uint32_t, 22, 22>(this->m_Insn);
+        Rs = utility::bits::extract<unsigned short int, std::uint32_t, 16, 20>(this->m_Insn);
+        Rn = utility::bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
+        Rt = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
         
         static constexpr std::array<InstructionIdentifier, 8> insnTable = {
             InstructionIdentifier::ID_RCWCASP, InstructionIdentifier::ID_RCWCASPL,

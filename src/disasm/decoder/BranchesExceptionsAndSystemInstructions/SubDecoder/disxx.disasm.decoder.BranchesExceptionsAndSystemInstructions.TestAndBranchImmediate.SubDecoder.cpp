@@ -48,15 +48,15 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::TestA
         // +--+------+--+---+-----+--+
 
         unsigned short int b5, op, Rt;
-        b5 = bits::extract<unsigned short int, std::uint32_t, 31, 31>(this->m_Insn);
-        op = bits::extract<unsigned short int, std::uint32_t, 24, 24>(this->m_Insn);
-        //b40 = bits::extract<unsigned short int, std::uint32_t, 19, 23>(this->m_Insn);
-        Rt = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        b5 = utility::bits::extract<unsigned short int, std::uint32_t, 31, 31>(this->m_Insn);
+        op = utility::bits::extract<unsigned short int, std::uint32_t, 24, 24>(this->m_Insn);
+        //b40 = utility::bits::extract<unsigned short int, std::uint32_t, 19, 23>(this->m_Insn);
+        Rt = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
         const auto imm
         {
             disxx::disasm::operand::Immediate<signed long long int, 64>
             {
-                bits::extract<signed long long int, std::uint32_t, 5, 18>(this->m_Insn) << 2,
+                utility::bits::extract<signed long long int, std::uint32_t, 5, 18>(this->m_Insn) << 2,
                 disxx::disasm::operand::Immediate<signed long long int, 64>::Option::OPT_SIGNEXTEND
             }
         };

@@ -58,8 +58,8 @@ namespace disxx::disasm::decoder::Reserved
 		// +-+---+----+---+
 
 		unsigned short int op0, op1;
-		op0 = bits::extract<unsigned short int, std::uint32_t, 29, 30>(this->m_Insn);
-		op1 = bits::extract<unsigned short int, std::uint32_t, 16, 24>(this->m_Insn);
+		op0 = utility::bits::extract<unsigned short int, std::uint32_t, 29, 30>(this->m_Insn);
+		op1 = utility::bits::extract<unsigned short int, std::uint32_t, 16, 24>(this->m_Insn);
 
 		if (op0 == 0b00 && op1 == 0b000000000) [[likely]]
 			return std::make_unique<UDF::SubDecoder>(UDF::SubDecoder{this->m_Insn, this->m_ProgramCounter});

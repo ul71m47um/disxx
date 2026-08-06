@@ -49,12 +49,12 @@ namespace disxx::disasm::decoder::LoadsAndStores::RegisterUnsignedImmediate
         // +----+---+--+--+---+-----+--+--+
 
         unsigned short int size, VR, opc, imm12, Rn, Rt;
-        size = bits::extract<unsigned short int, std::uint32_t, 30, 31>(this->m_Insn);
-        VR = bits::extract<unsigned short int, std::uint32_t, 26, 26>(this->m_Insn);
-        opc = bits::extract<unsigned short int, std::uint32_t, 22, 23>(this->m_Insn);
-        imm12 = bits::extract<unsigned short int, std::uint32_t, 10, 21>(this->m_Insn);
-        Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
-        Rt = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        size = utility::bits::extract<unsigned short int, std::uint32_t, 30, 31>(this->m_Insn);
+        VR = utility::bits::extract<unsigned short int, std::uint32_t, 26, 26>(this->m_Insn);
+        opc = utility::bits::extract<unsigned short int, std::uint32_t, 22, 23>(this->m_Insn);
+        imm12 = utility::bits::extract<unsigned short int, std::uint32_t, 10, 21>(this->m_Insn);
+        Rn = utility::bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
+        Rt = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
         
         /*
         if ((size & 0b10) == 0b10 && VR == 0b0 && opc == 0b11)

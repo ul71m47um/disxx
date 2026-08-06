@@ -47,13 +47,13 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
         // +-+-+-+-----+----+-+--+------+-+--+--+
 
         unsigned short int Q, U, size, Rm, opcode, Rn, Rd;
-        Q = bits::extract<unsigned short int, std::uint32_t, 30, 30>(this->m_Insn);
-        U = bits::extract<unsigned short int, std::uint32_t, 29, 29>(this->m_Insn);
-        size = bits::extract<unsigned short int, std::uint32_t, 22, 23>(this->m_Insn);
-        Rm = bits::extract<unsigned short int, std::uint32_t, 16, 20>(this->m_Insn);
-        opcode = bits::extract<unsigned short int, std::uint32_t, 11, 15>(this->m_Insn);
-        Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
-        Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        Q = utility::bits::extract<unsigned short int, std::uint32_t, 30, 30>(this->m_Insn);
+        U = utility::bits::extract<unsigned short int, std::uint32_t, 29, 29>(this->m_Insn);
+        size = utility::bits::extract<unsigned short int, std::uint32_t, 22, 23>(this->m_Insn);
+        Rm = utility::bits::extract<unsigned short int, std::uint32_t, 16, 20>(this->m_Insn);
+        opcode = utility::bits::extract<unsigned short int, std::uint32_t, 11, 15>(this->m_Insn);
+        Rn = utility::bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
+        Rd = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
         const auto getArrangementSpecifierBorder
         {

@@ -48,15 +48,15 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Compa
         // +--+-------+--+--+--+----+--+
 
         unsigned short int sf, cc, Rm, Rt;
-        sf = bits::extract<unsigned short int, std::uint32_t, 31, 31>(this->m_Insn);
-        cc = bits::extract<unsigned short int, std::uint32_t, 21, 23>(this->m_Insn);
-        Rm = bits::extract<unsigned short int, std::uint32_t, 16, 20>(this->m_Insn);
-        Rt = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        sf = utility::bits::extract<unsigned short int, std::uint32_t, 31, 31>(this->m_Insn);
+        cc = utility::bits::extract<unsigned short int, std::uint32_t, 21, 23>(this->m_Insn);
+        Rm = utility::bits::extract<unsigned short int, std::uint32_t, 16, 20>(this->m_Insn);
+        Rt = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
         const auto imm
         {
             disxx::disasm::operand::Immediate<signed long long int, 64>
             {
-                bits::extract<signed long long int, std::uint32_t, 5, 13>(this->m_Insn) << 2,
+                utility::bits::extract<signed long long int, std::uint32_t, 5, 13>(this->m_Insn) << 2,
                 disxx::disasm::operand::Immediate<signed long long int, 64>::Option::OPT_SIGNEXTEND
             }
         };

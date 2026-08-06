@@ -66,8 +66,8 @@ namespace disxx::disasm::decoder::DataProcessingImmediate
 		// +---+---+---+
 
 		unsigned short int op0, op1;
-		op0 = bits::extract<unsigned short int, std::uint32_t, 29, 30>(this->m_Insn);
-		op1 = bits::extract<unsigned short int, std::uint32_t, 22, 25>(this->m_Insn);
+		op0 = utility::bits::extract<unsigned short int, std::uint32_t, 29, 30>(this->m_Insn);
+		op1 = utility::bits::extract<unsigned short int, std::uint32_t, 22, 25>(this->m_Insn);
 
 		if (op0 == 0b11 && (op1 >> 1) == 0b111)
 			return std::make_unique<DataProcessing1SourceImmediate::SubDecoder>(DataProcessing1SourceImmediate::SubDecoder{this->m_Insn, this->m_ProgramCounter});

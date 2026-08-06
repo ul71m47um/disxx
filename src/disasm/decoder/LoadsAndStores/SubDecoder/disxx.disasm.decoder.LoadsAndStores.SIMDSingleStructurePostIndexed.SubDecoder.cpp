@@ -48,15 +48,15 @@ namespace disxx::disasm::decoder::LoadsAndStores::SIMDSingleStructurePostIndexed
         // +-+-+-------+-+-+--+------+-+----+--+--+
 
         unsigned short int Q, L, R, Rm, opcode, S, size, Rn, Rt;
-        Q = bits::extract<unsigned short int, std::uint32_t, 30, 30>(this->m_Insn);
-        L = bits::extract<unsigned short int, std::uint32_t, 22, 22>(this->m_Insn);
-        R = bits::extract<unsigned short int, std::uint32_t, 21, 21>(this->m_Insn);
-        Rm = bits::extract<unsigned short int, std::uint32_t, 16, 20>(this->m_Insn);
-        opcode = bits::extract<unsigned short int, std::uint32_t, 13, 15>(this->m_Insn);
-        S = bits::extract<unsigned short int, std::uint32_t, 12, 12>(this->m_Insn);
-        size = bits::extract<unsigned short int, std::uint32_t, 10, 11>(this->m_Insn);
-        Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
-        Rt = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        Q = utility::bits::extract<unsigned short int, std::uint32_t, 30, 30>(this->m_Insn);
+        L = utility::bits::extract<unsigned short int, std::uint32_t, 22, 22>(this->m_Insn);
+        R = utility::bits::extract<unsigned short int, std::uint32_t, 21, 21>(this->m_Insn);
+        Rm = utility::bits::extract<unsigned short int, std::uint32_t, 16, 20>(this->m_Insn);
+        opcode = utility::bits::extract<unsigned short int, std::uint32_t, 13, 15>(this->m_Insn);
+        S = utility::bits::extract<unsigned short int, std::uint32_t, 12, 12>(this->m_Insn);
+        size = utility::bits::extract<unsigned short int, std::uint32_t, 10, 11>(this->m_Insn);
+        Rn = utility::bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
+        Rt = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
         if ((opcode & 0b110) == 0b010 && (size & 0b01) == 0b01) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
@@ -109,7 +109,7 @@ namespace disxx::disasm::decoder::LoadsAndStores::SIMDSingleStructurePostIndexed
         {
             [this, opcode, S, size] -> std::expected<unsigned short int, disxx::utility::error::DisassemblyError>
             {
-                const auto index{bits::HighestSetBit<unsigned short int, 3>(opcode)};
+                const auto index{utility::bits::HighestSetBit<unsigned short int, 3>(opcode)};
                 if (index == 2 && (size != 0b00 || (S != 0b0 && size != 0b01) || opcode & ~(1 << 2))) [[unlikely]]
                     return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
                 return (8 << (index + (index < 0))) << (S == 0b0 && size == 0b01);
@@ -126,7 +126,7 @@ namespace disxx::disasm::decoder::LoadsAndStores::SIMDSingleStructurePostIndexed
             {
 				const std::unordered_map<unsigned short int, unsigned short int> indexTable = {
             		{8, (Q << 3) | (S << 2) | size},
-            		{16, (Q << 2) | (S << 1) | bits::extract<unsigned short int, unsigned short int, 1, 1>(size)},
+            		{16, (Q << 2) | (S << 1) | utility::bits::extract<unsigned short int, unsigned short int, 1, 1>(size)},
             		{32, (Q << 1) | S},
             		{64, Q}
         		};

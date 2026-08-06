@@ -1,7 +1,7 @@
 ifeq ($(shell echo %OS%), Windows_NT)
-	include ..\\..\\common.mk
+	include ..\\common.mk
 else
-	include ../../common.mk
+	include ../common.mk
 endif
 
 MODULESPATH=..$(PATHSEP)modules$(PATHSEP)loader$(PATHSEP)
@@ -13,7 +13,7 @@ OBJECTSDIR=.$(PATHSEP)build$(PATHSEP)objects
 
 CXXFLAGS=\
 	-std=c++26 -Weverything -Werror -O3 -arch $(ARCH) \
-	-isysroot $(shell xcrun --show-sdk-path) -I..$(PATHSEP)include \
+	-isysroot $(shell xcrun --show-sdk-path) -I..$(PATHSEP)include -I..$(PATHSEP)third-party \
 	-Wno-c99-extensions -Wno-global-constructors -Wno-exit-time-destructors -Wno-reserved-identifier -Wno-non-virtual-dtor \
 	-Wno-switch-enum -Wno-reserved-macro-identifier -Wno-writable-strings -Wno-weak-vtables -Wno-undefined-func-template \
 	-Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-covered-switch-default -Wno-padded -Wno-sign-conversion \

@@ -89,9 +89,9 @@ namespace disxx::disasm::decoder::LoadsAndStores
 	> Decoder::__GetDecoder(void) const noexcept
 	{
 		unsigned short int op0, op1, op2;
-        op0 = bits::extract<unsigned short int, std::uint32_t, 28, 31>(this->m_Insn);
-        op1 = bits::extract<unsigned short int, std::uint32_t, 26, 26>(this->m_Insn);
-        op2 = bits::extract<unsigned short int, std::uint32_t, 10, 24>(this->m_Insn);
+        op0 = utility::bits::extract<unsigned short int, std::uint32_t, 28, 31>(this->m_Insn);
+        op1 = utility::bits::extract<unsigned short int, std::uint32_t, 26, 26>(this->m_Insn);
+        op2 = utility::bits::extract<unsigned short int, std::uint32_t, 10, 24>(this->m_Insn);
 
 		if ((op0 & 0b1011) == 0b0000 && op1 == 0b0 && (op2 & 0b110100000000000) == 0b000100000000000)
 			return std::make_unique<CompareAndSwapPair::SubDecoder>(CompareAndSwapPair::SubDecoder{this->m_Insn, this->m_ProgramCounter});

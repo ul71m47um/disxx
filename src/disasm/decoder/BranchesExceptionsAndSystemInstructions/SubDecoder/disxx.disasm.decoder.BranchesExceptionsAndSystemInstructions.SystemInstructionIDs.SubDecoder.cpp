@@ -49,12 +49,12 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Syste
         // +----------+-+--+---+---+---+---+--+
 
         unsigned short int L, op1, CRn, CRm, op2, Rt;
-        L = bits::extract<unsigned short int, std::uint32_t, 21, 21>(this->m_Insn);
-        op1 = bits::extract<unsigned short int, std::uint32_t, 16, 18>(this->m_Insn);
-        CRn = bits::extract<unsigned short int, std::uint32_t, 12, 15>(this->m_Insn);
-        CRm = bits::extract<unsigned short int, std::uint32_t, 8, 11>(this->m_Insn);
-        op2 = bits::extract<unsigned short int, std::uint32_t, 5, 7>(this->m_Insn);
-        Rt = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        L = utility::bits::extract<unsigned short int, std::uint32_t, 21, 21>(this->m_Insn);
+        op1 = utility::bits::extract<unsigned short int, std::uint32_t, 16, 18>(this->m_Insn);
+        CRn = utility::bits::extract<unsigned short int, std::uint32_t, 12, 15>(this->m_Insn);
+        CRm = utility::bits::extract<unsigned short int, std::uint32_t, 8, 11>(this->m_Insn);
+        op2 = utility::bits::extract<unsigned short int, std::uint32_t, 5, 7>(this->m_Insn);
+        Rt = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
         const unsigned short int encoding = (op1 << 11) | (CRn << 7) | (CRm << 3) | op2;
         if (L == 0b1)
@@ -126,7 +126,7 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Syste
 
             return std::make_pair(it->second, std::move(this->m_Operands));
         }
-        else if (CRn == 0b0111 && (CRm & ~1) == 0b1000 && bits::SysOp(op1, 0b0111, CRm, op2) == 1)
+        else if (CRn == 0b0111 && (CRm & ~1) == 0b1000 && utility::bits::SysOp(op1, 0b0111, CRm, op2) == 1)
         {
             this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::SystemOperand>(encoding));
             this->m_Operands.emplace_back
@@ -140,13 +140,13 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Syste
         
             return std::make_pair(InstructionIdentifier::ID_AT, std::move(this->m_Operands));
         }
-        else if (op1 == 0b001 && CRn == 0b0111 && CRm == 0b0010 && bits::SysOp(0b001, 0b0111, 0b0010, op2) == 2)
+        else if (op1 == 0b001 && CRn == 0b0111 && CRm == 0b0010 && utility::bits::SysOp(0b001, 0b0111, 0b0010, op2) == 2)
         {
             this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::SystemOperand>(op2));
         
             return std::make_pair(InstructionIdentifier::ID_BRB, std::move(this->m_Operands));
         }
-        else if (CRn == 0b0111 && bits::SysOp(op1, 0b0111, CRm, op2) == 3)
+        else if (CRn == 0b0111 && utility::bits::SysOp(op1, 0b0111, CRm, op2) == 3)
         {
             this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::SystemOperand>(encoding));
             this->m_Operands.emplace_back
@@ -160,7 +160,7 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Syste
 
             return std::make_pair(InstructionIdentifier::ID_DC, std::move(this->m_Operands));
         }
-        else if (CRn == 0b0111 && bits::SysOp(op1, 0b0111, CRm, op2) == 4)
+        else if (CRn == 0b0111 && utility::bits::SysOp(op1, 0b0111, CRm, op2) == 4)
         {
             this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::SystemOperand>(encoding));
             this->m_Operands.emplace_back
@@ -174,7 +174,7 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Syste
         
             return std::make_pair(InstructionIdentifier::ID_IC, std::move(this->m_Operands));
         }
-        else if ((CRn & ~1) == 0b1000 && bits::SysOp(op1, CRn, CRm, op2) == 5)
+        else if ((CRn & ~1) == 0b1000 && utility::bits::SysOp(op1, CRn, CRm, op2) == 5)
         {
             this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::SystemOperand>(encoding));
             this->m_Operands.emplace_back

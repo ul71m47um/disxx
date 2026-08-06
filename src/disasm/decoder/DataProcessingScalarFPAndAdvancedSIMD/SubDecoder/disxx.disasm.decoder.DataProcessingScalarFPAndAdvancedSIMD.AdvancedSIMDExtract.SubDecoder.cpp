@@ -48,12 +48,12 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
         // +-+-+------+---+-+--+-+----+-+--+--+
 
         unsigned short int Q, op2, Rm, imm4, Rn, Rd;
-        Q = bits::extract<unsigned short int, std::uint32_t, 30, 30>(this->m_Insn);
-        op2 = bits::extract<unsigned short int, std::uint32_t, 22, 23>(this->m_Insn);
-        Rm = bits::extract<unsigned short int, std::uint32_t, 16, 20>(this->m_Insn);
-        imm4 = bits::extract<unsigned short int, std::uint32_t, 11, 14>(this->m_Insn);
-        Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
-        Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        Q = utility::bits::extract<unsigned short int, std::uint32_t, 30, 30>(this->m_Insn);
+        op2 = utility::bits::extract<unsigned short int, std::uint32_t, 22, 23>(this->m_Insn);
+        Rm = utility::bits::extract<unsigned short int, std::uint32_t, 16, 20>(this->m_Insn);
+        imm4 = utility::bits::extract<unsigned short int, std::uint32_t, 11, 14>(this->m_Insn);
+        Rn = utility::bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
+        Rd = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
         if (op2 != 0b00 || (imm4 >> 3)) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
@@ -90,7 +90,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             (
                 Q == 0b1
                     ? imm4
-                    : bits::extract<unsigned short int, unsigned short int, 0, 2>(imm4)
+                    : utility::bits::extract<unsigned short int, unsigned short int, 0, 2>(imm4)
             )
         );
 

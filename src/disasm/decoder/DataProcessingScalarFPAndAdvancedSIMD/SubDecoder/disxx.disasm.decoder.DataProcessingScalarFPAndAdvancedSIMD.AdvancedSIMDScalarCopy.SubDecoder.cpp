@@ -47,16 +47,16 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
         // +--+--+--------+----+-+----+-+--+--+
 
         unsigned short int op, imm5, imm4, Rn, Rd;
-        op = bits::extract<unsigned short int, std::uint32_t, 29, 29>(this->m_Insn);
-        imm5 = bits::extract<unsigned short int, std::uint32_t, 16, 20>(this->m_Insn);
-        imm4 = bits::extract<unsigned short int, std::uint32_t, 11, 14>(this->m_Insn);
-        Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
-        Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        op = utility::bits::extract<unsigned short int, std::uint32_t, 29, 29>(this->m_Insn);
+        imm5 = utility::bits::extract<unsigned short int, std::uint32_t, 16, 20>(this->m_Insn);
+        imm4 = utility::bits::extract<unsigned short int, std::uint32_t, 11, 14>(this->m_Insn);
+        Rn = utility::bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
+        Rd = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
         if (op != 0b0 && imm4 != 0b0000) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
 
-        const auto index{bits::HighestSetBit<unsigned short int, 5>(imm5)};
+        const auto index{utility::bits::HighestSetBit<unsigned short int, 5>(imm5)};
         if (index >= 4) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
 

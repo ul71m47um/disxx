@@ -52,16 +52,16 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
 
 		/*
         unsigned short int Q, U, size, L, M, Rm, opcode, H, Rn, Rd;
-        Q = bits::extract<unsigned short int, std::uint32_t, 30, 30>(this->m_Insn);
-        U = bits::extract<unsigned short int, std::uint32_t, 29, 29>(this->m_Insn);
-        size = bits::extract<unsigned short int, std::uint32_t, 22, 23>(this->m_Insn);
-        L = bits::extract<unsigned short int, std::uint32_t, 21, 21>(this->m_Insn);
-        M = bits::extract<unsigned short int, std::uint32_t, 20, 20>(this->m_Insn);
-        Rm = bits::extract<unsigned short int, std::uint32_t, 16, 19>(this->m_Insn);
-        opcode = bits::extract<unsigned short int, std::uint32_t, 12, 15>(this->m_Insn);
-        H = bits::extract<unsigned short int, std::uint32_t, 11, 11>(this->m_Insn);
-        Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
-        Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        Q = utility::bits::extract<unsigned short int, std::uint32_t, 30, 30>(this->m_Insn);
+        U = utility::bits::extract<unsigned short int, std::uint32_t, 29, 29>(this->m_Insn);
+        size = utility::bits::extract<unsigned short int, std::uint32_t, 22, 23>(this->m_Insn);
+        L = utility::bits::extract<unsigned short int, std::uint32_t, 21, 21>(this->m_Insn);
+        M = utility::bits::extract<unsigned short int, std::uint32_t, 20, 20>(this->m_Insn);
+        Rm = utility::bits::extract<unsigned short int, std::uint32_t, 16, 19>(this->m_Insn);
+        opcode = utility::bits::extract<unsigned short int, std::uint32_t, 12, 15>(this->m_Insn);
+        H = utility::bits::extract<unsigned short int, std::uint32_t, 11, 11>(this->m_Insn);
+        Rn = utility::bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
+        Rd = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
         const auto getArrangementSpecifiers
         {
@@ -310,7 +310,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
                 (
                     std::make_unique<disxx::disasm::operand::Immediate<unsigned short int, 2>>
                     (
-                        bits::extract<unsigned short int, unsigned short int, 13, 14>(this->m_Insn)
+                        utility::bits::extract<unsigned short int, unsigned short int, 13, 14>(this->m_Insn)
                             * 90
                     )
                 );
@@ -456,7 +456,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             (
                 std::make_unique<disxx::disasm::operand::Immediate<unsigned short int, 2>>
                 (
-                    bits::extract<unsigned short int, unsigned short int, 13, 14>(this->m_Insn)
+                    utility::bits::extract<unsigned short int, unsigned short int, 13, 14>(this->m_Insn)
                         * 90
                 )
             );

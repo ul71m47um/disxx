@@ -49,12 +49,12 @@ namespace disxx::disasm::decoder::LoadsAndStores::RegisterImmediatePostIndexed
         
         unsigned short int size, VR, opc, Rn, Rt;
         signed short int imm9;
-        size = bits::extract<unsigned short int, std::uint32_t, 30, 31>(this->m_Insn);
-        VR = bits::extract<unsigned short int, std::uint32_t, 26, 26>(this->m_Insn);
-        opc = bits::extract<unsigned short int, std::uint32_t, 22, 23>(this->m_Insn);
-        imm9 = bits::extract<signed short int, std::uint32_t, 12, 20>(this->m_Insn);
-        Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
-        Rt = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        size = utility::bits::extract<unsigned short int, std::uint32_t, 30, 31>(this->m_Insn);
+        VR = utility::bits::extract<unsigned short int, std::uint32_t, 26, 26>(this->m_Insn);
+        opc = utility::bits::extract<unsigned short int, std::uint32_t, 22, 23>(this->m_Insn);
+        imm9 = utility::bits::extract<signed short int, std::uint32_t, 12, 20>(this->m_Insn);
+        Rn = utility::bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
+        Rt = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
         static const std::unordered_map<unsigned short int, std::pair<InstructionIdentifier, disxx::disasm::operand::Register::Type>> insnTable = {
             {0b00000, {InstructionIdentifier::ID_STRB, disxx::disasm::operand::Register::Type::TYPE_W}},

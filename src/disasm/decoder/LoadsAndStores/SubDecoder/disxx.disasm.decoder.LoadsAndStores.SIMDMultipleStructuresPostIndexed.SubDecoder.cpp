@@ -48,13 +48,13 @@ namespace disxx::disasm::decoder::LoadsAndStores::SIMDMultipleStructuresPostInde
         // +-+-+-------+-+-+--+------+----+--+--+
 
         unsigned short int Q, Rm, opcode, size, Rn, Rt;
-        Q = bits::extract<unsigned short int, std::uint32_t, 30, 30>(this->m_Insn);
-        //L = bits::extract<unsigned short int, std::uint32_t, 22, 22>(this->m_Insn);
-        Rm = bits::extract<unsigned short int, std::uint32_t, 16, 20>(this->m_Insn);
-        opcode = bits::extract<unsigned short int, std::uint32_t, 12, 15>(this->m_Insn);
-        size = bits::extract<unsigned short int, std::uint32_t, 10, 11>(this->m_Insn);
-        Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
-        Rt = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        Q = utility::bits::extract<unsigned short int, std::uint32_t, 30, 30>(this->m_Insn);
+        //L = utility::bits::extract<unsigned short int, std::uint32_t, 22, 22>(this->m_Insn);
+        Rm = utility::bits::extract<unsigned short int, std::uint32_t, 16, 20>(this->m_Insn);
+        opcode = utility::bits::extract<unsigned short int, std::uint32_t, 12, 15>(this->m_Insn);
+        size = utility::bits::extract<unsigned short int, std::uint32_t, 10, 11>(this->m_Insn);
+        Rn = utility::bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
+        Rt = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
         static const std::unordered_map<unsigned short int, std::pair<InstructionIdentifier, unsigned short int>> insnTable = {
             {0b00000, {InstructionIdentifier::ID_ST4, 4}},

@@ -48,13 +48,13 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
         // +-+-+-+------+----+----+------+-+--+--+
 
         unsigned short int Q, U, immh, immb, opcode, Rn, Rd;
-        Q = bits::extract<unsigned short int, std::uint32_t, 30, 30>(this->m_Insn);
-        U = bits::extract<unsigned short int, std::uint64_t, 29, 29>(this->m_Insn);
-        immh = bits::extract<unsigned short int, std::uint64_t, 19, 22>(this->m_Insn);
-        immb = bits::extract<unsigned short int, std::uint64_t, 16, 18>(this->m_Insn);
-        opcode = bits::extract<unsigned short int, std::uint64_t, 11, 15>(this->m_Insn);
-        Rn = bits::extract<unsigned short int, std::uint64_t, 5, 9>(this->m_Insn);
-        Rd = bits::extract<unsigned short int, std::uint64_t, 0, 4>(this->m_Insn);
+        Q = utility::bits::extract<unsigned short int, std::uint32_t, 30, 30>(this->m_Insn);
+        U = utility::bits::extract<unsigned short int, std::uint64_t, 29, 29>(this->m_Insn);
+        immh = utility::bits::extract<unsigned short int, std::uint64_t, 19, 22>(this->m_Insn);
+        immb = utility::bits::extract<unsigned short int, std::uint64_t, 16, 18>(this->m_Insn);
+        opcode = utility::bits::extract<unsigned short int, std::uint64_t, 11, 15>(this->m_Insn);
+        Rn = utility::bits::extract<unsigned short int, std::uint64_t, 5, 9>(this->m_Insn);
+        Rd = utility::bits::extract<unsigned short int, std::uint64_t, 0, 4>(this->m_Insn);
 
         if (immh == 0b1111) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
@@ -66,10 +66,10 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
                 const auto index
                 {
-                    bits::HighestSetBitNZ<short int, 4>
+                    utility::bits::HighestSetBitNZ<short int, 4>
                     (
                         shouldExtract
-                            ? bits::extract<unsigned short int, unsigned short int, 0, 2>(immh)
+                            ? utility::bits::extract<unsigned short int, unsigned short int, 0, 2>(immh)
                             : immh
                     )
                 };
@@ -89,10 +89,10 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
                 const auto index
                 {
-                    bits::HighestSetBitNZ<short int, 4>
+                    utility::bits::HighestSetBitNZ<short int, 4>
                     (
                         shouldExtract
-                            ? bits::extract<unsigned short int, unsigned short int, 0, 2>(immh)
+                            ? utility::bits::extract<unsigned short int, unsigned short int, 0, 2>(immh)
                             : immh
                     )
                 };
@@ -163,7 +163,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
         else [[unlikely]]
    			return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
  
-        auto size{bits::HighestSetBitNZ<unsigned short int, 4>(immh)};
+        auto size{utility::bits::HighestSetBitNZ<unsigned short int, 4>(immh)};
         if (!size) [[unlikely]]
 			return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
 
@@ -174,13 +174,13 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
         else
 			*size = 0b11;
 
-        //if (bits::HighestSetBitNZ<unsigned short int, 4>(immh))
+        //if (utility::bits::HighestSetBitNZ<unsigned short int, 4>(immh))
         if (opcode >= 0b10000 && opcode <= 0b10100)
         {
             const disxx::disasm::operand::VectorArrangementSpecifier spec{static_cast<unsigned short int>(((*size + 1) << 1) | 0b1)};
             if (opcode == 10100)
             {
-                if (immb == 0b000 && bits::BitCount<unsigned short int, 4>(immh) == 1)
+                if (immb == 0b000 && utility::bits::BitCount<unsigned short int, 4>(immh) == 1)
 				{
                     insn = std::array<InstructionIdentifier, 4>
 					{

@@ -67,13 +67,13 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Convers
         // +--+-+-+-----+-----+-+-----+------+------+--+--+
 
         unsigned short int sf, S, ftype, rmode, opcode, Rn, Rd;
-        sf = bits::extract<unsigned short int, std::uint32_t, 31, 31>(this->m_Insn);
-        S = bits::extract<unsigned short int, std::uint32_t, 29, 29>(this->m_Insn);
-        ftype = bits::extract<unsigned short int, std::uint32_t, 22, 23>(this->m_Insn);
-        rmode = bits::extract<unsigned short int, std::uint32_t, 19, 20>(this->m_Insn);
-        opcode = bits::extract<unsigned short int, std::uint32_t, 16, 18>(this->m_Insn);
-        Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
-        Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        sf = utility::bits::extract<unsigned short int, std::uint32_t, 31, 31>(this->m_Insn);
+        S = utility::bits::extract<unsigned short int, std::uint32_t, 29, 29>(this->m_Insn);
+        ftype = utility::bits::extract<unsigned short int, std::uint32_t, 22, 23>(this->m_Insn);
+        rmode = utility::bits::extract<unsigned short int, std::uint32_t, 19, 20>(this->m_Insn);
+        opcode = utility::bits::extract<unsigned short int, std::uint32_t, 16, 18>(this->m_Insn);
+        Rn = utility::bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
+        Rd = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
         std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
             {0b000000000, InstructionIdentifier::ID_FCVTNS},

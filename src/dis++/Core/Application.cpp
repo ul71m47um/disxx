@@ -20,8 +20,8 @@ module;
 
 module Application;
 
-import disxx.utility.ini.Parser;
 import disxx.utility.error.NullPointerError;
+import disxx.utility.ini.Parser;
 
 import disxx.loader.executable.ExecutableFile;
 import disxx.loader.macho.Loader;
@@ -35,11 +35,11 @@ import disxx.ui.MessageBox;
 import disxx.ui.TabbedPane;
 import disxx.ui.MainWindow;
 import disxx.ui.TextInput;
+import disxx.ui.Widget;
 import disxx.ui.Button;
 import disxx.ui.Label;
 import disxx.ui.Frame;
 import disxx.ui.Menu;
-import disxx.ui.Widget;
 
 import ScriptEngine;
 import FileInput;
@@ -517,7 +517,7 @@ void Application::Init(void) noexcept(false)
 					std::regex_replace
 					(
 						currentTab->get().GetText().data(),
-						std::regex{R"(\s+\-\s+[\s\S]+$)"},
+						std::regex{R"(\s+\-\s+hex$)"},
 						""
 					)
 				};
@@ -845,7 +845,7 @@ void Application::Init(void) noexcept(false)
 					std::regex_replace
 					(
 						currentTab->get().GetText().data(),
-						std::regex{R"(\s+\-\s+[\s\S]+$)"},
+						std::regex{R"(\s\-\shex)"},
 						""
 					)
 				};

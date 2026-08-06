@@ -1,6 +1,6 @@
 module disxx.disasm.utility.bits;
 
-namespace bits
+namespace disxx::disasm::utility::bits
 {
 	std::expected<std::uint64_t, std::overflow_error> AdvSIMDExpandImm(unsigned short int op, unsigned short int cmode, unsigned short int imm8) noexcept
 	{

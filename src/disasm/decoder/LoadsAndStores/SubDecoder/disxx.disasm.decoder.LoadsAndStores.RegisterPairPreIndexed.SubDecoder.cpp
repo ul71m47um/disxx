@@ -48,37 +48,37 @@ namespace disxx::disasm::decoder::LoadsAndStores::RegisterPairPreIndexed
         // +---+---+--+---+-+----+---+--+--+
 
         unsigned short int opc, VR, L, Rt2, Rn, Rt;
-        opc = bits::extract<unsigned short int, std::uint32_t, 30, 31>(this->m_Insn);
-        VR = bits::extract<unsigned short int, std::uint32_t, 26, 26>(this->m_Insn);
-        L = bits::extract<unsigned short int, std::uint32_t, 22, 22>(this->m_Insn);
-        Rt2 = bits::extract<unsigned short int, std::uint32_t, 10, 14>(this->m_Insn);
-        Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
-        Rt = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        opc = utility::bits::extract<unsigned short int, std::uint32_t, 30, 31>(this->m_Insn);
+        VR = utility::bits::extract<unsigned short int, std::uint32_t, 26, 26>(this->m_Insn);
+        L = utility::bits::extract<unsigned short int, std::uint32_t, 22, 22>(this->m_Insn);
+        Rt2 = utility::bits::extract<unsigned short int, std::uint32_t, 10, 14>(this->m_Insn);
+        Rn = utility::bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
+        Rt = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
         const auto imm7
         {
             disxx::disasm::operand::Immediate<signed short int, 7>
             {
-                bits::extract<signed short int, std::uint32_t, 15, 21>(this->m_Insn),
+                utility::bits::extract<signed short int, std::uint32_t, 15, 21>(this->m_Insn),
                 disxx::disasm::operand::Immediate<signed short int, 7>::Option::OPT_SIGNEXTEND
             }
         };
 
         const std::unordered_map<unsigned short int, std::tuple<InstructionIdentifier, disxx::disasm::operand::Register::Type, unsigned short int>> insnTable = {
         //  |encoding|mnemonic|type|scale|
-            {0b0000, {InstructionIdentifier::ID_STP, disxx::disasm::operand::Register::Type::TYPE_W, 2 + bits::extract<unsigned short int, unsigned short int, 1, 1>(opc)}},
-            {0b0001, {InstructionIdentifier::ID_LDP, disxx::disasm::operand::Register::Type::TYPE_S, 2 + bits::extract<unsigned short int, unsigned short int, 1, 1>(opc)}},
+            {0b0000, {InstructionIdentifier::ID_STP, disxx::disasm::operand::Register::Type::TYPE_W, 2 + utility::bits::extract<unsigned short int, unsigned short int, 1, 1>(opc)}},
+            {0b0001, {InstructionIdentifier::ID_LDP, disxx::disasm::operand::Register::Type::TYPE_S, 2 + utility::bits::extract<unsigned short int, unsigned short int, 1, 1>(opc)}},
             {0b0010, {InstructionIdentifier::ID_STP, disxx::disasm::operand::Register::Type::TYPE_S, 2 + opc}},
             {0b0011, {InstructionIdentifier::ID_LDP, disxx::disasm::operand::Register::Type::TYPE_S, 2 + opc}},
             {0b0100, {InstructionIdentifier::ID_STGP, disxx::disasm::operand::Register::Type::TYPE_X, 4}},
-            {0b0101, {InstructionIdentifier::ID_LDPSW, disxx::disasm::operand::Register::Type::TYPE_X, 2 + bits::extract<unsigned short int, unsigned short int, 1, 1>(opc)}},
+            {0b0101, {InstructionIdentifier::ID_LDPSW, disxx::disasm::operand::Register::Type::TYPE_X, 2 + utility::bits::extract<unsigned short int, unsigned short int, 1, 1>(opc)}},
             {0b0110, {InstructionIdentifier::ID_STP, disxx::disasm::operand::Register::Type::TYPE_D, 2 + opc}},
             {0b0111, {InstructionIdentifier::ID_LDP, disxx::disasm::operand::Register::Type::TYPE_D, 2 + opc}},
-            {0b1000, {InstructionIdentifier::ID_STP, disxx::disasm::operand::Register::Type::TYPE_X, 2 + bits::extract<unsigned short int, unsigned short int, 1, 1>(opc)}},
-            {0b1001, {InstructionIdentifier::ID_LDP, disxx::disasm::operand::Register::Type::TYPE_X, 2 + bits::extract<unsigned short int, unsigned short int, 1, 1>(opc)}},
+            {0b1000, {InstructionIdentifier::ID_STP, disxx::disasm::operand::Register::Type::TYPE_X, 2 + utility::bits::extract<unsigned short int, unsigned short int, 1, 1>(opc)}},
+            {0b1001, {InstructionIdentifier::ID_LDP, disxx::disasm::operand::Register::Type::TYPE_X, 2 + utility::bits::extract<unsigned short int, unsigned short int, 1, 1>(opc)}},
             {0b1010, {InstructionIdentifier::ID_STP, disxx::disasm::operand::Register::Type::TYPE_Q, 2 + opc}},
             {0b1011, {InstructionIdentifier::ID_LDP, disxx::disasm::operand::Register::Type::TYPE_Q, 2 + opc}},
-            {0b1100, {InstructionIdentifier::ID_STTP, disxx::disasm::operand::Register::Type::TYPE_X, 2 + bits::extract<unsigned short int, unsigned short int, 1, 1>(opc)}},
-            {0b1101, {InstructionIdentifier::ID_LDTP, disxx::disasm::operand::Register::Type::TYPE_X, 2 + bits::extract<unsigned short int, unsigned short int, 1, 1>(opc)}},
+            {0b1100, {InstructionIdentifier::ID_STTP, disxx::disasm::operand::Register::Type::TYPE_X, 2 + utility::bits::extract<unsigned short int, unsigned short int, 1, 1>(opc)}},
+            {0b1101, {InstructionIdentifier::ID_LDTP, disxx::disasm::operand::Register::Type::TYPE_X, 2 + utility::bits::extract<unsigned short int, unsigned short int, 1, 1>(opc)}},
             {0b1110, {InstructionIdentifier::ID_STTP, disxx::disasm::operand::Register::Type::TYPE_Q, 4}},
             {0b1111, {InstructionIdentifier::ID_LDTP, disxx::disasm::operand::Register::Type::TYPE_Q, 4}}
         };

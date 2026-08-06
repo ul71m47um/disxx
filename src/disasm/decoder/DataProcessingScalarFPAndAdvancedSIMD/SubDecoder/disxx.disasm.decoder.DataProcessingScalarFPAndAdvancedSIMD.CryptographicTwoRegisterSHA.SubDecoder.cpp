@@ -47,10 +47,10 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Cryptog
         // +--------+----+-----+------+--+--+--+
 
         unsigned short int size, opcode, Rn, Rd;
-        size = bits::extract<unsigned short int, std::uint32_t, 22, 23>(this->m_Insn);
-        opcode = bits::extract<unsigned short int, std::uint32_t, 12, 16>(this->m_Insn);
-        Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
-        Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        size = utility::bits::extract<unsigned short int, std::uint32_t, 22, 23>(this->m_Insn);
+        opcode = utility::bits::extract<unsigned short int, std::uint32_t, 12, 16>(this->m_Insn);
+        Rn = utility::bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
+        Rd = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
         std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
             {0b00000, InstructionIdentifier::ID_SHA1H},

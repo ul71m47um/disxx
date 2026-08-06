@@ -70,10 +70,10 @@ namespace disxx::disasm::decoder::DataProcessingRegister
 		// +---+---+---+---+---+
 
 		unsigned short int op0, op1, op2, op3;
-		op0 = bits::extract<unsigned short int, std::uint32_t, 30, 30>(this->m_Insn);
-		op1 = bits::extract<unsigned short int, std::uint32_t, 28, 28>(this->m_Insn);
-		op2 = bits::extract<unsigned short int, std::uint32_t, 21, 24>(this->m_Insn);
-		op3 = bits::extract<unsigned short int, std::uint32_t, 10, 15>(this->m_Insn);
+		op0 = utility::bits::extract<unsigned short int, std::uint32_t, 30, 30>(this->m_Insn);
+		op1 = utility::bits::extract<unsigned short int, std::uint32_t, 28, 28>(this->m_Insn);
+		op2 = utility::bits::extract<unsigned short int, std::uint32_t, 21, 24>(this->m_Insn);
+		op3 = utility::bits::extract<unsigned short int, std::uint32_t, 10, 15>(this->m_Insn);
 	
 		if (op0 == 0b0 && op1 == 0b1 && op2 == 0b0110)
 			return std::make_unique<DataProcessing2Source::SubDecoder>(DataProcessing2Source::SubDecoder{this->m_Insn, this->m_ProgramCounter});

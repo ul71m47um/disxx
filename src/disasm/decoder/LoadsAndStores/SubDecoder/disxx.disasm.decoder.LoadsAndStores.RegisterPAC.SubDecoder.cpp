@@ -48,13 +48,13 @@ namespace disxx::disasm::decoder::LoadsAndStores::RegisterPAC
         // +----+---+--+--+-+-+-+----+-+-+--+--+
 
         unsigned short int size, VR, M, S, W, Rn, Rt;
-        size = bits::extract<unsigned short int, std::uint32_t, 30, 31>(this->m_Insn);
-        VR = bits::extract<unsigned short int, std::uint32_t, 26, 26>(this->m_Insn);
-        M = bits::extract<unsigned short int, std::uint32_t, 23, 23>(this->m_Insn);
-        S = bits::extract<unsigned short int, std::uint32_t, 22, 22>(this->m_Insn);
-        W = bits::extract<unsigned short int, std::uint32_t, 11, 11>(this->m_Insn);
-        Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
-        Rt = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        size = utility::bits::extract<unsigned short int, std::uint32_t, 30, 31>(this->m_Insn);
+        VR = utility::bits::extract<unsigned short int, std::uint32_t, 26, 26>(this->m_Insn);
+        M = utility::bits::extract<unsigned short int, std::uint32_t, 23, 23>(this->m_Insn);
+        S = utility::bits::extract<unsigned short int, std::uint32_t, 22, 22>(this->m_Insn);
+        W = utility::bits::extract<unsigned short int, std::uint32_t, 11, 11>(this->m_Insn);
+        Rn = utility::bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
+        Rt = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
         const auto imm10
         {
             disxx::disasm::operand::Immediate<signed short int, 10>
@@ -62,7 +62,7 @@ namespace disxx::disasm::decoder::LoadsAndStores::RegisterPAC
                 static_cast<signed short int>
                 (
                     (S << 9)
-                        | bits::extract<signed short int, std::uint32_t, 12, 20>(this->m_Insn)
+                        | utility::bits::extract<signed short int, std::uint32_t, 12, 20>(this->m_Insn)
                 ), disxx::disasm::operand::Immediate<signed short int, 10>::Option::OPT_SIGNEXTEND
             }
         };

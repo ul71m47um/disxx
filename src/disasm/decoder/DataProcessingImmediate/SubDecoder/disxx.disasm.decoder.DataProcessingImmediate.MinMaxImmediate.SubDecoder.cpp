@@ -47,12 +47,12 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::MinMaxImmediate
         // +--+--+-+-------+---+----+--+--+
 
         unsigned short int sf, op, S, opc, Rn, Rd;
-        sf = bits::extract<unsigned short int, std::uint32_t, 31, 31>(this->m_Insn);
-        op = bits::extract<unsigned short int, std::uint32_t, 30, 30>(this->m_Insn);
-        S = bits::extract<unsigned short int, std::uint32_t, 29, 29>(this->m_Insn);
-        opc = bits::extract<unsigned short int, std::uint32_t, 18, 21>(this->m_Insn);
-        Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
-        Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        sf = utility::bits::extract<unsigned short int, std::uint32_t, 31, 31>(this->m_Insn);
+        op = utility::bits::extract<unsigned short int, std::uint32_t, 30, 30>(this->m_Insn);
+        S = utility::bits::extract<unsigned short int, std::uint32_t, 29, 29>(this->m_Insn);
+        opc = utility::bits::extract<unsigned short int, std::uint32_t, 18, 21>(this->m_Insn);
+        Rn = utility::bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
+        Rd = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
         static const std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
             {0b0000000, InstructionIdentifier::ID_SMAX},
@@ -95,7 +95,7 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::MinMaxImmediate
             this->m_Operands.emplace_back
             (
                 std::make_unique<disxx::disasm::operand::Immediate<unsigned short int, 8>>
-                (bits::extract<unsigned short int, std::uint32_t, 10, 17>(this->m_Insn))
+                (utility::bits::extract<unsigned short int, std::uint32_t, 10, 17>(this->m_Insn))
             );
 
             return std::make_pair(it->second, std::move(this->m_Operands));
@@ -104,7 +104,7 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::MinMaxImmediate
         this->m_Operands.emplace_back
         (
             std::make_unique<disxx::disasm::operand::Immediate<signed short int, 8>>
-            (bits::extract<signed short int, std::uint32_t, 10, 17>(this->m_Insn))
+            (utility::bits::extract<signed short int, std::uint32_t, 10, 17>(this->m_Insn))
         );
 
         return std::make_pair(it->second, std::move(this->m_Operands));

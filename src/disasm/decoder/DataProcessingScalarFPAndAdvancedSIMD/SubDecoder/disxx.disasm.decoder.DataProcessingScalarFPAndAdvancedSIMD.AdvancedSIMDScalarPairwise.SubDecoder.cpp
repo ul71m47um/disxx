@@ -47,11 +47,11 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
         // +--+-+-----+----+-----+------+--+--+--+
 
         unsigned short int U, size, opcode, Rn, Rd;
-        U = bits::extract<unsigned short int, std::uint32_t, 29, 29>(this->m_Insn);
-        size = bits::extract<unsigned short int, std::uint32_t, 22, 23>(this->m_Insn);
-        opcode = bits::extract<unsigned short int, std::uint32_t, 12, 16>(this->m_Insn);
-        Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
-        Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        U = utility::bits::extract<unsigned short int, std::uint32_t, 29, 29>(this->m_Insn);
+        size = utility::bits::extract<unsigned short int, std::uint32_t, 22, 23>(this->m_Insn);
+        opcode = utility::bits::extract<unsigned short int, std::uint32_t, 12, 16>(this->m_Insn);
+        Rn = utility::bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
+        Rd = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
         std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
             {0b00001100, InstructionIdentifier::ID_FMAXNMP},
@@ -78,7 +78,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
         {
             (U == 0b1 || opcode == 0b11011)
                 ? (
-                    bits::extract<unsigned short int, unsigned short int, 0, 0>(size)
+                    utility::bits::extract<unsigned short int, unsigned short int, 0, 0>(size)
                         ? disxx::disasm::operand::Register::Type::TYPE_D
                         : disxx::disasm::operand::Register::Type::TYPE_S
                 ) : disxx::disasm::operand::Register::Type::TYPE_H

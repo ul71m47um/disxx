@@ -48,12 +48,12 @@ namespace disxx::disasm::decoder::LoadsAndStores::LDIAPPSTILP
         // +----+-------+-+-+---+----+--+--+--+
 
         unsigned short int size, L, Rt2, opc2, Rn, Rt;
-        size =  bits::extract<unsigned short int, std::uint32_t, 30, 31>(this->m_Insn);
-        L =  bits::extract<unsigned short int, std::uint32_t, 22, 22>(this->m_Insn);
-        Rt2 =  bits::extract<unsigned short int, std::uint32_t, 16, 20>(this->m_Insn);
-        opc2 =  bits::extract<unsigned short int, std::uint32_t, 12, 15>(this->m_Insn);
-        Rn =  bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
-        Rt =  bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        size =  utility::bits::extract<unsigned short int, std::uint32_t, 30, 31>(this->m_Insn);
+        L =  utility::bits::extract<unsigned short int, std::uint32_t, 22, 22>(this->m_Insn);
+        Rt2 =  utility::bits::extract<unsigned short int, std::uint32_t, 16, 20>(this->m_Insn);
+        opc2 =  utility::bits::extract<unsigned short int, std::uint32_t, 12, 15>(this->m_Insn);
+        Rn =  utility::bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
+        Rt =  utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
         if ((size & 0b10) == 0b00) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

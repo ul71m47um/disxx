@@ -47,9 +47,9 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Syste
         // +--------------------+---+---+--+
 
         unsigned short int CRm, op2, Rt;
-        CRm = bits::extract<unsigned short int, std::uint32_t, 8, 11>(this->m_Insn);
-        op2 = bits::extract<unsigned short int, std::uint32_t, 5, 7>(this->m_Insn);
-        Rt = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        CRm = utility::bits::extract<unsigned short int, std::uint32_t, 8, 11>(this->m_Insn);
+        op2 = utility::bits::extract<unsigned short int, std::uint32_t, 5, 7>(this->m_Insn);
+        Rt = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
         if (CRm != 0b0000 || op2 > 0b001) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

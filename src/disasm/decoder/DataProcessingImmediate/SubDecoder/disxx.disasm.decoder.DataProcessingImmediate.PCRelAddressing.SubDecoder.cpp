@@ -50,10 +50,10 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::PCRelAddressing
         signed short int immlo;
         signed int immhi;
 
-        op = bits::extract<unsigned short int, std::uint32_t, 31, 31>(this->m_Insn);
-        immlo = bits::extract<signed short int, std::uint32_t, 29, 30>(this->m_Insn);
-        immhi = bits::extract<signed int, std::uint32_t, 5, 23>(this->m_Insn);
-        Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        op = utility::bits::extract<unsigned short int, std::uint32_t, 31, 31>(this->m_Insn);
+        immlo = utility::bits::extract<signed short int, std::uint32_t, 29, 30>(this->m_Insn);
+        immhi = utility::bits::extract<signed int, std::uint32_t, 5, 23>(this->m_Insn);
+        Rd = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
         this->m_Operands.emplace_back
 		(

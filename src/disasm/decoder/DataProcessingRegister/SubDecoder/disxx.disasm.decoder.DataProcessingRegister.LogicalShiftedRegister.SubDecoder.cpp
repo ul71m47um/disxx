@@ -49,14 +49,14 @@ namespace disxx::disasm::decoder::DataProcessingRegister::LogicalShiftedRegister
         // +--+---+-----+-----+-+--+----+--+--+
 
         unsigned short int sf, opc, shift, N, Rm, imm6, Rn, Rd;
-        sf = bits::extract<unsigned short int, std::uint32_t, 31, 31>(this->m_Insn);
-        opc = bits::extract<unsigned short int, std::uint32_t, 29, 30>(this->m_Insn);
-        shift = bits::extract<unsigned short int, std::uint32_t, 22, 23>(this->m_Insn);
-        N = bits::extract<unsigned short int, std::uint32_t, 21, 21>(this->m_Insn);
-        Rm = bits::extract<unsigned short int, std::uint32_t, 16, 20>(this->m_Insn);
-        imm6 = bits::extract<unsigned short int, std::uint32_t, 10, 15>(this->m_Insn);
-        Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
-        Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        sf = utility::bits::extract<unsigned short int, std::uint32_t, 31, 31>(this->m_Insn);
+        opc = utility::bits::extract<unsigned short int, std::uint32_t, 29, 30>(this->m_Insn);
+        shift = utility::bits::extract<unsigned short int, std::uint32_t, 22, 23>(this->m_Insn);
+        N = utility::bits::extract<unsigned short int, std::uint32_t, 21, 21>(this->m_Insn);
+        Rm = utility::bits::extract<unsigned short int, std::uint32_t, 16, 20>(this->m_Insn);
+        imm6 = utility::bits::extract<unsigned short int, std::uint32_t, 10, 15>(this->m_Insn);
+        Rn = utility::bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
+        Rd = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
         static const std::unordered_map<unsigned short int, std::pair<InstructionIdentifier, std::optional<InstructionIdentifier>>> insnTable = {
             {0b0000, {InstructionIdentifier::ID_AND, std::nullopt}},

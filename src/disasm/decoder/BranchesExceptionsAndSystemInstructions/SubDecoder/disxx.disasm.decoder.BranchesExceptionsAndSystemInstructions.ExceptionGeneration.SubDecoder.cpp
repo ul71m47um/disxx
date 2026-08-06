@@ -48,10 +48,10 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Excep
         // +--------+---+-----+---+--+
 
         unsigned short int opc, imm16, op2, LL;
-        opc = bits::extract<unsigned short int, std::uint32_t, 21, 23>(this->m_Insn);
-        imm16 = bits::extract<unsigned short int, std::uint32_t, 5, 20>(this->m_Insn);
-        op2 = bits::extract<unsigned short int, std::uint32_t, 2, 4>(this->m_Insn);
-        LL = bits::extract<unsigned short int, std::uint32_t, 0, 1>(this->m_Insn);
+        opc = utility::bits::extract<unsigned short int, std::uint32_t, 21, 23>(this->m_Insn);
+        imm16 = utility::bits::extract<unsigned short int, std::uint32_t, 5, 20>(this->m_Insn);
+        op2 = utility::bits::extract<unsigned short int, std::uint32_t, 2, 4>(this->m_Insn);
+        LL = utility::bits::extract<unsigned short int, std::uint32_t, 0, 1>(this->m_Insn);
 
         std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
             {0b00000001, InstructionIdentifier::ID_SVC},

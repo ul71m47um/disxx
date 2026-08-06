@@ -9,7 +9,7 @@ concept Extractable = (_Width - _Start + 1 <= sizeof(T) * 8)
 	&& (_Width + 1 <= sizeof(U) * 8)
 	&& (_Start <= _Width);
 
-export namespace bits
+export namespace disxx::disasm::utility::bits
 {
 	template<std::integral T, std::integral U, unsigned int _Start, unsigned int _Width>
 	requires Extractable<T, U, _Start, _Width>

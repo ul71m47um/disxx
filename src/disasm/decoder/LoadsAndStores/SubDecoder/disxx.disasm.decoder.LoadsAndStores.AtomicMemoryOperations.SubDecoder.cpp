@@ -47,15 +47,15 @@ namespace disxx::disasm::decoder::LoadsAndStores::AtomicMemoryOperations
         // +----+---+--+--+-+-+-+--+--+---+--+--+--+
 
         unsigned short int size, VR, A, R, Rs, o3, opc, Rn, Rt;
-        size = bits::extract<unsigned short int, std::uint32_t, 30, 31>(this->m_Insn);
-        VR = bits::extract<unsigned short int, std::uint32_t, 26, 26>(this->m_Insn);
-        A = bits::extract<unsigned short int, std::uint32_t, 23, 23>(this->m_Insn);
-        R = bits::extract<unsigned short int, std::uint32_t, 22, 22>(this->m_Insn);
-        Rs = bits::extract<unsigned short int, std::uint32_t, 16, 20>(this->m_Insn);
-        o3 = bits::extract<unsigned short int, std::uint32_t, 15, 15>(this->m_Insn);
-        opc = bits::extract<unsigned short int, std::uint32_t, 12, 14>(this->m_Insn);
-        Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
-        Rt = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        size = utility::bits::extract<unsigned short int, std::uint32_t, 30, 31>(this->m_Insn);
+        VR = utility::bits::extract<unsigned short int, std::uint32_t, 26, 26>(this->m_Insn);
+        A = utility::bits::extract<unsigned short int, std::uint32_t, 23, 23>(this->m_Insn);
+        R = utility::bits::extract<unsigned short int, std::uint32_t, 22, 22>(this->m_Insn);
+        Rs = utility::bits::extract<unsigned short int, std::uint32_t, 16, 20>(this->m_Insn);
+        o3 = utility::bits::extract<unsigned short int, std::uint32_t, 15, 15>(this->m_Insn);
+        opc = utility::bits::extract<unsigned short int, std::uint32_t, 12, 14>(this->m_Insn);
+        Rn = utility::bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
+        Rt = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
     
         static const std::unordered_map<unsigned short int, std::pair<InstructionIdentifier, std::optional<InstructionIdentifier>>> insnTable1 = {
             {0b000000000, {InstructionIdentifier::ID_LDADDB, InstructionIdentifier::ID_STADDB}},

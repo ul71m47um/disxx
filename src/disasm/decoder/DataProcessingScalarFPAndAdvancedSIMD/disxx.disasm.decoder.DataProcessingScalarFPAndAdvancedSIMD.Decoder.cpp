@@ -98,10 +98,10 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD
 		// +---+---+---+---+---+
 
 		unsigned short int op0, op1, op2, op3;
-		op0 = bits::extract<unsigned short int, std::uint32_t, 28, 31>(this->m_Insn);
-		op1 = bits::extract<unsigned short int, std::uint32_t, 23, 24>(this->m_Insn);
-		op2 = bits::extract<unsigned short int, std::uint32_t, 19, 22>(this->m_Insn);
-		op3 = bits::extract<unsigned short int, std::uint32_t, 10, 18>(this->m_Insn);
+		op0 = utility::bits::extract<unsigned short int, std::uint32_t, 28, 31>(this->m_Insn);
+		op1 = utility::bits::extract<unsigned short int, std::uint32_t, 23, 24>(this->m_Insn);
+		op2 = utility::bits::extract<unsigned short int, std::uint32_t, 19, 22>(this->m_Insn);
+		op3 = utility::bits::extract<unsigned short int, std::uint32_t, 10, 18>(this->m_Insn);
 		
 		if ((op0 & 0b1111) == 0b0100 && (op1 & 0b10) == 0b00 && (op2 & 0b0111) == 0b0101 && (op3 & 0b110000011) == 0b000000010)
 			return std::make_unique<CryptographicAES::SubDecoder>(CryptographicAES::SubDecoder{this->m_Insn, this->m_ProgramCounter});

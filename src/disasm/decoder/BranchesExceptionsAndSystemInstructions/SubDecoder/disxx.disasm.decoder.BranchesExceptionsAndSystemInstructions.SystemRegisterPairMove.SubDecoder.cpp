@@ -47,13 +47,13 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Syste
         // +----------+-+-+--+---+---+---+---+--+
 
         unsigned short int L, o0, op1, CRn, CRm, op2, Rt;
-        L = bits::extract<unsigned short int, std::uint32_t, 21, 21>(this->m_Insn);
-        o0 = bits::extract<unsigned short int, std::uint32_t, 19, 19>(this->m_Insn);
-        op1 = bits::extract<unsigned short int, std::uint32_t, 16, 18>(this->m_Insn);
-        CRn = bits::extract<unsigned short int, std::uint32_t, 12, 15>(this->m_Insn);
-        CRm = bits::extract<unsigned short int, std::uint32_t, 8, 11>(this->m_Insn);
-        op2 = bits::extract<unsigned short int, std::uint32_t, 5, 7>(this->m_Insn);
-        Rt = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        L = utility::bits::extract<unsigned short int, std::uint32_t, 21, 21>(this->m_Insn);
+        o0 = utility::bits::extract<unsigned short int, std::uint32_t, 19, 19>(this->m_Insn);
+        op1 = utility::bits::extract<unsigned short int, std::uint32_t, 16, 18>(this->m_Insn);
+        CRn = utility::bits::extract<unsigned short int, std::uint32_t, 12, 15>(this->m_Insn);
+        CRm = utility::bits::extract<unsigned short int, std::uint32_t, 8, 11>(this->m_Insn);
+        op2 = utility::bits::extract<unsigned short int, std::uint32_t, 5, 7>(this->m_Insn);
+        Rt = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
         const unsigned short int systemreg = (o0 << 14) | (op1 << 11) | (CRn << 7) | (CRm << 3) | op2;
         if (L == 0b0)

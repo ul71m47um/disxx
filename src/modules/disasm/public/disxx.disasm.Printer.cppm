@@ -1,3 +1,9 @@
+module;
+
+#define CHECK(table, identifier) \
+	if (!(table).contains(identifier)) [[unlikely]] \
+		return std::unexpected{Error{"IdentifierError"}}
+
 export module disxx.disasm.Printer;
 
 export import disxx.disasm.Instruction;
@@ -20,6 +26,19 @@ export namespace disxx::disasm
 	class __attribute__((visibility("default"))) [[nodiscard]] Printer
 	{
 	  private:
+		class __attribute__((visibility("default"))) [[nodiscard]] Error final : public std::runtime_error
+		{
+		  public:
+			explicit Error(const std::string &) noexcept;
+			explicit Error(const char *) noexcept;
+
+			Error(const Error &) noexcept = default;
+			Error &operator=(const Error &) noexcept = default;
+
+			virtual ~Error(void) noexcept override = default;
+		};
+
+	  private:
 		static const std::flat_map<InstructionIdentifier, std::string_view> s_InstructionTable;
 
 		static const std::flat_map<operand::PrefetchOperand::Identifier, std::string_view> s_PrefetchOperandTable;
@@ -36,7 +55,7 @@ export namespace disxx::disasm
 		T m_It;
 
 	  private:
-		void Print(const std::unique_ptr<operand::IOperand> &, bool) noexcept;
+		std::expected<std::monostate, Error> Print(const std::unique_ptr<operand::IOperand> &, bool) noexcept;
 
 	  public:
 		explicit Printer(void) noexcept = default;
@@ -53,6 +72,16 @@ export namespace disxx::disasm
 
 		void Print(const Instruction &) noexcept;
 	};
+
+	template <std::output_iterator<char> T>
+	Printer<T>::Error::Error(const std::string &err) noexcept
+		: std::runtime_error{err}
+	{}
+
+	template <std::output_iterator<char> T>
+	Printer<T>::Error::Error(const char *pErr) noexcept
+		: std::runtime_error{pErr}
+	{}
 
 	// TODO: align this table
 	template <std::output_iterator<char> T>
@@ -2622,7 +2651,7 @@ export namespace disxx::disasm
 	{}
 
 	template <std::output_iterator<char> T>
-	void Printer<T>::Print(const std::unique_ptr<operand::IOperand> &ptr, bool last) noexcept
+	std::expected<std::monostate, typename Printer<T>::Error> Printer<T>::Print(const std::unique_ptr<operand::IOperand> &ptr, bool last) noexcept
 	{
 		if (const auto *pLoadsAndStoresAddress{dynamic_cast<operand::LoadsAndStoresAddress *>(ptr.get())})
 		{
@@ -2637,41 +2666,52 @@ export namespace disxx::disasm
 			bool accumulative{false};
 			if (offset)
 			{
-				std::visit
-				(
-					[this, &modifier, &accumulative](auto &&opr) mutable -> void
-					{
-						if constexpr (std::is_same<typename std::decay<decltype(opr)>::type, operand::Register>::value)
-							this->Print(std::make_unique<operand::Register>(opr), !modifier);
-						else
+				const auto result
+				{
+					std::visit
+					(
+						[this, &modifier, &accumulative](auto &&opr) mutable -> std::expected<std::monostate, Error>
 						{
-							std::visit
-							(
-								[this](auto &&imm) -> void
-								{
-									const std::unique_ptr<operand::IOperand> pImmediate{std::make_unique<typename std::decay<decltype(imm)>::type>(imm)};
-									this->Print(pImmediate, true);
-								},
-								opr.first
-							);
+							if constexpr (std::is_same<typename std::decay<decltype(opr)>::type, operand::Register>::value)
+								return this->Print(std::make_unique<operand::Register>(opr), !modifier);
+							else
+							{	
+								accumulative = opr.second == operand::LoadsAndStoresAddress::PreIndexedOffsetKind::IDX_ACCUMULATIVE;					
+								return std::visit
+								(
+									[this](auto &&imm) -> std::expected<std::monostate, Error>
+									{
+										const std::unique_ptr<operand::IOperand> pImmediate{std::make_unique<typename std::decay<decltype(imm)>::type>(imm)};
+										return this->Print(pImmediate, true);
+									},
+									opr.first
+								);
+							}
+						},
+						*offset
+					)
+				};
 
-							accumulative = opr.second == operand::LoadsAndStoresAddress::PreIndexedOffsetKind::IDX_ACCUMULATIVE;
-						}
-					},
-					*offset
-				);
+				if (!result) [[unlikely]]
+					return result;
 			}
 			if (modifier)
 			{
-				std::visit
-				(
-					[this](auto &&mod) -> void
-					{
-						const std::unique_ptr<operand::IOperand> pModifier{std::make_unique<typename std::decay<decltype(mod)>::type>(mod)};
-						this->Print(pModifier, true);
-					},
-					*modifier
-				);
+				const auto result
+				{
+					std::visit
+					(
+						[this](auto &&mod) -> std::expected<std::monostate, Error>
+						{
+							const std::unique_ptr<operand::IOperand> pModifier{std::make_unique<typename std::decay<decltype(mod)>::type>(mod)};
+							return this->Print(pModifier, true);
+						},
+						*modifier
+					)
+				};
+
+				if (!result) [[unlikely]]
+					return result;
 			}
 
 			*this->m_It++ = ']';
@@ -2679,41 +2719,66 @@ export namespace disxx::disasm
 				*this->m_It++ = '!';
 		}
 		else if (const auto *pPrefetchOperand{dynamic_cast<operand::PrefetchOperand *>(ptr.get())})
+		{
+			CHECK(s_PrefetchOperandTable, pPrefetchOperand->GetIdentifier());
 			for (const auto ch : s_PrefetchOperandTable.at(pPrefetchOperand->GetIdentifier()))
 				*this->m_It++ = ch;
+		}
 		else if (const auto *pSystemOperand{dynamic_cast<operand::SystemOperand *>(ptr.get())})
+		{
+			CHECK(s_SystemOperandTable, pSystemOperand->GetIdentifier());
 			for (const auto ch : s_SystemOperandTable.at(pSystemOperand->GetIdentifier()))
 				*this->m_It++ = ch;
+		}
 		else if (const auto *pMemoryBarrier{dynamic_cast<operand::MemoryBarrier *>(ptr.get())})
+		{
+			CHECK(s_MemoryBarrierTable, pMemoryBarrier->GetIdentifier());
 			for (const auto ch : s_MemoryBarrierTable.at(pMemoryBarrier->GetIdentifier()))
 				*this->m_It++ = ch;
+		}
 		else if (const auto *pCondition{dynamic_cast<operand::Condition *>(ptr.get())})
+		{
+			CHECK(s_ConditionTable, pCondition->GetIdentifier());
 			for (const auto ch : std::format("{}", s_ConditionTable.at(pCondition->GetIdentifier())))
 				*this->m_It++ = ch;
+		}
 		else if (const auto *pExtension{dynamic_cast<operand::Extension *>(ptr.get())})
+		{
+			CHECK(s_ExtensionTable, pExtension->GetIdentifier());
 			for (const auto ch : std::format("{} #{:#x}", s_ExtensionTable.at(pExtension->GetIdentifier()), pExtension->GetValue()))
 				*this->m_It++ = ch;
+		}
 		else if (const auto *pRegister{dynamic_cast<operand::Register *>(ptr.get())})
 		{
+			CHECK(s_RegisterTable, pRegister->GetIdentifier());
 			for (const auto ch : s_RegisterTable.at(pRegister->GetIdentifier()))
 				*this->m_It++ = ch;
 
 			if (const auto spec{pRegister->GetVectorArrangementSpecifier()})
 			{
 				if (const auto id{spec->GetIdentifier()}; id >= operand::VectorArrangementSpecifier::Identifier::ID_B && id <= operand::VectorArrangementSpecifier::Identifier::ID_D)
+				{
+					CHECK(s_VectorArrangementSpecifierTable, id);
 					for (const auto ch : std::format(".{}", s_VectorArrangementSpecifierTable.at(id)))
 						*this->m_It++ = ch;
+				}
 				if (const auto lanes{spec->GetLanes()})
 					for (const auto ch : std::format("[{}]", *lanes))
 						*this->m_It++ = ch;
 			}
 		}
 		else if (const auto *pPState{dynamic_cast<operand::PState *>(ptr.get())})
+		{
+			CHECK(s_PStateTable, pPState->GetIdentifier());
 			for (const auto ch : s_PStateTable.at(pPState->GetIdentifier()))
 				*this->m_It++ = ch;
+		}
 		else if (const auto *pShift{dynamic_cast<operand::Shift *>(ptr.get())})
+		{
+			CHECK(s_ShiftTable, pShift->GetIdentifier());
 			for (const auto ch : std::format("{} #{:#x}", s_ShiftTable.at(pShift->GetIdentifier()), pShift->GetAmount()))
 				*this->m_It++ = ch;
+		}
 		else if (const auto *pF64{dynamic_cast<operand::Immediate<double, 64> *>(ptr.get())})
 			for (const auto ch : std::format("#{:f}", pF64->GetValue()))
 				*this->m_It++ = ch;
@@ -2798,6 +2863,8 @@ export namespace disxx::disasm
 				*this->m_It++ = ch;
 		else if (!last)
 			*this->m_It++ = ' ';
+	
+		return std::monostate{};
 	}
 	
 	template <std::output_iterator<char> T>
@@ -2817,7 +2884,20 @@ export namespace disxx::disasm
 		if (const auto &oprs{insn.GetOperands()}; !oprs.empty())
 			*this->m_It++ = dynamic_cast<operand::Condition *>(oprs.begin()->get()) ? '.' : ' ';
 
+		std::string oprs{};
+		// Printer for operands only
+		Printer<std::back_insert_iterator<std::string>> printer{std::back_inserter(oprs)};
 		for (const auto &ptr : insn.GetOperands())
-			this->Print(ptr, ptr == *insn.GetOperands().rbegin());
+		{
+			if (const auto result{printer.Print(ptr, ptr == *insn.GetOperands().rbegin())}) [[likely]]
+				continue;
+
+			for (const auto ch : std::format(".long {}", insn.GetBytes()))
+				*this->m_It++ = ch;
+			return;
+		}
+
+		for (const auto ch : oprs)
+			*this->m_It++ = ch;
 	}
 } /* disxx::disasm */

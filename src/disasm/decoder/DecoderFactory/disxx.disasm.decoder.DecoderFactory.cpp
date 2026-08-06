@@ -19,8 +19,8 @@ namespace disxx::disasm::decoder
 	    // +---+---+
 
 	    unsigned short int op0, op1;
-	    op0 = bits::extract<unsigned short int, std::uint32_t, 29, 31>(insn);
-	    op1 = bits::extract<unsigned short int, std::uint32_t, 25, 28>(insn);
+	    op0 = utility::bits::extract<unsigned short int, std::uint32_t, 29, 31>(insn);
+	    op1 = utility::bits::extract<unsigned short int, std::uint32_t, 25, 28>(insn);
 	
 	    if (op0 == 0b00 && op1 == 0b0000)
 	        return std::make_unique<Reserved::Decoder>(insn, PC);

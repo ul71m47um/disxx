@@ -48,11 +48,11 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
         // +--+-+-----+----+-----+------+--+--+--+
 
         unsigned short int U, size, opcode, Rn, Rd;
-        U = bits::extract<unsigned short int, std::uint32_t, 29, 29>(this->m_Insn);
-        size = bits::extract<unsigned short int, std::uint32_t, 22, 23>(this->m_Insn);
-        opcode = bits::extract<unsigned short int, std::uint32_t, 12, 16>(this->m_Insn);
-        Rn = bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
-        Rd = bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
+        U = utility::bits::extract<unsigned short int, std::uint32_t, 29, 29>(this->m_Insn);
+        size = utility::bits::extract<unsigned short int, std::uint32_t, 22, 23>(this->m_Insn);
+        opcode = utility::bits::extract<unsigned short int, std::uint32_t, 12, 16>(this->m_Insn);
+        Rn = utility::bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
+        Rd = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
         std::unordered_map<unsigned short int, InstructionIdentifier> insnTable = {
             {0b000011, InstructionIdentifier::ID_SUQADD},
@@ -157,13 +157,13 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
                 const auto rsize
 				{
-					bits::extract<unsigned short int, unsigned short int, 0, 0>(size) == 0b0
+					utility::bits::extract<unsigned short int, unsigned short int, 0, 0>(size) == 0b0
 						? disxx::disasm::operand::Register::Type::TYPE_S
 						: disxx::disasm::operand::Register::Type::TYPE_D
 				};
                 this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(rsize, Rd));
                 this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(rsize, Rn));
-                if (opcode != 0b01011 && bits::extract<unsigned short int, unsigned short int, 4, 4>(opcode) == 0b0)
+                if (opcode != 0b01011 && utility::bits::extract<unsigned short int, unsigned short int, 4, 4>(opcode) == 0b0)
                 {
                     if (opcode <= 0b01110 && opcode >= 0b01100)
                         this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Immediate<float, 1>>(0));
