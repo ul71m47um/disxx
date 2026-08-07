@@ -14,8 +14,8 @@ ifeq ($(OS), Windows_NT)
 	# Script for assembling all the binaries together
 	MKAPP=.$(PATHSEP)mkapp.bat
 
-	# C++ standart library module (TODO: check if this path is correct)
-	LIBCXX=$(shell echo %VCToolsInstallDir%)$(PATHSEP)module$(PATHSEP)std.ixx
+	# C++ standart library module
+	LIBCXX=$(shell echo %VCToolsInstallDir%)$(PATHSEP)modules$(PATHSEP)std.ixx
 	
 	# File extensions
 	DYLIB=dll

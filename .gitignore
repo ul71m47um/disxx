@@ -21,7 +21,6 @@ src/dis++/build/*
 *.dSYM
 
 *.bmp
-*.plist
 
 *.dylib
 *.dll
