@@ -8,6 +8,13 @@ else
 	ARCH=$(shell uname -m)
 endif
 
+CXXFLAGS=\
+	-c -std=c++26 -stdlib=libc++ -Weverything -Werror -fno-implicit-modules -fno-implicit-module-maps \
+	-ftrapv -fmodules -fcxx-modules -fvisibility=hidden -Xclang -fmodules-local-submodule-visibility \
+	-fstack-protector-all -fstrict-aliasing
+
+LFLAGS=-lc++ -demangle
+
 # Check if the OS is Windows, or else
 # treat this system as UNIX
 ifeq ($(OS), Windows_NT)
@@ -40,8 +47,6 @@ ifeq ($(OS), Windows_NT)
 		$(error Unable to find a C++ compiler)
 	endif
 
-	#ASAN=$(shell $(CXX) -print-resource-dir)$(PATHSEP)lib$(PATHSEP)windows$(PATHSEP)libclang_rt.asan-x64
-
 	# Base commands
 	MKDIR=mkdir -p
 	MOVE=move /Y
@@ -52,6 +57,11 @@ else
 	MKAPP=.$(PATHSEP)mkapp.sh
 
 	ifeq ($(OS), Darwin)
+		CXXFLAGS+=-isysroot $(shell xcrun --show-sdk-path) -arch $(ARCH)
+		LFLAGS+=\
+			-syslibroot $(shell xcrun --show-sdk-path) -arch $(ARCH) \
+			-lSystem
+
 		# C++ standart library module
 		LIBCXX=/usr/share/libc++/v1/std.cppm
 
@@ -63,6 +73,9 @@ else
 		CC=$(shell xcrun --find clang 2>/dev/null)
 		CXX=$(shell xcrun --find clang++ 2>/dev/null)
 	else
+		CXXFLAGS+=-isysroot $(shell llvm-config --includedir)
+		LFLAGS+=-L$(dir $(shell clang -print-file-name=libc++.so))
+
 		# C++ standart library module
 		LIBCXX=$(shell llvm-config --prefix)$(PATHSEP)share$(PATHSEP)libc++$(PATHSEP)v1$(PATHSEP)std.cppm
 
@@ -92,7 +105,7 @@ else
 	# Optional LTO library
 	LIBLTO=$(dir $(LD))..$(PATHSEP)lib$(PATHSEP)libLTO.$(DYLIB)
 	ifneq ($(wildcard $(LIBLTO)),)
-		LTOFLAGS=-lto_library $(LIBLTO)
+		LFLAGS+=-lto_library $(LIBLTO)
 	endif
 
 	# Base commands (I infer they always should be in the current OS)

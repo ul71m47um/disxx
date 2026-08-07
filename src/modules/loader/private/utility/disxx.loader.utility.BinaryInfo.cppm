@@ -12,7 +12,7 @@ export namespace disxx::loader::utility
 	 * This class contains build tools names, platform names and
 	 * its version, for different executable formats (in future)
 	 */
-	class BinaryInfo
+	class __attribute__((visibility("default"))) [[nodiscard]] BinaryInfo
 	{
 	  private:
 		const static std::unordered_map<std::uint32_t, std::string_view> s_PlatformNameTable;

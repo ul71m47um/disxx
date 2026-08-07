@@ -13,20 +13,15 @@ ASMFLAGS=-c -arch arm64
 CFLAGS=-c -std=c99 -Weverything -Werror -Wno-misleading-indentation \
 	-Wno-sign-conversion -O3 -DNDEBUG -isysroot $(shell xcrun --show-sdk-path)
 
-CXXFLAGS=\
-	-c -std=c++26 -O3 -Wall -Weverything -Werror -isysroot $(shell xcrun --show-sdk-path) \
-	-Xclang -fmodules-local-submodule-visibility -I..$(PATHSEP)include -fstack-protector-all -DNDEBUG \
-	-fstrict-aliasing -ftrapv -fno-implicit-modules -fno-implicit-module-maps \
-	-fmodules -fcxx-modules -fvisibility=hidden \
+CXXFLAGS+=\
+	-O3 -fprebuilt-module-path=$(PRECOMPILEDDIR) -fprebuilt-module-path=$(PRECOMPILEDDIR) -DNDEBUG -I..$(PATHSEP)include \
 	-Wno-reserved-module-identifier -Wno-unused-command-line-argument -Wno-c++98-compat \
 	-Wno-c++98-compat-pedantic -Wno-reserved-identifier -Wno-weak-vtables \
-	-Wno-decls-in-multiple-modules \
-	-fprebuilt-module-path=$(PRECOMPILEDDIR)
+	-Wno-decls-in-multiple-modules
 
-LDFLAGS=\
-	-dylib -demangle -O2 $(LTOFLAGS) -S -arch $(ARCH) -syslibroot $(shell xcrun --show-sdk-path) -lSystem -lc++
+LFLAGS+=-dylib -O2 -S
 ifeq ($(OS),Darwin)
-	LDFLAGS+=-install_name @executable_path/../Frameworks/libdisxx-util.$(DYLIB)
+	LFLAGS+=-install_name @executable_path/../Frameworks/libdisxx-util.$(DYLIB)
 else
 	ifne ($(OS), Windows_NT)
 		LDFLAGS+=-install_name $$ORIGIN/libdisxx-util.$(DYLIB)
@@ -93,7 +88,7 @@ $(PRECOMPILEDDIR):
 $(OBJECTSDIR):
 	$(MKDIR) $@
 $(PRECOMPILED): $(PRECOMPILEDDIR)$(PATHSEP)%.pcm: %.cppm | $(PRECOMPILEDDIR)$(PATHSEP)
-	$(CXX) $(CXXFLAGS) -Xclang -emit-module-interface --precompile $< -o $@
+	$(CXX) $(CXXFLAGS:-c=--precompile) $< -o $@
 $(MOBJECTS): $(PRECOMPILEDDIR)$(PATHSEP)%.o: $(PRECOMPILEDDIR)$(PATHSEP)%.pcm | $(PRECOMPILEDDIR)$(PATHSEP)
 	$(CXX) $(CXXFLAGS) $< -o $@
 $(OBJECTS): $(OBJECTSDIR)$(PATHSEP)%.o: %.cpp | $(OBJECTSDIR)$(PATHSEP)
@@ -102,7 +97,7 @@ $(OBJECTSDIR)$(PATHSEP)$(notdir $(MAPIMPL:.$(IMPLEXT)=.o)): $(MAPIMPL)
 	$(MAPIMPLC) $(MAPIMPLFLAGS) $< -o $@
 OBJECTS+=$(OBJECTSDIR)$(PATHSEP)$(notdir $(MAPIMPL:.$(IMPLEXT)=.o))
 $(BUILDDIR)$(PATHSEP)libdisxx-util.$(DYLIB): $(MOBJECTS) $(OBJECTS)
-	$(LD) $(LDFLAGS) $^ -o $@
+	$(LD) $(LFLAGS) $^ -o $@
 
 clean:
 	$(RMDIR) $(BUILDDIR)

@@ -9,21 +9,20 @@ DEPENDENCIESDIR=$(BUILDDIR)$(PATHSEP)dependencies
 PRECOMPILEDDIR=$(BUILDDIR)$(PATHSEP)precompiled
 OBJECTSDIR=$(BUILDDIR)$(PATHSEP)objects
 
-CXXFLAGS=\
-   	-c -std=c++26 -Weverything -Werror -O3 -isysroot $(shell xcrun --show-sdk-path) \
-	-fstrict-aliasing -ftrapv -Wno-unused-command-line-argument -Wno-c99-extensions -Wno-global-constructors -Wno-exit-time-destructors \
+CXXFLAGS+=\
+	-O3 -DGL_SILENCE_DEPRECATION -DBACKEND_CTX_GLUT -DNDEBUG -fprebuilt-module-path=$(PRECOMPILEDDIR) \
+	-Wno-unused-command-line-argument -Wno-c99-extensions -Wno-global-constructors -Wno-exit-time-destructors \
 	-Wno-reserved-identifier -Wno-switch-enum -Wno-reserved-macro-identifier -Wno-writable-strings -Wno-weak-vtables \
 	-Wno-non-virtual-dtor -Wno-covered-switch-default -Wno-padded -Wno-sign-conversion -Wno-c++98-compat -Wno-c++98-compat-pedantic \
 	-Wno-implicit-int-float-conversion -Wno-disabled-macro-expansion -Wno-cast-function-type-strict -Wno-compound-token-split-by-macro \
-	-Wno-cast-function-type-mismatch -Xclang -fmodules-local-submodule-visibility \
-	-fno-implicit-modules -fno-implicit-module-maps -fmodules -fcxx-modules -fprebuilt-module-path=$(PRECOMPILEDDIR) \
-	-DGL_SILENCE_DEPRECATION -DBACKEND_CTX_GLUT -DNDEBUG -I..$(PATHSEP)include -fstack-protector-all -fvisibility=hidden
+	-Wno-cast-function-type-mismatch
 
-LDFLAGS=\
-	-O2 $(LTOFLAGS) -S -demangle -arch $(ARCH) -pie -syslibroot $(shell xcrun --show-sdk-path) -lSystem -lc++ \
-	-L$(DEPENDENCIESDIR) -framework GLUT -framework Ruby -ldisxx-util -ldisxx-ui -ldisxx-disasm -ldisxx-macho
-	#-L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/21/lib/darwin/ \
-	-lclang_rt.ubsan_osx_dynamic -lclang_rt.asan_osx_dynamic -rpath /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/21/lib/darwin/
+LFLAGS+=-O2 -S -pie -L$(DEPENDENCIESDIR) -ldisxx-util -ldisxx-ui -ldisxx-disasm -ldisxx-macho
+ifeq ($(OS),Darwin)
+	LFLAGS+=-framework Ruby -framework GLUT
+else
+	LFLAGS+=-lruby*.so* -lglut
+endif
 
 MODULES=\
 	$(LIBCXX) \
@@ -116,7 +115,7 @@ $(PRECOMPILEDDIR):
 $(OBJECTSDIR):
 	$(MKDIR) $@
 $(PRECOMPILED): $(PRECOMPILEDDIR)$(PATHSEP)%.pcm: %.cppm | $(PRECOMPILEDDIR)
-	$(CXX) $(CXXFLAGS) --precompile $< -o $@
+	$(CXX) $(CXXFLAGS:-c=--precompile) $< -o $@
 $(MOBJECTS): $(PRECOMPILEDDIR)$(PATHSEP)%.o: $(PRECOMPILEDDIR)$(PATHSEP)%.pcm | $(PRECOMPILEDDIR)
 	$(CXX) $(CXXFLAGS) $< -o $@
 $(OBJECTS): $(OBJECTSDIR)$(PATHSEP)%.o: %.cpp | $(OBJECTSDIR)
@@ -134,7 +133,7 @@ $(DEPENDENCIESDIR)$(PATHSEP)libdisxx-disasm.$(DYLIB): | $(DEPENDENCIESDIR)
 	make -C ..$(PATHSEP)disasm
 	$(MOVE) ..$(PATHSEP)disasm$(PATHSEP)build$(PATHSEP)$(notdir $@) $@
 $(BUILDDIR)$(PATHSEP)dis++: $(MOBJECTS) $(OBJECTS) | $(DYLIBS)
-	$(LD) $(LDFLAGS) $^ -o $@
+	$(LD) $(LFLAGS) $^ -o $@
 
 clean:
 	$(RMDIR) $(BUILDDIR)

@@ -9,18 +9,18 @@ DEPENDENCIESDIR=$(BUILDDIR)$(PATHSEP)dependencies
 PRECOMPILEDDIR=$(BUILDDIR)$(PATHSEP)precompiled
 OBJECTSDIR=$(BUILDDIR)$(PATHSEP)objects
 
-CXXFLAGS=\
-	-c -std=c++26 -Weverything -Werror -O3 -isysroot $(shell xcrun --show-sdk-path) \
+CXXFLAGS+=\
+	-O3 -fprebuilt-module-path=$(PRECOMPILEDDIR) -DGL_SILENCE_DEPRECATION -DNDEBUG -DBACKEND_CTX_GLUT \
 	-Wno-non-virtual-dtor -Wno-c99-extensions -Wno-unused-command-line-argument -Wno-writable-strings \
 	-Wno-reserved-macro-identifier -Wno-c++98-compat -Wno-weak-vtables -Wno-reserved-identifier \
-	-Wno-padded -Wno-implicit-int-float-conversion \
-	-ftrapv -fno-implicit-modules -fno-implicit-module-maps \
-	-fmodules -Xclang -fmodules-local-submodule-visibility -fcxx-modules -fprebuilt-module-path=$(PRECOMPILEDDIR) \
-	-DGL_SILENCE_DEPRECATION -DNDEBUG -DBACKEND_CTX_GLUT -I..$(PATHSEP)include -fstack-protector-all -fvisibility=hidden
+	-Wno-padded -Wno-implicit-int-float-conversion
 
-LDFLAGS=\
-	-O2 $(LTOFLAGS) -S -demangle -arch $(ARCH) -pie -syslibroot $(shell xcrun --show-sdk-path) -lSystem -lc++ \
-	-L$(DEPENDENCIESDIR) -framework GLUT -ldisxx-util -ldisxx-ui
+LFLAGS+=-O2 -S -pie L$(DEPENDENCIESDIR) -ldisxx-util -ldisxx-ui
+ifeq ($(OS),Darwin)
+	LFLAGS+=-framework GLUT
+else
+	LFLAGS+=-lglut
+endif
 
 MODULES=\
 	$(LIBCXX) \
@@ -77,7 +77,7 @@ $(PRECOMPILEDDIR):
 $(OBJECTSDIR):
 	$(MKDIR) $@
 $(PRECOMPILED): $(PRECOMPILEDDIR)$(PATHSEP)%.pcm: %.cppm | $(PRECOMPILEDDIR)
-	$(CXX) $(CXXFLAGS) --precompile $< -o $@
+	$(CXX) $(CXXFLAGS:-c=--precompile) $< -o $@
 $(MOBJECTS): $(PRECOMPILEDDIR)$(PATHSEP)%.o: $(PRECOMPILEDDIR)$(PATHSEP)%.pcm | $(PRECOMPILEDDIR)
 	$(CXX) $(CXXFLAGS) $< -o $@
 $(OBJECTS): $(OBJECTSDIR)$(PATHSEP)%.o: %.cpp | $(OBJECTSDIR)
@@ -89,7 +89,7 @@ $(DEPENDENCIESDIR)$(PATHSEP)libdisxx-ui.$(DYLIB): | $(DEPENDENCIESDIR)
 	make -C ..$(PATHSEP)ui
 	$(MOVE) ..$(PATHSEP)ui$(PATHSEP)build$(PATHSEP)$(notdir $@) $@
 $(BUILDDIR)$(PATHSEP)reporter: $(MOBJECTS) $(OBJECTS) | $(DYLIBS)
-	$(LD) $(LDFLAGS) $^ -o $@
+	$(LD) $(LFLAGS) $^ -o $@
 
 clean:
 	$(RMDIR) $(BUILDDIR)

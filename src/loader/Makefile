@@ -11,21 +11,16 @@ DEPENDENCIESDIR=$(BUILDDIR)$(PATHSEP)dependencies
 PRECOMPILEDDIR=.$(PATHSEP)build$(PATHSEP)precompiled
 OBJECTSDIR=.$(PATHSEP)build$(PATHSEP)objects
 
-CXXFLAGS=\
-	-std=c++26 -Weverything -Werror -O3 \
-	-isysroot $(shell xcrun --show-sdk-path) -I..$(PATHSEP)include -I..$(PATHSEP)third-party \
+CXXFLAGS+=\
+	-O3 -fprebuilt-module-path=$(PRECOMPILEDDIR) -I..$(PATHSEP)third-party -DNDEBUG \
 	-Wno-c99-extensions -Wno-global-constructors -Wno-exit-time-destructors -Wno-reserved-identifier -Wno-non-virtual-dtor \
 	-Wno-switch-enum -Wno-reserved-macro-identifier -Wno-writable-strings -Wno-weak-vtables -Wno-undefined-func-template \
 	-Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-covered-switch-default -Wno-padded -Wno-sign-conversion \
-	-Wno-unused-command-line-argument -fmodules -fcxx-modules -Xclang -fmodules-local-submodule-visibility \
-	-fno-implicit-modules -fno-implicit-module-maps \
-	-Wno-decls-in-multiple-modules \
-	-fprebuilt-module-path=$(PRECOMPILEDDIR) -fvisibility=default -fstack-protector-all -DNDEBUG
+	-Wno-unused-command-line-argument -Wno-decls-in-multiple-modules
 
-LDFLAGS=-dylib -arch $(ARCH) -O2 $(LTOFLAGS) -S -syslibroot $(shell xcrun --show-sdk-path) -lSystem -lc++ \
-	-L$(DEPENDENCIESDIR) -ldisxx-util
+LFLAGS+=-dylib -O2 -S -L$(DEPENDENCIESDIR) -ldisxx-util
 ifeq ($(OS),Darwin)
-	LDFLAGS+=-install_name @executable_path/../Frameworks/libdisxx-macho.$(DYLIB)
+	LFLAGS+=-install_name @executable_path/../Frameworks/libdisxx-macho.$(DYLIB)
 else
 	ifne ($(OS),Windows_NT)
 		LDFLAGS+=-install_name $$ORIGIN/libdisxx-macho.$(DYLIB)
@@ -67,7 +62,7 @@ $(PRECOMPILEDDIR):
 $(OBJECTSDIR):
 	$(MKDIR) $@
 $(PRECOMPILED): $(PRECOMPILEDDIR)$(PATHSEP)%.pcm: %.cppm | $(PRECOMPILEDDIR)
-	$(CXX) -c $(CXXFLAGS) -Xclang -emit-module-interface --precompile $< -o $@
+	$(CXX) -c $(CXXFLAGS:-c=--precompile) $< -o $@
 $(MOBJECTS): $(PRECOMPILEDDIR)$(PATHSEP)%.o: $(PRECOMPILEDDIR)$(PATHSEP)%.pcm | $(PRECOMPILEDDIR)
 	$(CXX) -c $(CXXFLAGS) $< -o $@
 $(OBJECTS): $(OBJECTSDIR)$(PATHSEP)%.o: %.cpp | $(OBJECTSDIR)
@@ -76,7 +71,7 @@ $(UTILITIES): | $(DEPENDENCIESDIR)
 	make -C ..$(PATHSEP)utility
 	$(MOVE) ..$(PATHSEP)utility$(PATHSEP)build$(PATHSEP)libdisxx-util.$(DYLIB) $@
 $(BUILDDIR)$(PATHSEP)libdisxx-macho.$(DYLIB): $(MOBJECTS) $(OBJECTS) | $(DEPENDENCIES)
-	$(LD) $(LDFLAGS) $^ -o $@
+	$(LD) $(LFLAGS) $^ -o $@
 
 clean:
 	$(RMDIR) $(BUILDDIR)

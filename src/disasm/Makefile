@@ -9,19 +9,14 @@ DEPENDENCIESDIR=$(BUILDDIR)$(PATHSEP)dependencies
 PRECOMPILEDDIR=$(BUILDDIR)$(PATHSEP)precompiled
 OBJECTSDIR=$(BUILDDIR)$(PATHSEP)objects
 
-CXXFLAGS=\
-	-c -std=c++26 -O3 -Weverything -Werror -isysroot $(shell xcrun --show-sdk-path) \
+CXXFLAGS+=\
+	-O3 -fprebuilt-module-path=$(PRECOMPILEDDIR) -fstack-protector-all -DNDEBUG \
 	-Wno-weak-vtables -Wno-c++98-compat -Wno-implicit-int-conversion -Wno-reserved-macro-identifier \
 	-Wno-padded -Wno-c++98-c++11-compat-binary-literal -Wno-sign-conversion -Wno-reserved-identifier \
 	-Wno-c++98-compat-pedantic -Wno-global-constructors -Wno-exit-time-destructors -Wno-switch-enum \
-	-Wno-nrvo -Wno-undefined-func-template -Wno-shift-count-overflow -Wno-integer-overflow \
-	-fno-implicit-modules -fno-implicit-module-maps \
-	-ftrapv -fmodules -fcxx-modules -fvisibility=hidden -fprebuilt-module-path=$(PRECOMPILEDDIR) \
-	-Xclang -fmodules-local-submodule-visibility -I..$(PATHSEP)include -fstack-protector-all -DNDEBUG
+	-Wno-nrvo -Wno-undefined-func-template -Wno-shift-count-overflow -Wno-unused-command-line-argument -Wno-integer-overflow
 
-LDFLAGS=\
-	-dylib -O2 $(LTOFLAGS) -demangle -S -arch $(ARCH) -syslibroot $(shell xcrun --show-sdk-path) -lSystem -lc++ \
-	-L$(DEPENDENCIESDIR) -ldisxx-util
+LFLAGS+=-dylib -O2 -S -L$(DEPENDENCIESDIR) -ldisxx-util
 
 ifeq ($(OS), Darwin)
 	LDFLAGS+=-install_name @executable_path/../Frameworks/libdisxx-disasm.$(DYLIB)
@@ -31,7 +26,6 @@ else
 endif
 
 OPERANDS=.$(PATHSEP)operand$(PATHSEP)
-INSNS=.$(PATHSEP)instruction$(PATHSEP)
  
 MODULES=\
 	$(LIBCXX) \
@@ -355,13 +349,13 @@ $(UTILITIES): | $(DEPENDENCIESDIR)
 	make -C ..$(PATHSEP)utility
 	$(MOVE) ..$(PATHSEP)utility$(PATHSEP)build$(PATHSEP)$(notdir $@) $@
 $(PRECOMPILED): $(PRECOMPILEDDIR)$(PATHSEP)%.pcm: %.cppm | $(PRECOMPILEDDIR)
-	$(CXX) $(CXXFLAGS) -Xclang -emit-module-interface --precompile -Wno-unused-command-line-argument $< -o $@
+	$(CXX) $(CXXFLAGS:-c=--precompile) $< -o $@
 $(MOBJECTS): $(PRECOMPILEDDIR)$(PATHSEP)%.o: $(PRECOMPILEDDIR)$(PATHSEP)%.pcm | $(PRECOMPILEDDDIR)
-	$(CXX) $(CXXFLAGS) -Wno-unused-command-line-argument $< -o $@
+	$(CXX) $(CXXFLAGS) $< -o $@
 $(OBJECTS): $(OBJECTSDIR)$(PATHSEP)%.o: %.cpp | $(OBJECTSDIR)
 	$(CXX) $(CXXFLAGS) $< -o $@
 $(BUILDDIR)$(PATHSEP)libdisxx-disasm.$(DYLIB): $(MOBJECTS) $(OBJECTS) | $(UTILITIES)
-	$(LD) $(LDFLAGS) $^ -o $@
+	$(LD) $(LFLAGS) $^ -o $@
 
 clean:
 	$(RMDIR) $(BUILDDIR)

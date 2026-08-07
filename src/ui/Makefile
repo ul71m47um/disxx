@@ -12,22 +12,22 @@ DEPENDENCIESDIR=$(BUILDDIR)$(PATHSEP)dependencies
 PRECOMPILEDDIR=$(BUILDDIR)$(PATHSEP)precompiled
 OBJECTSDIR=$(BUILDDIR)$(PATHSEP)objects
 
-CXXFLAGS=-c -std=c++26 -O3 -Weverything -Werror -DGL_SILENCE_DEPRECATION \
-	-DNDEBUG -DBACKEND_CTX_GLUT -I ..$(PATHSEP)include -isysroot $(shell xcrun --show-sdk-path) -Wno-writable-strings -Wno-unused-command-line-argument \
-	-Wno-c99-extensions -Wno-global-constructors -Wno-exit-time-destructors -Wno-reserved-identifier -Wno-non-virtual-dtor \
-	-Wno-switch-enum -Wno-reserved-macro-identifier -Wno-writable-strings -Wno-weak-vtables -Wno-undefined-func-template \
+CXXFLAGS+=\
+	-O3 -fprebuilt-module-path=$(PRECOMPILEDDIR) -DGL_SILENCE_DEPRECATION -DNDEBUG -DBACKEND_CTX_GLUT \
+	-Wno-writable-strings -Wno-unused-command-line-argument -Wno-c99-extensions -Wno-global-constructors \
+	-Wno-exit-time-destructors -Wno-reserved-identifier -Wno-non-virtual-dtor -Wno-switch-enum \
+	-Wno-reserved-macro-identifier -Wno-writable-strings -Wno-weak-vtables -Wno-undefined-func-template \
 	-Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-covered-switch-default -Wno-padded -Wno-sign-conversion \
-	-Wno-float-conversion -Wno-implicit-int-float-conversion \
-	-Xclang -fmodules-local-submodule-visibility -fstack-protector-all -fno-implicit-modules -fno-implicit-module-maps \
-	-fmodules -fcxx-modules -fprebuilt-module-path=$(PRECOMPILEDDIR) -fvisibility=hidden
+	-Wno-float-conversion -Wno-implicit-int-float-conversion
 
-LDFLAGS=-O2 $(LTOFLAGS) -dylib -S -arch $(ARCH) -syslibroot $(shell xcrun --show-sdk-path) -lSystem -lc++ \
-	-L $(DEPENDENCIESDIR) -ldisxx-util -framework OpenGL -framework GLUT $(INSTALLFLAGS) $(RPATHFLAG)
+LFLAGS+=-dylib -O2 -S -L$(DEPENDENCIESDIR) -ldisxx-util $(INSTALLFLAGS) $(RPATHFLAG)
 ifeq ($(OS),Darwin)
-	LDFLAGS+=-install_name @executable_path/../Frameworks/libdisxx-ui.$(DYLIB)
+	LFLAGS+=-install_name @executable_path/../Frameworks/libdisxx-ui.$(DYLIB) \
+		-framework OpenGL -framework GLUT
 else
+	LFLAGS+=-lGL -lGLU -lglut
 	ifne ($(OS),Windows_NT)
-		LDFLAGS+=-install_name $$ORIGIN/libdisxx-ui.$(DYLIB)
+		LFLAGS+=-install_name $$ORIGIN/libdisxx-ui.$(DYLIB)
 endif
 
 MODULES=\
@@ -99,7 +99,7 @@ $(PRECOMPILEDDIR):
 $(OBJECTSDIR):
 	$(MKDIR) $@
 $(PRECOMPILED): $(PRECOMPILEDDIR)$(PATHSEP)%.pcm: %.cppm | $(PRECOMPILEDDIR)
-	$(CXX) $(CXXFLAGS:-c=) -Xclang -emit-module-interface --precompile $< -o $@
+	$(CXX) $(CXXFLAGS:-c=--precompile) $< -o $@
 $(MOBJECTS): $(PRECOMPILEDDIR)$(PATHSEP)%.o: $(PRECOMPILEDDIR)$(PATHSEP)%.pcm | $(PRECOMPILEDDIR)
 	$(CXX) $(CXXFLAGS) $< -o $@
 $(OBJECTS): $(OBJECTSDIR)$(PATHSEP)%.o: %.cpp | $(OBJECTSDIR)
@@ -108,7 +108,7 @@ $(DEPENDENCIESDIR)$(PATHSEP)libdisxx-util.$(DYLIB): | $(DEPENDENCIESDIR)
 	make -C ..$(PATHSEP)utility
 	$(MOVE) ..$(PATHSEP)utility$(PATHSEP)build$(PATHSEP)libdisxx-util.$(DYLIB) $@
 $(BUILDDIR)$(PATHSEP)libdisxx-ui.$(DYLIB): $(MOBJECTS) $(OBJECTS) | $(DEPENDENCIES)
-	$(LD) $(LDFLAGS) $^ -o $@
+	$(LD) $(LFLAGS) $^ -o $@
 
 clean:
 	$(RMDIR) $(BUILDDIR)
