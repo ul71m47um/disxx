@@ -1,5 +1,9 @@
 module;
 
+#if !__has_include(<mach/machine.h>)
+#	define CPU_TYPE_ARM64 0x0000000100000c
+#endif
+
 #include <mach-o/loader.h>
 #include <mach-o/nlist.h>
 #include <mach-o/fat.h>
@@ -160,19 +164,21 @@ namespace disxx::loader::macho
 			else if (loadCmd.cmd == LC_SYMTAB)
 			{
 				auto symtabCmd{this->m_Mapper.Read<symtab_command>(offset)};
-				auto pSymbols{std::make_unique<nlist_64[]>(symtabCmd.nsyms)};
+				std::vector<nlist_64> symbols{};
+				symbols.reserve(symtabCmd.nsyms);
 				for (const auto j : std::views::iota(0u, symtabCmd.nsyms))
-					pSymbols[j] = this->m_Mapper.Read<nlist_64>(symtabCmd.symoff + j * sizeof(nlist_64) + this->m_Offset);
+					symbols.emplace_back(this->m_Mapper.Read<nlist_64>(symtabCmd.symoff + j * sizeof(nlist_64) + this->m_Offset));
 
-				auto pStrtab{std::make_unique<char[]>(symtabCmd.strsize)};
+				std::vector<char> strtab{};
+				strtab.reserve(symtabCmd.strsize);
 				for (const auto j : std::views::iota(0u, symtabCmd.strsize))
-					pStrtab[j] = this->m_Mapper.Read<char>(symtabCmd.stroff + j + this->m_Offset);
+					strtab.emplace_back(this->m_Mapper.Read<char>(symtabCmd.stroff + j + this->m_Offset));
 
 				for (const auto j : std::views::iota(0u, symtabCmd.nsyms))
 				{
-					if (!pSymbols[j].n_un.n_strx)
+					if (!symbols[j].n_un.n_strx)
 						continue;
-					else if ((pSymbols[j].n_type & N_TYPE) != N_SECT || (pSymbols[j].n_type & N_STAB))
+					else if ((symbols[j].n_type & N_TYPE) != N_SECT || (symbols[j].n_type & N_STAB))
 						continue;
 					
 					auto it
@@ -181,8 +187,8 @@ namespace disxx::loader::macho
 						std::ranges::find_if
 						(
 							exec.GetSections(),
-							[&pSymbols, j](const auto &section) -> bool
-							{ return section.GetIndex() == pSymbols[j].n_sect; }
+							[&symbols, j](const auto &section) -> bool
+							{ return section.GetIndex() == symbols[j].n_sect; }
 						)
 					};
 				
@@ -191,12 +197,12 @@ namespace disxx::loader::macho
 						continue;
 	
 					auto start{0ull};
-					if (const auto addr{it->GetAddress()}; pSymbols[j].n_value >= addr && pSymbols[j].n_value < addr + it->GetSize())
-						start = it->GetOffset() + (pSymbols[j].n_value - addr);
+					if (const auto addr{it->GetAddress()}; symbols[j].n_value >= addr && symbols[j].n_value < addr + it->GetSize())
+						start = it->GetOffset() + (symbols[j].n_value - addr);
 				
 					disxx::loader::executable::Label label{};
-					label.SetName(&pStrtab[pSymbols[j].n_un.n_strx]);
-					label.SetAddress(pSymbols[j].n_value);
+					label.SetName(&strtab.at(symbols[j].n_un.n_strx));
+					label.SetAddress(symbols.at(j).n_value);
 					label.SetOffset(start);
 					it->AddLabel(std::move(label));
 				}

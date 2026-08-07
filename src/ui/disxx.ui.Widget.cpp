@@ -50,8 +50,11 @@ namespace disxx::ui
 		{
 			this->m_Position = other.m_Position;
 			this->m_Size = other.m_Size;
-			for (unsigned short int i{0}; i < 3; ++i)
+			#pragma clang diagnostic push
+			#pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+			for (const auto i : std::views::iota(0u, 3u))
 				this->m_pColor[i] = other.m_pColor[i];
+			#pragma clang diagnostic pop
 			this->m_Visible = other.m_Visible;
 			this->m_IsClicked = other.m_IsClicked;
             this->m_IsHovered = other.m_IsHovered;	

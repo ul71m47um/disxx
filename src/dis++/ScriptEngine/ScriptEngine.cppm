@@ -1,6 +1,10 @@
 module;
 
-#include <Ruby/ruby.h>
+#ifdef __APPLE__
+#	include <Ruby/ruby.h>
+#else
+#	include <ruby.h>
+#endif
 
 export module ScriptEngine;
 

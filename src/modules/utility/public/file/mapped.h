@@ -12,8 +12,8 @@ struct mapped_t
 	unsigned long long int msize;
 };
 
-mapped_t mopen(const char *);
-signed long long int mclose(mapped_t);
+struct mapped_t mopen(const char *);
+signed long long int mclose(struct mapped_t);
 
 #ifdef __cplusplus
 }

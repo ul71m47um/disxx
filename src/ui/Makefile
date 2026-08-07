@@ -13,21 +13,22 @@ PRECOMPILEDDIR=$(BUILDDIR)$(PATHSEP)precompiled
 OBJECTSDIR=$(BUILDDIR)$(PATHSEP)objects
 
 CXXFLAGS+=\
-	-O3 -fprebuilt-module-path=$(PRECOMPILEDDIR) -DGL_SILENCE_DEPRECATION -DNDEBUG -DBACKEND_CTX_GLUT \
+	-O3 -fPIC -fprebuilt-module-path=$(PRECOMPILEDDIR) -DGL_SILENCE_DEPRECATION -DNDEBUG -DBACKEND_CTX_GLUT \
 	-Wno-writable-strings -Wno-unused-command-line-argument -Wno-c99-extensions -Wno-global-constructors \
 	-Wno-exit-time-destructors -Wno-reserved-identifier -Wno-non-virtual-dtor -Wno-switch-enum \
 	-Wno-reserved-macro-identifier -Wno-writable-strings -Wno-weak-vtables -Wno-undefined-func-template \
 	-Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-covered-switch-default -Wno-padded -Wno-sign-conversion \
-	-Wno-float-conversion -Wno-implicit-int-float-conversion
+	-Wno-float-conversion -Wno-implicit-int-float-conversion -Wno-poison-system-directories
 
-LFLAGS+=-dylib -O2 -S -L$(DEPENDENCIESDIR) -ldisxx-util $(INSTALLFLAGS) $(RPATHFLAG)
+LFLAGS+=-O2 -L$(DEPENDENCIESDIR) -ldisxx-util
 ifeq ($(OS),Darwin)
-	LFLAGS+=-install_name @executable_path/../Frameworks/libdisxx-ui.$(DYLIB) \
+	LFLAGS+=-dylib -S -install_name @executable_path/../Frameworks/libdisxx-ui.$(DYLIB) \
 		-framework OpenGL -framework GLUT
 else
-	LFLAGS+=-lGL -lGLU -lglut
-	ifne ($(OS),Windows_NT)
-		LFLAGS+=-install_name $$ORIGIN/libdisxx-ui.$(DYLIB)
+	LFLAGS+=-shared -lGL -lGLU -lglut
+	ifneq ($(OS),Windows_NT)
+		LFLAGS+=-rpath $$ORIGIN/libdisxx-ui.$(DYLIB)
+	endif
 endif
 
 MODULES=\

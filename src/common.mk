@@ -13,7 +13,7 @@ CXXFLAGS=\
 	-ftrapv -fmodules -fcxx-modules -fvisibility=hidden -Xclang -fmodules-local-submodule-visibility \
 	-fstack-protector-all -fstrict-aliasing
 
-LFLAGS=-lc++ -demangle
+LFLAGS=-lc++ -lc++abi -lc -demangle
 
 # Check if the OS is Windows, or else
 # treat this system as UNIX
@@ -74,7 +74,7 @@ else
 		CXX=$(shell xcrun --find clang++ 2>/dev/null)
 	else
 		CXXFLAGS+=-isysroot $(shell llvm-config --includedir)
-		LFLAGS+=-L$(dir $(shell clang -print-file-name=libc++.so))
+		LFLAGS+=-L$(dir $(shell clang++ -print-file-name=libc++.so)) -lm
 
 		# C++ standart library module
 		LIBCXX=$(shell llvm-config --prefix)$(PATHSEP)share$(PATHSEP)libc++$(PATHSEP)v1$(PATHSEP)std.cppm
@@ -83,7 +83,7 @@ else
 		DYLIB=so
 
 		ASM=$(shell command -v as)
-		LD=$(shell command -v ld)
+		LD=$(shell command -v clang++) -fuse-ld=lld
 		CC=$(shell command -v clang)
 		CXX=$(shell command -v clang++)
 	endif

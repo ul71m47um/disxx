@@ -50,8 +50,11 @@ namespace disxx::ui::utility
 			std::array<float, 4> color{};
 			for (const auto i : std::views::iota(0, 4))
 			{
-				const auto diget{match[i + 1].str()};
-				if (float n{}; std::from_chars(diget.data(), diget.data() + diget.size(), n))
+				const auto digit{match[i + 1].str()};
+				#pragma clang diagnostic push
+				#pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+				if (float n{}; std::from_chars(digit.data(), digit.data() + digit.size(), n))
+				#pragma clang diagnostic pop
 					color.at(i) = n;
 				else
 					return std::unexpected{std::runtime_error{"NumberConvertionError"}};

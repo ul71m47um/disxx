@@ -4,7 +4,9 @@ module;
 #	include <GLUT/glut.h>
 #	include <OpenGL/gl3.h>
 #else
+#	define GL_GLEXT_PROTOTYPES
 #	include <GL/freeglut.h>
+#	include <GL/glext.h>
 #	include <GL/gl.h>
 #endif
 

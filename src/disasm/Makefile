@@ -10,19 +10,20 @@ PRECOMPILEDDIR=$(BUILDDIR)$(PATHSEP)precompiled
 OBJECTSDIR=$(BUILDDIR)$(PATHSEP)objects
 
 CXXFLAGS+=\
-	-O3 -fprebuilt-module-path=$(PRECOMPILEDDIR) -fstack-protector-all -DNDEBUG \
+	-O3 -fPIC -fprebuilt-module-path=$(PRECOMPILEDDIR) -DNDEBUG \
 	-Wno-weak-vtables -Wno-c++98-compat -Wno-implicit-int-conversion -Wno-reserved-macro-identifier \
 	-Wno-padded -Wno-c++98-c++11-compat-binary-literal -Wno-sign-conversion -Wno-reserved-identifier \
 	-Wno-c++98-compat-pedantic -Wno-global-constructors -Wno-exit-time-destructors -Wno-switch-enum \
-	-Wno-nrvo -Wno-undefined-func-template -Wno-shift-count-overflow -Wno-unused-command-line-argument -Wno-integer-overflow
+	-Wno-nrvo -Wno-undefined-func-template -Wno-shift-count-overflow -Wno-unused-command-line-argument \
+	-Wno-integer-overflow -Wno-poison-system-directories
 
-LFLAGS+=-dylib -O2 -S -L$(DEPENDENCIESDIR) -ldisxx-util
-
+LFLAGS+=-O2 -L$(DEPENDENCIESDIR) -ldisxx-util
 ifeq ($(OS), Darwin)
-	LDFLAGS+=-install_name @executable_path/../Frameworks/libdisxx-disasm.$(DYLIB)
+	LFLAGS+=-dylib -S -install_name @executable_path/../Frameworks/libdisxx-disasm.$(DYLIB)
 else
-	ifne ($(OS), Windows_NT)
-		LDFLAGS+=-install_name $$ORIGIN/libdisxx-disasm.$(DYLIB)
+	ifneq ($(OS), Windows_NT)
+		LFLAGS+=-shared -rpath $$ORIGIN/libdisxx-disasm.$(DYLIB)
+	endif
 endif
 
 OPERANDS=.$(PATHSEP)operand$(PATHSEP)

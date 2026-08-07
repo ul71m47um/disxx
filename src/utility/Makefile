@@ -10,21 +10,27 @@ OBJECTSDIR=$(BUILDDIR)$(PATHSEP)objects
 
 ASMFLAGS=-c -arch arm64
 
-CFLAGS=-c -std=c99 -Weverything -Werror -Wno-misleading-indentation \
-	-Wno-sign-conversion -O3 -DNDEBUG -isysroot $(shell xcrun --show-sdk-path)
+CFLAGS=-c -fPIC -std=c99 -O3 -DNDEBUG -Weverything -Werror \
+	-Wno-misleading-indentation -Wno-sign-conversion \
+	-Wno-poison-system-directories -Wno-sign-compare \
+	-Wno-declaration-after-statement
+ifneq ($(OS),Darwin)
+	CFLAGS+=-isysroot $(shell llvm-config --includedir)
+endif
 
 CXXFLAGS+=\
-	-O3 -fprebuilt-module-path=$(PRECOMPILEDDIR) -fprebuilt-module-path=$(PRECOMPILEDDIR) -DNDEBUG -I..$(PATHSEP)include \
+	-O3 -fPIC -fprebuilt-module-path=$(PRECOMPILEDDIR) -DNDEBUG \
 	-Wno-reserved-module-identifier -Wno-unused-command-line-argument -Wno-c++98-compat \
 	-Wno-c++98-compat-pedantic -Wno-reserved-identifier -Wno-weak-vtables \
-	-Wno-decls-in-multiple-modules
+	-Wno-decls-in-multiple-modules -Wno-poison-system-directories
 
-LFLAGS+=-dylib -O2 -S
+LFLAGS+=-O2
 ifeq ($(OS),Darwin)
-	LFLAGS+=-install_name @executable_path/../Frameworks/libdisxx-util.$(DYLIB)
+	LFLAGS+=-dylib -S -install_name @executable_path/../Frameworks/libdisxx-util.$(DYLIB)
 else
-	ifne ($(OS), Windows_NT)
-		LDFLAGS+=-install_name $$ORIGIN/libdisxx-util.$(DYLIB)
+	ifneq ($(OS), Windows_NT)
+		LFLAGS+=-shared -rpath $$ORIGIN/libdisxx-util.$(DYLIB)
+	endif
 endif
 
 ifeq ($(OS), Darwin)
@@ -87,11 +93,11 @@ $(PRECOMPILEDDIR):
 	$(MKDIR) $@
 $(OBJECTSDIR):
 	$(MKDIR) $@
-$(PRECOMPILED): $(PRECOMPILEDDIR)$(PATHSEP)%.pcm: %.cppm | $(PRECOMPILEDDIR)$(PATHSEP)
+$(PRECOMPILED): $(PRECOMPILEDDIR)$(PATHSEP)%.pcm: %.cppm | $(PRECOMPILEDDIR)
 	$(CXX) $(CXXFLAGS:-c=--precompile) $< -o $@
-$(MOBJECTS): $(PRECOMPILEDDIR)$(PATHSEP)%.o: $(PRECOMPILEDDIR)$(PATHSEP)%.pcm | $(PRECOMPILEDDIR)$(PATHSEP)
+$(MOBJECTS): $(PRECOMPILEDDIR)$(PATHSEP)%.o: $(PRECOMPILEDDIR)$(PATHSEP)%.pcm | $(PRECOMPILEDDIR)
 	$(CXX) $(CXXFLAGS) $< -o $@
-$(OBJECTS): $(OBJECTSDIR)$(PATHSEP)%.o: %.cpp | $(OBJECTSDIR)$(PATHSEP)
+$(OBJECTS): $(OBJECTSDIR)$(PATHSEP)%.o: %.cpp | $(OBJECTSDIR)
 	$(CXX) $(CXXFLAGS) $< -o $@
 $(OBJECTSDIR)$(PATHSEP)$(notdir $(MAPIMPL:.$(IMPLEXT)=.o)): $(MAPIMPL)
 	$(MAPIMPLC) $(MAPIMPLFLAGS) $< -o $@

@@ -12,18 +12,19 @@ PRECOMPILEDDIR=.$(PATHSEP)build$(PATHSEP)precompiled
 OBJECTSDIR=.$(PATHSEP)build$(PATHSEP)objects
 
 CXXFLAGS+=\
-	-O3 -fprebuilt-module-path=$(PRECOMPILEDDIR) -I..$(PATHSEP)third-party -DNDEBUG \
+	-O3 -fPIC -fprebuilt-module-path=$(PRECOMPILEDDIR) -I..$(PATHSEP)third-party -DNDEBUG \
 	-Wno-c99-extensions -Wno-global-constructors -Wno-exit-time-destructors -Wno-reserved-identifier -Wno-non-virtual-dtor \
 	-Wno-switch-enum -Wno-reserved-macro-identifier -Wno-writable-strings -Wno-weak-vtables -Wno-undefined-func-template \
 	-Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-covered-switch-default -Wno-padded -Wno-sign-conversion \
-	-Wno-unused-command-line-argument -Wno-decls-in-multiple-modules
+	-Wno-unused-command-line-argument -Wno-decls-in-multiple-modules -Wno-poison-system-directories
 
-LFLAGS+=-dylib -O2 -S -L$(DEPENDENCIESDIR) -ldisxx-util
+LFLAGS+=-O2 -L$(DEPENDENCIESDIR) -ldisxx-util
 ifeq ($(OS),Darwin)
-	LFLAGS+=-install_name @executable_path/../Frameworks/libdisxx-macho.$(DYLIB)
+	LFLAGS+=-dylib -S -install_name @executable_path/../Frameworks/libdisxx-macho.$(DYLIB)
 else
-	ifne ($(OS),Windows_NT)
-		LDFLAGS+=-install_name $$ORIGIN/libdisxx-macho.$(DYLIB)
+	ifneq ($(OS),Windows_NT)
+		LFLAGS+=-rpath $$ORIGIN/libdisxx-macho.$(DYLIB)
+	endif
 endif
 
 MODULES=\

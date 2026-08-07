@@ -2,18 +2,17 @@
 #include <unistd.h>
 #include <fcntl.h>
 
+#include "../../modules/utility/public/file/mapped.h"
+
 // If this file'll be compiled with C++ compiler
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-struct mapfile_t mopen(const char *path);
-int mclose(mapfile_t);
-
-struct mapfile_t mopen(const char *path)
+struct mapped_t mopen(const char *path)
 {
-	mapped_t mapped = { .mptr = NULL, .msize = 0 };
+	struct mapped_t mapped = { .mptr = NULL, .msize = 0 };
 
 	int fd = open(path, O_RDWR);
     if (fd == -1)
@@ -36,14 +35,14 @@ struct mapfile_t mopen(const char *path)
 	close(fd);
 
 	if (ptr == MAP_FAILED)
-		return NULL;
+		return mapped;
 
 	mapped.mptr = ptr;
 	mapped.msize = size;
 	return mapped;
 }
 
-int mclose(mapped_t mapped)
+signed long long int mclose(struct mapped_t mapped)
 {
 	if ((mapped.mptr != MAP_FAILED && mapped.mptr != NULL) && mapped.msize != -1)
 		return munmap(mapped.mptr, mapped.msize);

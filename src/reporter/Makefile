@@ -13,11 +13,11 @@ CXXFLAGS+=\
 	-O3 -fprebuilt-module-path=$(PRECOMPILEDDIR) -DGL_SILENCE_DEPRECATION -DNDEBUG -DBACKEND_CTX_GLUT \
 	-Wno-non-virtual-dtor -Wno-c99-extensions -Wno-unused-command-line-argument -Wno-writable-strings \
 	-Wno-reserved-macro-identifier -Wno-c++98-compat -Wno-weak-vtables -Wno-reserved-identifier \
-	-Wno-padded -Wno-implicit-int-float-conversion
+	-Wno-poison-system-directories -Wno-padded -Wno-implicit-int-float-conversion -Wno-undef
 
-LFLAGS+=-O2 -S -pie L$(DEPENDENCIESDIR) -ldisxx-util -ldisxx-ui
+LFLAGS+=-O2 -pie -L$(DEPENDENCIESDIR) -ldisxx-util -ldisxx-ui
 ifeq ($(OS),Darwin)
-	LFLAGS+=-framework GLUT
+	LFLAGS+=-S -framework GLUT
 else
 	LFLAGS+=-lglut
 endif
