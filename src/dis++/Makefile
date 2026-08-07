@@ -16,6 +16,9 @@ CXXFLAGS+=\
 	-Wno-non-virtual-dtor -Wno-covered-switch-default -Wno-padded -Wno-sign-conversion -Wno-c++98-compat -Wno-c++98-compat-pedantic \
 	-Wno-implicit-int-float-conversion -Wno-disabled-macro-expansion -Wno-cast-function-type-strict -Wno-compound-token-split-by-macro \
 	-Wno-cast-function-type-mismatch
+ifneq ($(OS),Darwin)
+	CXXFLAGS+=-I$(shell ruby ..$(PATHSEP)..$(PATHSEP)misc$(PATHSEP)headers.rb)
+endif
 
 LFLAGS+=-O2 -S -pie -L$(DEPENDENCIESDIR) -ldisxx-util -ldisxx-ui -ldisxx-disasm -ldisxx-macho
 ifeq ($(OS),Darwin)
