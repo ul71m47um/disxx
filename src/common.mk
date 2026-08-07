@@ -40,7 +40,7 @@ ifeq ($(OS), Windows_NT)
 		$(error Unable to find a C++ compiler)
 	endif
 
-	ASAN=$(shell $(CXX) -print-resource-dir)$(PATHSEP)lib$(PATHSEP)windows$(PATHSEP)libclang_rt.asan-x64
+	#ASAN=$(shell $(CXX) -print-resource-dir)$(PATHSEP)lib$(PATHSEP)windows$(PATHSEP)libclang_rt.asan-x64
 
 	# Base commands
 	MKDIR=mkdir -p
@@ -63,6 +63,9 @@ else
 		CC=$(shell xcrun --find clang 2>/dev/null)
 		CXX=$(shell xcrun --find clang++ 2>/dev/null)
 	else
+		# C++ standart library module
+		LIBCXX=$(shell llvm-config --prefix)$(PATHSEP)share$(PATHSEP)libc++$(PATHSEP)v1$(PATHSEP)std.cppm
+
 		# File extensions
 		DYLIB=so
 

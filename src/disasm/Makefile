@@ -10,7 +10,7 @@ PRECOMPILEDDIR=$(BUILDDIR)$(PATHSEP)precompiled
 OBJECTSDIR=$(BUILDDIR)$(PATHSEP)objects
 
 CXXFLAGS=\
-	-c -std=c++26 -O3 -Weverything -Werror -arch $(ARCH) -isysroot $(shell xcrun --show-sdk-path) \
+	-c -std=c++26 -O3 -Weverything -Werror -isysroot $(shell xcrun --show-sdk-path) \
 	-Wno-weak-vtables -Wno-c++98-compat -Wno-implicit-int-conversion -Wno-reserved-macro-identifier \
 	-Wno-padded -Wno-c++98-c++11-compat-binary-literal -Wno-sign-conversion -Wno-reserved-identifier \
 	-Wno-c++98-compat-pedantic -Wno-global-constructors -Wno-exit-time-destructors -Wno-switch-enum \

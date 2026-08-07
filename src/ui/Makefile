@@ -12,7 +12,7 @@ DEPENDENCIESDIR=$(BUILDDIR)$(PATHSEP)dependencies
 PRECOMPILEDDIR=$(BUILDDIR)$(PATHSEP)precompiled
 OBJECTSDIR=$(BUILDDIR)$(PATHSEP)objects
 
-CXXFLAGS=-c -std=c++26 -arch $(ARCH) -O3 -Weverything -Werror -DGL_SILENCE_DEPRECATION \
+CXXFLAGS=-c -std=c++26 -O3 -Weverything -Werror -DGL_SILENCE_DEPRECATION \
 	-DNDEBUG -DBACKEND_CTX_GLUT -I ..$(PATHSEP)include -isysroot $(shell xcrun --show-sdk-path) -Wno-writable-strings -Wno-unused-command-line-argument \
 	-Wno-c99-extensions -Wno-global-constructors -Wno-exit-time-destructors -Wno-reserved-identifier -Wno-non-virtual-dtor \
 	-Wno-switch-enum -Wno-reserved-macro-identifier -Wno-writable-strings -Wno-weak-vtables -Wno-undefined-func-template \

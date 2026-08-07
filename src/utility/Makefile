@@ -10,11 +10,11 @@ OBJECTSDIR=$(BUILDDIR)$(PATHSEP)objects
 
 ASMFLAGS=-c -arch arm64
 
-CFLAGS=-c -std=c99 -arch $(ARCH) -Weverything -Werror -Wno-misleading-indentation \
+CFLAGS=-c -std=c99 -Weverything -Werror -Wno-misleading-indentation \
 	-Wno-sign-conversion -O3 -DNDEBUG -isysroot $(shell xcrun --show-sdk-path)
 
 CXXFLAGS=\
-	-c -std=c++26 -O3 -Wall -Weverything -Werror -arch $(ARCH) -isysroot $(shell xcrun --show-sdk-path) \
+	-c -std=c++26 -O3 -Wall -Weverything -Werror -isysroot $(shell xcrun --show-sdk-path) \
 	-Xclang -fmodules-local-submodule-visibility -I..$(PATHSEP)include -fstack-protector-all -DNDEBUG \
 	-fstrict-aliasing -ftrapv -fno-implicit-modules -fno-implicit-module-maps \
 	-fmodules -fcxx-modules -fvisibility=hidden \

@@ -28,10 +28,10 @@ else
 	make -C ./src/reporter/
 
 	mkdir -p ./dis++/
-	cp ./src/dis++/build/dependencies/libdisxx-util.dylib ./dis++/libdisxx-util.dylib
-	cp ./src/dis++/build/dependencies/libdisxx-ui.dylib ./dis++/libdisxx-ui.dylib
-	cp ./src/dis++/build/dependencies/libdisxx-macho.dylib ./dis++/libdisxx-macho.dylib
-	cp ./src/dis++/build/dependencies/libdisxx-disasm.dylib ./dis++/libdisxx-disasm.dylib
+	cp ./src/dis++/build/dependencies/libdisxx-util.so ./dis++/libdisxx-util.so
+	cp ./src/dis++/build/dependencies/libdisxx-ui.so ./dis++/libdisxx-ui.so
+	cp ./src/dis++/build/dependencies/libdisxx-macho.so ./dis++/libdisxx-macho.so
+	cp ./src/dis++/build/dependencies/libdisxx-disasm.so ./dis++/libdisxx-disasm.so
 
 	cp ./src/dis++/build/dis++ ./dis++/dis++
 	cp ./src/reporter/build/reporter ./dis++/reporter
