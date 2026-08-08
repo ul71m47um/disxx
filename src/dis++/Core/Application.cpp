@@ -95,23 +95,26 @@ void Application::Disassemble(const std::filesystem::path &path) noexcept(false)
 	editor.AddLine(";  File path: {}", path.string());
 	editor.AddLine(";  File type: Mach-O {}", ldr.GetFileType());	
 	editor.AddLine(";  Target OS: {}, v{}", info.GetPlatformName(), info.GetPlatformMinVersion());
-	ldr
-		.LoadImageBase()
-		.and_then
-		(
-			[&editor](const auto &addr) -> std::optional<long long int>
-			{ 
-				editor.AddLine(";\tImage base: {}", MKHEX(addr));
-				return addr;
-			}
-		).or_else
-		(
-			[&editor] -> std::optional<long long int>
-			{
-				editor.AddLine("\tImage base: unknown");
-				return std::nullopt; 
-			}
-		);
+	const auto &_
+	{
+		ldr
+			.LoadImageBase()
+			.and_then
+			(
+				[&editor](const auto &addr) -> std::optional<long long int>
+				{ 
+					editor.AddLine(";\tImage base: {}", MKHEX(addr));
+					return addr;
+				}
+			).or_else
+			(
+				[&editor] -> std::optional<long long int>
+				{
+					editor.AddLine("\tImage base: unknown");
+					return std::nullopt; 
+				}
+			)
+	};
 	for (const auto &[name, version] : info.GetBuildTools())
 		editor.AddLine(";  Build tool: {}, v{}", name, version);
 	editor.AddLine(";{:*<64}", "");
@@ -220,9 +223,12 @@ void Application::Disassemble(const std::filesystem::path &path) noexcept(false)
 									if (const auto prev{str.at(it->position() - 1uz)}; prev == 'x' || std::isdigit(prev) || (prev >= 97 && prev <= 102) || prev == '>') [[unlikely]]
 										continue;
 									// Check if a number of the register is valid
+									#pragma clang diagnostic push
+									#pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
 									else if (auto n{0ull}; std::from_chars(it->str().data() + 1, it->str().data() + it->str().size() - 1, n)) [[likely]]
 										if (n > 31) [[unlikely]]
 											continue;
+									#pragma clang diagnostic pop
 
 									str = std::regex_replace
 									(

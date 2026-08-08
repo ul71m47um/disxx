@@ -1,6 +1,19 @@
 module;
 
-#include <Ruby/ruby.h>
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+#pragma clang diagnostic ignored "-Wdocumentation-deprecated-sync"
+#pragma clang diagnostic ignored "-Wheader-hygiene"
+#pragma clang diagnostic ignored "-Wold-style-cast"
+#pragma clang diagnostic ignored "-Wdocumentation"
+#pragma clang diagnostic ignored "-Wcast-qual"
+#pragma clang diagnostic ignored "-Wundef"
+#ifdef __APPLE__
+#	include <Ruby/ruby.h>
+#else
+#	include <ruby.h>
+#endif
+#pragma clang diagnostic pop
 
 module ScriptEngine;
 
@@ -9,6 +22,8 @@ import disxx.disasm.Disassembler;
 
 namespace
 {
+	#pragma clang diagnostic push
+	#pragma clang diagnostic ignored "-Wmissing-field-initializers"
 	rb_data_type_t loader
 	{
 		"Disxx::Loader",
@@ -16,7 +31,7 @@ namespace
 			nullptr,
 			[](void *ptr) -> void { delete static_cast<disxx::loader::macho::Loader *>(ptr); },
 			[](const void *) -> std::size_t { return 0; },
-			{nullptr, nullptr}
+			{nullptr}
 		},
 		nullptr,
 		nullptr,
@@ -30,7 +45,7 @@ namespace
 			nullptr,
 			[](void *ptr) -> void { delete static_cast<disxx::loader::executable::ExecutableFile *>(ptr); },
 			[](const void *) -> std::size_t { return 0; },
-			{nullptr, nullptr}
+			{nullptr}
 		},
 		nullptr,
 		nullptr,
@@ -44,7 +59,7 @@ namespace
 			nullptr,
 			[](void *ptr) -> void { delete static_cast<disxx::loader::executable::Section *>(ptr); },
 			[](const void *) -> std::size_t { return 0; },
-			{nullptr, nullptr}
+			{nullptr}
 		},
 		nullptr,
 		nullptr,
@@ -58,12 +73,13 @@ namespace
 			nullptr,
 			[](void *ptr) -> void { delete static_cast<disxx::loader::executable::Label *>(ptr); },
 			[](const void *) -> std::size_t { return 0; },
-			{nullptr, nullptr}
+			{nullptr}
 		},
 		nullptr,
 		nullptr,
 		RUBY_TYPED_FREE_IMMEDIATELY
 	};
+	#pragma clang diagnostic pop
 
 	template <typename T>
 	inline T *unwrap(VALUE) noexcept
@@ -183,6 +199,9 @@ ScriptEngine::ScriptEngine(void) noexcept
 			);
 		}
 	);
+	#pragma clang diagnostic push
+	#pragma clang diagnostic ignored "-Wunknown-warning-option"
+	#pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-format-attr-call"
 	rb_define_method
 	(
 		this->m_Loader,
@@ -204,12 +223,14 @@ ScriptEngine::ScriptEngine(void) noexcept
 						"%s",
 						err.what()
 					);
+
 					return Qnil;
 				}
 			}
 		),
 		1
 	);
+	#pragma clang diagnostic pop
 	rb_define_method
 	(
 		this->m_Loader,

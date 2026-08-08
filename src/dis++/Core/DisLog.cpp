@@ -7,13 +7,15 @@ module;
 #	define __UNWIND_CONSTEVAL 				consteval
 #endif
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-W#warnings"
 #if __has_include(<libunwind.h>)
 #	include <libunwind.h>
 #	define __UNWIND_CONSTEVAL
 #	if defined(__aarch64__)
 #		define __GETTHREADSTATE_CONSTEVAL
 #	else
-#   	warning "Building for some other platform than AArch64 - distress output might be limited!"
+#   	warning "Building for some other platform rather than AArch64 - distress output might be limited!"
 #		define __GETTHREADSTATE_CONSTEVAL	consteval
 #	endif
 #else
@@ -21,6 +23,7 @@ module;
 #	define __UNWIND_CONSTEVAL				consteval
 #	define __GETTHREADSTATE_CONSTEVAL		consteval
 #endif
+#pragma clang diagnostic pop
 
 #ifdef _WIN32
 #	include <windows.h>
@@ -326,21 +329,27 @@ void DisLog::LogErr(const std::filesystem::path &path) noexcept
 		catch (...) {}
 	}
 
-	this->__LogStack().and_then
-	(
-		[this](const std::string &calls) -> std::invoke_result<decltype(DisLog::__LogStack)>::type
-		{
-			const auto &_{this->m_Parser.Write<std::string_view>("crash.stack", calls)};
-			return calls;
-		}
-	);
+	const auto &_
+	{
+		__LogStack().and_then
+		(
+			[this](const std::string &calls) -> std::invoke_result<decltype(DisLog::__LogStack)>::type
+			{
+				const auto &_{this->m_Parser.Write<std::string_view>("crash.stack", calls)};
+				return calls;
+			}
+		)
+	};
 
-	this->__LogThreadState().and_then
-	(
-		[this](const std::string &registers) -> std::invoke_result<decltype(DisLog::__LogThreadState)>::type
-		{
-			const auto &_{this->m_Parser.Write<std::string_view>("crash.registers", registers)};
-			return registers;
-		}
-	);
+	const auto &_
+	{
+		__LogThreadState().and_then
+		(
+			[this](const std::string &registers) -> std::invoke_result<decltype(DisLog::__LogThreadState)>::type
+			{
+				const auto &_{this->m_Parser.Write<std::string_view>("crash.registers", registers)};
+				return registers;
+			}
+		)
+	};
 }

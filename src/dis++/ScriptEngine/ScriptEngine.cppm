@@ -1,10 +1,19 @@
 module;
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+#pragma clang diagnostic ignored "-Wdocumentation-deprecated-sync"
+#pragma clang diagnostic ignored "-Wheader-hygiene"
+#pragma clang diagnostic ignored "-Wold-style-cast"
+#pragma clang diagnostic ignored "-Wdocumentation"
+#pragma clang diagnostic ignored "-Wcast-qual"
+#pragma clang diagnostic ignored "-Wundef"
 #ifdef __APPLE__
 #	include <Ruby/ruby.h>
 #else
 #	include <ruby.h>
 #endif
+#pragma clang diagnostic pop
 
 export module ScriptEngine;
 

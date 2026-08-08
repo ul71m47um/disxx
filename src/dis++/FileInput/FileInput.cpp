@@ -1,7 +1,7 @@
 module;
 
 #ifndef _WIN32
-#	include <sys/syslimits.h> // For PATH_MAX
+#	include <limits.h> // For PATH_MAX
 #else
 #	include <windows.h>
 #	define PATH_MAX MAX_PATH

@@ -10,7 +10,7 @@ PRECOMPILEDDIR=$(BUILDDIR)$(PATHSEP)precompiled
 OBJECTSDIR=$(BUILDDIR)$(PATHSEP)objects
 
 CXXFLAGS+=\
-	-O3 -DGL_SILENCE_DEPRECATION -DBACKEND_CTX_GLUT -DNDEBUG -fprebuilt-module-path=$(PRECOMPILEDDIR) -I..$(PATHSEP)third-party \
+	-O3 -fPIE -fprebuilt-module-path=$(PRECOMPILEDDIR) -DGL_SILENCE_DEPRECATION -DBACKEND_CTX_GLUT -DNDEBUG -I..$(PATHSEP)third-party \
 	-Wno-unused-command-line-argument -Wno-c99-extensions -Wno-global-constructors -Wno-exit-time-destructors \
 	-Wno-reserved-identifier -Wno-switch-enum -Wno-reserved-macro-identifier -Wno-writable-strings -Wno-weak-vtables \
 	-Wno-non-virtual-dtor -Wno-covered-switch-default -Wno-padded -Wno-sign-conversion -Wno-c++98-compat -Wno-c++98-compat-pedantic \
@@ -20,9 +20,9 @@ ifneq ($(OS),Darwin)
 	CXXFLAGS+=-I$(shell ruby ..$(PATHSEP)..$(PATHSEP)misc$(PATHSEP)headers.rb)
 endif
 
-LFLAGS+=-O2 -S -pie -L$(DEPENDENCIESDIR) -ldisxx-util -ldisxx-ui -ldisxx-disasm -ldisxx-macho
+LFLAGS+=-O2 -pie -L$(DEPENDENCIESDIR) -ldisxx-util -ldisxx-ui -ldisxx-disasm -ldisxx-macho
 ifeq ($(OS),Darwin)
-	LFLAGS+=-framework Ruby -framework GLUT
+	LFLAGS+=-S -framework Ruby -framework GLUT
 else
 	LFLAGS+=-lruby*.so* -lglut
 endif
