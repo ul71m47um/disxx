@@ -4,15 +4,33 @@ require "rbconfig"
 require "optparse"
 
 if $0 == __FILE__
-	OptionParser.new do |opts|
-		options.banner = "Usage: ruby config.rb [options]"
+	options = Hash::new
+	OptionParser::new do |opts|
+		opts.banner = "Usage: ruby config.rb [options]"
 		
-		opts.on "-c", "--cflags", "C/C++ compiler flags for files that include Ruby headers" do
-			puts "-I#{RbConfig::CONFIG["rubyhdrdir"]}"
+		opts.on "-c", "--cflags", "C/C++ compiler flags for files that include Ruby headers" do |c|
+			options[:cflags] = c
 		end
 
-		opts.on "-l --ldflags", "Display path to Ruby shared library" do
-			puts "-L#{RbConfig::CONFIG["libdir"]}"
+		opts.on "-l", "--ldflags", "Display linker flags" do |l|
+			options[:ldflags] = l
 		end
+
+		opts.on "-h", "--help", "Display a summary of config.rb arguments" do |_|
+			puts opts
+		end
+	end.parse!
+
+	if options[:cflags]
+		puts "-I#{RbConfig::CONFIG["rubyhdrdir"]}"
+	elsif options[:ldflags]
+		puts <<~EOF.gsub /\n/, ' '
+			-L#{RbConfig::CONFIG["libdir"]}
+			#{
+				RbConfig::CONFIG["LIBRUBY_SO"]
+					.gsub(/\Alib/, '-l')
+					.gsub(/\.((dylib)|(so)|(dll))$/, '')
+			}
+		EOF
 	end
 end
