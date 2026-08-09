@@ -19,7 +19,7 @@ LFLAGS+=-O2 -pie -L$(DEPENDENCIESDIR) -ldisxx-util -ldisxx-ui
 ifeq ($(OS),Darwin)
 	LFLAGS+=-S -framework GLUT
 else
-	LFLAGS+=-lglut
+	LFLAGS+=-lglut -rpath .
 endif
 
 MODULES=\

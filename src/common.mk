@@ -102,12 +102,6 @@ else
 		$(error Unable to find a C++ compiler)
 	endif
 
-	# Optional LTO library
-	LIBLTO=$(dir $(LD))..$(PATHSEP)lib$(PATHSEP)libLTO.$(DYLIB)
-	ifneq ($(wildcard $(LIBLTO)),)
-		LFLAGS+=-lto_library $(LIBLTO)
-	endif
-
 	# Base commands (I infer they always should be in the current OS)
 	MKDIR=mkdir -p
 	MOVE=mv

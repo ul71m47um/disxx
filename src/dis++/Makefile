@@ -17,14 +17,18 @@ CXXFLAGS+=\
 	-Wno-implicit-int-float-conversion -Wno-disabled-macro-expansion -Wno-cast-function-type-strict -Wno-compound-token-split-by-macro \
 	-Wno-poison-system-directories -Wno-cast-function-type-mismatch -Wno-decls-in-multiple-modules
 ifneq ($(OS),Darwin)
-	CXXFLAGS+=-I$(shell ruby ..$(PATHSEP)..$(PATHSEP)misc$(PATHSEP)config.rb)
+	CXXFLAGS+=\
+		$(shell ruby ..$(PATHSEP)..$(PATHSEP)misc$(PATHSEP)config.rb --cflags) \
+		-Wno-missing-include-dirs
 endif
 
 LFLAGS+=-O2 -pie -L$(DEPENDENCIESDIR) -ldisxx-util -ldisxx-ui -ldisxx-disasm -ldisxx-macho
 ifeq ($(OS),Darwin)
 	LFLAGS+=-S -framework Ruby -framework GLUT
 else
-	LFLAGS+=-lruby*.so* -lglut
+	LFLAGS+=\
+		$(shell ruby ..$(PATHSEP)..$(PATHSEP)misc$(PATHSEP)config.rb --ldflags) \
+		-lglut -rpath .
 endif
 
 MODULES=\

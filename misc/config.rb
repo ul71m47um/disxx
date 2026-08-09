@@ -22,13 +22,17 @@ if $0 == __FILE__
 	end.parse!
 
 	if options[:cflags]
-		puts "-I#{RbConfig::CONFIG["rubyhdrdir"]}"
+		puts <<~EOF.gsub /\n/, ' '
+			-I#{RbConfig::CONFIG["rubyhdrdir"]}
+			-I#{RbConfig::CONFIG["rubyarchhdrdir"]}
+		EOF
 	elsif options[:ldflags]
 		puts <<~EOF.gsub /\n/, ' '
 			-L#{RbConfig::CONFIG["libdir"]}
 			#{
 				RbConfig::CONFIG["LIBRUBY_SO"]
-					.gsub(/\Alib/, '-l')
+					.gsub(/\Alib/, "-l")
+					.gsub(/[0-9\.]+$/, '')
 					.gsub(/\.((dylib)|(so)|(dll))$/, '')
 			}
 		EOF

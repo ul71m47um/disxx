@@ -22,9 +22,7 @@ LFLAGS+=-O2 -L$(DEPENDENCIESDIR) -ldisxx-util
 ifeq ($(OS),Darwin)
 	LFLAGS+=-dylib -S -install_name @executable_path/../Frameworks/libdisxx-macho.$(DYLIB)
 else
-	ifneq ($(OS),Windows_NT)
-		LFLAGS+=-rpath $$ORIGIN/libdisxx-macho.$(DYLIB)
-	endif
+	LFLAGS+=-shared -rpath $$ORIGIN/libdisxx-macho.$(DYLIB)
 endif
 
 MODULES=\

@@ -28,9 +28,7 @@ LFLAGS+=-O2
 ifeq ($(OS),Darwin)
 	LFLAGS+=-dylib -S -install_name @executable_path/../Frameworks/libdisxx-util.$(DYLIB)
 else
-	ifneq ($(OS), Windows_NT)
-		LFLAGS+=-shared -rpath $$ORIGIN/libdisxx-util.$(DYLIB)
-	endif
+	LFLAGS+=-shared -rpath $$ORIGIN/libdisxx-util.$(DYLIB)
 endif
 
 ifeq ($(OS), Darwin)
