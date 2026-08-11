@@ -13,7 +13,7 @@ CXXFLAGS=\
 	-ftrapv -fmodules -fcxx-modules -fvisibility=hidden -Xclang -fmodules-local-submodule-visibility \
 	-fstack-protector-all -fstrict-aliasing
 
-LFLAGS=-lc++ -lc++abi -lc -demangle
+LFLAGS=-lc++ -lc++abi -lc -lm -demangle
 
 # Check if the OS is Windows, or else
 # treat this system as UNIX
@@ -32,6 +32,7 @@ ifeq ($(OS), Windows_NT)
 	LD=$(shell where link 2>NUL)
 	CC=$(shell where clang 2>NUL)
 	CXX=$(shell where clang++ 2>NUL)
+	RUBY=$(shell where ruby 2>NUL)
 
 	# Check if they haven't just been found
 	ifeq ($(ASM),)
@@ -45,6 +46,9 @@ ifeq ($(OS), Windows_NT)
 	endif
 	ifeq ($(CXX),)
 		$(error Unable to find a C++ compiler)
+	endif
+	ifeq ($(RUBY),)
+		$(error Unable to find Ruby interpreter)
 	endif
 
 	# Base commands
@@ -72,9 +76,10 @@ else
 		LD=$(shell xcrun --find ld 2>/dev/null)
 		CC=$(shell xcrun --find clang 2>/dev/null)
 		CXX=$(shell xcrun --find clang++ 2>/dev/null)
+		RUBY=$(shell xcrun --find ruby 2>/dev/null)
 	else
 		CXXFLAGS+=-isysroot $(shell llvm-config --includedir)
-		LFLAGS+=-L$(dir $(shell clang++ -print-file-name=libc++.so)) -lm
+		LFLAGS+=-L$(dir $(shell clang++ -print-file-name=libc++.so))
 
 		# C++ standart library module
 		LIBCXX=$(shell llvm-config --prefix)$(PATHSEP)share$(PATHSEP)libc++$(PATHSEP)v1$(PATHSEP)std.cppm
@@ -86,6 +91,7 @@ else
 		LD=$(shell command -v clang++) -fuse-ld=lld
 		CC=$(shell command -v clang)
 		CXX=$(shell command -v clang++)
+		RUBY=$(shell command -v ruby)
 	endif
 
 	# Check if they haven't just been found
@@ -100,6 +106,9 @@ else
 	endif
 	ifeq ($(CXX),)
 		$(error Unable to find a C++ compiler)
+	endif
+	ifeq ($(RUBY),)
+		$(error Unable to find Ruby interpreter)
 	endif
 
 	# Base commands (I infer they always should be in the current OS)

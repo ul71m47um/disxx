@@ -18,7 +18,7 @@ CXXFLAGS+=\
 	-Wno-poison-system-directories -Wno-cast-function-type-mismatch -Wno-decls-in-multiple-modules
 ifneq ($(OS),Darwin)
 	CXXFLAGS+=\
-		$(shell ruby ..$(PATHSEP)..$(PATHSEP)misc$(PATHSEP)config.rb --cflags) \
+		$(shell $(RUBY) ..$(PATHSEP)..$(PATHSEP)misc$(PATHSEP)config.rb --cflags) \
 		-Wno-missing-include-dirs
 endif
 
@@ -27,7 +27,7 @@ ifeq ($(OS),Darwin)
 	LFLAGS+=-S -framework Ruby -framework GLUT
 else
 	LFLAGS+=\
-		$(shell ruby ..$(PATHSEP)..$(PATHSEP)misc$(PATHSEP)config.rb --ldflags) \
+		$(shell $(RUBY) ..$(PATHSEP)..$(PATHSEP)misc$(PATHSEP)config.rb --ldflags) \
 		-lglut -rpath .
 endif
 

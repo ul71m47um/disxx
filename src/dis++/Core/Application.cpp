@@ -68,11 +68,36 @@ Application::Application(void) noexcept(false)
 	, m_pInput{}
 { this->m_pInput.SetCallback([] -> void { Application::Init(); }); }
 
-void Application::Disassemble(const std::filesystem::path &path) noexcept(false)
+void Application::LoadLabels(const std::filesystem::path &path) noexcept(false)
 {
-	// Just take the ptr, so I shouldn't cast it every time
 	auto &labels{dynamic_cast<disxx::ui::SourceEditor &>(*s_pInstance->m_Window.GetWidgets().at(1))};
 	labels.ClearText();
+
+	disxx::loader::macho::Loader ldr{};
+	ldr.LoadFile(path);
+	for (const auto &section : ldr.LoadData().GetSections())
+	{
+		for (const auto &label : section.GetLabels())
+		{	
+			labels.AddLine
+			(
+				"<color value=\"0.7 0.6 0.2 1.0\">{}</color>:"
+				"<color value=\"0.8 0.6 0.2 1.0\">{:#016}</color>:"
+				"<color value=\"0.6 0.6 0.2 1.0\">{}</color>",
+				section.GetName(),
+				label.GetAddress(),
+				label.GetName()
+			);
+		}
+	}
+
+	const auto [width, height]{s_pInstance->m_Window.GetSize()};
+	labels.Resize(disxx::ui::utility::Vec2<float>{width * 1.f, height * 0.2f});
+}
+
+void Application::Disassemble(const std::filesystem::path &path) noexcept(false)
+{
+	this->LoadLabels(path);
 
 	disxx::ui::SourceEditor editor{};
 	editor.SetColor(0.2f, 0.2f, 0.2f);
@@ -155,16 +180,6 @@ void Application::Disassemble(const std::filesystem::path &path) noexcept(false)
 		
 			for (const auto &label : section.GetLabels())
 		    {
-		        labels.AddLine
-				(
-					"<color value=\"0.7 0.6 0.2 1.0\">{}</color>:"
-					"<color value=\"0.8 0.6 0.2 1.0\">{:#016}</color>:"
-					"<color value=\"0.6 0.6 0.2 1.0\">{}</color>",
-					section.GetName(),
-					label.GetAddress(),
-					label.GetName()
-				);
-
 		        editor.AddLine("<color value=\"0.6 0.6 0.2 1.0\">{}</color>:", label.GetName());
 
 				disxx::disasm::Disassembler disasm{};
@@ -280,17 +295,7 @@ void Application::Disassemble(const std::filesystem::path &path) noexcept(false)
 		{
 			for (const auto &label : section.GetLabels())
 			{
-				labels.AddLine
-				(
-					"<color value=\"0.7 0.6 0.2 1.0\">{}</color>:"
-					"<color value=\"0.8 0.6 0.2 1.0\">{:#016}</color>:"
-					"<color value=\"0.6 0.6 0.2 1.0\">{}</color>",
-					name,
-					label.GetAddress(),
-					label.GetName()
-				);
 				editor.AddLine("<color value=\"0.6 0.6 0.2 1.0\">{}</color>:", label.GetName());
-
 				for (const auto &byte : label.GetData<std::uint8_t>())
 				{
 					editor.AddLine
@@ -307,9 +312,6 @@ void Application::Disassemble(const std::filesystem::path &path) noexcept(false)
 			}
 		}
 	}
-
-	const auto [width, height]{s_pInstance->m_Window.GetSize()};
-	labels.Resize(disxx::ui::utility::Vec2<float>{width * 1.f, height * 0.2f});
 
 	disxx::ui::Tab tab{};
 	tab.SetColor(0.2f, 0.2f, 0.2f);

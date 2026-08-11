@@ -8,10 +8,16 @@ module;
 #pragma clang diagnostic ignored "-Wdocumentation"
 #pragma clang diagnostic ignored "-Wcast-qual"
 #pragma clang diagnostic ignored "-Wundef"
+// There's Ruby 2.6.0 on macOS, whereas it's
+// latest ruby versions on the other platforms,
+// and defined structures may have different
+// fields
 #ifdef __APPLE__
 #	include <Ruby/ruby.h>
+#   define RESERVED {nullptr}
 #else
 #	include <ruby.h>
+#   define RESERVED nullptr, {nullptr}
 #endif
 #pragma clang diagnostic pop
 
@@ -22,8 +28,6 @@ import disxx.disasm.Disassembler;
 
 namespace
 {
-	#pragma clang diagnostic push
-	#pragma clang diagnostic ignored "-Wmissing-field-initializers"
 	rb_data_type_t loader
 	{
 		"Disxx::Loader",
@@ -31,7 +35,7 @@ namespace
 			nullptr,
 			[](void *ptr) -> void { delete static_cast<disxx::loader::macho::Loader *>(ptr); },
 			[](const void *) -> std::size_t { return 0; },
-			{nullptr}
+			RESERVED
 		},
 		nullptr,
 		nullptr,
@@ -45,7 +49,7 @@ namespace
 			nullptr,
 			[](void *ptr) -> void { delete static_cast<disxx::loader::executable::ExecutableFile *>(ptr); },
 			[](const void *) -> std::size_t { return 0; },
-			{nullptr}
+			RESERVED
 		},
 		nullptr,
 		nullptr,
@@ -59,7 +63,7 @@ namespace
 			nullptr,
 			[](void *ptr) -> void { delete static_cast<disxx::loader::executable::Section *>(ptr); },
 			[](const void *) -> std::size_t { return 0; },
-			{nullptr}
+			RESERVED
 		},
 		nullptr,
 		nullptr,
@@ -73,13 +77,12 @@ namespace
 			nullptr,
 			[](void *ptr) -> void { delete static_cast<disxx::loader::executable::Label *>(ptr); },
 			[](const void *) -> std::size_t { return 0; },
-			{nullptr}
+			RESERVED
 		},
 		nullptr,
 		nullptr,
 		RUBY_TYPED_FREE_IMMEDIATELY
 	};
-	#pragma clang diagnostic pop
 
 	template <typename T>
 	inline T *unwrap(VALUE) noexcept

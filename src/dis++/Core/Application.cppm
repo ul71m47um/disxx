@@ -28,6 +28,7 @@ export class __attribute__((visibility("hidden"))) [[nodiscard]] Application
 	Application(const Application &) noexcept(false) = delete;
 	Application &operator=(const Application &) noexcept(false) = delete;
 
+	void LoadLabels(const std::filesystem::path &) noexcept(false);
 	void Disassemble(const std::filesystem::path &) noexcept(false);
 
   public:
