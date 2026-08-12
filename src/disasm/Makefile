@@ -37,18 +37,18 @@ MODULES=\
 	..$(PATHSEP)modules$(PATHSEP)utility$(PATHSEP)public$(PATHSEP)pointer$(PATHSEP)disxx.utility.pointer.NonNull.cppm \
 	.$(PATHSEP)utility$(PATHSEP)bits$(PATHSEP)disxx.disasm.utility.bits.cppm \
 	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)private$(PATHSEP)disxx.disasm.InstructionIdentifier.cppm \
-	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)public$(PATHSEP)operand$(PATHSEP)disxx.disasm.operand.IOperand.cppm \
-	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)public$(PATHSEP)operand$(PATHSEP)disxx.disasm.operand.Register-VectorArrangementSpecifier.cppm \
-	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)public$(PATHSEP)operand$(PATHSEP)disxx.disasm.operand.Register.cppm \
-	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)public$(PATHSEP)operand$(PATHSEP)disxx.disasm.operand.Immediate.cppm \
-	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)public$(PATHSEP)operand$(PATHSEP)disxx.disasm.operand.Extension.cppm \
-	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)public$(PATHSEP)operand$(PATHSEP)disxx.disasm.operand.PState.cppm \
-	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)public$(PATHSEP)operand$(PATHSEP)disxx.disasm.operand.Shift.cppm \
-	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)public$(PATHSEP)operand$(PATHSEP)disxx.disasm.operand.LoadsAndStoresAddress.cppm \
-	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)public$(PATHSEP)operand$(PATHSEP)disxx.disasm.operand.PrefetchOperand.cppm \
-	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)public$(PATHSEP)operand$(PATHSEP)disxx.disasm.operand.SystemOperand.cppm \
-	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)public$(PATHSEP)operand$(PATHSEP)disxx.disasm.operand.MemoryBarrier.cppm \
-	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)public$(PATHSEP)operand$(PATHSEP)disxx.disasm.operand.Condition.cppm \
+	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)private$(PATHSEP)operand$(PATHSEP)disxx.disasm.operand.IOperand.cppm \
+	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)private$(PATHSEP)operand$(PATHSEP)disxx.disasm.operand.Register-VectorArrangementSpecifier.cppm \
+	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)private$(PATHSEP)operand$(PATHSEP)disxx.disasm.operand.Register.cppm \
+	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)private$(PATHSEP)operand$(PATHSEP)disxx.disasm.operand.Immediate.cppm \
+	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)private$(PATHSEP)operand$(PATHSEP)disxx.disasm.operand.Extension.cppm \
+	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)private$(PATHSEP)operand$(PATHSEP)disxx.disasm.operand.PState.cppm \
+	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)private$(PATHSEP)operand$(PATHSEP)disxx.disasm.operand.Shift.cppm \
+	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)private$(PATHSEP)operand$(PATHSEP)disxx.disasm.operand.LoadsAndStoresAddress.cppm \
+	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)private$(PATHSEP)operand$(PATHSEP)disxx.disasm.operand.PrefetchOperand.cppm \
+	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)private$(PATHSEP)operand$(PATHSEP)disxx.disasm.operand.SystemOperand.cppm \
+	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)private$(PATHSEP)operand$(PATHSEP)disxx.disasm.operand.MemoryBarrier.cppm \
+	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)private$(PATHSEP)operand$(PATHSEP)disxx.disasm.operand.Condition.cppm \
 	.$(PATHSEP)decoder$(PATHSEP)abstract$(PATHSEP)disxx.disasm.decoder.abstract.SubDecoder.cppm \
 	.$(PATHSEP)decoder$(PATHSEP)abstract$(PATHSEP)disxx.disasm.decoder.abstract.Decoder.cppm \
 	.$(PATHSEP)decoder$(PATHSEP)DataProcessingRegister$(PATHSEP)SubDecoder$(PATHSEP)disxx.disasm.decoder.DataProcessingRegister.EvaluateIntoFlags.SubDecoder.cppm \
@@ -178,9 +178,9 @@ MODULES=\
 	.$(PATHSEP)decoder$(PATHSEP)BranchesExceptionsAndSystemInstructions$(PATHSEP)SubDecoder$(PATHSEP)disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemRegisterMove.SubDecoder.cppm \
 	.$(PATHSEP)decoder$(PATHSEP)DecoderFactory$(PATHSEP)disxx.disasm.decoder.DecoderFactory.cppm \
     .$(PATHSEP)decoder$(PATHSEP)DecoderFactory$(PATHSEP)disxx.disasm.decoder.DecoderFactory-PseudoDecoder.cppm \
-	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)public$(PATHSEP)disxx.disasm.Address.cppm \
-	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)public$(PATHSEP)disxx.disasm.Bytes.cppm \
-	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)public$(PATHSEP)disxx.disasm.Instruction.cppm \
+	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)private$(PATHSEP)disxx.disasm.Address.cppm \
+	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)private$(PATHSEP)disxx.disasm.Bytes.cppm \
+	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)private$(PATHSEP)disxx.disasm.Instruction.cppm \
 	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)public$(PATHSEP)disxx.disasm.Disassembler.cppm \
 	..$(PATHSEP)modules$(PATHSEP)disasm$(PATHSEP)public$(PATHSEP)disxx.disasm.Printer.cppm
 

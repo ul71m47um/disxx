@@ -218,13 +218,13 @@ namespace disxx::disasm::decoder::LoadsAndStores::RegisterOffset
               case 0b110: [[fallthrough]];
               case 0b111:
                 static_cast<disxx::disasm::operand::LoadsAndStoresAddress *>(this->m_Operands[2].get())->AddExtension
-					(
-						disxx::disasm::operand::Extension
-						{
-							option,
-							static_cast<unsigned short int>(S ? 3 : 0)
-						}
-					);
+				(
+					disxx::disasm::operand::Extension
+					{
+						option,
+						static_cast<unsigned short int>(S ? 3 : 0)
+					}
+				);
                 return std::make_pair(insn, std::move(this->m_Operands));
 
               default:
