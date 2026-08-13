@@ -83,14 +83,30 @@ export namespace disxx::ui::backend
 	{
 		if constexpr (sizeof...(args) == 0)
 		{
-			static int argc{0};
-			static char *argv[] = {""};
+			int argc{0};
+			#pragma clang diagnostic push
+			#pragma clang diagnostic ignored "-Wbraced-scalar-init"
+			#pragma clang diagnostic ignored "-Wwritable-strings"
+			char *argv[]{{""}};
+			#pragma clang diagnostic pop
 			glutInit(&argc, argv);
 		}
 		else if constexpr (sizeof...(args) == 2)
 			glutInit(std::forward<Args>(args)...);
 		else
-			static_assert(false, "Incorrect arguments for disxx::ui::backend::GLUTContext::Init");
+		{
+			static_assert
+			(
+				false,
+				std::format
+				(
+					"Incorrect arguments for {}",
+					std::source_location{}
+						.function_name()
+				)
+			);
+		}
+
 		glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
 	}
 
@@ -98,8 +114,8 @@ export namespace disxx::ui::backend
 	{
 		return utility::Vec2<float>
 		{
-			glutGet(GLUT_WINDOW_WIDTH) * 1.f,
-			glutGet(GLUT_WINDOW_HEIGHT) * 1.f
+			static_cast<float>(glutGet(GLUT_WINDOW_WIDTH)),
+			static_cast<float>(glutGet(GLUT_WINDOW_HEIGHT))
 		};
 	}
 

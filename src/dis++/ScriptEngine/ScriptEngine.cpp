@@ -154,13 +154,22 @@ const char *ScriptEngine::EngineError::what(void) const noexcept
 { return this->m_Err.c_str(); }
 
 ScriptEngine::ScriptEngine(void) noexcept
+	#pragma clang diagnostic push
+	#pragma clang diagnostic ignored "-Wdisabled-macro-expansion"
 	: m_Disxx{Qnil}
 	, m_Loader{Qnil}
 	, m_ExecutableFile{Qnil}
 	, m_Section{Qnil}
 	, m_Label{Qnil}
 	, m_Disassembler{Qnil}
+	#pragma clang diagnostic pop
 {
+	#pragma clang diagnostic push
+	#pragma clang diagnostic ignored "-Wunknown-warning-option"
+	#pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-format-attr-call"
+	#pragma clang diagnostic ignored "-Wcompound-token-split-by-macro"
+	#pragma clang diagnostic ignored "-Wcast-function-type-strict"
+	#pragma clang diagnostic ignored "-Wdisabled-macro-expansion"
 	this->m_Disxx = rb_define_module("Disxx");
 
 	// Ruby classes defenition
@@ -202,9 +211,6 @@ ScriptEngine::ScriptEngine(void) noexcept
 			);
 		}
 	);
-	#pragma clang diagnostic push
-	#pragma clang diagnostic ignored "-Wunknown-warning-option"
-	#pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-format-attr-call"
 	rb_define_method
 	(
 		this->m_Loader,
@@ -233,7 +239,6 @@ ScriptEngine::ScriptEngine(void) noexcept
 		),
 		1
 	);
-	#pragma clang diagnostic pop
 	rb_define_method
 	(
 		this->m_Loader,
@@ -533,10 +538,14 @@ ScriptEngine::ScriptEngine(void) noexcept
 		),
 		0
 	);
+	#pragma clang diagnostic pop
 }
 
 ScriptEngine::ExecResult ScriptEngine::ExecFile(const std::filesystem::path &path) noexcept
 {
+	#pragma clang diagnostic push
+	#pragma clang diagnostic ignored "-Wcompound-token-split-by-macro"
+	#pragma clang diagnostic ignored "-Wdisabled-macro-expansion"
 	auto state{0};
 	rb_load_protect(rb_str_new_cstr(path.string().c_str()), 0, &state);
 	if (state) [[unlikely]]
@@ -552,6 +561,7 @@ ScriptEngine::ExecResult ScriptEngine::ExecFile(const std::filesystem::path &pat
 
 		return std::unexpected{EngineError{std::format("EngineError: {}", error)}};
 	}
+	#pragma clang diagnostic pop
 
 	return std::monostate{};
 }

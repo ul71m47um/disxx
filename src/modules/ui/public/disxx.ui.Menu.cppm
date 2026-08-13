@@ -44,7 +44,9 @@ export namespace disxx::ui
 			utility::Vec2<float>
 			{
 				this->m_Position.x,
-				this->m_Position.y - this->m_Size.y * (this->m_Entries.size() + 1)
+				this->m_Position.y
+					- this->m_Size.y
+					* (static_cast<float>(this->m_Entries.size()) + 1.f)
 			}
 		);
 
@@ -58,7 +60,7 @@ export namespace disxx::ui
 				(
 					this->m_Entries
 						| std::views::all
-						| std::views::transform([](const auto &var) -> float { return var.GetText().size() * 8.f; })
+						| std::views::transform([](const auto &var) -> float { return static_cast<float>(var.GetText().size()) * 8.f; })
 						| std::ranges::to<std::vector<float>>()
 				) + 10.f,
 				this->m_Size.x

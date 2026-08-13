@@ -160,17 +160,23 @@ export namespace disxx::disasm::utility::bits
 		if ((((immN << 6) | (~imms)) & (~1)) == 0b0000000) [[unlikely]]
 			return std::unexpected{std::monostate{}};
 
+		#pragma clang diagnostic push
+		#pragma clang diagnostic ignored "-Wimplicit-int-conversion"
 		const auto len{HighestSetBitNZ<unsigned short int, 7>((immN << 6) | (~imms))};
+		#pragma clang diagnostic pop
 		if (!len) [[unlikely]]
 			return std::unexpected{std::monostate{}};
 
+		#pragma clang diagnostic push
+		#pragma clang diagnostic ignored "-Wsign-conversion"
 		if (!(2 <= std::pow(2, *len) && std::pow(2, *len) <= _M)) [[unlikely]]
 			return std::unexpected{std::monostate{}};
 		
 		const auto ones{Ones<unsigned short int>(*len)};
 		if (!ones) [[unlikely]]
+		#pragma clang diagnostic pop
 			return std::unexpected{std::monostate{}};
-
+		
 		const auto levels{ZeroExtend<unsigned short int, unsigned short int, 6>(*ones, 6)};
 		if (!levels) [[unlikely]]
 			return std::unexpected{std::monostate{}};
@@ -181,13 +187,19 @@ export namespace disxx::disasm::utility::bits
 		auto s{imms & *levels}, r{immr & *levels};
 		auto diff{s - r}, esize{1 << *len};
 
+		#pragma clang diagnostic push
+		#pragma clang diagnostic ignored "-Wsign-conversion"
 		const auto mask{Ones<unsigned short int>(*len - 1)};
-		if (!mask) [[unlikely]]	
+		if (!mask) [[unlikely]]
+		#pragma clang diagnostic pop
 			return std::unexpected{std::monostate{}};
 
 		auto d{diff & *mask};
 		
+		#pragma clang diagnostic push
+		#pragma clang diagnostic ignored "-Wimplicit-int-conversion"
 		const auto sOnes{Ones<unsigned short int>(s + 1)}, dOnes{Ones<unsigned short int>(d + 1)};
+		#pragma clang diagnostic pop
 		if (!sOnes || !dOnes) [[unlikely]]
 			return std::unexpected{std::monostate{}};
 

@@ -39,6 +39,9 @@ export namespace disxx::disasm
 		};
 
 	  private:
+		#pragma clang diagnostic push
+		#pragma clang diagnostic ignored "-Wexit-time-destructors"
+		#pragma clang diagnostic ignored "-Wglobal-constructors"
 		static const std::flat_map<InstructionIdentifier, std::string_view> s_InstructionTable;
 
 		static const std::flat_map<operand::PrefetchOperand::Identifier, std::string_view> s_PrefetchOperandTable;
@@ -50,6 +53,7 @@ export namespace disxx::disasm
 		static const std::flat_map<operand::VectorArrangementSpecifier::Identifier, std::string_view> s_VectorArrangementSpecifierTable;
 		static const std::flat_map<operand::PState::Identifier, std::string_view> s_PStateTable;
 		static const std::flat_map<operand::Shift::Identifier, std::string_view> s_ShiftTable;
+		#pragma clang diagnostic pop
  
 	  private:
 		T m_It;
@@ -83,6 +87,9 @@ export namespace disxx::disasm
 		: std::runtime_error{pErr}
 	{}
 
+	#pragma clang diagnostic push
+	#pragma clang diagnostic ignored "-Wexit-time-destructors"
+	#pragma clang diagnostic ignored "-Wglobal-constructors"
 	// TODO: align this table
 	template <std::output_iterator<char> T>
 	const std::flat_map<InstructionIdentifier, std::string_view> Printer<T>::s_InstructionTable
@@ -2644,6 +2651,7 @@ export namespace disxx::disasm
         {operand::Shift::Identifier::ID_ROR, "ror"},
         {operand::Shift::Identifier::ID_MSL, "msl"}	
 	};
+	#pragma clang diagnostic pop
 
 	template <std::output_iterator<char> T>
 	Printer<T>::Printer(T &&it) noexcept

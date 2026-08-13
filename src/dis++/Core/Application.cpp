@@ -78,7 +78,7 @@ void Application::LoadLabels(const std::filesystem::path &path) noexcept(false)
 	for (const auto &section : ldr.LoadData().GetSections())
 	{
 		for (const auto &label : section.GetLabels())
-		{	
+		{
 			labels.AddLine
 			(
 				"<color value=\"0.7 0.6 0.2 1.0\">{}</color>:"
@@ -92,7 +92,14 @@ void Application::LoadLabels(const std::filesystem::path &path) noexcept(false)
 	}
 
 	const auto [width, height]{s_pInstance->m_Window.GetSize()};
-	labels.Resize(disxx::ui::utility::Vec2<float>{width * 1.f, height * 0.2f});
+	labels.Resize
+	(
+		disxx::ui::utility::Vec2<float>
+		{
+			static_cast<float>(width),
+			static_cast<float>(height) * 0.2f
+		}
+	);
 }
 
 void Application::Disassemble(const std::filesystem::path &path) noexcept(false)
@@ -205,9 +212,12 @@ void Application::Disassemble(const std::filesystem::path &path) noexcept(false)
 								const std::regex imms{R"(#-?((0x[a-f0-9]+)|(\d+\.\d+)))"};
 								for (std::sregex_iterator it{str.begin(), str.end(), imms}, end{}; it != end; ++it)
 								{
+									#pragma clang diagnostic push
+									#pragma clang diagnostic ignored "-Wsign-conversion"
 									if (const auto prev{str.at(it->position() - 1uz)}; prev == '>') [[unlikely]]
+									#pragma clang diagnostic pop
 										continue;
-
+				
 									// Check if it's a pc-relevant address (using .value_or(0) instead of .value() method)
 									if (const auto insnAddr{insn->GetProgramCounterRelevantAddress()}; insnAddr && std::string{"#"} + MKHEX(insnAddr.value_or(0)) == it->str())
 									{
@@ -235,7 +245,10 @@ void Application::Disassemble(const std::filesystem::path &path) noexcept(false)
 								for (std::sregex_iterator it{str.begin(), str.end(), regs}, end{}; it != end; ++it)
 								{
 									// Check if it was accidentally confused with immediate operand
+									#pragma clang diagnostic push
+									#pragma clang diagnostic ignored "-Wsign-conversion"
 									if (const auto prev{str.at(it->position() - 1uz)}; prev == 'x' || std::isdigit(prev) || (prev >= 97 && prev <= 102) || prev == '>') [[unlikely]]
+									#pragma clang diagnostic pop
 										continue;
 									// Check if a number of the register is valid
 									#pragma clang diagnostic push
@@ -261,8 +274,11 @@ void Application::Disassemble(const std::filesystem::path &path) noexcept(false)
 
 						if (auto insnAddr{insn->GetProgramCounterRelevantAddress()})
     		        	{
+							#pragma clang diagnostic push
+							#pragma clang diagnostic ignored "-Wsign-conversion"
     		            	if (auto it{names.find(*insnAddr)}; it != names.end())
-    		            	{
+    		            	#pragma clang diagnostic pop
+							{
     		            	    editor.AddLine
     		            	    (
 									"<color value=\"0.7 0.7 0.7 1.0\">|</color>\t{}\t\t"
@@ -341,8 +357,8 @@ void Application::Init(void) noexcept(false)
 		{
 			0.f,
 			0.f,
-			width * 1.f,
-			height * 0.7f
+			static_cast<float>(width) * 1.f,
+			static_cast<float>(height) * 0.7f
 		};
 		pane.SetColor(0.2f, 0.2f, 0.2f);
 
@@ -353,9 +369,9 @@ void Application::Init(void) noexcept(false)
 		disxx::ui::SourceEditor labels
 		{
 			0.f,
-			height * 0.75f,
-			width * 1.f,
-			height * 0.2f
+			static_cast<float>(height) * 0.75f,
+			static_cast<float>(width) * 1.f,
+			static_cast<float>(height) * 0.2f
 		};
 		labels.SetColor(0.2f, 0.2f, 0.2f);
 		
@@ -366,9 +382,9 @@ void Application::Init(void) noexcept(false)
 		disxx::ui::Menu menu
 		{
 			0.f,
-			height * 0.97f,
-			width * 0.05f,
-			height * 0.03f
+			static_cast<float>(height) * 0.97f,
+			static_cast<float>(width) * 0.05f,
+			static_cast<float>(height) * 0.03f
 		};
 		menu.SetColor(0.2f, 0.2f, 0.2f);
 		menu.SetText("File");
@@ -575,8 +591,8 @@ void Application::Init(void) noexcept(false)
 
 				disxx::ui::Label upper
 				{
-					w / 2.f,
-					h / 2.f + 100.f,
+					static_cast<float>(w) / 2.f,
+					static_cast<float>(h) / 2.f + 100.f,
 					0.f,
 					0.f
 				};
@@ -586,8 +602,8 @@ void Application::Init(void) noexcept(false)
 				
 				disxx::ui::Label label
 				{
-					w / 4.f + 70.f,
-					h / 2.f + 45.f,
+					static_cast<float>(w) / 4.f + 70.f,
+					static_cast<float>(h) / 2.f + 45.f,
 					0.f,
 					0.f
 				};
@@ -597,8 +613,8 @@ void Application::Init(void) noexcept(false)
 
 				disxx::ui::Button ok
 				{
-					w / 2.f + w / 5.f - 100.f,
-					h / 2.f - h / 5.f,
+					static_cast<float>(w) / 2.f + static_cast<float>(w) / 5.f - 100.f,
+					static_cast<float>(h) / 2.f - static_cast<float>(h) / 5.f,
 					100.f,
 					40.f
 				};
@@ -642,8 +658,8 @@ void Application::Init(void) noexcept(false)
 
 				disxx::ui::Button cancel
 				{
-					w / 2 - w / 5.f,
-					h / 2 - h / 5.f,
+					static_cast<float>(w) / 2 - static_cast<float>(w) / 5.f,
+					static_cast<float>(h) / 2 - static_cast<float>(h) / 5.f,
 					100.f,
 					40.f
 				};
@@ -663,8 +679,8 @@ void Application::Init(void) noexcept(false)
 
 				disxx::ui::TextInput input
 				{
-					w / 3.f + 50.f,
-					h / 2.f + 25.f,
+					static_cast<float>(w) / 3.f + 50.f,
+					static_cast<float>(h) / 2.f + 25.f,
 					250.f,
 					40.f
 				};
@@ -705,8 +721,8 @@ void Application::Init(void) noexcept(false)
 
 				disxx::ui::Label upper
 				{
-					w / 2.f,
-					h / 2.f + 100.f,
+					static_cast<float>(w) / 2.f,
+					static_cast<float>(h) / 2.f + 100.f,
 					0.f,
 					0.f
 				};
@@ -716,8 +732,8 @@ void Application::Init(void) noexcept(false)
 				
 				disxx::ui::Label label
 				{
-					w / 4.f + 70.f,
-					h / 2.f + 45.f,
+					static_cast<float>(w) / 4.f + 70.f,
+					static_cast<float>(h) / 2.f + 45.f,
 					0.f,
 					0.f
 				};
@@ -727,8 +743,8 @@ void Application::Init(void) noexcept(false)
 
 				disxx::ui::Button ok
 				{
-					w / 2.f + w / 5.f - 100.f,
-					h / 2.f - h / 5.f,
+					static_cast<float>(w) / 2.f + static_cast<float>(w) / 5.f - 100.f,
+					static_cast<float>(h) / 2.f - static_cast<float>(h) / 5.f,
 					100.f,
 					40.f
 				};
@@ -769,8 +785,8 @@ void Application::Init(void) noexcept(false)
 
 				disxx::ui::Button cancel
 				{
-					w / 2 - w / 5.f,
-					h / 2 - h / 5.f,
+					static_cast<float>(w) / 2 - static_cast<float>(w) / 5.f,
+					static_cast<float>(h) / 2 - static_cast<float>(h) / 5.f,
 					100.f,
 					40.f
 				};
@@ -790,8 +806,8 @@ void Application::Init(void) noexcept(false)
 
 				disxx::ui::TextInput input
 				{
-					w / 3.f + 50.f,
-					h / 2.f + 25.f,
+					static_cast<float>(w) / 3.f + 50.f,
+					static_cast<float>(h) / 2.f + 25.f,
 					250.f,
 					40.f
 				};
@@ -818,10 +834,10 @@ void Application::Init(void) noexcept(false)
 	{
 		disxx::ui::Menu menu
 		{
-			width * 0.05f,
-			height * 0.97f,
-			width * 0.05f,
-			height * 0.03f
+			static_cast<float>(width) * 0.05f,
+			static_cast<float>(height) * 0.97f,
+			static_cast<float>(width) * 0.05f,
+			static_cast<float>(height) * 0.03f
 		};
 		menu.SetColor(0.2f, 0.2f, 0.2f);
         menu.SetText("View");

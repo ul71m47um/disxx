@@ -18,7 +18,7 @@ export namespace disxx::ui::backend
 	class __attribute__((visibility("default"))) [[nodiscard]] GLRenderer final : public IRenderer
 	{
 	  private:
-		static constexpr char *s_pVertexSource = "#version 120\n"
+		static constexpr const char *s_pVertexSource = "#version 120\n"
 			"uniform mat4 projection;\n"
 			"attribute vec2 position;\n"
 			"attribute vec3 incolor;\n"
@@ -29,7 +29,7 @@ export namespace disxx::ui::backend
 			"\tcolor = vec4(incolor, 1.f);"
 			"}\n";
 		
-		static constexpr char *s_pFragmentSource = "#version 120\n"
+		static constexpr const char *s_pFragmentSource = "#version 120\n"
 			"varying vec4 color;\n"
 			"void main()\n"
 			"{\n"

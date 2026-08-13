@@ -11,7 +11,9 @@ endif
 CXXFLAGS=\
 	-c -std=c++26 -stdlib=libc++ -Weverything -Werror -fno-implicit-modules -fno-implicit-module-maps \
 	-ftrapv -fmodules -fcxx-modules -fvisibility=hidden -Xclang -fmodules-local-submodule-visibility \
-	-fstack-protector-all -fstrict-aliasing
+	-fstack-protector-all -fstrict-aliasing -fbounds-safety-bringup-missing-checks -fcheck-new \
+	-fchecked-pointer-arithmetic -fcolor-diagnostics -fdata-sections -fexperimental-bounds-safety-attributes \
+	-fsafe-buffer-usage-suggestions
 
 LFLAGS=-lc++ -lc++abi -lc -lm -demangle
 

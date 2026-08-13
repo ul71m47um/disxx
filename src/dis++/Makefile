@@ -11,11 +11,8 @@ OBJECTSDIR=$(BUILDDIR)$(PATHSEP)objects
 
 CXXFLAGS+=\
 	-O3 -fPIE -fprebuilt-module-path=$(PRECOMPILEDDIR) -DGL_SILENCE_DEPRECATION -DBACKEND_CTX_GLUT -DNDEBUG -I..$(PATHSEP)third-party \
-	-Wno-unused-command-line-argument -Wno-c99-extensions -Wno-global-constructors -Wno-exit-time-destructors \
-	-Wno-reserved-identifier -Wno-switch-enum -Wno-reserved-macro-identifier -Wno-writable-strings -Wno-weak-vtables \
-	-Wno-non-virtual-dtor -Wno-covered-switch-default -Wno-padded -Wno-sign-conversion -Wno-c++98-compat -Wno-c++98-compat-pedantic \
-	-Wno-implicit-int-float-conversion -Wno-disabled-macro-expansion -Wno-cast-function-type-strict -Wno-compound-token-split-by-macro \
-	-Wno-poison-system-directories -Wno-cast-function-type-mismatch -Wno-decls-in-multiple-modules
+	-Wno-unused-command-line-argument -Wno-reserved-identifier -Wno-weak-vtables -Wno-non-virtual-dtor -Wno-padded -Wno-c++98-compat \
+	-Wno-c++98-compat-pedantic -Wno-poison-system-directories -Wno-cast-function-type-mismatch -Wno-decls-in-multiple-modules
 ifneq ($(OS),Darwin)
 	CXXFLAGS+=\
 		$(shell $(RUBY) ..$(PATHSEP)..$(PATHSEP)misc$(PATHSEP)config.rb --cflags) \

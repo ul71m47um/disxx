@@ -43,8 +43,24 @@ export namespace disxx::ui
 		for (const auto i : std::views::iota(0ul, this->m_Tabs.size()))
 		{
 			auto &iTab{this->m_Tabs[i]};
-			iTab.Replace(utility::Vec2<float>{this->m_Position.x + (this->m_Size.x / this->m_Tabs.size()) * i, this->m_Size.y * 0.95f});
-			iTab.Resize(utility::Vec2<float>{(this->m_Size.x / this->m_Tabs.size()), this->m_Size.y * 0.05f});
+			iTab.Replace
+			(
+				utility::Vec2<float>
+				{
+					this->m_Position.x
+						+ (this->m_Size.x / static_cast<float>(this->m_Tabs.size()))
+						* static_cast<float>(i),
+					this->m_Size.y * 0.95f
+				}
+			);
+			iTab.Resize
+			(
+				utility::Vec2<float>
+				{
+					(this->m_Size.x / static_cast<float>(this->m_Tabs.size())),
+					this->m_Size.y * 0.05f
+				}
+			);
 			
 			auto &area{iTab.GetTextArea()};
 			area.Replace(utility::Vec2<float>{this->m_Position.x, this->m_Position.y});

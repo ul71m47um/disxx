@@ -88,6 +88,8 @@ import disxx.utility.ini.Parser;
 
 module DisLog;
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
 template <> struct std::formatter<DisLog::DemanglingError> : public std::formatter<std::string>
 {
   public:
@@ -158,6 +160,7 @@ template <> struct std::formatter<DisLog::ThreadStateError> : public std::format
 		);
 	}
 };
+#pragma clang diagnostic pop
 
 // Overloading std::formatter for ctime struct
 // because of Apple clang 17 doesn't support std::chrono::current_zone()

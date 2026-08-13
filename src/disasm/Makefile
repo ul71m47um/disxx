@@ -11,11 +11,9 @@ OBJECTSDIR=$(BUILDDIR)$(PATHSEP)objects
 
 CXXFLAGS+=\
 	-O3 -fPIC -fprebuilt-module-path=$(PRECOMPILEDDIR) -DNDEBUG \
-	-Wno-weak-vtables -Wno-c++98-compat -Wno-implicit-int-conversion -Wno-reserved-macro-identifier \
-	-Wno-padded -Wno-c++98-c++11-compat-binary-literal -Wno-sign-conversion -Wno-reserved-identifier \
-	-Wno-c++98-compat-pedantic -Wno-global-constructors -Wno-exit-time-destructors -Wno-switch-enum \
-	-Wno-nrvo -Wno-undefined-func-template -Wno-shift-count-overflow -Wno-unused-command-line-argument \
-	-Wno-integer-overflow -Wno-poison-system-directories
+	-Wno-weak-vtables -Wno-c++98-compat -Wno-padded -Wno-c++98-c++11-compat-binary-literal \
+	-Wno-c++98-compat-pedantic -Wno-unused-command-line-argument -Wno-poison-system-directories \
+	-Wno-reserved-module-identifier -Wno-reserved-identifier
 
 LFLAGS+=-O2 -L$(DEPENDENCIESDIR) -ldisxx-util
 ifeq ($(OS), Darwin)
