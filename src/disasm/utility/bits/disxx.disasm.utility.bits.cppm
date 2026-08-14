@@ -115,7 +115,7 @@ export namespace disxx::disasm::utility::bits
 	{
 		auto result{static_cast<T>(0)};
 		for (unsigned short int i{0}; i < N; ++i)
-			result = (result << _M) | x;
+			result = static_cast<T>((result << _M) | x);
 		
 		return result;
 	}

@@ -11,6 +11,9 @@ namespace disxx::disasm::utility::bits
 		std::uint64_t imm64{0};
 		switch (extract<unsigned short int, unsigned short int, 1, 3>(cmode))
 		{
+		  #pragma clang diagnostic push
+		  #pragma clang diagnostic ignored "-Wimplicit-int-conversion"
+		  #pragma clang diagnostic ignored "-Wsign-conversion"
 		  case 0b000:
 			imm64 = Replicate<std::uint64_t, std::uint32_t, 32>(imm8, 2);
 			break;
@@ -71,6 +74,7 @@ namespace disxx::disasm::utility::bits
 			}
 			
 			break;
+		  #pragma clang diagnostic pop
 
 		  default:
 			break;
@@ -81,7 +85,11 @@ namespace disxx::disasm::utility::bits
 
 	unsigned short int SysOp(unsigned short int op1, unsigned short int CRn, unsigned short int CRm, unsigned short int op2) noexcept
 	{
-		static const std::unordered_map<unsigned short int, unsigned short int> SysOpTable = {
+		#pragma clang diagnostic push
+		#pragma clang diagnostic ignored "-Wexit-time-destructors"
+		static const std::flat_map<unsigned short int, unsigned short int> SysOpTable
+		#pragma clang diagnostic pop
+		{
 			{0b00001111000000, 1},
 			{0b00001111000001, 1},
 			{0b00001111000010, 1},
@@ -300,7 +308,7 @@ namespace disxx::disasm::utility::bits
 			{0b11010010111101, 5}	
 		};
 
-		unsigned short int encoding = (op1 << 11) | (CRn << 7) | (CRm << 3) | op2;
+		const auto encoding{static_cast<unsigned short int>((op1 << 11) | (CRn << 7) | (CRm << 3) | op2)};
 		if (auto it{SysOpTable.find(encoding)}; it != SysOpTable.end())
 			return it->second;
 		return 0;
@@ -308,7 +316,7 @@ namespace disxx::disasm::utility::bits
 
 	bool SysOp128(unsigned short int op1, unsigned short int CRn, unsigned short int CRm, unsigned short int op2) noexcept
 	{
-		unsigned short int encoding = (op1 << 11) | (CRn << 7) | (CRm << 3) | op2;
+		const auto encoding{static_cast<unsigned short int>((op1 << 11) | (CRn << 7) | (CRm << 3) | op2)};
 		switch (encoding)
 		{
 		  case 0b00010000001001:
