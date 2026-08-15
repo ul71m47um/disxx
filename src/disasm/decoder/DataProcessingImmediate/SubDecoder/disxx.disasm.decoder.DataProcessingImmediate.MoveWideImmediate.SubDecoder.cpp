@@ -63,7 +63,7 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::MoveWideImmediate
             {0b11100, {InstructionIdentifier::ID_MOVK, std::nullopt}}
         };
 
-        const unsigned short int encoding = (sf << 4) | (opc << 2) | (sf == 0b1 ? 0b00 : (hw & ~1));
+        const auto encoding{static_cast<unsigned short int>((sf << 4) | (opc << 2) | (sf == 0b1 ? 0b00 : (hw & ~1)))};
         const auto it{insnTable.find(encoding)};
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

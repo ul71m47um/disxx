@@ -108,7 +108,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
 			disxx::disasm::operand::Register::Type::TYPE_D
 		};
 
-        unsigned short int encoding = (U << 5) | opcode;
+        auto encoding{static_cast<unsigned short int>((U << 5) | opcode)};
         auto it{insnTable.find(encoding)};
 		disxx::disasm::operand::Register::Type rsize{};
         if (it != insnTable.end()) [[unlikely]]

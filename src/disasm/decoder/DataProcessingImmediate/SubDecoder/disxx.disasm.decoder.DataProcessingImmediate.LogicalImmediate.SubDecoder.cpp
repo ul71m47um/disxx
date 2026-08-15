@@ -66,7 +66,7 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::LogicalImmediate
             {0b1110, {InstructionIdentifier::ID_ANDS, InstructionIdentifier::ID_TST}}
         };
 
-        const unsigned short int encoding = (sf << 3) | (opc << 2) | (sf == 0b1 ? 0 : N);
+        const auto encoding{static_cast<unsigned short int>((sf << 3) | (opc << 2) | (sf == 0b1 ? 0 : N))};
         const auto it{insnTable.find(encoding)};
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

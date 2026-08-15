@@ -83,7 +83,7 @@ namespace disxx::disasm::decoder::LoadsAndStores::RegisterPairPostIndexed
             {0b1111, {InstructionIdentifier::ID_LDTP, disxx::disasm::operand::Register::Type::TYPE_Q, 4}}
         };
 
-        const unsigned short int encoding = (opc << 2) | (VR << 1) | L;
+        const auto encoding{static_cast<unsigned short int>((opc << 2) | (VR << 1) | L)};
         const auto it{insnTable.find(encoding)};
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

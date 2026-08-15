@@ -136,7 +136,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {0b111111, {InstructionIdentifier::ID_FCVTZU, std::bind(getAmountInTheRange1, 0)}}
         };
 
-        const unsigned short int encoding = (U << 9) | (immh << 5) | opcode;
+        const auto encoding{static_cast<unsigned short int>((U << 9) | (immh << 5) | opcode)};
         const auto it{insnTable.find(encoding)};
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

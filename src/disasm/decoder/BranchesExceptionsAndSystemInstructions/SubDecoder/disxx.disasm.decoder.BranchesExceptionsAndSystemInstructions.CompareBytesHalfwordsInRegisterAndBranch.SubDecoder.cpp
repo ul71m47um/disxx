@@ -76,7 +76,7 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Compa
             {0b1111, InstructionIdentifier::ID_CBHNE}
         };
 
-        const unsigned short int encoding = (cc << 1) | H;
+        const auto encoding{static_cast<unsigned short int>((cc << 1) | H)};
         const auto it{insnTable.find(encoding)};
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

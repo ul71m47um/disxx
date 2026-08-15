@@ -72,7 +72,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {0b111001111, InstructionIdentifier::ID_FMINV}
         };
 
-        unsigned short int encoding = (Q << 8) | (U << 7) | (size << 5) | opcode;
+        auto encoding{static_cast<unsigned short int>((Q << 8) | (U << 7) | (size << 5) | opcode)};
         if (opcode == 0b00011 || opcode == 0b01010 || opcode == 0b11010 || opcode == 0b11011)
             encoding &= (~(1 << 8)) & (~(0b11 << 5)); // Turn off Q and size bits
         else if (U == 0b0)
@@ -115,7 +115,14 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
 				)
 			);
  
-            T = disxx::disasm::operand::VectorArrangementSpecifier((Q << 2) | size);
+            T = disxx::disasm::operand::VectorArrangementSpecifier
+			{
+				static_cast<unsigned short int>
+				(
+					(Q << 2)
+						| size
+				)
+			};
         }
         else
         {

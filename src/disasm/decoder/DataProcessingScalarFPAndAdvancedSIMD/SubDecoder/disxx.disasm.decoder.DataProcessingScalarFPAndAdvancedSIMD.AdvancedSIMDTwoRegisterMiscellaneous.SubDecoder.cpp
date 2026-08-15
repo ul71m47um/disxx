@@ -702,11 +702,11 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
 			}
         };
 
-		unsigned short int encoding = (U << 5) | opcode;
+		auto encoding{static_cast<unsigned short int>((U << 5) | opcode)};
 		auto it{insnTable.find(encoding)};
 		if (it == insnTable.end())
 		{
-            encoding = (U << 7) | (size << 5) | opcode;
+            encoding = static_cast<unsigned short int>((U << 7) | (size << 5) | opcode);
             if (!((U == 0b1 && (opcode == 0b10111 || opcode == 0b00101 || opcode == 0b10110)) || encoding == 0b01010110))
                 // Turn off the first bit in the size field
                 encoding &= ~(0b1 << 5);

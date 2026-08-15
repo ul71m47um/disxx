@@ -65,7 +65,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {0b110000, InstructionIdentifier::ID_INS}
         };
 
-        unsigned short int encoding = (Q << 5) | (op << 4) | imm4;
+        auto encoding{static_cast<unsigned short int>((Q << 5) | (op << 4) | imm4)};
         if (imm4 <= 0b0001)
             encoding &= ~(1 << 5);
         else if (encoding == 0b100111 && (imm5 & 0xF) != 0b1000) [[unlikely]]

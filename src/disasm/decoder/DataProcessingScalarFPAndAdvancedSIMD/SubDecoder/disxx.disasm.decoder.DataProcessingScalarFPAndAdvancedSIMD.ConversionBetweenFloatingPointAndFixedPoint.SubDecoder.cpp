@@ -104,7 +104,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Convers
             {0b101111001, InstructionIdentifier::ID_UCVTZS}
         };
 
-        const unsigned short int encoding = (sf << 8) | (S << 7) | (ftype << 5) | (rmode << 3) | opcode;
+        const auto encoding{static_cast<unsigned short int>((sf << 8) | (S << 7) | (ftype << 5) | (rmode << 3) | opcode)};
         const auto it{insnTable.find(encoding)};
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

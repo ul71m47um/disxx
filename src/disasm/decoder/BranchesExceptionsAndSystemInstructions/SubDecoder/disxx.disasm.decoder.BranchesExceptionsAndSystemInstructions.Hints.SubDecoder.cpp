@@ -88,7 +88,7 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Hints
             {0b0110001, InstructionIdentifier::ID_STSHH}
         };
 
-        const unsigned short int encoding = (CRm << 3) | op2;
+        const auto encoding{static_cast<unsigned short int>((CRm << 3) | op2)};
         const auto it{insnTable.find(encoding)};
         if (it == insnTable.end())
         {

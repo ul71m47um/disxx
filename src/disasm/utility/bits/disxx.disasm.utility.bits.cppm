@@ -54,12 +54,10 @@ export namespace disxx::disasm::utility::bits
 	requires (_Size + 1 <= sizeof(T) * 8)
 	short int HighestSetBit(T x) noexcept
 	{
-		for (short int i{_Size - 1}; i >= 0; --i)
-		{
+		//for (short int i{_Size - 1}; i >= 0; --i)
+		for (const auto i : std::views::iota(static_cast<unsigned short int>(0), _Size) | std::views::reverse)
 			if (x >> i)
-				return i;
-		}
-
+				return static_cast<signed short int>(i);
 		return -1;
 	}
 
@@ -77,7 +75,7 @@ export namespace disxx::disasm::utility::bits
    	requires (_Size + 1 <= sizeof(T) * 8)
    	signed short int LowestSetBit(T x) noexcept
    	{
-   	    for (short int i{0}; i < _Size; ++i)
+   	    for (const auto i : std::views::iota(static_cast<unsigned short int>(0), _Size))
    	    {
    	        if ((x >> i) & 1)
    	            return i + 1;
@@ -100,7 +98,7 @@ export namespace disxx::disasm::utility::bits
 	unsigned short int BitCount(T x) noexcept
 	{
 		unsigned short int result{0};
-		for (unsigned short int i{0}; i < _Size; ++i)
+		for (const auto i : std::views::iota(static_cast<unsigned short int>(0), _Size))
 		{
 			if ((x >> i) & 1)
 				result++;
@@ -114,9 +112,12 @@ export namespace disxx::disasm::utility::bits
 	T Replicate(U x, unsigned short int N) noexcept
 	{
 		auto result{static_cast<T>(0)};
-		for (unsigned short int i{0}; i < N; ++i)
+		#pragma clang diagnostic push
+		#pragma clang diagnostic ignored "-Wshift-count-overflow"
+		for (const auto _ : std::views::iota(static_cast<unsigned short int>(0), N))
 			result = static_cast<T>((result << _M) | x);
-		
+		#pragma clang diagnostic pop
+	
 		return result;
 	}
 
@@ -127,7 +128,7 @@ export namespace disxx::disasm::utility::bits
 			return std::unexpected{std::monostate{}};
 
 		auto result{static_cast<T>(0)};
-        for (unsigned short int i{0}; i < N; ++i)
+        for (const auto i : std::views::iota(static_cast<unsigned short int>(0), N))
             result |= (1 << i);
         return result;
     }
@@ -203,12 +204,13 @@ export namespace disxx::disasm::utility::bits
 		if (!sOnes || !dOnes) [[unlikely]]
 			return std::unexpected{std::monostate{}};
 
-		const auto welem{ZeroExtend<T, unsigned short int, _M>(*sOnes, esize)}, telem{ZeroExtend<T, unsigned short int, _M>(*dOnes, esize)};
+		const auto welem{ZeroExtend<T, unsigned short int, _M>(*sOnes, static_cast<unsigned short int>(esize))};
+		const auto telem{ZeroExtend<T, unsigned short int, _M>(*dOnes, static_cast<unsigned short int>(esize))};
 		if (!welem || !telem) [[unlikely]]
 			return std::unexpected{std::monostate{}};
 
-		wmask = Replicate<T, T, _M>(std::rotr(*welem, r), _M / esize);
-		tmask = Replicate<T, T, _M>(*telem, _M / esize);
+		wmask = Replicate<T, T, _M>(std::rotr(*welem, r), static_cast<unsigned short int>(_M / esize));
+		tmask = Replicate<T, T, _M>(*telem, static_cast<unsigned short int>(_M / esize));
 
 		return std::make_pair(wmask, tmask);
 	}

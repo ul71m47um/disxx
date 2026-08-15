@@ -67,7 +67,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {0b11001111, InstructionIdentifier::ID_FMINP}
         };
 
-        unsigned short int encoding = (U << 7) | (size << 5) | opcode;
+        auto encoding{static_cast<unsigned short int>((U << 7) | (size << 5) | opcode)};
         if (U == 0b1) encoding &= ~(1 << 5);
 
         const auto it{insnTable.find(encoding)};

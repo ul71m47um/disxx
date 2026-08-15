@@ -215,7 +215,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
         this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(disxx::disasm::operand::Register::Type::TYPE_NEON, Rd, 128 + 'V'));
         this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(disxx::disasm::operand::Register::Type::TYPE_NEON, Rn, 128 + 'V'));
     
-        unsigned short int encoding = (U << 4) | opcode;
+        auto encoding{static_cast<unsigned short int>((U << 4) | opcode)};
         if (opcode >> 3 == 0b0 && opcode << 3 == 0b1)
             encoding &= ~(0b11 << 2);
         auto it{insnTable.find(encoding)};

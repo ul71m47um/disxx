@@ -54,7 +54,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
         Rn = utility::bits::extract<unsigned short int, std::uint32_t, 5, 9>(this->m_Insn);
         Rd = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        const unsigned short int encoding = (U << 4) | opcode;
+        const auto encoding{static_cast<unsigned short int>((U << 4) | opcode)};
         if (opcode != 0b10000 && opcode != 0b10001) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
 

@@ -64,7 +64,7 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Barri
         // It has no any instruction yet
         InstructionIdentifier insn{};
 
-        const unsigned short int encoding = (op2 << 5) | Rt;
+        const auto encoding{static_cast<unsigned short int>((op2 << 5) | Rt)};
         if (const auto it{insnTable.find(encoding)}; it != insnTable.end()) [[likely]]
             insn = it->second;
         else if ((CRm & 0b0011) == 0b0010 && encoding == 0b00111111) [[likely]]

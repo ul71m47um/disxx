@@ -455,11 +455,11 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {0b11100011, {InstructionIdentifier::ID_BIF, [Q] -> std::optional<disxx::disasm::operand::VectorArrangementSpecifier> { return disxx::disasm::operand::VectorArrangementSpecifier{Q}; }}}
         };
 
-        unsigned short int encoding = (U << 5) | opcode;
+        auto encoding{static_cast<unsigned short int>((U << 5) | opcode)};
         auto it{insnTable.find(encoding)};
         if (it == insnTable.end())
         {
-            encoding = (U << 7) | (size << 5) | opcode;
+            encoding = static_cast<unsigned short int>((U << 7) | (size << 5) | opcode);
             if (opcode != 0b00011 && opcode != 0b11101)
                 encoding &= ~(0b01 << 5);
             it = insnTableWithSize.find(opcode);
@@ -519,7 +519,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             }(*spec)
         };
 
-        for (auto i{0}; const auto &T : specArray)
+        for (auto i{0ul}; const auto &T : specArray)
             static_cast<disxx::disasm::operand::Register *>(this->m_Operands.at(i++).get())->SetVectorArrangementSpecifier(T);
 
         return std::make_pair(insn, std::move(this->m_Operands));

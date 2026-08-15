@@ -61,7 +61,7 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Syste
         
         if ((CRn & 0b1110) == 0b1000 && utility::bits::SysOp128(op1, CRn, CRm, op2))
         {
-            const unsigned short int encoding = (op1 << 11) | (CRn << 7) | (CRm << 3) | op2;
+            const auto encoding{static_cast<unsigned short int>((op1 << 11) | (CRn << 7) | (CRm << 3) | op2)};
             this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::SystemOperand>(encoding));
             this->m_Operands.emplace_back
 			(

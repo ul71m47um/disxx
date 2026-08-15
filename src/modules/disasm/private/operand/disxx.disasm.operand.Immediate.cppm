@@ -72,12 +72,17 @@ export namespace disxx::disasm::operand
 		, m_Option{opt}
 		, m_Value{value}
 	{
+		#pragma clang diagnostic push
+		#pragma clang diagnostic ignored "-Wshift-count-overflow"
+		#pragma clang diagnostic ignored "-Winteger-overflow"
+		#pragma clang diagnostic ignored "-Wsign-conversion"
+		#pragma clang diagnostic ignored "-Wswitch-enum"
 		switch (opt)
 		{
 		  case Option::OPT_SIGNEXTEND:
 			if constexpr (std::is_integral<T>::value)
-				this->m_Value |= this->m_Value & (1ull << (_Size - 1))
-           			? ~((1 << _Size) - 1)
+				this->m_Value |= static_cast<T>(this->m_Value & (1ull << (_Size - 1)))
+           			? static_cast<T>(~((1 << _Size) - 1))
            			: this->m_Value;
 			return;
 
@@ -89,6 +94,7 @@ export namespace disxx::disasm::operand
 		  default:
 			return;
 		}
+		#pragma clang diagnostic pop
 	}
 
 	template <Imm T, unsigned short int _Size> requires ImmSize<T, _Size>
@@ -135,7 +141,7 @@ export namespace disxx::disasm::operand
     {
 		return Immediate<T, _Size>
 		{
-			std::add_sat<T>(this->m_Value, val),
+			std::add_sat<T>(this->m_Value, static_cast<T>(val)),
 			Option::OPT_NONE
 		};
     }
@@ -144,7 +150,7 @@ export namespace disxx::disasm::operand
     template <Imm U> requires OverflowProof<T, U>
     Immediate<T, _Size> &Immediate<T, _Size>::operator+=(const U &val) noexcept
     {
-		this->m_Value = std::add_sat<T>(this->m_Value, val);
+		this->m_Value = std::add_sat<T>(this->m_Value, static_cast<T>(val));
 		return *this;
 	}
 

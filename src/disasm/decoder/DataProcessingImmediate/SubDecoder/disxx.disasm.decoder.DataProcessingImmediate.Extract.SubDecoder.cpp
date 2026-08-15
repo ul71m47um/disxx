@@ -61,7 +61,7 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::Extract
             {0b10010000000, InstructionIdentifier::ID_EXTR}
         };
 
-        const unsigned short int encoding = (sf << 10) | (op21 << 8) | (N << 7) | (o0 << 6) | (sf == 0b0 ? (imms & 0b100000) : 0b000000);
+        const auto encoding{static_cast<unsigned short int>((sf << 10) | (op21 << 8) | (N << 7) | (o0 << 6) | (sf == 0b0 ? (imms & 0b100000) : 0b000000))};
         auto it{insnTable.find(encoding)};
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

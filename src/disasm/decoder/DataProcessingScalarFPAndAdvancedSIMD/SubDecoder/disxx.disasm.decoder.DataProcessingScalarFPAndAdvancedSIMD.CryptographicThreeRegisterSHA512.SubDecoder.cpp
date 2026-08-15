@@ -63,7 +63,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Cryptog
             {0b110, InstructionIdentifier::ID_SM4EKEY}
         };
 
-        const unsigned short int encoding = (O << 2) | opcode;
+        const auto encoding{static_cast<unsigned short int>((O << 2) | opcode)};
         const auto it{insnTable.find(encoding)};
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

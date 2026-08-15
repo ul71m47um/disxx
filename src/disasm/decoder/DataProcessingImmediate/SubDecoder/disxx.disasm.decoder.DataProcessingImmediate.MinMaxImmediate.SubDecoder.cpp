@@ -65,7 +65,7 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::MinMaxImmediate
             {0b1000011, InstructionIdentifier::ID_UMIN}
         };
 
-        const unsigned short int encoding = (sf << 6) | (op << 5) | (S << 4) | opc;
+        const auto encoding{static_cast<unsigned short int>((sf << 6) | (op << 5) | (S << 4) | opc)};
         const auto it{insnTable.find(encoding)};
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

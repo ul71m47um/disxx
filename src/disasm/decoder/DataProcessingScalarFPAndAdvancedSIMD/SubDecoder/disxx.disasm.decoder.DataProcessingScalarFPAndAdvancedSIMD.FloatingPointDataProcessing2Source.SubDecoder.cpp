@@ -105,7 +105,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Floatin
             {0b00111000, InstructionIdentifier::ID_FNMUL}
         };
 
-        const unsigned short int encoding = (M << 7) | (S << 6) | (ftype << 4) | opcode;
+        const auto encoding{static_cast<unsigned short int>((M << 7) | (S << 6) | (ftype << 4) | opcode)};
         const auto it{insnTable.find(encoding)};
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

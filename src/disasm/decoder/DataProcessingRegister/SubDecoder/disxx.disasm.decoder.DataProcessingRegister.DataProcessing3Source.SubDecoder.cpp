@@ -72,7 +72,7 @@ namespace disxx::disasm::decoder::DataProcessingRegister::DataProcessing3Source
             {0b1001100, {InstructionIdentifier::ID_UMULH, std::nullopt}}
         };
 
-        const unsigned short int encoding = (sf << 6) | (op54 << 4) | (op31 << 1) | o0;
+        const auto encoding{static_cast<unsigned short int>((sf << 6) | (op54 << 4) | (op31 << 1) | o0)};
         const auto it{insnTable.find(encoding)};
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

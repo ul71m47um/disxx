@@ -62,7 +62,7 @@ namespace disxx::disasm::decoder::DataProcessingRegister::EvaluateIntoFlags
             {0b001000000101101, InstructionIdentifier::ID_SETF16}
         };
 
-        const unsigned short int encoding = (sf << 14) | (op << 13) | (S << 12) | (opcode2 << 6) | (sz << 5) | (o3 << 4) | mask;
+        const auto encoding{static_cast<unsigned short int>((sf << 14) | (op << 13) | (S << 12) | (opcode2 << 6) | (sz << 5) | (o3 << 4) | mask)};
         const auto it{insnTable.find(encoding)};
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

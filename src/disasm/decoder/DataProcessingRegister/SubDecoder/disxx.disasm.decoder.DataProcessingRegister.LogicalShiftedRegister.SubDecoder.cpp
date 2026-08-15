@@ -77,7 +77,7 @@ namespace disxx::disasm::decoder::DataProcessingRegister::LogicalShiftedRegister
             {0b1111, {InstructionIdentifier::ID_BICS, std::nullopt}}
         };
 
-        const unsigned short int encoding = (sf << 3) | (opc << 1) | N;
+        const auto encoding{static_cast<unsigned short int>((sf << 3) | (opc << 1) | N)};
         const auto it{insnTable.find(encoding)};
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

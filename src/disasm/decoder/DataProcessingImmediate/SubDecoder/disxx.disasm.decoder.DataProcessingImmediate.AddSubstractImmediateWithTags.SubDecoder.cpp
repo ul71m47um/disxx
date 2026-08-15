@@ -61,7 +61,7 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::AddSubstractImmediate
             {0b110, InstructionIdentifier::ID_SUBG}
         };
 
-        const unsigned short int encoding = (sf << 2) | (op << 1) | S;
+        const auto encoding{static_cast<unsigned short int>((sf << 2) | (op << 1) | S)};
         const auto it{insnTable.find(encoding)};
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

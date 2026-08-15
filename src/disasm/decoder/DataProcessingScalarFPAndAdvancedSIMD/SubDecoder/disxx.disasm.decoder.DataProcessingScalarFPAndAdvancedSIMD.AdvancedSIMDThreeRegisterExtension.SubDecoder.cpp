@@ -97,7 +97,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {0b11101101, InstructionIdentifier::ID_FMMLA}
         };
 
-        unsigned short int encoding = (Q << 7) | (U << 6) | (size << 4) | opcode;
+        auto encoding{static_cast<unsigned short int>((Q << 7) | (U << 6) | (size << 4) | opcode)};
         if (opcode <= 0b0010)
             encoding &= ~(0b11 << 4);
 

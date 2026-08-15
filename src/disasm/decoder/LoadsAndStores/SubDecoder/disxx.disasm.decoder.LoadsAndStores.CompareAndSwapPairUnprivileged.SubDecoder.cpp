@@ -66,7 +66,7 @@ namespace disxx::disasm::decoder::LoadsAndStores::CompareAndSwapPairUnprivileged
         if (sz == 0b0 || Rs == 0b11111 || Rt == 0b11111) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
 
-        const unsigned short int encoding = (L << 6) | (o0 << 5) | Rt2;
+        const auto encoding{static_cast<unsigned short int>((L << 6) | (o0 << 5) | Rt2)};
         const auto it{insnTable.find(encoding)};
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

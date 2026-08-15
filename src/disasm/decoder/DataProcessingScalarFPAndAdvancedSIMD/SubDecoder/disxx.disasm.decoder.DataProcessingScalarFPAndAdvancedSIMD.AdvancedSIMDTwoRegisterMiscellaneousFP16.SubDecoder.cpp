@@ -86,7 +86,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {0b1111111, InstructionIdentifier::ID_FSQRT}
         };
 
-        const unsigned short int encoding = (Q << 6) | (a << 5) | opcode;
+        const auto encoding{static_cast<unsigned short int>((Q << 6) | (a << 5) | opcode)};
         const auto it{insnTable.find(encoding)};
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

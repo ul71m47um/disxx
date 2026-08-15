@@ -70,7 +70,7 @@ namespace disxx::disasm::decoder::DataProcessingRegister::AddSubstractExtendedRe
             {0b11100, {InstructionIdentifier::ID_SUBS, InstructionIdentifier::ID_CMP}}
         };
 
-        const unsigned short int encoding = (sf << 4) | (op << 3) | (S << 2) | opt;
+        const auto encoding{static_cast<unsigned short int>((sf << 4) | (op << 3) | (S << 2) | opt)};
         auto it{insnTable.find(encoding)};
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

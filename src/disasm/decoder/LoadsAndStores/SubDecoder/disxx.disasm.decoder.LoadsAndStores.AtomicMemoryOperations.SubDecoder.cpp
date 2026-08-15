@@ -377,7 +377,7 @@ namespace disxx::disasm::decoder::LoadsAndStores::AtomicMemoryOperations
 			)
 		);
 
-        const unsigned short int encoding = (size << 7) | (VR << 6) | (A << 5) | (R << 4) | (o3 << 3) | opc;
+        const auto encoding{static_cast<unsigned short int>((size << 7) | (VR << 6) | (A << 5) | (R << 4) | (o3 << 3) | opc)};
         if (const auto it{insnTable1.find(encoding)}; it != insnTable1.end())
         {
             const auto &[insn, alias]{it->second};

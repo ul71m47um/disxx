@@ -95,7 +95,7 @@ namespace disxx::disasm::decoder::LoadsAndStores::OneHundredAndTwentyEightBitAto
             {0b1111011, InstructionIdentifier::ID_RCWSSETPAL}
         };
 
-        const unsigned short int encoding = (S << 6) | (A << 5) | (R << 4) | (o3 << 3) | opc;
+        const auto encoding{static_cast<unsigned short int>((S << 6) | (A << 5) | (R << 4) | (o3 << 3) | opc)};
         const auto it{insnTable.find(encoding)};
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

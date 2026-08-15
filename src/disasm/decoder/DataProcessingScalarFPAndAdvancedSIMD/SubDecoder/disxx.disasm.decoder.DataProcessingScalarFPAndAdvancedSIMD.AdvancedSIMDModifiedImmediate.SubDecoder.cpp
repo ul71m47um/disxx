@@ -82,7 +82,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {0b1111110, InstructionIdentifier::ID_FMOV}
         };
 
-        unsigned short int encoding = (Q << 6) | (op << 5) | (cmode << 1) | o2;
+        auto encoding{static_cast<unsigned short int>((Q << 6) | (op << 5) | (cmode << 1) | o2)};
         if ((cmode >> 3) == 0b0)
             encoding &= ~(0b11 << 2);
         else if ((cmode >> 2) == 0b10)
@@ -117,7 +117,15 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
 				}
 			);
 		
-			const auto imm{utility::bits::AdvSIMDExpandImm(op, cmode, imm8)};
+			const auto imm
+			{
+				utility::bits::AdvSIMDExpandImm
+				(
+					op,
+					cmode,
+					static_cast<unsigned short int>(imm8)
+				)
+			};
 			if (!imm) [[unlikely]]
 				return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
 
@@ -148,9 +156,9 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
 				}
 			);
 
-            std::uint16_t imm16{0};
+            unsigned short int imm16{0};
             imm16 |= (imm8 >> 7) << 15;
-            imm16 |= ~utility::bits::extract<unsigned short int, std::uint16_t, 6, 6>(imm8) << 14;
+            imm16 |= static_cast<unsigned short int>(~utility::bits::extract<unsigned short int, unsigned short int, 6, 6>(imm8) << 14);
             imm16 |= utility::bits::Replicate<unsigned short int, unsigned short int, 1>(utility::bits::extract<unsigned short int, unsigned short int, 6, 6>(imm8), 2) << 13;
             imm16 |= utility::bits::extract<unsigned short int, unsigned short int, 0, 5>(imm8) << 6;
             this->m_Operands.emplace_back

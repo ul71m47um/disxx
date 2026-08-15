@@ -91,7 +91,7 @@ namespace disxx::disasm::decoder::DataProcessingRegister::DataProcessing2Source
             {0b11000000, InstructionIdentifier::ID_SUBPS}
         };
 
-        const unsigned short int encoding = (sf << 7) | (S << 6) | opcode;
+        const auto encoding{static_cast<unsigned short int>((sf << 7) | (S << 6) | opcode)};
         const auto it{insnTable.find(encoding)};
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

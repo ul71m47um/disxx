@@ -118,7 +118,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
 
         unsigned short int Ts{};
         
-        unsigned short int encoding = (U << 4) | opcode;
+        auto encoding{static_cast<unsigned short int>((U << 4) | opcode)};
         auto it{insnTable.find(encoding)};
         if (it == insnTable.end())
         {

@@ -177,7 +177,7 @@ namespace disxx::disasm::decoder::LoadsAndStores::MemoryCopyAndMemorySet
             {0b1111011, InstructionIdentifier::ID_SETGETN}
         };
 
-        const unsigned short int encoding = (o0 << 6) | (op1 << 4) | op2;
+        const auto encoding{static_cast<unsigned short int>((o0 << 6) | (op1 << 4) | op2)};
         const auto it{insnTable.find(encoding)};
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

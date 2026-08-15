@@ -65,7 +65,7 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Excep
             {0b10100011, InstructionIdentifier::ID_DCPS3}
         };
 
-        const unsigned short int encoding = (opc << 5) | (op2 << 2) | LL;
+        const auto encoding{static_cast<unsigned short int>((opc << 5) | (op2 << 2) | LL)};
         const auto it{insnTable.find(encoding)};
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

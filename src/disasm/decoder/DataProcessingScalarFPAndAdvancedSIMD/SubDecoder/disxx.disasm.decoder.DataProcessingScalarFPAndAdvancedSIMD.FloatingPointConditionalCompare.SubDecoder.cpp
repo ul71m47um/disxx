@@ -87,7 +87,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Floatin
             {0b00111, InstructionIdentifier::ID_FCCMPE}
         };
 
-        const unsigned short int encoding = (M << 4) | (S << 3) | (ftype << 1) | op;
+        const auto encoding{static_cast<unsigned short int>((M << 4) | (S << 3) | (ftype << 1) | op)};
         const auto it{insnTable.find(encoding)};
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

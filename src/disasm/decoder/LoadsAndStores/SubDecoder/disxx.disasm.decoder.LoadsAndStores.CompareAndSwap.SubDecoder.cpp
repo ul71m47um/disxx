@@ -71,7 +71,7 @@ namespace disxx::disasm::decoder::LoadsAndStores::CompareAndSwap
         {
             [size, L, o0](void) -> InstructionIdentifier
             {
-                const unsigned short int encoding = (L << 1) | o0;
+                const auto encoding{static_cast<unsigned short int>((L << 1) | o0)};
                 if (size == 0b00)
                     return insnTable.at(encoding);
                 else if (size == 0b00)

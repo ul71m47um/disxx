@@ -62,7 +62,7 @@ namespace disxx::disasm::decoder::LoadsAndStores::CompareAndSwapUnprivileged
             {0b11111111, InstructionIdentifier::ID_CASALT}
         };
 
-        const unsigned short int encoding = (sz << 7) | (L << 6) | (o0 << 5) | Rt2;
+        const auto encoding{static_cast<unsigned short int>((sz << 7) | (L << 6) | (o0 << 5) | Rt2)};
         const auto it{insnTable.find(encoding)};
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

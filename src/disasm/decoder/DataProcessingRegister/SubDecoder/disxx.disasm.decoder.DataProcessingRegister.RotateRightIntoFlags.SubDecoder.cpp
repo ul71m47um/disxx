@@ -57,7 +57,7 @@ namespace disxx::disasm::decoder::DataProcessingRegister::RotateRightIntoFlags
         o2 = utility::bits::extract<unsigned short int, std::uint32_t, 4, 4>(this->m_Insn);
         mask = utility::bits::extract<unsigned short int, std::uint32_t, 0, 3>(this->m_Insn);
 
-        if (const unsigned short encoding = (sf << 3) | (op << 2) | (S << 1) | o2; encoding != 0b0101) [[unlikely]]
+        if (const auto encoding{static_cast<unsigned short int>((sf << 3) | (op << 2) | (S << 1) | o2)}; encoding != 0b0101) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
         this->m_Operands.emplace_back
 		(

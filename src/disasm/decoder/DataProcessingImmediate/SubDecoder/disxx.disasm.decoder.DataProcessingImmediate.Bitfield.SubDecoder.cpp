@@ -64,11 +64,13 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::Bitfield
             {0b1101, InstructionIdentifier::ID_UBFM}
         };
 
-        unsigned short int encoding = (sf << 3) | (opc << 1) | N;
+        auto encoding{static_cast<unsigned short int>((sf << 3) | (opc << 1) | N)};
         auto it{insnTable.find(encoding)};
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
 
+		#pragma clang diagnostic push
+		#pragma clang diagnostic ignored "-Wswitch-enum"
         switch (it->second)
         {
           case InstructionIdentifier::ID_SBFM:
@@ -404,7 +406,8 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::Bitfield
           default:
             break;
         }
-        
+        #pragma clang diagnostic pop
+
 		this->m_Operands.emplace_back
 		(
 			std::make_unique<disxx::disasm::operand::Register>

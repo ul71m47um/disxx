@@ -103,7 +103,7 @@ namespace disxx::disasm::decoder::DataProcessingRegister::ConditionalSelect
             {0b11001, {InstructionIdentifier::ID_CSNEG, csnegAlias}}
         };
 
-        const unsigned short int encoding = (sf << 4) | (op << 3) | (S << 2) | op2;
+        const auto encoding{static_cast<unsigned short int>((sf << 4) | (op << 3) | (S << 2) | op2)};
         const auto it{insnTable.find(encoding)};
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

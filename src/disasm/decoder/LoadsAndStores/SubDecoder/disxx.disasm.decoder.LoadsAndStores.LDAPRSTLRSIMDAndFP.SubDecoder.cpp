@@ -71,7 +71,7 @@ namespace disxx::disasm::decoder::LoadsAndStores::LDAPRSTLRSIMDAndFP
             {0b1101, {InstructionIdentifier::ID_LDAPUR, disxx::disasm::operand::Register::Type::TYPE_D}}
         };
 
-        const unsigned short int encoding = (size << 2) | opc;
+        const auto encoding{static_cast<unsigned short int>((size << 2) | opc)};
         const auto it{insnTable.find(encoding)};
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

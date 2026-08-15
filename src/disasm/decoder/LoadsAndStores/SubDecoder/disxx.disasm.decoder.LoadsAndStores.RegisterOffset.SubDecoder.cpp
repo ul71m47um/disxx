@@ -85,7 +85,7 @@ namespace disxx::disasm::decoder::LoadsAndStores::RegisterOffset
             {0b11101, {InstructionIdentifier::ID_LDR, disxx::disasm::operand::Register::Type::TYPE_D, 3}}
         };
 
-        const unsigned short int encoding = (size << 3) | (VR << 2) | opc;
+        const auto encoding{static_cast<unsigned short int>((size << 3) | (VR << 2) | opc)};
         if (const auto it{insnTable.find(encoding)}; it != insnTable.end())
         {
             const auto &[insn, rtype, amount]{it->second};

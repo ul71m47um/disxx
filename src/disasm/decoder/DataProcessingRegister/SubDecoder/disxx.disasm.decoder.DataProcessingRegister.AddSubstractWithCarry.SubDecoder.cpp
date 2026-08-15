@@ -66,7 +66,7 @@ namespace disxx::disasm::decoder::DataProcessingRegister::AddSubstractWithCarry
             {0b111, {InstructionIdentifier::ID_SBCS, std::nullopt}}
         };
 
-        const unsigned short int encoding = (sf << 2) | (op << 1) | S;
+        const auto encoding{static_cast<unsigned short int>((sf << 2) | (op << 1) | S)};
         const auto it{insnTable.find(encoding)};
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

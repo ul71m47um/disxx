@@ -63,7 +63,7 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::PSTAT
         if (Rt != 0b1111) [[unlikely]]
            return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
 
-        const unsigned short int encoding = (op1 << 3) | op2;
+        const auto encoding{static_cast<unsigned short int>((op1 << 3) | op2)};
         if (const auto it{insnTable.find(encoding)}; it != insnTable.end())
             return std::make_pair(it->second, std::move(this->m_Operands));
         else if (op1 == 0b011 && (CRm >> 3) == 0b0 && op2 == 0b011)

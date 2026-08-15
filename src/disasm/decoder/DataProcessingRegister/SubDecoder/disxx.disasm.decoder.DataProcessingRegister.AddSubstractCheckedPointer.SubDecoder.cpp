@@ -62,7 +62,7 @@ namespace disxx::disasm::decoder::DataProcessingRegister::AddSubstractCheckedPoi
             {0b110, InstructionIdentifier::ID_SUBPT}
         };
 
-        const unsigned short int encoding = (sf << 2) | (op << 1) | S;
+        const auto encoding{static_cast<unsigned short int>((sf << 2) | (op << 1) | S)};
         const auto it{insnTable.find(encoding)};
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{encoding}};

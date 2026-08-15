@@ -148,7 +148,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {0b111100, {InstructionIdentifier::ID_UMULL2, addSingleTaFirst}}
         };
 
-        const unsigned short int encoding = (Q << 5) | (U << 4) | opcode;
+        const auto encoding{static_cast<unsigned short int>((Q << 5) | (U << 4) | opcode)};
         const auto it{insnTable.find(encoding)};
         if (it == insnTable.end() || (size == 0b11 && opcode != 0b1110)) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

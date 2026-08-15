@@ -131,7 +131,7 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Uncon
             {0b100111111000011, {InstructionIdentifier::ID_BLRAB, true, mkall}}
         };
 
-        const unsigned short int encoding = (opc << 11) | (op2 << 6) | op3;
+        const auto encoding{static_cast<unsigned short int>((opc << 11) | (op2 << 6) | op3)};
         const auto it{insnTable.find(encoding)};
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

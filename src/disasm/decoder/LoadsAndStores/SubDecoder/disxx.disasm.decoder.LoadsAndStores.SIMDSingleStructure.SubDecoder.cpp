@@ -91,7 +91,7 @@ namespace disxx::disasm::decoder::LoadsAndStores::SIMDSingleStructure
             {0b110111, {InstructionIdentifier::ID_LD4R, 4}}
         };
 
-        const unsigned short int encoding = (L << 5) | (R << 4) | (o2 << 3) | opcode;
+        const auto encoding{static_cast<unsigned short int>((L << 5) | (R << 4) | (o2 << 3) | opcode)};
         const auto it{insnTable.find(encoding)};
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

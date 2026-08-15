@@ -64,7 +64,7 @@ namespace disxx::disasm::decoder::DataProcessingImmediate::DataProcessing1Source
             {0b10111111, InstructionIdentifier::ID_AUTIBSPPC}
         };
 
-        const unsigned short int encoding = (sf << 7) | (opc << 5) | Rd;
+        const auto encoding{static_cast<unsigned short int>((sf << 7) | (opc << 5) | Rd)};
         const auto it{insnTable.find(encoding)};
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

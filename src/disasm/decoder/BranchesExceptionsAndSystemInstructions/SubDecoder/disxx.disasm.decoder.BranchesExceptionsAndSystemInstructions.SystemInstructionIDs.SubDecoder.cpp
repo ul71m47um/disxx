@@ -56,7 +56,7 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Syste
         op2 = utility::bits::extract<unsigned short int, std::uint32_t, 5, 7>(this->m_Insn);
         Rt = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
-        const unsigned short int encoding = (op1 << 11) | (CRn << 7) | (CRm << 3) | op2;
+        const auto encoding{static_cast<unsigned short int>((op1 << 11) | (CRn << 7) | (CRm << 3) | op2)};
         if (L == 0b1)
         {
             this->m_Operands.emplace_back

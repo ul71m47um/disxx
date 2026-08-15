@@ -108,7 +108,7 @@ namespace disxx::disasm::decoder::LoadsAndStores::AtomicMemoryOperationsUnprivil
 			)
 		);
 
-        const unsigned short int encoding = (A << 5) | (R << 4) | (o3 << 3) | opc;
+        const auto encoding{static_cast<unsigned short int>((A << 5) | (R << 4) | (o3 << 3) | opc)};
         const auto it{insnTable.find(encoding)};
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

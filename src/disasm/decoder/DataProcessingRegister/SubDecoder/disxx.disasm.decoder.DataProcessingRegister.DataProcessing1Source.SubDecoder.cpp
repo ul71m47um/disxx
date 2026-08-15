@@ -83,7 +83,7 @@ namespace disxx::disasm::decoder::DataProcessingRegister::DataProcessing1Source
             {0b1000001000111, InstructionIdentifier::ID_AUTDB}
         };
 
-        const unsigned short int encoding = (sf << 12) | (S << 11) | (opcode2 << 6) | opcode;
+        const auto encoding{static_cast<unsigned short int>((sf << 12) | (S << 11) | (opcode2 << 6) | opcode)};
         const auto it{insnTable.find(encoding)};
         if (it == insnTable.end())
         {
@@ -110,7 +110,15 @@ namespace disxx::disasm::decoder::DataProcessingRegister::DataProcessing1Source
                 {0b10000011011111111111110, InstructionIdentifier::ID_AUTIB171615}
             };
 
-            const unsigned int encoding2 = (encoding << 5) | (((opcode >> 2) == 0b1001 ? 0b00000 : Rn) << 5) | ((opcode >> 4) <= 0b01 ? 0b00000 : Rd);
+            const auto encoding2
+			{
+				static_cast<unsigned short int>
+				(
+					(encoding << 5)
+						| (((opcode >> 2) == 0b1001 ? 0b00000 : Rn) << 5)
+						| ((opcode >> 4) <= 0b01 ? 0b00000 : Rd)
+				)
+			};
             const auto it2 = insnTable2.find(opcode2);
             if (it2 == insnTable2.end()) [[unlikely]]
                 return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

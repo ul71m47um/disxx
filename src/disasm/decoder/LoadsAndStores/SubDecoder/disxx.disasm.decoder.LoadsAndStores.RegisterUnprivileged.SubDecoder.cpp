@@ -78,7 +78,7 @@ namespace disxx::disasm::decoder::LoadsAndStores::RegisterUnprivileged
             {0b11001, {InstructionIdentifier::ID_LDTR, disxx::disasm::operand::Register::Type::TYPE_X}}
         };
 
-        unsigned short int encoding = (size << 3) | (VR << 2) | opc;
+        auto encoding{static_cast<unsigned short int>((size << 3) | (VR << 2) | opc)};
         auto it{insnTable.find(encoding)};
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

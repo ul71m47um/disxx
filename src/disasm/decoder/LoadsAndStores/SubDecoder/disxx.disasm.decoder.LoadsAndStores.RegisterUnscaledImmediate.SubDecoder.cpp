@@ -97,7 +97,7 @@ namespace disxx::disasm::decoder::LoadsAndStores::RegisterUnscaledImmediate
                 {0b11101, {InstructionIdentifier::ID_LDUR, disxx::disasm::operand::Register::Type::TYPE_D}}
             };
 
-            const unsigned short int encoding = (size << 3) | (VR << 2) | opc;
+            const auto encoding{static_cast<unsigned short int>((size << 3) | (VR << 2) | opc)};
             const auto it{insnTable.find(encoding)};
             if (it == insnTable.end()) [[unlikely]]
                 return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

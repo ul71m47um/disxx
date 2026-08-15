@@ -13,7 +13,7 @@ CXXFLAGS+=\
 	-O3 -fPIC -fprebuilt-module-path=$(PRECOMPILEDDIR) -DNDEBUG \
 	-Wno-weak-vtables -Wno-c++98-compat -Wno-padded -Wno-c++98-c++11-compat-binary-literal \
 	-Wno-c++98-compat-pedantic -Wno-unused-command-line-argument -Wno-poison-system-directories \
-	-Wno-reserved-module-identifier -Wno-reserved-identifier
+	-Wno-reserved-module-identifier -Wno-reserved-identifier -Wno-exit-time-destructors
 
 LFLAGS+=-O2 -L$(DEPENDENCIESDIR) -ldisxx-util
 ifeq ($(OS), Darwin)

@@ -65,7 +65,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {0b1110, InstructionIdentifier::ID_LUTI2}
         };
 
-        unsigned short int encoding = (Q << 3) | (op2 << 1) | op;
+        auto encoding{static_cast<unsigned short int>((Q << 3) | (op2 << 1) | op)};
         if (op2 == 0b00)
             encoding &= ~(1 << 3);
         else if (op2 == 0b11)

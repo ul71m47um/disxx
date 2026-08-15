@@ -76,7 +76,7 @@ namespace disxx::disasm::decoder::BranchesExceptionsAndSystemInstructions::Compa
             {0b1111, InstructionIdentifier::ID_CBNE},
         };
 
-        const unsigned short int encoding = (sf << 3) | cc;
+        const auto encoding{static_cast<unsigned short int>((sf << 3) | cc)};
         const auto it{insnTable.find(encoding)};
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
