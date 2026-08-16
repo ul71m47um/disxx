@@ -55,8 +55,8 @@ namespace disxx::disasm::decoder::LoadsAndStores::ExclusiveRegister
         Rt = utility::bits::extract<unsigned short int, std::uint32_t, 0, 4>(this->m_Insn);
 
         static std::array<InstructionIdentifier, 4> insnTable = {
-            InstructionIdentifier::ID_STTXR, InstructionIdentifier::ID_STLTXR,
-               InstructionIdentifier::ID_LDTXR, InstructionIdentifier::ID_LDATXR
+			InstructionIdentifier::ID_STTXR, InstructionIdentifier::ID_STLTXR,
+			InstructionIdentifier::ID_LDTXR, InstructionIdentifier::ID_LDATXR
         };
 
 		const auto rtype
@@ -82,6 +82,10 @@ namespace disxx::disasm::decoder::LoadsAndStores::ExclusiveRegister
 			)
 		);
  
-        return std::make_pair(insnTable.at((L << 1) | o0), std::move(this->m_Operands));
+        return std::make_pair
+		(
+			insnTable.at(static_cast<unsigned long int>(L << 1) | o0),
+			std::move(this->m_Operands)
+		);
 	}
 } /* disxx::disasm::decoder::LoadsAndStores::ExclusiveRegister */

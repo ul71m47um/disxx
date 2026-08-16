@@ -69,8 +69,8 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {0b001110, {InstructionIdentifier::ID_SQSHL, ((immh << 3) | immb) - (8 << 3)}},
             {0b010010, {InstructionIdentifier::ID_SQSHRN, ((immh << 3) | immb) - (8 << *utility::bits::HighestSetBitNZ<unsigned short int, 4>(immh))}},
             {0b010011, {InstructionIdentifier::ID_SQRSHRN, ((8 << *utility::bits::HighestSetBitNZ<unsigned short int, 2>(utility::bits::extract<unsigned short int, unsigned short int, 0, 2>(immh))) * 2) - ((immh << 3) | immb)}},
-            {0b011100, {InstructionIdentifier::ID_SCVTF, std::array<unsigned short int, 4>{16, 16, 32, 64}[utility::bits::HighestSetBit<unsigned short int, 4>(immh)] * 2 - ((immh << 3) | immb)}},
-            {0b011111, {InstructionIdentifier::ID_FCVTZS, std::array<unsigned short int, 4>{16, 16, 32, 64}[utility::bits::HighestSetBit<unsigned short int, 4>(immh)] * 2 - ((immh << 3) | immb)}},
+            {0b011100, {InstructionIdentifier::ID_SCVTF, std::clamp(1 << utility::bits::HighestSetBit<unsigned short int, 4>(immh), 16, 64) * 2 - ((immh << 3) | immb)}},
+            {0b011111, {InstructionIdentifier::ID_FCVTZS, std::clamp(1 << utility::bits::HighestSetBit<unsigned short int, 4>(immh), 16, 64) * 2 - ((immh << 3) | immb)}},
             {0b100000, {InstructionIdentifier::ID_USHR, ((8 << 3) * 2) - ((immh << 3) | immb)}},
             {0b100010, {InstructionIdentifier::ID_USRA, ((8 << 3) * 2) - ((immh << 3) | immb)}},
             {0b100100, {InstructionIdentifier::ID_URSHR, ((8 << 3) * 2) - ((immh << 3) | immb)}},
@@ -83,8 +83,8 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {0b110001, {InstructionIdentifier::ID_SQRSHRUN, ((8 << *utility::bits::HighestSetBitNZ<unsigned short int, 2>(utility::bits::extract<unsigned short int, unsigned short int, 0, 2>(immh))) * 2) - ((immh << 3) | immb)}},
             {0b110010, {InstructionIdentifier::ID_UQSHRN, ((8 << *utility::bits::HighestSetBitNZ<unsigned short int, 2>(utility::bits::extract<unsigned short int, unsigned short int, 0, 2>(immh))) * 2) - ((immh << 3) | immb)}},
             {0b110011, {InstructionIdentifier::ID_UQRSHRN, ((8 << *utility::bits::HighestSetBitNZ<unsigned short int, 2>(utility::bits::extract<unsigned short int, unsigned short int, 0, 2>(immh))) * 2) - ((immh << 3) | immb)}},
-            {0b111100, {InstructionIdentifier::ID_UCVTF, std::array<unsigned short int, 4>{16, 16, 32, 64}[utility::bits::HighestSetBit<unsigned short int, 4>(immh)] * 2 - ((immh << 3) | immb)}},
-            {0b111111, {InstructionIdentifier::ID_FCVTZU, std::array<unsigned short int, 4>{16, 16, 32, 64}[utility::bits::HighestSetBit<unsigned short int, 4>(immh)] * 2 - ((immh << 3) | immb)}}
+            {0b111100, {InstructionIdentifier::ID_UCVTF, std::clamp(1 << utility::bits::HighestSetBit<unsigned short int, 4>(immh), 16, 64) * 2 - ((immh << 3) | immb)}},
+            {0b111111, {InstructionIdentifier::ID_FCVTZU, std::clamp(1 << utility::bits::HighestSetBit<unsigned short int, 4>(immh), 16, 64)* 2 - ((immh << 3) | immb)}}
         };
 
 		static constexpr std::array<disxx::disasm::operand::Register::Type, 4> types
@@ -135,12 +135,12 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
                 if (index == 4) [[unlikely]]
                     return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
                 
-                this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(types[*index], Rd));
-                this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(types[*index + 1], Rn));
+                this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(types[static_cast<unsigned short int>(*index)], Rd));
+                this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(types[static_cast<unsigned short int>(*index + 1)], Rn));
             }
             else
             {
-                const auto rtype{types[*index]};
+                const auto rtype{types[static_cast<unsigned short int>(*index)]};
                 this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(rtype, Rd));
                 this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(rtype, Rn));
             }
@@ -150,7 +150,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             if (immh < 0b1000) [[unlikely]]
                 return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
            
-			const auto rtype{types[*index]}; 
+			const auto rtype{types[static_cast<unsigned short int>(*index)]}; 
             this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(rtype, Rd));
             this->m_Operands.emplace_back(std::make_unique<disxx::disasm::operand::Register>(rtype, Rn));
         }

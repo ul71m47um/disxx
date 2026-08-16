@@ -225,7 +225,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
 				Rm
 			)
 		);
-        for (auto i{0}; const auto &spec : fmtf(Ta, Tb))
+        for (auto i{0ul}; const auto &spec : fmtf(Ta, Tb))
             static_cast<disxx::disasm::operand::Register *>(this->m_Operands.at(i++).get())->SetVectorArrangementSpecifier(spec);
         return std::make_pair(insn, std::move(this->m_Operands));
 	}

@@ -71,7 +71,7 @@ namespace disxx::disasm::decoder::LoadsAndStores::SIMDMultipleStructures
             {0b11010, {InstructionIdentifier::ID_LD2, 2}}
         };
 
-        const auto it{insnTable.find((L << 1) | opcode)};
+        const auto it{insnTable.find(static_cast<unsigned short int>((L << 1) | opcode))};
         if (it == insnTable.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
         const auto &[insn, nregs]{it->second};

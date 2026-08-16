@@ -124,7 +124,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
 			disxx::disasm::operand::Register::Type::TYPE_D
 		};
 
-        auto encoding = (U << 5) | opcode;
+        auto encoding{static_cast<unsigned short int>((U << 5) | opcode)};
         if (auto it{insnTable.find(encoding)}; it != insnTable.end())
         {
             if (opcode == 0b00011 || opcode == 0b00111)
@@ -148,7 +148,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
         }
         else
         {
-            encoding = (U << 7) | (size << 5) | opcode;
+            encoding = static_cast<unsigned short int>((U << 7) | (size << 5) | opcode);
             it = insnTableWithSize.find(encoding);
             if (it == insnTableWithSize.end()) [[unlikely]]
                 return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

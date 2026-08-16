@@ -108,6 +108,10 @@ namespace disxx::disasm::decoder::LoadsAndStores::RCWCompareAndSwapPair
 			)
 		);
 
-        return std::make_pair(insnTable[(S << 2) | (A << 1) | R], std::move(this->m_Operands));
+        return std::make_pair
+		(
+			insnTable[static_cast<unsigned short int>((S << 2) | (A << 1) | R)],
+			std::move(this->m_Operands)
+		);
 	}
 } /* disxx::disasm::decoder::LoadsAndStores::RCWCompareAndSwapPair */

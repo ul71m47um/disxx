@@ -122,7 +122,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
         auto it{insnTable.find(encoding)};
         if (it == insnTable.end())
         {
-            encoding = (U << 6) | (size << 4) | opcode;
+            encoding = static_cast<unsigned short int>((U << 6) | (size << 4) | opcode);
             if (size >> 1)
                 encoding &= ~(0b01 << 4);
             

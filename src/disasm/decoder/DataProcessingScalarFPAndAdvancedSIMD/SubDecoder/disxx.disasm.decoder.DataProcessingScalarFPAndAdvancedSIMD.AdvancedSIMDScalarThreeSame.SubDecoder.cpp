@@ -121,7 +121,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
         }
         else
         {
-            encoding = (U << 7) | (size << 5) | opcode;
+            encoding = static_cast<unsigned short int>((U << 7) | (size << 5) | opcode);
             it = insnTableWithSize.find(encoding);
             if (it == insnTable.end()) [[unlikely]]
                 return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

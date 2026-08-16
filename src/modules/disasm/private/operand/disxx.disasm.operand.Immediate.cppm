@@ -163,12 +163,12 @@ export namespace disxx::disasm::operand
  			std::mul_sat<T>
 			(
 				this->m_Value,
-				[](U num) -> U
+				[](U num) -> T
 				{
 					auto result{static_cast<U>(2)};
 					for (const auto _ : std::views::iota(static_cast<U>(1), num))
 						result = std::mul_sat<U>(result, 2);
-					return result;
+					return static_cast<T>(result);
 				}(val)
   			),
 			Option::OPT_NONE
@@ -182,12 +182,12 @@ export namespace disxx::disasm::operand
 		this->m_Value = std::mul_sat<T>
 		(
 			this->m_Value,
-			[](U num) -> U
+			[](U num) -> T
 			{
 				auto result{static_cast<U>(2)};
 				for (const auto _ : std::views::iota(static_cast<U>(1), num))
 					result = std::mul_sat<U>(result, 2);
-				return result;
+				return static_cast<T>(result);
 			}(val)
 		);
 

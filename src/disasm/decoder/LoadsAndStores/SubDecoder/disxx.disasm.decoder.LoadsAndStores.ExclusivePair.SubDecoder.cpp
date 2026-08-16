@@ -84,6 +84,10 @@ namespace disxx::disasm::decoder::LoadsAndStores::ExclusivePair
 			)
 		);
         
-        return std::make_pair(insnTable.at((L << 1) | o0), std::move(this->m_Operands));
+        return std::make_pair
+		(
+			insnTable.at(static_cast<unsigned long int>((L << 1) | o0)),
+			std::move(this->m_Operands)
+		);
 	}
 } /* disxx::disasm::decoder::LoadsAndStores::ExclusivePair */

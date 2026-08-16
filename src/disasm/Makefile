@@ -1,7 +1,7 @@
 ifeq ($(shell echo %OS%), Windows_NT)
-	include ..\\common.mk
+	include ..\\..\\common.mk
 else
-	include ../common.mk
+	include ../../common.mk
 endif
 
 BUILDDIR=.$(PATHSEP)build
@@ -17,7 +17,7 @@ CXXFLAGS+=\
 
 LFLAGS+=-O2 -L$(DEPENDENCIESDIR) -ldisxx-util
 ifeq ($(OS), Darwin)
-	LFLAGS+=-dylib -S -install_name @executable_path/../Frameworks/libdisxx-disasm.$(DYLIB)
+	LFLAGS+=-dylib -S -install_name @executable_path/../Frameworks/libdisxx-disasm.$(DYLIB) -rpath .
 else
 	ifneq ($(OS), Windows_NT)
 		LFLAGS+=-shared -rpath $$ORIGIN/libdisxx-disasm.$(DYLIB)

@@ -65,7 +65,7 @@ namespace disxx::disasm::decoder::LoadsAndStores::CompareAndSwapPair
         if (Rs == 0b11111 || Rt == 0b11111) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
 
-        const unsigned short encoding = (L << 6) | (o0 << 5) | Rt2;
+        const auto encoding{static_cast<unsigned short int>((L << 6) | (o0 << 5) | Rt2)};
         const auto it{insnTable.find(encoding)};
         if (it == insnTable.end() || Rs == 0b11111 || Rt == 0b11111) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};

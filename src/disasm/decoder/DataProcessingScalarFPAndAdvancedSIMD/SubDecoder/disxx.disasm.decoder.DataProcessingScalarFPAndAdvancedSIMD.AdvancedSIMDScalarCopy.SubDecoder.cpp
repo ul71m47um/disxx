@@ -56,7 +56,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
         if (op != 0b0 && imm4 != 0b0000) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
 
-        const auto index{utility::bits::HighestSetBit<unsigned short int, 5>(imm5)};
+        const auto index{static_cast<unsigned short int>(utility::bits::HighestSetBit<unsigned short int, 5>(imm5))};
         if (index >= 4) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
 

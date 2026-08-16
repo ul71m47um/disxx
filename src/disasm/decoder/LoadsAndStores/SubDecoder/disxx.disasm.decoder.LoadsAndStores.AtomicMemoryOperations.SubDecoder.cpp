@@ -446,7 +446,7 @@ namespace disxx::disasm::decoder::LoadsAndStores::AtomicMemoryOperations
           
             return std::make_pair(it3->second, std::move(this->m_Operands));
         }
-        else if (const auto it4{insnTable4.find((encoding << 5) | 0b11111)}; it4 != insnTable4.end())
+        else if (const auto it4{insnTable4.find(static_cast<decltype(encoding)>((encoding << 5) | 0b11111))}; it4 != insnTable4.end())
         {
 			static constexpr std::array<disxx::disasm::operand::Register::Type, 4> typeTable
 			{
@@ -471,7 +471,7 @@ namespace disxx::disasm::decoder::LoadsAndStores::AtomicMemoryOperations
             return std::make_pair(it4->second, std::move(this->m_Operands));
         }
         
-        auto it5{insnTable5.find((size << 12) | (VR << 11) | (A << 10) | (R << 9) | (Rs << 4) | (o3 << 3) | opc)};
+        auto it5{insnTable5.find(static_cast<decltype(encoding)>((size << 12) | (VR << 11) | (A << 10) | (R << 9) | (Rs << 4) | (o3 << 3) | opc))};
         if (it5 == insnTable5.end()) [[unlikely]]
             return std::unexpected{disxx::utility::error::DisassemblyError{this->m_Insn}};
            

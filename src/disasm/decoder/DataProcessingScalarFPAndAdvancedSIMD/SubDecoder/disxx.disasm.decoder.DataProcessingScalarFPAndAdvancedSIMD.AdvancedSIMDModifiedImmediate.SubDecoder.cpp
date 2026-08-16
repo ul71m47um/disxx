@@ -158,9 +158,13 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
 
             unsigned short int imm16{0};
             imm16 |= (imm8 >> 7) << 15;
-            imm16 |= static_cast<unsigned short int>(~utility::bits::extract<unsigned short int, unsigned short int, 6, 6>(imm8) << 14);
-            imm16 |= utility::bits::Replicate<unsigned short int, unsigned short int, 1>(utility::bits::extract<unsigned short int, unsigned short int, 6, 6>(imm8), 2) << 13;
-            imm16 |= utility::bits::extract<unsigned short int, unsigned short int, 0, 5>(imm8) << 6;
+            imm16 |= ~utility::bits::extract<unsigned short int, unsigned short int, 6, 6>(static_cast<unsigned short int>(imm8)) << 14;
+            imm16 |= utility::bits::Replicate<unsigned short int, unsigned short int, 1>
+			(
+				utility::bits::extract<unsigned short int, unsigned short int, 6, 6>(static_cast<unsigned short int>(imm8)),
+				2
+			) << 13;
+            imm16 |= utility::bits::extract<unsigned short int, unsigned short int, 0, 5>(static_cast<unsigned short int>(imm8)) << 6;
             this->m_Operands.emplace_back
             (
                 std::make_unique<disxx::disasm::operand::Immediate<unsigned long long int, 64>>
@@ -168,7 +172,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
                     utility::bits::Replicate<unsigned long long int, unsigned short int, 16>
                     (
                         imm16,
-                        64 << Q
+                        static_cast<unsigned short int>(64 << Q)
                     )
                 )
             );

@@ -30,7 +30,7 @@ ifeq ($(OS), Windows_NT)
 	DYLIB=dll
 
 	# Build tools
-	ASM=$(shell where armasm64 2>NUL)
+	ASM=$(shell where clang 2>NUL)
 	LD=$(shell where link 2>NUL)
 	CC=$(shell where clang 2>NUL)
 	CXX=$(shell where clang++ 2>NUL)
@@ -119,3 +119,5 @@ else
 	RMDIR=rm -rf
 	RM=rm -f
 endif
+
+ECHO=echo

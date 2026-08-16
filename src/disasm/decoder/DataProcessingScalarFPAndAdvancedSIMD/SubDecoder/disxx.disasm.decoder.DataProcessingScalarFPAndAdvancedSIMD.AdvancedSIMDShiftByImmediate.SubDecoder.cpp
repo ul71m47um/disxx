@@ -66,12 +66,15 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
                 const auto index
                 {
-                    utility::bits::HighestSetBitNZ<short int, 4>
-                    (
-                        shouldExtract
-                            ? utility::bits::extract<unsigned short int, unsigned short int, 0, 2>(immh)
-                            : immh
-                    )
+					utility::bits::HighestSetBitNZ<short int, 4>
+                	(
+						static_cast<signed short int>
+						(
+                			shouldExtract
+                	    		? utility::bits::extract<unsigned short int, unsigned short int, 0, 2>(immh)
+                	    	    : immh
+						)
+					)
                 };
 				if (!index) [[unlikely]]
 					return std::nullopt;
@@ -89,11 +92,14 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
             {
                 const auto index
                 {
-                    utility::bits::HighestSetBitNZ<short int, 4>
+                    utility::bits::HighestSetBitNZ<signed short int, 4>
                     (
-                        shouldExtract
-                            ? utility::bits::extract<unsigned short int, unsigned short int, 0, 2>(immh)
-                            : immh
+						static_cast<signed short int>
+						(
+                        	shouldExtract
+                        	    ? utility::bits::extract<unsigned short int, unsigned short int, 0, 2>(immh)
+                        	    : immh
+						)
                     )
                 };
 
@@ -188,7 +194,7 @@ namespace disxx::disasm::decoder::DataProcessingScalarFPAndAdvancedSIMD::Advance
 						InstructionIdentifier::ID_SXTL2,
 						InstructionIdentifier::ID_UXTL,
 						InstructionIdentifier::ID_UXTL2
-					}[(U << 1) | Q];
+					}[static_cast<unsigned long int>((U << 1) | Q)];
 				}
                 
                 static_cast<disxx::disasm::operand::Register *>(this->m_Operands.at(0).get())
