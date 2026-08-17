@@ -11,8 +11,7 @@ endif
 CXXFLAGS=\
 	-c -std=c++26 -stdlib=libc++ -Weverything -Werror -fno-implicit-modules -fno-implicit-module-maps \
 	-ftrapv -fmodules -fcxx-modules -fvisibility=hidden -Xclang -fmodules-local-submodule-visibility \
-	-fstack-protector-all -fstrict-aliasing -fbounds-safety-bringup-missing-checks -fcheck-new \
-	-fchecked-pointer-arithmetic -fcolor-diagnostics -fdata-sections -fexperimental-bounds-safety-attributes \
+	-fstack-protector-all -fstrict-aliasing -fcheck-new -fcolor-diagnostics -fdata-sections \
 	-fsafe-buffer-usage-suggestions
 
 LFLAGS=-lc++ -lc++abi -lc -lm -demangle
@@ -63,7 +62,11 @@ else
 	MKAPP=.$(PATHSEP)mkapp.sh
 
 	ifeq ($(OS), Darwin)
-		CXXFLAGS+=-isysroot $(shell xcrun --show-sdk-path) -arch $(ARCH)
+		CXXFLAGS+=\
+			-isysroot $(shell xcrun --show-sdk-path) -arch $(ARCH) \
+			-fexperimental-bounds-safety-attributes -fchecked-pointer-arithmetic \
+			-fbounds-safety-bringup-missing-checks
+
 		LFLAGS+=\
 			-syslibroot $(shell xcrun --show-sdk-path) -arch $(ARCH) \
 			-lSystem

@@ -8,16 +8,19 @@ namespace disxx::ui
 	TabbedPane::TabbedPane(void) noexcept
 		: Widget{}
 		, m_Tabs{}
+		, m_Callback{[](Tab &_) -> void {}}
 	{}
 
 	TabbedPane::TabbedPane(float x, float y, float width, float height) noexcept
 		: Widget{x, y, width, height}
 		, m_Tabs{}
+		, m_Callback{[](Tab &_) -> void {}}
 	{}
 
 	TabbedPane::TabbedPane(const TabbedPane &other) noexcept
 		: Widget{other}
 		, m_Tabs{other.m_Tabs}
+		, m_Callback{other.m_Callback}
 	{}
 
 	TabbedPane &TabbedPane::operator=(const TabbedPane &other) noexcept
@@ -26,6 +29,7 @@ namespace disxx::ui
 		{
 			Widget::operator=(other);
 			this->m_Tabs = other.m_Tabs;
+			this->m_Callback = other.m_Callback;
 		}
 
 		return *this;
@@ -34,12 +38,14 @@ namespace disxx::ui
 	TabbedPane::TabbedPane(TabbedPane &&other) noexcept
 		: Widget{std::forward<TabbedPane &&>(other)}
 		, m_Tabs{std::move(other.m_Tabs)}
+		, m_Callback{std::move(other.m_Callback)}
 	{}
 
 	TabbedPane &TabbedPane::operator=(TabbedPane &&other) noexcept
 	{
 		Widget::operator=(std::forward<TabbedPane &&>(other));
 		this->m_Tabs = std::move(other.m_Tabs);
+		this->m_Callback = std::move(other.m_Callback);
 		
 		return *this;
 	}
@@ -91,9 +97,13 @@ namespace disxx::ui
 				for (auto &other : this->m_Tabs)
 					other.SetPassive();
 				tab.HandleMouse(button, state, x, y);
+				this->m_Callback(tab);
 			}
 			else if (cond || tab.GetClicked())
+			{
 				tab.HandleMouse(button, state, x, y);
+				this->m_Callback(tab);
+			}
 		}
 	}
 

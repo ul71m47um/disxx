@@ -361,6 +361,24 @@ void Application::Init(void) noexcept(false)
 			static_cast<float>(height) * 0.7f
 		};
 		pane.SetColor(0.2f, 0.2f, 0.2f);
+		pane.SetTabClickCallback
+		(
+			[](disxx::ui::Tab &tab) -> void
+			{
+				// Get a file path
+				const auto currentPath
+				{
+					std::regex_replace
+					(
+						tab.GetText().data(),
+						std::regex{R"(\s+\-\s+hex$)"},
+						""
+					)
+				};
+
+				s_pInstance->LoadLabels(currentPath);
+			}
+		);
 
 		s_pInstance->m_Window.AddWidget(std::make_unique<disxx::ui::TabbedPane>(pane));
 	}
