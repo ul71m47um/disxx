@@ -127,13 +127,14 @@ namespace disxx::ui
 		if (button == 0 && state == 0)
 		{
 			// The verticall scrollbar has been dragged
-			if (x >= this->m_Size.x - CORNER_WIDTH && x < this->m_Size.x && y > CORNER_HEIGHT && y < this->m_Size.y)
+			const auto localX{static_cast<float>(x) - this->m_Position.x}, localY{static_cast<float>(y) - this->m_Position.y};
+			if (localX >= this->m_Size.x - CORNER_WIDTH && localX < this->m_Size.x && localY > CORNER_HEIGHT && localY < this->m_Size.y)
 			{
 				this->m_IsActiveVertical = true;
 				this->m_LastMouseY = y;
 			}
 			// The horizontal scrollbar has been dragged
-			else if (x >= 0 && x < this->m_Size.x - CORNER_WIDTH && y >= 0)
+			else if (localX >= 0 && localX < this->m_Size.x - CORNER_WIDTH && localY >= 0)
 			{
 				this->m_IsActiveHorizontal = true;
 				this->m_LastMouseX = x;
