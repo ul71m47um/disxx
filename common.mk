@@ -23,7 +23,7 @@ ifeq ($(OS), Windows_NT)
 	MKAPP=.$(PATHSEP)mkapp.bat
 
 	# C++ standart library module
-	LIBCXX=$(shell echo %VCToolsInstallDir%)$(PATHSEP)modules$(PATHSEP)std.ixx
+	LIBCXX=$(PATHSEP)src$(PATHSEP)third-party$(PATHSEP)std.cppm
 	
 	# File extensions
 	DYLIB=dll
