@@ -1,12 +1,8 @@
-ifeq ($(shell echo %OS%), Windows_NT)
-	include ..\\..\\common.mk
-else
-	include ../../common.mk
-endif
+include ../../common.mk
 
-BUILDDIR=.$(PATHSEP)build
-PRECOMPILEDDIR=$(BUILDDIR)$(PATHSEP)precompiled
-OBJECTSDIR=$(BUILDDIR)$(PATHSEP)objects
+BUILDDIR=./build
+PRECOMPILEDDIR=$(BUILDDIR)/precompiled
+OBJECTSDIR=$(BUILDDIR)/objects
 
 ASMFLAGS=-c -arch arm64
 
@@ -33,55 +29,55 @@ endif
 
 ifeq ($(OS), Darwin)
 	ifeq ($(ARCH), arm64)
-		MAPIMPL=.$(PATHSEP)file$(PATHSEP)mapped.s
+		MAPIMPL=./file/mapped.s
 		IMPLEXT=s
 		MAPIMPLC=$(ASM)
 		MAPIMPLFLAGS=$(ASMFLAGS)
 	else
-		MAPIMPL=.$(PATHSEP)file$(PATHSEP)mapped.c
+		MAPIMPL=./file/mapped.c
 		IMPLEXT=c
 		MAPIMPLC=$(CC)
 		MAPIMPLFLAGS=$(CFLAGS)
 	endif
 else
-	MAPIMPL=.$(PATHSEP)file$(PATHSEP)mapped.c
+	MAPIMPL=./file/mapped.c
 	IMPLEXT=c
 	MAPIMPLC=$(CC)
 	MAPIMPLFLAGS=$(CFLAGS)
 endif
 
-BASEPATH=..$(PATHSEP)modules$(PATHSEP)utility$(PATHSEP)
+BASEPATH=../modules/utility/
 
 MODULES=\
 	$(LIBCXX) \
-	$(BASEPATH)public$(PATHSEP)trait$(PATHSEP)disxx.utility.trait.Cloneable.cppm \
-	$(BASEPATH)private$(PATHSEP)error$(PATHSEP)disxx.utility.error.DisassemblyError.cppm \
-	$(BASEPATH)private$(PATHSEP)error$(PATHSEP)disxx.utility.error.NullPointerError.cppm \
-	$(BASEPATH)private$(PATHSEP)error$(PATHSEP)disxx.utility.error.ParserError.cppm \
-	$(BASEPATH)private$(PATHSEP)pointer$(PATHSEP)disxx.utility.pointer.DefaultDeleter.cppm \
-	$(BASEPATH)private$(PATHSEP)ini$(PATHSEP)disxx.utility.ini.BaseParser.cppm \
-	$(BASEPATH)private$(PATHSEP)ini$(PATHSEP)disxx.utility.ini.Reader.cppm \
-	$(BASEPATH)private$(PATHSEP)ini$(PATHSEP)disxx.utility.ini.Writer.cppm \
-	$(BASEPATH)public$(PATHSEP)pointer$(PATHSEP)disxx.utility.pointer.NonNull.cppm \
-	$(BASEPATH)public$(PATHSEP)ini$(PATHSEP)disxx.utility.ini.Parser.cppm \
-	$(BASEPATH)public$(PATHSEP)file$(PATHSEP)disxx.utility.file.MappedFile.cppm
+	$(BASEPATH)public/trait/disxx.utility.trait.Cloneable.cppm \
+	$(BASEPATH)private/error/disxx.utility.error.DisassemblyError.cppm \
+	$(BASEPATH)private/error/disxx.utility.error.NullPointerError.cppm \
+	$(BASEPATH)private/error/disxx.utility.error.ParserError.cppm \
+	$(BASEPATH)private/pointer/disxx.utility.pointer.DefaultDeleter.cppm \
+	$(BASEPATH)private/ini/disxx.utility.ini.BaseParser.cppm \
+	$(BASEPATH)private/ini/disxx.utility.ini.Reader.cppm \
+	$(BASEPATH)private/ini/disxx.utility.ini.Writer.cppm \
+	$(BASEPATH)public/pointer/disxx.utility.pointer.NonNull.cppm \
+	$(BASEPATH)public/ini/disxx.utility.ini.Parser.cppm \
+	$(BASEPATH)public/file/disxx.utility.file.MappedFile.cppm
 
 SOURCES=\
-	.$(PATHSEP)error$(PATHSEP)disxx.utility.error.NullPointerError.cpp \
-	.$(PATHSEP)error$(PATHSEP)disxx.utility.error.DisassemblyError.cpp \
-	.$(PATHSEP)error$(PATHSEP)disxx.utility.error.ParserError.cpp \
-	.$(PATHSEP)ini$(PATHSEP)disxx.utility.ini.BaseParser.cpp \
-	.$(PATHSEP)ini$(PATHSEP)disxx.utility.ini.Reader.cpp \
-	.$(PATHSEP)ini$(PATHSEP)disxx.utility.ini.Writer.cpp \
-	.$(PATHSEP)ini$(PATHSEP)disxx.utility.ini.Parser.cpp \
-	.$(PATHSEP)file$(PATHSEP)disxx.utility.file.MappedFile.cpp
+	./error/disxx.utility.error.NullPointerError.cpp \
+	./error/disxx.utility.error.DisassemblyError.cpp \
+	./error/disxx.utility.error.ParserError.cpp \
+	./ini/disxx.utility.ini.BaseParser.cpp \
+	./ini/disxx.utility.ini.Reader.cpp \
+	./ini/disxx.utility.ini.Writer.cpp \
+	./ini/disxx.utility.ini.Parser.cpp \
+	./file/disxx.utility.file.MappedFile.cpp
 
-PRECOMPILED=$(addprefix $(PRECOMPILEDDIR)$(PATHSEP), $(notdir $(MODULES:.cppm=.pcm)))
+PRECOMPILED=$(addprefix $(PRECOMPILEDDIR)/, $(notdir $(MODULES:.cppm=.pcm)))
 MOBJECTS=$(PRECOMPILED:.pcm=.o)
-OBJECTS=$(addprefix $(OBJECTSDIR)$(PATHSEP), $(notdir $(SOURCES:.cpp=.o)))
+OBJECTS=$(addprefix $(OBJECTSDIR)/, $(notdir $(SOURCES:.cpp=.o)))
 
 .PHONY: all
-all: $(BUILDDIR)$(PATHSEP)libdisxx-util.$(DYLIB)
+all: $(BUILDDIR)/libdisxx-util.$(DYLIB)
 
 vpath %.cppm $(sort $(dir $(MODULES)))
 vpath %.cpp $(sort $(dir $(SOURCES)))
@@ -91,16 +87,16 @@ $(PRECOMPILEDDIR):
 	$(MKDIR) $@
 $(OBJECTSDIR):
 	$(MKDIR) $@
-$(PRECOMPILED): $(PRECOMPILEDDIR)$(PATHSEP)%.pcm: %.cppm | $(PRECOMPILEDDIR)
+$(PRECOMPILED): $(PRECOMPILEDDIR)/%.pcm: %.cppm | $(PRECOMPILEDDIR)
 	$(CXX) $(CXXFLAGS:-c=--precompile) $< -o $@
-$(MOBJECTS): $(PRECOMPILEDDIR)$(PATHSEP)%.o: $(PRECOMPILEDDIR)$(PATHSEP)%.pcm | $(PRECOMPILEDDIR)
+$(MOBJECTS): $(PRECOMPILEDDIR)/%.o: $(PRECOMPILEDDIR)/%.pcm | $(PRECOMPILEDDIR)
 	$(CXX) $(CXXFLAGS) $< -o $@
-$(OBJECTS): $(OBJECTSDIR)$(PATHSEP)%.o: %.cpp | $(OBJECTSDIR)
+$(OBJECTS): $(OBJECTSDIR)/%.o: %.cpp | $(OBJECTSDIR)
 	$(CXX) $(CXXFLAGS) $< -o $@
-$(OBJECTSDIR)$(PATHSEP)$(notdir $(MAPIMPL:.$(IMPLEXT)=.o)): $(MAPIMPL)
+$(OBJECTSDIR)/$(notdir $(MAPIMPL:.$(IMPLEXT)=.o)): $(MAPIMPL)
 	$(MAPIMPLC) $(MAPIMPLFLAGS) $< -o $@
-OBJECTS+=$(OBJECTSDIR)$(PATHSEP)$(notdir $(MAPIMPL:.$(IMPLEXT)=.o))
-$(BUILDDIR)$(PATHSEP)libdisxx-util.$(DYLIB): $(MOBJECTS) $(OBJECTS)
+OBJECTS+=$(OBJECTSDIR)/$(notdir $(MAPIMPL:.$(IMPLEXT)=.o))
+$(BUILDDIR)/libdisxx-util.$(DYLIB): $(MOBJECTS) $(OBJECTS)
 	$(LD) $(LFLAGS) $^ -o $@
 
 clean:

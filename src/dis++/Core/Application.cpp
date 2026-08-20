@@ -652,7 +652,6 @@ void Application::Init(void) noexcept(false)
 									.GetWidgets()
 									.rbegin()
 							).GetText()
-
 						};
 
 						SUPPRESS_LAST_WIDGETS(s_pInstance->m_Window.GetWidgets(), 5);

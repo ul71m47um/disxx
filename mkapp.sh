@@ -16,10 +16,6 @@ then
 	cp ./src/dis++/build/dependencies/libdisxx-macho.dylib ./dis++.app/Contents/Frameworks/libdisxx-macho.dylib
 	cp ./src/dis++/build/dependencies/libdisxx-disasm.dylib ./dis++.app/Contents/Frameworks/libdisxx-disasm.dylib
 
-	# That's some weird stuff with this library: it always uses inorrect install name of utilities!
-	#install_name_tool ./dis++.app/Contents/Frameworks/libdisxx-disasm.dylib \
-	#	-change build/libdisxx-util.dylib @executable_path/../Frameworks/libdisxx-util.dylib
-
 	mkdir -p ./dis++.app/Contents/MacOS/
 	cp ./src/dis++/build/dis++ ./dis++.app/Contents/MacOS/dis++
 	cp ./src/reporter/build/reporter ./dis++.app/Contents/MacOS/reporter

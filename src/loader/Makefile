@@ -4,15 +4,15 @@ else
 	include ../../common.mk
 endif
 
-MODULESPATH=..$(PATHSEP)modules$(PATHSEP)loader$(PATHSEP)
+MODULESPATH=../modules/loader/
 
-BUILDDIR=.$(PATHSEP)build
-DEPENDENCIESDIR=$(BUILDDIR)$(PATHSEP)dependencies
-PRECOMPILEDDIR=.$(PATHSEP)build$(PATHSEP)precompiled
-OBJECTSDIR=.$(PATHSEP)build$(PATHSEP)objects
+BUILDDIR=./build
+DEPENDENCIESDIR=$(BUILDDIR)/dependencies
+PRECOMPILEDDIR=./build/precompiled
+OBJECTSDIR=./build/objects
 
 CXXFLAGS+=\
-	-O3 -fPIC -fprebuilt-module-path=$(PRECOMPILEDDIR) -I..$(PATHSEP)third-party -DNDEBUG \
+	-O3 -fPIC -fprebuilt-module-path=$(PRECOMPILEDDIR) -I../third-party -DNDEBUG \
 	-Wno-c99-extensions -Wno-global-constructors -Wno-exit-time-destructors -Wno-reserved-identifier -Wno-non-virtual-dtor \
 	-Wno-switch-enum -Wno-reserved-macro-identifier -Wno-writable-strings -Wno-weak-vtables -Wno-undefined-func-template \
 	-Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-covered-switch-default -Wno-padded -Wno-sign-conversion \
@@ -27,28 +27,28 @@ endif
 
 MODULES=\
 	$(LIBCXX) \
-	..$(PATHSEP)modules$(PATHSEP)utility$(PATHSEP)public$(PATHSEP)file$(PATHSEP)disxx.utility.file.MappedFile.cppm \
-	$(MODULESPATH)private$(PATHSEP)utility$(PATHSEP)disxx.loader.utility.BinaryInfo.cppm \
-	$(MODULESPATH)private$(PATHSEP)executable$(PATHSEP)disxx.loader.executable.Label.cppm \
-	$(MODULESPATH)private$(PATHSEP)executable$(PATHSEP)disxx.loader.executable.Section.cppm \
-	$(MODULESPATH)public$(PATHSEP)executable$(PATHSEP)disxx.loader.executable.ExecutableFile.cppm \
-	$(MODULESPATH)public$(PATHSEP)disxx.loader.macho.Loader.cppm
+	../modules/utility/public/file/disxx.utility.file.MappedFile.cppm \
+	$(MODULESPATH)private/utility/disxx.loader.utility.BinaryInfo.cppm \
+	$(MODULESPATH)private/executable/disxx.loader.executable.Label.cppm \
+	$(MODULESPATH)private/executable/disxx.loader.executable.Section.cppm \
+	$(MODULESPATH)public/executable/disxx.loader.executable.ExecutableFile.cppm \
+	$(MODULESPATH)public/disxx.loader.macho.Loader.cppm
 
 SOURCES=\
-	.$(PATHSEP)utility$(PATHSEP)disxx.loader.utility.BinaryInfo.cpp \
-	.$(PATHSEP)executable$(PATHSEP)disxx.loader.executable.Label.cpp \
-	.$(PATHSEP)executable$(PATHSEP)disxx.loader.executable.Section.cpp \
-	.$(PATHSEP)executable$(PATHSEP)disxx.loader.executable.ExecutableFile.cpp \
-	.$(PATHSEP)disxx.loader.macho.Loader.cpp
+	./utility/disxx.loader.utility.BinaryInfo.cpp \
+	./executable/disxx.loader.executable.Label.cpp \
+	./executable/disxx.loader.executable.Section.cpp \
+	./executable/disxx.loader.executable.ExecutableFile.cpp \
+	./disxx.loader.macho.Loader.cpp
 
-all: $(BUILDDIR)$(PATHSEP)libdisxx-macho.$(DYLIB)
+all: $(BUILDDIR)/libdisxx-macho.$(DYLIB)
 
-UTILITIES=$(DEPENDENCIESDIR)$(PATHSEP)libdisxx-util.$(DYLIB)
+UTILITIES=$(DEPENDENCIESDIR)/libdisxx-util.$(DYLIB)
 DEPENDENCIES=$(UTILITIES)
 
-PRECOMPILED=$(addprefix $(PRECOMPILEDDIR)$(PATHSEP), $(notdir $(MODULES:.cppm=.pcm)))
+PRECOMPILED=$(addprefix $(PRECOMPILEDDIR)/, $(notdir $(MODULES:.cppm=.pcm)))
 MOBJECTS=$(PRECOMPILED:.pcm=.o)
-OBJECTS=$(addprefix $(OBJECTSDIR)$(PATHSEP), $(notdir $(SOURCES:.cpp=.o)))
+OBJECTS=$(addprefix $(OBJECTSDIR)/, $(notdir $(SOURCES:.cpp=.o)))
 
 vpath %.cppm $(sort $(dir $(MODULES)))
 vpath %.cpp $(sort $(dir $(SOURCES)))
@@ -60,16 +60,16 @@ $(PRECOMPILEDDIR):
 	$(MKDIR) $@
 $(OBJECTSDIR):
 	$(MKDIR) $@
-$(PRECOMPILED): $(PRECOMPILEDDIR)$(PATHSEP)%.pcm: %.cppm | $(PRECOMPILEDDIR)
+$(PRECOMPILED): $(PRECOMPILEDDIR)/%.pcm: %.cppm | $(PRECOMPILEDDIR)
 	$(CXX) -c $(CXXFLAGS:-c=--precompile) $< -o $@
-$(MOBJECTS): $(PRECOMPILEDDIR)$(PATHSEP)%.o: $(PRECOMPILEDDIR)$(PATHSEP)%.pcm | $(PRECOMPILEDDIR)
+$(MOBJECTS): $(PRECOMPILEDDIR)/%.o: $(PRECOMPILEDDIR)/%.pcm | $(PRECOMPILEDDIR)
 	$(CXX) -c $(CXXFLAGS) $< -o $@
-$(OBJECTS): $(OBJECTSDIR)$(PATHSEP)%.o: %.cpp | $(OBJECTSDIR)
+$(OBJECTS): $(OBJECTSDIR)/%.o: %.cpp | $(OBJECTSDIR)
 	$(CXX) -c $(CXXFLAGS) $< -o $@
 $(UTILITIES): | $(DEPENDENCIESDIR)
-	make -C ..$(PATHSEP)utility
-	$(MOVE) ..$(PATHSEP)utility$(PATHSEP)build$(PATHSEP)libdisxx-util.$(DYLIB) $@
-$(BUILDDIR)$(PATHSEP)libdisxx-macho.$(DYLIB): $(MOBJECTS) $(OBJECTS) | $(DEPENDENCIES)
+	make -C ../utility
+	$(MOVE) ../utility/build/libdisxx-util.$(DYLIB) $@
+$(BUILDDIR)/libdisxx-macho.$(DYLIB): $(MOBJECTS) $(OBJECTS) | $(DEPENDENCIES)
 	$(LD) $(LFLAGS) $^ -o $@
 
 clean:

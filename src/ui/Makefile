@@ -1,16 +1,11 @@
-OS=$(shell echo %OS%)
-ifeq ($(OS), Windows_NT)
-	include ..\\..\\common.mk
-else
-	include ../../common.mk
-endif
+include ../../common.mk
 
-MODULESPATH=..$(PATHSEP)modules$(PATHSEP)ui$(PATHSEP)
+MODULESPATH=../modules/ui/
 
-BUILDDIR=.$(PATHSEP)build
-DEPENDENCIESDIR=$(BUILDDIR)$(PATHSEP)dependencies
-PRECOMPILEDDIR=$(BUILDDIR)$(PATHSEP)precompiled
-OBJECTSDIR=$(BUILDDIR)$(PATHSEP)objects
+BUILDDIR=./build
+DEPENDENCIESDIR=$(BUILDDIR)/dependencies
+PRECOMPILEDDIR=$(BUILDDIR)/precompiled
+OBJECTSDIR=$(BUILDDIR)/objects
 
 CXXFLAGS+=\
 	-O3 -fPIC -fprebuilt-module-path=$(PRECOMPILEDDIR) -DGL_SILENCE_DEPRECATION -DNDEBUG -DBACKEND_CTX_GLUT \
@@ -33,65 +28,65 @@ endif
 
 MODULES=\
 	$(LIBCXX) \
-	..$(PATHSEP)modules$(PATHSEP)utility$(PATHSEP)public$(PATHSEP)trait$(PATHSEP)disxx.utility.trait.Cloneable.cppm \
-	..$(PATHSEP)modules$(PATHSEP)utility$(PATHSEP)private$(PATHSEP)error$(PATHSEP)disxx.utility.error.NullPointerError.cppm \
-	..$(PATHSEP)modules$(PATHSEP)utility$(PATHSEP)private$(PATHSEP)pointer$(PATHSEP)disxx.utility.pointer.DefaultDeleter.cppm \
-	..$(PATHSEP)modules$(PATHSEP)utility$(PATHSEP)public$(PATHSEP)pointer$(PATHSEP)disxx.utility.pointer.NonNull.cppm \
-	$(MODULESPATH)private$(PATHSEP)utility$(PATHSEP)disxx.ui.utility.ColorTag.cppm \
-	$(MODULESPATH)private$(PATHSEP)utility$(PATHSEP)disxx.ui.utility.Vec.cppm \
-	$(MODULESPATH)private$(PATHSEP)utility$(PATHSEP)disxx.ui.utility.Vertex.cppm \
-	$(MODULESPATH)private$(PATHSEP)utility$(PATHSEP)disxx.ui.utility.Renderable.cppm \
-	$(MODULESPATH)private$(PATHSEP)utility$(PATHSEP)disxx.ui.utility.Text.cppm \
-	$(MODULESPATH)private$(PATHSEP)utility$(PATHSEP)disxx.ui.utility.Shape.cppm \
-	$(MODULESPATH)private$(PATHSEP)backend$(PATHSEP)disxx.ui.backend.IRenderer.cppm \
-	$(MODULESPATH)private$(PATHSEP)backend$(PATHSEP)disxx.ui.backend.GLRenderer.cppm \
-	$(MODULESPATH)private$(PATHSEP)backend$(PATHSEP)disxx.ui.backend.IContext.cppm \
-	$(MODULESPATH)private$(PATHSEP)backend$(PATHSEP)disxx.ui.backend.GLUTContext.cppm \
-	$(MODULESPATH)public$(PATHSEP)disxx.ui.Widget.cppm \
-	$(MODULESPATH)public$(PATHSEP)disxx.ui.SourceEditor.cppm \
-	$(MODULESPATH)public$(PATHSEP)disxx.ui.Frame.cppm \
-	$(MODULESPATH)private$(PATHSEP)disxx.ui.Tab.cppm \
-	$(MODULESPATH)public$(PATHSEP)disxx.ui.TabbedPane.cppm \
-	$(MODULESPATH)private$(PATHSEP)disxx.ui.MenuEntry.cppm \
-	$(MODULESPATH)public$(PATHSEP)disxx.ui.Button.cppm \
-	$(MODULESPATH)public$(PATHSEP)disxx.ui.Label.cppm \
-	$(MODULESPATH)public$(PATHSEP)disxx.ui.Menu.cppm \
-	$(MODULESPATH)public$(PATHSEP)disxx.ui.TextInput.cppm \
-	$(MODULESPATH)public$(PATHSEP)disxx.ui.MainWindow.cppm \
-	$(MODULESPATH)public$(PATHSEP)disxx.ui.MessageBox.cppm
+	../modules/utility/public/trait/disxx.utility.trait.Cloneable.cppm \
+	../modules/utility/private/error/disxx.utility.error.NullPointerError.cppm \
+	../modules/utility/private/pointer/disxx.utility.pointer.DefaultDeleter.cppm \
+	../modules/utility/public/pointer/disxx.utility.pointer.NonNull.cppm \
+	$(MODULESPATH)private/utility/disxx.ui.utility.ColorTag.cppm \
+	$(MODULESPATH)private/utility/disxx.ui.utility.Vec.cppm \
+	$(MODULESPATH)private/utility/disxx.ui.utility.Vertex.cppm \
+	$(MODULESPATH)private/utility/disxx.ui.utility.Renderable.cppm \
+	$(MODULESPATH)private/utility/disxx.ui.utility.Text.cppm \
+	$(MODULESPATH)private/utility/disxx.ui.utility.Shape.cppm \
+	$(MODULESPATH)private/backend/disxx.ui.backend.IRenderer.cppm \
+	$(MODULESPATH)private/backend/disxx.ui.backend.GLRenderer.cppm \
+	$(MODULESPATH)private/backend/disxx.ui.backend.IContext.cppm \
+	$(MODULESPATH)private/backend/disxx.ui.backend.GLUTContext.cppm \
+	$(MODULESPATH)public/disxx.ui.Widget.cppm \
+	$(MODULESPATH)public/disxx.ui.SourceEditor.cppm \
+	$(MODULESPATH)public/disxx.ui.Frame.cppm \
+	$(MODULESPATH)private/disxx.ui.Tab.cppm \
+	$(MODULESPATH)public/disxx.ui.TabbedPane.cppm \
+	$(MODULESPATH)private/disxx.ui.MenuEntry.cppm \
+	$(MODULESPATH)public/disxx.ui.Button.cppm \
+	$(MODULESPATH)public/disxx.ui.Label.cppm \
+	$(MODULESPATH)public/disxx.ui.Menu.cppm \
+	$(MODULESPATH)public/disxx.ui.TextInput.cppm \
+	$(MODULESPATH)public/disxx.ui.MainWindow.cppm \
+	$(MODULESPATH)public/disxx.ui.MessageBox.cppm
 
 SOURCES=\
-	.$(PATHSEP)utility$(PATHSEP)disxx.ui.utility.ColorTag.cpp \
-	.$(PATHSEP)utility$(PATHSEP)disxx.ui.utility.Renderable.cpp \
-	.$(PATHSEP)utility$(PATHSEP)disxx.ui.utility.Text.cpp \
-	.$(PATHSEP)utility$(PATHSEP)disxx.ui.utility.Shape.cpp \
-	.$(PATHSEP)backend$(PATHSEP)disxx.ui.backend.GLRenderer.cpp \
-	.$(PATHSEP)backend$(PATHSEP)disxx.ui.backend.GLUTContext.cpp \
-	.$(PATHSEP)disxx.ui.Widget.cpp \
-	.$(PATHSEP)disxx.ui.Frame.cpp \
-	.$(PATHSEP)disxx.ui.Tab.cpp \
-	.$(PATHSEP)disxx.ui.TabbedPane.cpp \
-	.$(PATHSEP)disxx.ui.Button.cpp \
-	.$(PATHSEP)disxx.ui.Label.cpp \
-	.$(PATHSEP)disxx.ui.MenuEntry.cpp \
-	.$(PATHSEP)disxx.ui.Menu.cpp \
-	.$(PATHSEP)disxx.ui.TextInput.cpp \
-	.$(PATHSEP)disxx.ui.SourceEditor.cpp \
-	.$(PATHSEP)disxx.ui.MainWindow.cpp \
-	.$(PATHSEP)disxx.ui.MessageBox.cpp
+	./utility/disxx.ui.utility.ColorTag.cpp \
+	./utility/disxx.ui.utility.Renderable.cpp \
+	./utility/disxx.ui.utility.Text.cpp \
+	./utility/disxx.ui.utility.Shape.cpp \
+	./backend/disxx.ui.backend.GLRenderer.cpp \
+	./backend/disxx.ui.backend.GLUTContext.cpp \
+	./disxx.ui.Widget.cpp \
+	./disxx.ui.Frame.cpp \
+	./disxx.ui.Tab.cpp \
+	./disxx.ui.TabbedPane.cpp \
+	./disxx.ui.Button.cpp \
+	./disxx.ui.Label.cpp \
+	./disxx.ui.MenuEntry.cpp \
+	./disxx.ui.Menu.cpp \
+	./disxx.ui.TextInput.cpp \
+	./disxx.ui.SourceEditor.cpp \
+	./disxx.ui.MainWindow.cpp \
+	./disxx.ui.MessageBox.cpp
 
 .PHONY: all
-all: $(BUILDDIR)$(PATHSEP)libdisxx-ui.$(DYLIB)
+all: $(BUILDDIR)/libdisxx-ui.$(DYLIB)
 
 vpath %.cppm $(sort $(dir $(MODULES)))
 vpath %.cpp $(sort $(dir $(SOURCES)))
 vpath %.pcm $(sort $(dir $(PRECOMPILED)))
 
-PRECOMPILED=$(addprefix $(PRECOMPILEDDIR)$(PATHSEP),  $(notdir $(MODULES:.cppm=.pcm)))
+PRECOMPILED=$(addprefix $(PRECOMPILEDDIR)/,  $(notdir $(MODULES:.cppm=.pcm)))
 MOBJECTS=$(PRECOMPILED:.pcm=.o)
-OBJECTS=$(addprefix $(OBJECTSDIR)$(PATHSEP), $(notdir $(SOURCES:.cpp=.o)))
+OBJECTS=$(addprefix $(OBJECTSDIR)/, $(notdir $(SOURCES:.cpp=.o)))
 
-DEPENDENCIES=$(DEPENDENCIESDIR)$(PATHSEP)libdisxx-util.$(DYLIB)
+DEPENDENCIES=$(DEPENDENCIESDIR)/libdisxx-util.$(DYLIB)
 
 $(DEPENDENCIESDIR):
 	$(MKDIR) $@
@@ -99,16 +94,16 @@ $(PRECOMPILEDDIR):
 	$(MKDIR) $@
 $(OBJECTSDIR):
 	$(MKDIR) $@
-$(PRECOMPILED): $(PRECOMPILEDDIR)$(PATHSEP)%.pcm: %.cppm | $(PRECOMPILEDDIR)
+$(PRECOMPILED): $(PRECOMPILEDDIR)/%.pcm: %.cppm | $(PRECOMPILEDDIR)
 	$(CXX) $(CXXFLAGS:-c=--precompile) $< -o $@
-$(MOBJECTS): $(PRECOMPILEDDIR)$(PATHSEP)%.o: $(PRECOMPILEDDIR)$(PATHSEP)%.pcm | $(PRECOMPILEDDIR)
+$(MOBJECTS): $(PRECOMPILEDDIR)/%.o: $(PRECOMPILEDDIR)/%.pcm | $(PRECOMPILEDDIR)
 	$(CXX) $(CXXFLAGS) $< -o $@
-$(OBJECTS): $(OBJECTSDIR)$(PATHSEP)%.o: %.cpp | $(OBJECTSDIR)
+$(OBJECTS): $(OBJECTSDIR)/%.o: %.cpp | $(OBJECTSDIR)
 	$(CXX) $(CXXFLAGS) $< -o $@
-$(DEPENDENCIESDIR)$(PATHSEP)libdisxx-util.$(DYLIB): | $(DEPENDENCIESDIR)
-	make -C ..$(PATHSEP)utility
-	$(MOVE) ..$(PATHSEP)utility$(PATHSEP)build$(PATHSEP)libdisxx-util.$(DYLIB) $@
-$(BUILDDIR)$(PATHSEP)libdisxx-ui.$(DYLIB): $(MOBJECTS) $(OBJECTS) | $(DEPENDENCIES)
+$(DEPENDENCIESDIR)/libdisxx-util.$(DYLIB): | $(DEPENDENCIESDIR)
+	make -C ../utility
+	$(MOVE) ../utility/build/libdisxx-util.$(DYLIB) $@
+$(BUILDDIR)/libdisxx-ui.$(DYLIB): $(MOBJECTS) $(OBJECTS) | $(DEPENDENCIES)
 	$(LD) $(LFLAGS) $^ -o $@
 
 clean:
