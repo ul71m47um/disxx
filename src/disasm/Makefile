@@ -11,7 +11,7 @@ CXXFLAGS+=\
 	-Wno-c++98-compat-pedantic -Wno-unused-command-line-argument -Wno-poison-system-directories \
 	-Wno-reserved-module-identifier -Wno-reserved-identifier -Wno-exit-time-destructors
 
-LFLAGS+=-O2 -L$(DEPENDENCIESDIR) -ldisxx-util
+LFLAGS+=-O2 -L$(DEPENDENCIESDIR) -ldisxx-utility
 ifeq ($(OS), Darwin)
 	LFLAGS+=-dylib -S -install_name @executable_path/../Frameworks/libdisxx-disasm.$(DYLIB) -rpath .
 else
@@ -20,8 +20,6 @@ else
 	endif
 endif
 
-OPERANDS=./operand/
- 
 MODULES=\
 	$(LIBCXX) \
 	../modules/utility/public/trait/disxx.utility.trait.Cloneable.cppm \
@@ -180,15 +178,15 @@ MODULES=\
 
 SOURCES=\
 	./utility/bits/disxx.disasm.utility.bits.cpp \
-	$(OPERANDS)disxx.disasm.operand.Register.cpp \
-	$(OPERANDS)disxx.disasm.operand.Extension.cpp \
-	$(OPERANDS)disxx.disasm.operand.PState.cpp \
-	$(OPERANDS)disxx.disasm.operand.LoadsAndStoresAddress.cpp \
-	$(OPERANDS)disxx.disasm.operand.PrefetchOperand.cpp \
-	$(OPERANDS)disxx.disasm.operand.SystemOperand.cpp \
-	$(OPERANDS)disxx.disasm.operand.MemoryBarrier.cpp \
-	$(OPERANDS)disxx.disasm.operand.Shift.cpp \
-	$(OPERANDS)disxx.disasm.operand.Condition.cpp \
+	./operand/disxx.disasm.operand.Register.cpp \
+	./operand/disxx.disasm.operand.Extension.cpp \
+	./operand/disxx.disasm.operand.PState.cpp \
+	./operand/disxx.disasm.operand.LoadsAndStoresAddress.cpp \
+	./operand/disxx.disasm.operand.PrefetchOperand.cpp \
+	./operand/disxx.disasm.operand.SystemOperand.cpp \
+	./operand/disxx.disasm.operand.MemoryBarrier.cpp \
+	./operand/disxx.disasm.operand.Shift.cpp \
+	./operand/disxx.disasm.operand.Condition.cpp \
 	./decoder/abstract/disxx.disasm.decoder.abstract.SubDecoder.cpp \
 	./decoder/abstract/disxx.disasm.decoder.abstract.Decoder.cpp \
 	./decoder/DataProcessingRegister/SubDecoder/disxx.disasm.decoder.DataProcessingRegister.AddSubstractShiftedRegister.SubDecoder.cpp \
@@ -324,7 +322,7 @@ SOURCES=\
 .PHONY: all clean
 all: $(BUILDDIR)/libdisxx-disasm.$(DYLIB)
 
-UTILITIES=$(DEPENDENCIESDIR)/libdisxx-util.$(DYLIB)
+UTILITIES=$(DEPENDENCIESDIR)/libdisxx-utility.$(DYLIB)
 
 PRECOMPILED=$(addprefix $(PRECOMPILEDDIR)/, $(notdir $(MODULES:.cppm=.pcm)))
 MOBJECTS=$(PRECOMPILED:.pcm=.o)
@@ -341,7 +339,7 @@ $(PRECOMPILEDDIR):
 $(OBJECTSDIR):
 	$(MKDIR) $@
 $(UTILITIES): | $(DEPENDENCIESDIR)
-	make -C ../utility
+	make -C ../utility/
 	$(MOVE) ../utility/build/$(notdir $@) $@
 $(PRECOMPILED): $(PRECOMPILEDDIR)/%.pcm: %.cppm | $(PRECOMPILEDDIR)
 	$(CXX) $(CXXFLAGS:-c=--precompile) $< -o $@

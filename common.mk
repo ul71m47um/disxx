@@ -1,4 +1,5 @@
 OS=$(shell uname -s)
+ARCH=$(shell uname -m)
 
 CXXFLAGS=\
 	-c -std=c++26 -stdlib=libc++ -Weverything -Werror -fno-implicit-modules -fno-implicit-module-maps \
@@ -69,6 +70,7 @@ endif
 # Base commands
 MKDIR=mkdir -p
 MOVE=mv
+COPY=cp
 RMDIR=rm -rf
 RM=rm -f
 

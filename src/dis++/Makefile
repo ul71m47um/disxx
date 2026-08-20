@@ -15,7 +15,7 @@ ifneq ($(OS),Darwin)
 		-Wno-missing-include-dirs
 endif
 
-LFLAGS+=-O2 -pie -L$(DEPENDENCIESDIR) -ldisxx-util -ldisxx-ui -ldisxx-disasm -ldisxx-macho
+LFLAGS+=-O2 -pie -L$(DEPENDENCIESDIR) -ldisxx-utility -ldisxx-ui -ldisxx-disasm -ldisxx-macho
 ifeq ($(OS),Darwin)
 	LFLAGS+=-S -framework Ruby -framework GLUT
 else
@@ -98,7 +98,7 @@ PRECOMPILED=$(addprefix $(PRECOMPILEDDIR)/, $(notdir $(MODULES:.cppm=.pcm)))
 MOBJECTS=$(PRECOMPILED:.pcm=.o)
 OBJECTS=$(addprefix $(OBJECTSDIR)/, $(notdir $(SOURCES:.cpp=.o)))
 
-__DYLIBS=libdisxx-util.$(DYLIB) libdisxx-ui.$(DYLIB) libdisxx-macho.$(DYLIB) libdisxx-disasm.$(DYLIB)
+__DYLIBS=libdisxx-utility.$(DYLIB) libdisxx-ui.$(DYLIB) libdisxx-macho.$(DYLIB) libdisxx-disasm.$(DYLIB)
 DYLIBS=$(addprefix $(DEPENDENCIESDIR)/, $(__DYLIBS))
 
 .PHONY: all
@@ -120,17 +120,17 @@ $(MOBJECTS): $(PRECOMPILEDDIR)/%.o: $(PRECOMPILEDDIR)/%.pcm | $(PRECOMPILEDDIR)
 	$(CXX) $(CXXFLAGS) $< -o $@
 $(OBJECTS): $(OBJECTSDIR)/%.o: %.cpp | $(OBJECTSDIR)
 	$(CXX) $(CXXFLAGS) $< -o $@
-$(DEPENDENCIESDIR)/libdisxx-util.$(DYLIB): | $(DEPENDENCIESDIR)
-	make -C ../utility
+$(DEPENDENCIESDIR)/libdisxx-utility.$(DYLIB): | $(DEPENDENCIESDIR)
+	make -C ../utility/
 	$(MOVE) ../utility/build/$(notdir $@) $@
 $(DEPENDENCIESDIR)/libdisxx-ui.$(DYLIB): | $(DEPENDENCIESDIR)
-	make -C ../ui
+	make -C ../ui/
 	$(MOVE) ../ui/build/$(notdir $@) $@
 $(DEPENDENCIESDIR)/libdisxx-macho.$(DYLIB): | $(DEPENDENCIESDIR)
-	make -C ../loader
+	make -C ../loader/
 	$(MOVE) ../loader/build/$(notdir $@) $@
 $(DEPENDENCIESDIR)/libdisxx-disasm.$(DYLIB): | $(DEPENDENCIESDIR)
-	make -C ../disasm
+	make -C ../disasm/
 	$(MOVE) ../disasm/build/$(notdir $@) $@
 $(BUILDDIR)/dis++: $(MOBJECTS) $(OBJECTS) | $(DYLIBS)
 	$(LD) $(LFLAGS) $^ -o $@

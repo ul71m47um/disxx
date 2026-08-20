@@ -22,9 +22,9 @@ CXXFLAGS+=\
 
 LFLAGS+=-O2
 ifeq ($(OS),Darwin)
-	LFLAGS+=-dylib -S -install_name @executable_path/../Frameworks/libdisxx-util.$(DYLIB)
+	LFLAGS+=-dylib -S -install_name @executable_path/../Frameworks/libdisxx-utility.$(DYLIB)
 else
-	LFLAGS+=-shared -rpath $$ORIGIN/libdisxx-util.$(DYLIB)
+	LFLAGS+=-shared -rpath $$ORIGIN/libdisxx-utility.$(DYLIB)
 endif
 
 ifeq ($(OS), Darwin)
@@ -77,7 +77,7 @@ MOBJECTS=$(PRECOMPILED:.pcm=.o)
 OBJECTS=$(addprefix $(OBJECTSDIR)/, $(notdir $(SOURCES:.cpp=.o)))
 
 .PHONY: all
-all: $(BUILDDIR)/libdisxx-util.$(DYLIB)
+all: $(BUILDDIR)/libdisxx-utility.$(DYLIB)
 
 vpath %.cppm $(sort $(dir $(MODULES)))
 vpath %.cpp $(sort $(dir $(SOURCES)))
@@ -96,7 +96,7 @@ $(OBJECTS): $(OBJECTSDIR)/%.o: %.cpp | $(OBJECTSDIR)
 $(OBJECTSDIR)/$(notdir $(MAPIMPL:.$(IMPLEXT)=.o)): $(MAPIMPL)
 	$(MAPIMPLC) $(MAPIMPLFLAGS) $< -o $@
 OBJECTS+=$(OBJECTSDIR)/$(notdir $(MAPIMPL:.$(IMPLEXT)=.o))
-$(BUILDDIR)/libdisxx-util.$(DYLIB): $(MOBJECTS) $(OBJECTS)
+$(BUILDDIR)/libdisxx-utility.$(DYLIB): $(MOBJECTS) $(OBJECTS)
 	$(LD) $(LFLAGS) $^ -o $@
 
 clean:

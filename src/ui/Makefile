@@ -15,7 +15,7 @@ CXXFLAGS+=\
 	-Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-covered-switch-default -Wno-padded -Wno-sign-conversion \
 	-Wno-float-conversion -Wno-implicit-int-float-conversion -Wno-poison-system-directories
 
-LFLAGS+=-O2 -L$(DEPENDENCIESDIR) -ldisxx-util
+LFLAGS+=-O2 -L$(DEPENDENCIESDIR) -ldisxx-utility
 ifeq ($(OS),Darwin)
 	LFLAGS+=-dylib -S -install_name @executable_path/../Frameworks/libdisxx-ui.$(DYLIB) \
 		-framework OpenGL -framework GLUT
@@ -86,7 +86,7 @@ PRECOMPILED=$(addprefix $(PRECOMPILEDDIR)/,  $(notdir $(MODULES:.cppm=.pcm)))
 MOBJECTS=$(PRECOMPILED:.pcm=.o)
 OBJECTS=$(addprefix $(OBJECTSDIR)/, $(notdir $(SOURCES:.cpp=.o)))
 
-DEPENDENCIES=$(DEPENDENCIESDIR)/libdisxx-util.$(DYLIB)
+DEPENDENCIES=$(DEPENDENCIESDIR)/libdisxx-utility.$(DYLIB)
 
 $(DEPENDENCIESDIR):
 	$(MKDIR) $@
@@ -100,9 +100,9 @@ $(MOBJECTS): $(PRECOMPILEDDIR)/%.o: $(PRECOMPILEDDIR)/%.pcm | $(PRECOMPILEDDIR)
 	$(CXX) $(CXXFLAGS) $< -o $@
 $(OBJECTS): $(OBJECTSDIR)/%.o: %.cpp | $(OBJECTSDIR)
 	$(CXX) $(CXXFLAGS) $< -o $@
-$(DEPENDENCIESDIR)/libdisxx-util.$(DYLIB): | $(DEPENDENCIESDIR)
+$(DEPENDENCIESDIR)/libdisxx-utility.$(DYLIB): | $(DEPENDENCIESDIR)
 	make -C ../utility
-	$(MOVE) ../utility/build/libdisxx-util.$(DYLIB) $@
+	$(MOVE) ../utility/build/libdisxx-utility.$(DYLIB) $@
 $(BUILDDIR)/libdisxx-ui.$(DYLIB): $(MOBJECTS) $(OBJECTS) | $(DEPENDENCIES)
 	$(LD) $(LFLAGS) $^ -o $@
 

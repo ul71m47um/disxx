@@ -1,8 +1,4 @@
-ifeq ($(shell echo %OS%), Windows_NT)
-	include ..\\..\\common.mk
-else
-	include ../../common.mk
-endif
+include ../../common.mk
 
 MODULESPATH=../modules/loader/
 
@@ -18,7 +14,7 @@ CXXFLAGS+=\
 	-Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-covered-switch-default -Wno-padded -Wno-sign-conversion \
 	-Wno-unused-command-line-argument -Wno-decls-in-multiple-modules -Wno-poison-system-directories
 
-LFLAGS+=-O2 -L$(DEPENDENCIESDIR) -ldisxx-util
+LFLAGS+=-O2 -L$(DEPENDENCIESDIR) -ldisxx-utility
 ifeq ($(OS),Darwin)
 	LFLAGS+=-dylib -S -install_name @executable_path/../Frameworks/libdisxx-macho.$(DYLIB)
 else
@@ -43,7 +39,7 @@ SOURCES=\
 
 all: $(BUILDDIR)/libdisxx-macho.$(DYLIB)
 
-UTILITIES=$(DEPENDENCIESDIR)/libdisxx-util.$(DYLIB)
+UTILITIES=$(DEPENDENCIESDIR)/libdisxx-utility.$(DYLIB)
 DEPENDENCIES=$(UTILITIES)
 
 PRECOMPILED=$(addprefix $(PRECOMPILEDDIR)/, $(notdir $(MODULES:.cppm=.pcm)))
@@ -68,7 +64,7 @@ $(OBJECTS): $(OBJECTSDIR)/%.o: %.cpp | $(OBJECTSDIR)
 	$(CXX) -c $(CXXFLAGS) $< -o $@
 $(UTILITIES): | $(DEPENDENCIESDIR)
 	make -C ../utility
-	$(MOVE) ../utility/build/libdisxx-util.$(DYLIB) $@
+	$(MOVE) ../utility/build/libdisxx-utility.$(DYLIB) $@
 $(BUILDDIR)/libdisxx-macho.$(DYLIB): $(MOBJECTS) $(OBJECTS) | $(DEPENDENCIES)
 	$(LD) $(LFLAGS) $^ -o $@
 

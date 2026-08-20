@@ -11,7 +11,7 @@ CXXFLAGS+=\
 	-Wno-reserved-macro-identifier -Wno-c++98-compat -Wno-weak-vtables -Wno-reserved-identifier \
 	-Wno-poison-system-directories -Wno-padded -Wno-implicit-int-float-conversion -Wno-undef
 
-LFLAGS+=-O2 -pie -L$(DEPENDENCIESDIR) -ldisxx-util -ldisxx-ui
+LFLAGS+=-O2 -pie -L$(DEPENDENCIESDIR) -ldisxx-utility -ldisxx-ui
 ifeq ($(OS),Darwin)
 	LFLAGS+=-S -framework GLUT
 else
@@ -56,7 +56,7 @@ PRECOMPILED=$(addprefix $(PRECOMPILEDDIR)/, $(notdir $(MODULES:.cppm=.pcm)))
 MOBJECTS=$(PRECOMPILED:.pcm=.o)
 OBJECTS=$(addprefix $(OBJECTSDIR)/, $(notdir $(SOURCES:.cpp=.o)))
 
-__DYLIBS=libdisxx-util.$(DYLIB) libdisxx-ui.$(DYLIB)
+__DYLIBS=libdisxx-utility.$(DYLIB) libdisxx-ui.$(DYLIB)
 DYLIBS=$(addprefix $(DEPENDENCIESDIR)/, $(__DYLIBS))
 
 .PHONY: all
@@ -78,11 +78,11 @@ $(MOBJECTS): $(PRECOMPILEDDIR)/%.o: $(PRECOMPILEDDIR)/%.pcm | $(PRECOMPILEDDIR)
 	$(CXX) $(CXXFLAGS) $< -o $@
 $(OBJECTS): $(OBJECTSDIR)/%.o: %.cpp | $(OBJECTSDIR)
 	$(CXX) $(CXXFLAGS) $< -o $@
-$(DEPENDENCIESDIR)/libdisxx-util.$(DYLIB): | $(DEPENDENCIESDIR)
-	make -C ../utility
+$(DEPENDENCIESDIR)/libdisxx-utility.$(DYLIB): | $(DEPENDENCIESDIR)
+	make -C ../utility/
 	$(MOVE) ../utility/build/$(notdir $@) $@
 $(DEPENDENCIESDIR)/libdisxx-ui.$(DYLIB): | $(DEPENDENCIESDIR)
-	make -C ../ui
+	make -C ../ui/
 	$(MOVE) ../ui/build/$(notdir $@) $@
 $(BUILDDIR)/reporter: $(MOBJECTS) $(OBJECTS) | $(DYLIBS)
 	$(LD) $(LFLAGS) $^ -o $@
