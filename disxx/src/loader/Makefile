@@ -2,19 +2,19 @@ include ../../common.mk
 
 MODULESPATH=../modules/loader/
 
-BUILDDIR=./build
+BUILDDIR=../../../build/loader
 DEPENDENCIESDIR=$(BUILDDIR)/dependencies
-PRECOMPILEDDIR=./build/precompiled
-OBJECTSDIR=./build/objects
+PRECOMPILEDDIR=$(BUILDDIR)/precompiled
+OBJECTSDIR=$(BUILDDIR)/objects
 
 CXXFLAGS+=\
-	-O3 -fPIC -fprebuilt-module-path=$(PRECOMPILEDDIR) -I../third-party -DNDEBUG \
+	-fPIC -fprebuilt-module-path=$(PRECOMPILEDDIR) -I../third-party \
 	-Wno-c99-extensions -Wno-global-constructors -Wno-exit-time-destructors -Wno-reserved-identifier -Wno-non-virtual-dtor \
 	-Wno-switch-enum -Wno-reserved-macro-identifier -Wno-writable-strings -Wno-weak-vtables -Wno-undefined-func-template \
 	-Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-covered-switch-default -Wno-padded -Wno-sign-conversion \
 	-Wno-unused-command-line-argument -Wno-decls-in-multiple-modules -Wno-poison-system-directories
 
-LFLAGS+=-O2 -L$(DEPENDENCIESDIR) -ldisxx-utility
+LFLAGS+=-L$(DEPENDENCIESDIR) -ldisxx-utility
 ifeq ($(OS),Darwin)
 	LFLAGS+=-dylib -S -install_name @executable_path/../Frameworks/libdisxx-macho.$(DYLIB)
 else
@@ -64,7 +64,7 @@ $(OBJECTS): $(OBJECTSDIR)/%.o: %.cpp | $(OBJECTSDIR)
 	$(CXX) -c $(CXXFLAGS) $< -o $@
 $(UTILITIES): | $(DEPENDENCIESDIR)
 	make -C ../utility
-	$(MOVE) ../utility/build/libdisxx-utility.$(DYLIB) $@
+	$(MOVE) ../../../build/utility/libdisxx-utility.$(DYLIB) $@
 $(BUILDDIR)/libdisxx-macho.$(DYLIB): $(MOBJECTS) $(OBJECTS) | $(DEPENDENCIES)
 	$(LD) $(LFLAGS) $^ -o $@
 

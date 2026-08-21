@@ -1,17 +1,17 @@
 include ../../common.mk
 
-BUILDDIR=./build
+BUILDDIR=../../../build/reporter
 DEPENDENCIESDIR=$(BUILDDIR)/dependencies
 PRECOMPILEDDIR=$(BUILDDIR)/precompiled
 OBJECTSDIR=$(BUILDDIR)/objects
 
 CXXFLAGS+=\
-	-O3 -fprebuilt-module-path=$(PRECOMPILEDDIR) -DGL_SILENCE_DEPRECATION -DNDEBUG -DBACKEND_CTX_GLUT \
+	-fprebuilt-module-path=$(PRECOMPILEDDIR) -DGL_SILENCE_DEPRECATION -DBACKEND_CTX_GLUT \
 	-Wno-non-virtual-dtor -Wno-c99-extensions -Wno-unused-command-line-argument -Wno-writable-strings \
 	-Wno-reserved-macro-identifier -Wno-c++98-compat -Wno-weak-vtables -Wno-reserved-identifier \
 	-Wno-poison-system-directories -Wno-padded -Wno-implicit-int-float-conversion -Wno-undef
 
-LFLAGS+=-O2 -pie -L$(DEPENDENCIESDIR) -ldisxx-utility -ldisxx-ui
+LFLAGS+=-pie -L$(DEPENDENCIESDIR) -ldisxx-utility -ldisxx-ui
 ifeq ($(OS),Darwin)
 	LFLAGS+=-S -framework GLUT
 else
@@ -80,10 +80,10 @@ $(OBJECTS): $(OBJECTSDIR)/%.o: %.cpp | $(OBJECTSDIR)
 	$(CXX) $(CXXFLAGS) $< -o $@
 $(DEPENDENCIESDIR)/libdisxx-utility.$(DYLIB): | $(DEPENDENCIESDIR)
 	make -C ../utility/
-	$(MOVE) ../utility/build/$(notdir $@) $@
+	$(MOVE) ../../../build/utility/$(notdir $@) $@
 $(DEPENDENCIESDIR)/libdisxx-ui.$(DYLIB): | $(DEPENDENCIESDIR)
 	make -C ../ui/
-	$(MOVE) ../ui/build/$(notdir $@) $@
+	$(MOVE) ../../../build/ui/$(notdir $@) $@
 $(BUILDDIR)/reporter: $(MOBJECTS) $(OBJECTS) | $(DYLIBS)
 	$(LD) $(LFLAGS) $^ -o $@
 

@@ -1,12 +1,13 @@
 include ../../common.mk
 
-BUILDDIR=./build
+BUILDDIR=../../../build/utility
 PRECOMPILEDDIR=$(BUILDDIR)/precompiled
 OBJECTSDIR=$(BUILDDIR)/objects
 
 ASMFLAGS=-c -arch arm64
 
-CFLAGS=-c -fPIC -std=c99 -O3 -DNDEBUG -Weverything -Werror \
+CFLAGS=\
+	-c -fPIC -std=c99 -O3 -DNDEBUG -Weverything -Werror \
 	-Wno-misleading-indentation -Wno-sign-conversion \
 	-Wno-poison-system-directories -Wno-sign-compare \
 	-Wno-declaration-after-statement
@@ -15,12 +16,11 @@ ifneq ($(OS),Darwin)
 endif
 
 CXXFLAGS+=\
-	-O3 -fPIC -fprebuilt-module-path=$(PRECOMPILEDDIR) -DNDEBUG \
+	-fPIC -fprebuilt-module-path=$(PRECOMPILEDDIR) \
 	-Wno-reserved-module-identifier -Wno-unused-command-line-argument -Wno-c++98-compat \
 	-Wno-c++98-compat-pedantic -Wno-reserved-identifier -Wno-weak-vtables \
 	-Wno-decls-in-multiple-modules -Wno-poison-system-directories
 
-LFLAGS+=-O2
 ifeq ($(OS),Darwin)
 	LFLAGS+=-dylib -S -install_name @executable_path/../Frameworks/libdisxx-utility.$(DYLIB)
 else

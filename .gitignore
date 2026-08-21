@@ -1,19 +1,13 @@
-disdbg/*
-loaders/utils/mapfile/unix/linux/*
-loaders/utils/mapfile/windows/* 
+xcuserdata
+DerivedData
+*.xcuserstate
 
 .DS_Store
 
-src/disasm/decoder/DataProcessingScalarFPAndAdvancedSIMD/SubDecoder/main.rb
-src/disasm/file.rb
-src/disasm/main.rb
+file.rb
+main.rb
 
-src/utility/build/*
-src/ui/build/*
-src/loader/build/*
-src/disasm/build/*
-src/reporter/build/*
-src/dis++/build/*
+build
 
 *.o
 *.obj

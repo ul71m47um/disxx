@@ -1,12 +1,12 @@
 include ../../common.mk
 
-BUILDDIR=./build
+BUILDDIR=../../../build/dis++
 DEPENDENCIESDIR=$(BUILDDIR)/dependencies
 PRECOMPILEDDIR=$(BUILDDIR)/precompiled
 OBJECTSDIR=$(BUILDDIR)/objects
 
 CXXFLAGS+=\
-	-O3 -fPIE -fprebuilt-module-path=$(PRECOMPILEDDIR) -DGL_SILENCE_DEPRECATION -DBACKEND_CTX_GLUT -DNDEBUG -I../third-party \
+	-fPIE -fprebuilt-module-path=$(PRECOMPILEDDIR) -DGL_SILENCE_DEPRECATION -DBACKEND_CTX_GLUT -I../third-party \
 	-Wno-unused-command-line-argument -Wno-reserved-identifier -Wno-weak-vtables -Wno-non-virtual-dtor -Wno-padded -Wno-c++98-compat \
 	-Wno-c++98-compat-pedantic -Wno-poison-system-directories -Wno-cast-function-type-mismatch -Wno-decls-in-multiple-modules
 ifneq ($(OS),Darwin)
@@ -15,7 +15,7 @@ ifneq ($(OS),Darwin)
 		-Wno-missing-include-dirs
 endif
 
-LFLAGS+=-O2 -pie -L$(DEPENDENCIESDIR) -ldisxx-utility -ldisxx-ui -ldisxx-disasm -ldisxx-macho
+LFLAGS+=-pie -L$(DEPENDENCIESDIR) -ldisxx-utility -ldisxx-ui -ldisxx-disasm -ldisxx-macho
 ifeq ($(OS),Darwin)
 	LFLAGS+=-S -framework Ruby -framework GLUT
 else
@@ -122,16 +122,16 @@ $(OBJECTS): $(OBJECTSDIR)/%.o: %.cpp | $(OBJECTSDIR)
 	$(CXX) $(CXXFLAGS) $< -o $@
 $(DEPENDENCIESDIR)/libdisxx-utility.$(DYLIB): | $(DEPENDENCIESDIR)
 	make -C ../utility/
-	$(MOVE) ../utility/build/$(notdir $@) $@
+	$(MOVE) ../../../build/utility/$(notdir $@) $@
 $(DEPENDENCIESDIR)/libdisxx-ui.$(DYLIB): | $(DEPENDENCIESDIR)
 	make -C ../ui/
-	$(MOVE) ../ui/build/$(notdir $@) $@
+	$(MOVE) ../../../build/ui/$(notdir $@) $@
 $(DEPENDENCIESDIR)/libdisxx-macho.$(DYLIB): | $(DEPENDENCIESDIR)
 	make -C ../loader/
-	$(MOVE) ../loader/build/$(notdir $@) $@
+	$(MOVE) ../../../build/loader/$(notdir $@) $@
 $(DEPENDENCIESDIR)/libdisxx-disasm.$(DYLIB): | $(DEPENDENCIESDIR)
 	make -C ../disasm/
-	$(MOVE) ../disasm/build/$(notdir $@) $@
+	$(MOVE) ../../../build/disasm/$(notdir $@) $@
 $(BUILDDIR)/dis++: $(MOBJECTS) $(OBJECTS) | $(DYLIBS)
 	$(LD) $(LFLAGS) $^ -o $@
 

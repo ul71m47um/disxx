@@ -1,11 +1,11 @@
 include ./common.mk
 
-APPDIR=./dis++
+APPDIR=../build/dis++
 all: $(APPDIR)
 .PHONY: all
 
-EXECDIR=./dis++
-LIBDIR=./dis++
+EXECDIR=../build/dis++
+LIBDIR=../build/dis++
 
 PLIST=./misc/Info.plist
 PKGINFO=./misc/PkgInfo
@@ -13,11 +13,11 @@ PKGINFO=./misc/PkgInfo
 ifeq ($(OS),Darwin)
 	APPDIR+=.app
 
-	EXECDIR=./dis++.app/Contents/MacOS
-	LIBDIR=./dis++.app/Contents/Frameworks
+	EXECDIR=../build/dis++.app/Contents/MacOS
+	LIBDIR=../build/dis++.app/Contents/Frameworks
 
-	PLIST=./dis++.app/Contents/Info.plist
-	PKGINFO=./dis++.app/Contents/PkgInfo
+	PLIST=../build/dis++.app/Contents/Info.plist
+	PKGINFO=../build/dis++.app/Contents/PkgInfo
 endif
 
 # Dynamic libraries
@@ -36,22 +36,22 @@ $(EXECDIR):
 	$(MKDIR) $@
 $(UTILITY): | $(LIBDIR)
 	make -C ./src/utility/
-	$(MOVE) ./src/utility/build/$(notdir $@) $@
+	$(MOVE) ../build/utility/$(notdir $@) $@
 $(UI): | $(LIBDIR)
 	make -C ./src/ui/
-	$(MOVE) ./src/ui/build/$(notdir $@) $@
+	$(MOVE) ../build/ui/$(notdir $@) $@
 $(MACHO): | $(LIBDIR)
 	make -C ./src/loader/
-	$(MOVE) ./src/loader/build/$(notdir $@) $@
+	$(MOVE) ../build/loader/$(notdir $@) $@
 $(DISASM): | $(LIBDIR)
 	make -C ./src/disasm
-	$(MOVE) ./src/disasm/build/$(notdir $@) $@
+	$(MOVE) ../build/disasm/$(notdir $@) $@
 $(REPORTER): | $(EXECDIR)
 	make -C ./src/reporter/
-	$(MOVE) ./src/reporter/build/$(notdir $@) $@
+	$(MOVE) ../build/reporter/$(notdir $@) $@
 $(DISXX): | $(EXECDIR)
 	make -C ./src/dis++/
-	$(MOVE) ./src/dis++/build/$(notdir $@) $@
+	$(MOVE) ../build/dis++/$(notdir $@) $@
 $(PLIST):
 	$(COPY) ./misc/$(notdir $@) $@
 $(PKGINFO):
@@ -61,3 +61,6 @@ $(APPDIR): | \
 	$(MACHO) $(DISASM) \
 	$(REPORTER) $(DISXX) \
 	$(PLIST) $(PKGINFO)
+
+clean:
+	$(RMDIR) ../build/

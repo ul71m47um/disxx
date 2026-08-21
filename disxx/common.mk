@@ -1,3 +1,7 @@
+ifneq (Debug,)
+	DEBUG=1
+endif
+
 OS=$(shell uname -s)
 ARCH=$(shell uname -m)
 
@@ -65,6 +69,19 @@ ifeq ($(CXX),)
 endif
 ifeq ($(RUBY),)
 	$(error Unable to find Ruby interpreter)
+endif
+
+ifneq ($(DEBUG),)
+	CXXFLAGS+=\
+		-Og -DDEBUG -fsanitize=address
+		-fsanitize=undefined
+	LFLAGS+=-O0 -L$(shell $(CXX) -print-resource-dir)/lib/$(OS)/
+	ifeq ($(OS),Darwin)
+		LFLAGS+=-lclang_rt.asan_osx_dynamic -lclang_rt.ubsan_osx_dynamic
+	endif
+else
+	CXXFLAGS+=-O3 -DNDEBUG
+	LFLAGS+=-O2
 endif
 
 # Base commands

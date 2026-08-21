@@ -1,19 +1,19 @@
 include ../../common.mk
 
-BUILDDIR=./build
+BUILDDIR=../../../build/disasm
 DEPENDENCIESDIR=$(BUILDDIR)/dependencies
 PRECOMPILEDDIR=$(BUILDDIR)/precompiled
 OBJECTSDIR=$(BUILDDIR)/objects
 
 CXXFLAGS+=\
-	-O3 -fPIC -fprebuilt-module-path=$(PRECOMPILEDDIR) -DNDEBUG \
+	-fPIC -fprebuilt-module-path=$(PRECOMPILEDDIR) \
 	-Wno-weak-vtables -Wno-c++98-compat -Wno-padded -Wno-c++98-c++11-compat-binary-literal \
 	-Wno-c++98-compat-pedantic -Wno-unused-command-line-argument -Wno-poison-system-directories \
 	-Wno-reserved-module-identifier -Wno-reserved-identifier -Wno-exit-time-destructors
 
 LFLAGS+=-O2 -L$(DEPENDENCIESDIR) -ldisxx-utility
 ifeq ($(OS), Darwin)
-	LFLAGS+=-dylib -S -install_name @executable_path/../Frameworks/libdisxx-disasm.$(DYLIB) -rpath .
+	LFLAGS+=-dylib -S -install_name @executable_path/../Frameworks/libdisxx-disasm.$(DYLIB)
 else
 	ifneq ($(OS), Windows_NT)
 		LFLAGS+=-shared -rpath $$ORIGIN/libdisxx-disasm.$(DYLIB)
@@ -340,7 +340,7 @@ $(OBJECTSDIR):
 	$(MKDIR) $@
 $(UTILITIES): | $(DEPENDENCIESDIR)
 	make -C ../utility/
-	$(MOVE) ../utility/build/$(notdir $@) $@
+	$(MOVE) ../../../build/utility/$(notdir $@) $@
 $(PRECOMPILED): $(PRECOMPILEDDIR)/%.pcm: %.cppm | $(PRECOMPILEDDIR)
 	$(CXX) $(CXXFLAGS:-c=--precompile) $< -o $@
 $(MOBJECTS): $(PRECOMPILEDDIR)/%.o: $(PRECOMPILEDDIR)/%.pcm | $(PRECOMPILEDDDIR)
