@@ -4,9 +4,13 @@ APPDIR=../build/dis++
 all: $(APPDIR)
 .PHONY: all
 
+# MacOS-specific directory
+RESOURCES=../build/dis++.app/Contents/Resources
+
 EXECDIR=../build/dis++
 LIBDIR=../build/dis++
 
+ICON=./misc/AppIcon.icon
 PLIST=./misc/Info.plist
 PKGINFO=./misc/PkgInfo
 
@@ -16,6 +20,7 @@ ifeq ($(OS),Darwin)
 	EXECDIR=../build/dis++.app/Contents/MacOS
 	LIBDIR=../build/dis++.app/Contents/Frameworks
 
+	ICON=../build/dis++.app/Contents/Resources/AppIcon.icns
 	PLIST=../build/dis++.app/Contents/Info.plist
 	PKGINFO=../build/dis++.app/Contents/PkgInfo
 endif
@@ -30,6 +35,8 @@ DISASM=$(LIBDIR)/libdisxx-disasm.$(DYLIB)
 REPORTER=$(EXECDIR)/reporter
 DISXX=$(EXECDIR)/dis++
 
+$(RESOURCES):
+	$(MKDIR) $@
 $(LIBDIR):
 	$(MKDIR) $@
 $(EXECDIR):
@@ -52,6 +59,8 @@ $(REPORTER): | $(EXECDIR)
 $(DISXX): | $(EXECDIR)
 	make -C ./src/dis++/
 	$(MOVE) ../build/dis++/$(notdir $@) $@
+$(ICON): | $(RESOURCES)
+	$(COPY) ./misc/$(notdir $@) $@
 $(PLIST):
 	$(COPY) ./misc/$(notdir $@) $@
 $(PKGINFO):
@@ -60,7 +69,8 @@ $(APPDIR): | \
 	$(UTILITY) $(UI) \
 	$(MACHO) $(DISASM) \
 	$(REPORTER) $(DISXX) \
-	$(PLIST) $(PKGINFO)
+	$(ICON) $(PLIST) \
+	$(PKGINFO)
 
 clean:
 	$(RMDIR) ../build/

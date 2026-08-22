@@ -1,4 +1,5 @@
-ifneq (Debug,)
+# For XCode
+ifneq ($(Debug),)
 	DEBUG=1
 endif
 
@@ -11,7 +12,7 @@ CXXFLAGS=\
 	-fstack-protector-all -fstrict-aliasing -fcheck-new -fcolor-diagnostics -fdata-sections \
 	-fsafe-buffer-usage-suggestions
 
-LFLAGS=-lc++ -lc++abi -lc -lm -demangle
+LFLAGS=-lc++ -lc++abi -lc -lm -demangle -headerpad_max_install_names
 
 # Script for assembling all the binaries together
 MKAPP=.$(PATHSEP)mkapp.sh
@@ -72,13 +73,8 @@ ifeq ($(RUBY),)
 endif
 
 ifneq ($(DEBUG),)
-	CXXFLAGS+=\
-		-Og -DDEBUG -fsanitize=address
-		-fsanitize=undefined
-	LFLAGS+=-O0 -L$(shell $(CXX) -print-resource-dir)/lib/$(OS)/
-	ifeq ($(OS),Darwin)
-		LFLAGS+=-lclang_rt.asan_osx_dynamic -lclang_rt.ubsan_osx_dynamic
-	endif
+	CXXFLAGS+=-Og -DDEBUG
+	LFLAGS+=-O0
 else
 	CXXFLAGS+=-O3 -DNDEBUG
 	LFLAGS+=-O2
@@ -87,7 +83,7 @@ endif
 # Base commands
 MKDIR=mkdir -p
 MOVE=mv
-COPY=cp
+COPY=cp -R
 RMDIR=rm -rf
 RM=rm -f
 
