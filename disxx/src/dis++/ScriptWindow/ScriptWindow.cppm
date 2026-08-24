@@ -13,7 +13,6 @@ export class ScriptWindow
 	ScriptEngine m_Engine{};
 
   public:
-	explicit ScriptWindow(void) noexcept;
 	explicit ScriptWindow(const std::filesystem::path &) noexcept;
 
 	ScriptWindow(const ScriptWindow &) noexcept;

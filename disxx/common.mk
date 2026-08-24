@@ -14,9 +14,6 @@ CXXFLAGS=\
 
 LFLAGS=-lc++ -lc++abi -lc -lm -demangle -headerpad_max_install_names
 
-# Script for assembling all the binaries together
-MKAPP=.$(PATHSEP)mkapp.sh
-
 ifeq ($(OS),Darwin)
 	CXXFLAGS+=\
 		-isysroot $(shell xcrun --show-sdk-path) -arch $(ARCH) \
@@ -43,7 +40,7 @@ else
 	LFLAGS+=-L$(dir $(shell clang++ -print-file-name=libc++.so))
 
 	# C++ standart library module
-	LIBCXX=$(shell llvm-config --prefix)$(PATHSEP)share$(PATHSEP)libc++$(PATHSEP)v1$(PATHSEP)std.cppm
+	LIBCXX=$(shell llvm-config --prefix)/share/libc++/v1/std.cppm
 
 	# File extensions
 	DYLIB=so
