@@ -7,11 +7,13 @@ OBJECTSDIR=$(BUILDDIR)/objects
 ASMFLAGS=-c -arch arm64
 
 CFLAGS=\
-	-c -fPIC -std=c99 -O3 -DNDEBUG -Weverything -Werror \
+	-c -arch $(ARCH) -fPIC -std=c99 -O3 -DNDEBUG -Weverything -Werror \
 	-Wno-misleading-indentation -Wno-sign-conversion \
 	-Wno-poison-system-directories -Wno-sign-compare \
 	-Wno-declaration-after-statement
-ifneq ($(OS),Darwin)
+ifeq ($(OS),Darwin)
+	CFLAGS+=-isysroot $(shell xcrun --show-sdk-path)
+else
 	CFLAGS+=-isysroot $(shell llvm-config --includedir)
 endif
 
