@@ -24,6 +24,22 @@ module;
 #endif
 #pragma clang diagnostic pop
 
+#define RETOUT(path) \
+{ \
+	std::fstream output{path, std::fstream::in}; \
+	if (!output.is_open()) [[unlikely]] \
+		return std::string{}; \
+	std::string contents{}; \
+	while (!output.eof()) \
+	{ \
+		std::string line{}; \
+		std::getline(output, line); \
+		contents += line + '\n'; \
+	} \
+	std::filesystem::remove(path); \
+	return contents; \
+}
+
 module ScriptEngine;
 
 import disxx.loader.macho.Loader;
@@ -37,7 +53,7 @@ namespace
 		{
 			nullptr,
 			[](void *ptr) -> void { delete static_cast<disxx::loader::macho::Loader *>(ptr); },
-			[](const void *) -> std::size_t { return 0; },
+			[](const void *) -> std::size_t { return 0z; },
 			RESERVED
 		},
 		nullptr,
@@ -51,7 +67,7 @@ namespace
 		{
 			nullptr,
 			[](void *ptr) -> void { delete static_cast<disxx::loader::executable::ExecutableFile *>(ptr); },
-			[](const void *) -> std::size_t { return 0; },
+			[](const void *) -> std::size_t { return 0z; },
 			RESERVED
 		},
 		nullptr,
@@ -65,7 +81,7 @@ namespace
 		{
 			nullptr,
 			[](void *ptr) -> void { delete static_cast<disxx::loader::executable::Section *>(ptr); },
-			[](const void *) -> std::size_t { return 0; },
+			[](const void *) -> std::size_t { return 0z; },
 			RESERVED
 		},
 		nullptr,
@@ -79,7 +95,7 @@ namespace
 		{
 			nullptr,
 			[](void *ptr) -> void { delete static_cast<disxx::loader::executable::Label *>(ptr); },
-			[](const void *) -> std::size_t { return 0; },
+			[](const void *) -> std::size_t { return 0z; },
 			RESERVED
 		},
 		nullptr,
@@ -124,37 +140,32 @@ namespace
 	}
 }  /* */
 
-ScriptEngine::EngineError::EngineError(void) noexcept
-	: m_Err{}
-{}
-
-ScriptEngine::EngineError::EngineError(std::string_view err) noexcept
-	: m_Err{err}
-{}
-
-ScriptEngine::EngineError::EngineError(const EngineError &other) noexcept
-	: m_Err{other.m_Err}
-{}
-
-ScriptEngine::EngineError &ScriptEngine::EngineError::operator=(const EngineError &other) noexcept
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#pragma clang diagnostic ignored "-Wglobal-constructors"
+const std::filesystem::path ScriptEngine::s_Path
 {
-	if (this != &other) [[likely]]
-		this->m_Err = other.m_Err;
-	return *this;
-}
+	std::filesystem::temp_directory_path().string()
+		+ "disxx-output.dat"
+};
 
-ScriptEngine::EngineError::EngineError(EngineError &&other) noexcept
-	: m_Err{std::move(other.m_Err)}
-{}
-
-ScriptEngine::EngineError &ScriptEngine::EngineError::operator=(EngineError &&other) noexcept
+const std::string ScriptEngine::s_Script
 {
-	this->m_Err = std::move(other.m_Err);
-	return *this;
-}
-
-const char *ScriptEngine::EngineError::what(void) const noexcept
-{ return this->m_Err.c_str(); }
+	std::format
+	(
+		"class DisxxIO\n"
+		"\tdef write(str)\n"
+		"\t\tFile.open(\"{}\", \'a\') do |file|\n"
+		"\t\t\tfile.write str\n"
+		"\t\tend\n"
+		"\tend\n"
+		"end\n\n"
+		"io = DisxxIO::new\n"
+		"$stdout = $stderr = io\n",
+		ScriptEngine::s_Path.string()
+	)
+};
+#pragma clang diagnostic pop
 
 ScriptEngine::ScriptEngine(void) noexcept
 	#pragma clang diagnostic push
@@ -544,36 +555,114 @@ ScriptEngine::ScriptEngine(void) noexcept
 	#pragma clang diagnostic pop
 }
 
-ScriptEngine::ExecResult ScriptEngine::ExecFile(const std::filesystem::path &path) noexcept
+ScriptEngine::ScriptEngine(const ScriptEngine &other) noexcept
+	: m_Disxx{other.m_Disxx}
+	, m_Loader{other.m_Loader}
+	, m_ExecutableFile{other.m_ExecutableFile}
+	, m_Section{other.m_Section}
+	, m_Label{other.m_Label}
+	, m_Disassembler{other.m_Disassembler}
+{}
+
+ScriptEngine &ScriptEngine::operator=(const ScriptEngine &other) noexcept
 {
+	if (this != &other) [[likely]]
+	{
+		this->m_Disxx = other.m_Disxx;
+		this->m_Loader = other.m_Loader;
+		this->m_ExecutableFile = other.m_ExecutableFile;
+		this->m_Section = other.m_Section;
+		this->m_Label = other.m_Label;
+		this->m_Disassembler = other.m_Disassembler;
+	}
+
+	return *this;
+}
+
+ScriptEngine::ScriptEngine(ScriptEngine &&other) noexcept
+	: m_Disxx{std::move(other.m_Disxx)}
+	, m_Loader{std::move(other.m_Loader)}
+	, m_ExecutableFile{std::move(other.m_ExecutableFile)}
+	, m_Section{std::move(other.m_Section)}
+	, m_Label{std::move(other.m_Label)}
+	, m_Disassembler{std::move(other.m_Disassembler)}
+{}
+
+ScriptEngine &ScriptEngine::operator=(ScriptEngine &&other) noexcept
+{
+	if (this != &other) [[likely]]
+	{
+		this->m_Disxx = std::move(other.m_Disxx);
+		this->m_Loader = std::move(other.m_Loader);
+		this->m_ExecutableFile = std::move(other.m_ExecutableFile);
+		this->m_Section = std::move(other.m_Section);
+		this->m_Label = std::move(other.m_Label);
+		this->m_Disassembler = std::move(other.m_Disassembler);
+	}
+
+	return *this;
+}
+
+std::string ScriptEngine::ExecFile(const std::filesystem::path &path) noexcept
+{
+	const std::filesystem::path temp
+	{
+		std::format
+		(
+			"{}disxx-{}-script.rb",
+			std::filesystem::temp_directory_path().string(),
+			path.filename().string()
+		)
+	};
+
+	std::fstream script
+	{
+		temp,
+		std::fstream::in
+			| std::fstream::out
+			| std::fstream::binary
+			| std::fstream::trunc
+	}, file
+	{
+		path,
+		std::fstream::in
+	};
+
+	if (!file.is_open() || !script.is_open()) [[unlikely]]
+		return std::string{};
+
+	for (const auto ch : s_Script)
+		script.write(&ch, sizeof(ch));
+
+	while (!file.eof())
+	{
+		std::string line{};
+		std::getline(file, line);
+		line += '\n';
+		for (const auto ch : line)
+			script.write(&ch, sizeof(ch));
+	}
+
+	script.flush();
+
 	#pragma clang diagnostic push
 	#pragma clang diagnostic ignored "-Wcompound-token-split-by-macro"
 	#pragma clang diagnostic ignored "-Wdisabled-macro-expansion"
 	auto state{0};
-	rb_load_protect(rb_str_new_cstr(path.string().c_str()), 0, &state);
-	if (state) [[unlikely]]
-	{
-		std::string error{};
-		if (const auto err{rb_errinfo()}; !NIL_P(err)) [[likely]]
-		{
-			auto name{rb_funcall(rb_obj_class(err), rb_intern("name"), 0)};
-			auto message{rb_funcall(err, rb_intern("message"), 0)};
-			error = std::format("{}: {}", StringValueCStr(name), StringValueCStr(message));
-			rb_set_errinfo(Qnil);
-		}
-
-		return std::unexpected{EngineError{std::format("EngineError: {}", error)}};
-	}
+	rb_load_protect(rb_str_new_cstr(temp.c_str()), 0, &state);
 	#pragma clang diagnostic pop
 
-	return std::monostate{};
+	std::filesystem::remove(temp);
+
+	RETOUT(s_Path)
 }
 
-ScriptEngine::ExecResult ScriptEngine::ExecString(std::string_view str) noexcept
+std::string ScriptEngine::ExecString(std::string_view str) noexcept
 {
+	const auto script{std::string{s_Script} + str};
+
 	auto state{0};
-	rb_eval_string_protect(std::string{str}.c_str(), &state);
-	if (state) [[unlikely]]
-		return std::unexpected{EngineError{"ExecStringError"}};
-	return std::monostate{};
+	rb_eval_string_protect(script.c_str(), &state);
+
+	RETOUT(s_Path)
 }

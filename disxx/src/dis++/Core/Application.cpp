@@ -781,7 +781,6 @@ void Application::Init(void) noexcept(false)
 									.GetWidgets()
 									.rbegin()
 							).GetText()
-
 						};
 
 						if (std::error_code errc{}; !std::filesystem::exists(p, errc)) [[unlikely]]
@@ -793,7 +792,7 @@ void Application::Init(void) noexcept(false)
 						SUPPRESS_LAST_WIDGETS(s_pInstance->m_Window.GetWidgets(), 6);
 
 						ScriptEngine engine{};
-						engine.ExecFile(p);
+						std::println("{}", engine.ExecFile(p));
 	
 						scriptActive = false;
 					}

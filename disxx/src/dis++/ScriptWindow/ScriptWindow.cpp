@@ -21,7 +21,6 @@ ScriptWindow::ScriptWindow(const std::filesystem::path &path)
 		0.f
 	};
 	field.SetColor(0.2f, 0.2f, 0.2f);
-	
 }
 
 ScriptWindow::ScriptWindow(const ScriptWindow &other) noexcept
