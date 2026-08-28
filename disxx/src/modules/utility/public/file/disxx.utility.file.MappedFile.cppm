@@ -14,7 +14,16 @@ export namespace disxx::utility::file
 		std::filesystem::path m_Path{};
 
   	  private:
-		void ValidateRange(std::uint64_t, std::size_t) const noexcept(false);
+		std::expected
+		<
+			std::monostate,
+			std::variant
+			<
+				std::out_of_range,
+				std::range_error
+			>
+		>
+		ValidateRange(std::uint64_t, std::size_t) const noexcept;
 
   	  public:
 		explicit MappedFile(void) noexcept;
@@ -26,22 +35,66 @@ export namespace disxx::utility::file
 		MappedFile(MappedFile &&) noexcept;
 		MappedFile &operator=(MappedFile &&) noexcept;
 
-		~MappedFile(void) noexcept(false);
+		~MappedFile(void) noexcept;
 		
-		void Open(const std::filesystem::path &) noexcept(false);
-		void Open(void) noexcept(false);
+		std::expected
+		<
+			std::monostate,
+			std::variant
+			<
+				std::filesystem::filesystem_error,
+				std::bad_alloc
+			>
+		>
+		Open(const std::filesystem::path &) noexcept;
+		std::expected
+		<
+			std::monostate,
+			std::variant
+			<
+				std::filesystem::filesystem_error,
+				std::bad_alloc
+			>
+		>
+		Open(void) noexcept;
 
-		template <typename T> const T &Read(std::uint64_t offset) const noexcept(false);
+		template <typename T>
+		std::expected
+		<
+			std::reference_wrapper<const T>,
+			std::variant
+			<
+				std::out_of_range,
+				std::range_error
+			>
+		>	
+		Read(std::uint64_t offset) const noexcept;
 	};
 
-	template <typename T> const T &MappedFile::Read(std::uint64_t offset) const noexcept(false)
+	template <typename T>
+	std::expected
+	<
+		std::reference_wrapper<const T>,
+		std::variant
+		<
+			std::out_of_range,
+			std::range_error
+		>
+	>
+	MappedFile::Read(std::uint64_t offset) const noexcept
 	{
-	    this->ValidateRange(offset, sizeof(T));
-	
-	    #ifdef __cpp_lib_start_lifetime_as
-	        return *std::start_lifetime_as<const T>(this->mptr + offset);
-	    #else
-	        return *std::bit_cast<const T *>(std::add_sat(std::bit_cast<std::uint64_t>(this->mptr), offset));
-	   	#endif
+	    if (const auto result{this->ValidateRange(offset, sizeof(T))}; !result) [[unlikely]]
+			return std::unexpected{result.error()};
+		return std::cref
+		(
+			*std::bit_cast<const T *>
+			(
+				std::add_sat
+				(
+					std::bit_cast<std::uint64_t>(this->mptr),
+					offset
+				)
+			)
+		);
 	}
 } /* disxx::utility::file */

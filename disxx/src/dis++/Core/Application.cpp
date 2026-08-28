@@ -62,20 +62,26 @@ namespace
 // The only one instance
 Application *Application::s_pInstance{nullptr};
 
-Application::Application(void) noexcept(false)
+Application::Application(void) noexcept
 	: m_Window{disxx::ui::utility::Vec2<int>{800, 600}, "dis++ v0.3.0"}
 	, m_Logger{}
 	, m_pInput{}
 { this->m_pInput.SetCallback([] -> void { Application::Init(); }); }
 
-void Application::LoadLabels(const std::filesystem::path &path) noexcept(false)
+void Application::LoadLabels(const std::filesystem::path &path) noexcept
 {
 	auto &labels{dynamic_cast<disxx::ui::SourceEditor &>(*s_pInstance->m_Window.GetWidgets().at(1))};
 	labels.ClearText();
 
 	disxx::loader::macho::Loader ldr{};
-	ldr.LoadFile(path);
-	for (const auto &section : ldr.LoadData().GetSections())
+	if (!ldr.LoadFile(path)) [[unlikely]]
+		return;
+
+	const auto dataResult{ldr.LoadData()};
+	if (!dataResult) [[unlikely]]
+		return;
+
+	for (const auto &section : dataResult->GetSections())
 	{
 		for (const auto &label : section.GetLabels())
 		{
@@ -102,7 +108,7 @@ void Application::LoadLabels(const std::filesystem::path &path) noexcept(false)
 	);
 }
 
-void Application::Disassemble(const std::filesystem::path &path) noexcept(false)
+void Application::Disassemble(const std::filesystem::path &path) noexcept
 {
 	this->LoadLabels(path);
 
@@ -119,14 +125,18 @@ void Application::Disassemble(const std::filesystem::path &path) noexcept(false)
 
 	// Load the executable
     disxx::loader::macho::Loader ldr{};
-	ldr.LoadFile(path);
+	if (!ldr.LoadFile(path)) [[unlikely]]
+		return;
 	
 	// Load metadata of the executable
-	auto info{ldr.LoadMetadata()};
+	auto metadataResult{ldr.LoadMetadata()};
+	if (!metadataResult) [[unlikely]]
+		return;
+
 	editor.AddLine(";{:*<28}METADATA{:*<28}", "", "");
 	editor.AddLine(";  File path: {}", path.string());
 	editor.AddLine(";  File type: Mach-O {}", ldr.GetFileType());	
-	editor.AddLine(";  Target OS: {}, v{}", info.GetPlatformName(), info.GetPlatformMinVersion());
+	editor.AddLine(";  Target OS: {}, v{}", metadataResult->GetPlatformName(), metadataResult->GetPlatformMinVersion());
 	const auto &_
 	{
 		ldr
@@ -147,13 +157,14 @@ void Application::Disassemble(const std::filesystem::path &path) noexcept(false)
 				}
 			)
 	};
-	for (const auto &[name, version] : info.GetBuildTools())
+	
+	for (const auto &[name, version] : metadataResult->GetBuildTools())
 		editor.AddLine(";  Build tool: {}, v{}", name, version);
 	editor.AddLine(";{:*<64}", "");
 	editor.AddLine("");
 
-	const auto &[platformMajor, platformMinor, _]{::splitver(info.GetPlatformMinVersion())};
-	const auto &[sdkMajor, sdkMinor, _]{::splitver(info.GetSDKVersion())};
+	const auto &[platformMajor, platformMinor, _]{::splitver(metadataResult->GetPlatformMinVersion())};
+	const auto &[sdkMajor, sdkMinor, _]{::splitver(metadataResult->GetSDKVersion())};
 	editor.AddLine
 	(
 		"<color value=\"0.6 0.6 0.2 1.0\">.build_version</color>"
@@ -161,7 +172,7 @@ void Application::Disassemble(const std::filesystem::path &path) noexcept(false)
 		" <color value=\"0.7 0.2 0.1 1.0\">{}</color>"
 		" sdk_version <color value=\"0.7 0.2 0.1 1.0\">{}</color>,"
 		" <color value=\"0.7 0.2 0.1 1.0\">{}</color>",
-		info.GetPlatformName()
+		metadataResult->GetPlatformName()
 			| std::views::all
 			| std::views::transform([](auto ch) -> char { return static_cast<char>(std::tolower(ch)); })
 			| std::ranges::to<std::string>(),
@@ -171,7 +182,11 @@ void Application::Disassemble(const std::filesystem::path &path) noexcept(false)
 		sdkMinor
 	);
 
-	for (auto &section : ldr.LoadData().GetSections())
+	const auto dataResult{ldr.LoadData()};
+	if (!dataResult) [[unlikely]]
+		return;
+
+	for (auto &section : dataResult->GetSections())
 	{
 		const auto name{section.GetName()};
 		editor.AddLine("");
@@ -343,7 +358,7 @@ void Application::Disassemble(const std::filesystem::path &path) noexcept(false)
 	).Push(std::move(tab));
 }
 
-void Application::Init(void) noexcept(false)
+void Application::Init(void) noexcept
 {
 	// Suppress the previous window
     std::filesystem::path path{s_pInstance->m_pInput.GetPath()};
@@ -934,7 +949,7 @@ void Application::Init(void) noexcept(false)
     s_pInstance->m_Window.Redisplay();
 }
 
-int Application::Exec(void) const noexcept(false)
+int Application::Exec(void) const noexcept
 {
 	this->m_Window.Exec();
 	return 0;

@@ -24,6 +24,15 @@ module;
 #endif
 #pragma clang diagnostic pop
 
+#define LOG(state) \
+	if (state != 0) [[unlikely]] \
+	{ \
+		const auto err{rb_errinfo()}; \
+		rb_set_errinfo(Qnil); \
+		auto string{rb_obj_as_string(err)}; \
+		return StringValueCStr(string); \
+	}
+
 #define RETOUT(path) \
 { \
 	std::fstream output{path, std::fstream::in}; \
@@ -145,8 +154,9 @@ namespace
 #pragma clang diagnostic ignored "-Wglobal-constructors"
 const std::filesystem::path ScriptEngine::s_Path
 {
-	std::filesystem::temp_directory_path().string()
-		+ "disxx-output.dat"
+	std::filesystem::temp_directory_path()
+		/ std::filesystem::path{"io.github.ul71m47um.disxx"}
+		/ std::filesystem::path{"ruby-output.dat"}
 };
 
 const std::string ScriptEngine::s_Script
@@ -162,7 +172,8 @@ const std::string ScriptEngine::s_Script
 		"\tend\n"
 		"end\n\n"
 		"io = DisxxIO::new\n"
-		"$stdout = $stderr = io\n\n",
+		"$stdout = $stderr = io\n\n"
+		"# User\'s code begins",
 		ScriptEngine::s_Path.string()
 	)
 };
@@ -234,22 +245,23 @@ ScriptEngine::ScriptEngine(void) noexcept
 		(
 			+[](VALUE self, VALUE path) -> VALUE
 			{
-				try
-				{
-					unwrap<disxx::loader::macho::Loader>(self)->LoadFile(StringValueCStr(path));
-					return self;
-				}
-				catch (const std::exception &err)
+				if (const auto result{unwrap<disxx::loader::macho::Loader>(self)->LoadFile(StringValueCStr(path))}; !result) [[unlikely]]
 				{
 					rb_raise
 					(
 						rb_eRuntimeError,
 						"%s",
-						err.what()
+						std::visit
+						(
+							[](auto &&err) -> const char * { return err.what(); },
+							result.error()
+						)
 					);
 
 					return Qnil;
 				}
+					
+				return self;
 			}
 		),
 		1
@@ -262,6 +274,23 @@ ScriptEngine::ScriptEngine(void) noexcept
 		(
 			+[](VALUE self) -> VALUE
 			{
+				const auto result{unwrap<disxx::loader::macho::Loader>(self)->LoadData()};
+				if (!result) [[unlikely]]
+				{
+					rb_raise
+					(
+						rb_eRuntimeError,
+						"%s",
+						std::visit
+						(
+							[](auto &&err) -> const char * { return err.what(); },
+							result.error()
+						)
+					);
+
+					return Qnil;
+				}
+
 				return TypedData_Wrap_Struct
 				(
 					rb_const_get
@@ -270,7 +299,7 @@ ScriptEngine::ScriptEngine(void) noexcept
 						rb_intern("ExecutableFile")
 					),
 					&executable,
-					new disxx::loader::executable::ExecutableFile{unwrap<disxx::loader::macho::Loader>(self)->LoadData()}
+					new disxx::loader::executable::ExecutableFile{*result}
 				);
 			}
 		),
@@ -606,14 +635,14 @@ ScriptEngine &ScriptEngine::operator=(ScriptEngine &&other) noexcept
 
 std::string ScriptEngine::ExecFile(const std::filesystem::path &path) noexcept
 {
+	if (const auto dir{s_Path.parent_path()}; !std::filesystem::exists(dir))
+		std::filesystem::create_directory(dir);
+
 	const std::filesystem::path temp
 	{
-		std::format
-		(
-			"{}disxx-{}-script.rb",
-			std::filesystem::temp_directory_path().string(),
-			path.filename().string()
-		)
+		std::filesystem::temp_directory_path()
+			/ std::filesystem::path{"io.github.ul71m47um.disxx"}
+			/ std::filesystem::path{"main.rb"}
 	};
 
 	std::fstream script
@@ -651,6 +680,7 @@ std::string ScriptEngine::ExecFile(const std::filesystem::path &path) noexcept
 	#pragma clang diagnostic ignored "-Wdisabled-macro-expansion"
 	auto state{0};
 	rb_load_protect(rb_str_new_cstr(temp.c_str()), 0, &state);
+	LOG(state)
 	#pragma clang diagnostic pop
 
 	std::filesystem::remove(temp);
@@ -664,6 +694,10 @@ std::string ScriptEngine::ExecString(std::string_view str) noexcept
 
 	auto state{0};
 	rb_eval_string_protect(script.c_str(), &state);
+	#pragma clang diagnostic push
+	#pragma clang diagnostic ignored "-Wdisabled-macro-expansion"
+	LOG(state)
+	#pragma clang diagnostic pop
 
 	RETOUT(s_Path)
 }

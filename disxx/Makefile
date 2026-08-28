@@ -13,7 +13,7 @@ PLIST=./misc/Info.plist
 PKGINFO=./misc/PkgInfo
 
 ifeq ($(OS),Darwin)
-	APPDIR+=.app
+	APPDIR=../build/dis++.app
 
 	EXECDIR=../build/dis++.app/Contents/MacOS
 	LIBDIR=../build/dis++.app/Contents/Frameworks

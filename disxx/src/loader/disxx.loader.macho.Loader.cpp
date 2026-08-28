@@ -8,17 +8,40 @@ module;
 #include <mach-o/nlist.h>
 #include <mach-o/fat.h>
 
-#ifndef _WIN32
-#	include <arpa/inet.h>
-#else
-#	include <winsock2.h>
-#endif
+#include <arpa/inet.h>
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpedantic"
+#define MKARGS(...) this, __VA_ARGS__
+#pragma clang diagnostic pop
 
 module disxx.loader.macho.Loader;
 
 import disxx.loader.executable.ExecutableFile;
 
 import std;
+
+namespace
+{
+	template <auto F, typename T, typename ...Args>
+	inline auto mkerr(T &&var, Args &&..._) noexcept
+	{
+		if constexpr (std::is_base_of<std::exception, T>::value)
+			return std::unexpected{var};
+		else
+		{
+			return std::unexpected
+			{
+				std::visit
+				(
+					[](auto &&err) -> std::invoke_result<decltype(F), Args...>::type::error_type
+					{ return err; },
+					var
+				)
+			};
+		}
+	}
+} /* */
 
 namespace disxx::loader::macho
 {
@@ -67,75 +90,130 @@ namespace disxx::loader::macho
 			delete this->m_pHeader;
 	}
 
-	void Loader::LoadFile(const std::filesystem::path &rPath) noexcept(false)
+	std::expected
+	<
+		std::monostate,
+		std::variant
+		<
+			std::filesystem::filesystem_error,
+			std::invalid_argument,
+			std::out_of_range,
+			std::range_error,
+			std::bad_alloc
+		>
+	>
+	Loader::LoadFile(const std::filesystem::path &path) noexcept
 	{
-		this->m_Mapper.Open(rPath);
+		this->m_Mapper.Open(path);
 		// I really like that 0xCAFEBABE magic number :D
-		if (this->m_Mapper.Read<std::uint32_t>(0) == FAT_CIGAM)
+		if (const auto magicResult{this->m_Mapper.Read<std::uint32_t>(0)})
 		{
-			auto hdr{this->m_Mapper.Read<fat_header>(0)};
-			std::vector<fat_arch> vec{ntohl(hdr.nfat_arch)};
-			for (auto i{sizeof(fat_header)}; i < ntohl(hdr.nfat_arch) * sizeof(fat_arch) + sizeof(fat_header); i += sizeof(fat_arch))
+			if (magicResult->get() == FAT_CIGAM)
 			{
-				vec.emplace_back
-				(
-					[](const auto &arch) -> fat_arch
-					{
-						// Translating integers to little endian byte order
-						return fat_arch
+				const auto hdrResult{this->m_Mapper.Read<fat_header>(0)};
+				if (!hdrResult) [[unlikely]]
+					return mkerr<&Loader::LoadFile>(hdrResult.error(), MKARGS(path));
+
+				std::vector<fat_arch> vec{ntohl(hdrResult->get().nfat_arch)};
+				for (auto i{sizeof(fat_header)}; i < ntohl(hdrResult->get().nfat_arch) * sizeof(fat_arch) + sizeof(fat_header); i += sizeof(fat_arch))
+				{
+					const auto archResult{this->m_Mapper.Read<fat_arch>(i)};
+					if (!archResult) [[unlikely]]
+						return mkerr<&Loader::LoadFile>(archResult.error(), MKARGS(path));
+
+					vec.emplace_back
+					(
+						[](const auto &arch) -> fat_arch
 						{
-							static_cast<std::int32_t>(ntohl(arch.cputype)),
-							static_cast<std::int32_t>(ntohl(arch.cpusubtype)),
-							ntohl(arch.offset),
-							ntohl(arch.size),
-							ntohl(arch.align)
-						};
-					}(this->m_Mapper.Read<fat_arch>(i))
-				);
-			}
+							// Translating integers to little endian byte order
+							return fat_arch
+							{
+								static_cast<std::int32_t>(ntohl(arch.cputype)),
+								static_cast<std::int32_t>(ntohl(arch.cpusubtype)),
+								ntohl(arch.offset),
+								ntohl(arch.size),
+								ntohl(arch.align)
+							};
+						}(archResult->get())
+					);
+				}
 	
-			auto it 
-			{
-				std::ranges::find_if
-				(
-					vec,
-					[](const auto &arch) -> bool
-					{ return arch.cputype == CPU_TYPE_ARM64; }
-				)
-			};
+				const auto it 
+				{
+					std::ranges::find_if
+					(
+						vec,
+						[](const auto &arch) -> bool
+						{ return arch.cputype == CPU_TYPE_ARM64; }
+					)
+				};
 			
-			if (it == vec.end()) [[unlikely]]
-				throw std::invalid_argument{"CPUArchError"};
-			this->m_Offset = it->offset;
+				if (it == vec.end()) [[unlikely]]
+					return mkerr<&Loader::LoadFile>(std::invalid_argument{"ProcessorArchitecureError"}, MKARGS(path));
+				this->m_Offset = it->offset;
+			}
 		}
-		
-		*(this->m_pHeader) = this->m_Mapper.Read<mach_header_64>(this->m_Offset);
+		else
+			return mkerr<&Loader::LoadFile>(magicResult.error(), MKARGS(path));
+	
+		const auto headerResult{this->m_Mapper.Read<mach_header_64>(this->m_Offset)};
+		if (!headerResult) [[unlikely]]	
+			return mkerr<&Loader::LoadFile>(headerResult.error(), MKARGS(path));
+
+		*(this->m_pHeader) = headerResult->get();
 		if (this->m_pHeader->magic != MH_MAGIC_64) [[unlikely]]
-			throw std::invalid_argument{"FileFormatError"}; // Only 64-bit mach objects!
+			return mkerr<&Loader::LoadFile>(std::invalid_argument{"FileFormatError"}, MKARGS(path)); // 64-bit mach objects only!
 		else if (this->m_pHeader->cputype != CPU_TYPE_ARM64) [[unlikely]]
-			throw std::invalid_argument{"CPUArchError"}; // Can dissasemble only aarch64 instructions!
+			return mkerr<&Loader::LoadFile>(std::invalid_argument{"ProcessorArchitecureError"}, MKARGS(path)); // Can dissasemble only aarch64 instructions!
+		return std::monostate{};
 	}
 
-	disxx::loader::executable::ExecutableFile Loader::LoadData(void) const noexcept(false)
+	std::expected
+	<
+		disxx::loader::executable::ExecutableFile,
+		std::variant
+		<
+			std::out_of_range,
+			std::range_error
+		>
+	>
+	Loader::LoadData(void) const noexcept
 	{
 		disxx::loader::executable::ExecutableFile exec{};
 		exec.SetMagic(this->m_pHeader->magic);
 
 		unsigned short int sectionIndex{1};
 
-		load_command loadCmd;
+		std::expected
+		<
+			std::reference_wrapper<const load_command>,
+			std::variant
+			<
+				std::out_of_range,
+				std::range_error
+			>
+		> loadCommandResult{std::cref(*std::make_unique<load_command>())};
 		auto offset{this->m_Offset + sizeof(mach_header_64)};
 		for (const auto _ : std::views::iota(0u, this->m_pHeader->ncmds))
 		{
-			loadCmd = this->m_Mapper.Read<load_command>(offset);
-			if (loadCmd.cmd == LC_SEGMENT_64)
+			loadCommandResult = this->m_Mapper.Read<load_command>(offset);
+			if (!loadCommandResult) [[unlikely]]
+				return mkerr<&Loader::LoadData>(loadCommandResult.error(), this);
+
+			if (loadCommandResult->get().cmd == LC_SEGMENT_64)
 			{
-				auto segCmd{this->m_Mapper.Read<segment_command_64>(offset)};
-				auto pSects{std::make_unique<section_64[]>(segCmd.nsects)};
-				for (const auto j : std::views::iota(0u, segCmd.nsects))
+				const auto segmentCommandResult{this->m_Mapper.Read<segment_command_64>(offset)};
+				if (!segmentCommandResult) [[unlikely]]
+					return mkerr<&Loader::LoadData>(segmentCommandResult.error(), this);
+
+				auto pSects{std::make_unique<section_64[]>(segmentCommandResult->get().nsects)};
+				for (const auto j : std::views::iota(0u, segmentCommandResult->get().nsects))
 				{
-					auto nsect{this->m_Mapper.Read<section_64>((offset + sizeof(segCmd)) + (j * sizeof(section_64)))};
-					if (!nsect.offset) [[unlikely]]
+					auto nSectionResult{this->m_Mapper.Read<section_64>((offset + sizeof(segmentCommandResult->get())) + (j * sizeof(section_64)))};
+					if (!nSectionResult) [[unlikely]]
+						return mkerr<&Loader::LoadData>(nSectionResult.error(), this);
+
+					if (!nSectionResult->get().offset) [[unlikely]]
 					{
 						sectionIndex++;
 						continue;
@@ -148,40 +226,55 @@ namespace disxx::loader::macho
 						(
 							"{},{}",
 							// Cut null-terminators by wrapping ptr into str
-							std::string{nsect.segname},
+							std::string{nSectionResult->get().segname},
 							// The same thing here
-							std::string{nsect.sectname}
+							std::string{nSectionResult->get().sectname}
 						)
 					);
-					section.SetAddress(nsect.addr);
-					section.SetOffset(this->m_Offset + nsect.offset);
-					section.SetSize(nsect.size);
+					section.SetAddress(nSectionResult->get().addr);
+					section.SetOffset(this->m_Offset + nSectionResult->get().offset);
+					section.SetSize(nSectionResult->get().size);
 					section.SetIndex(sectionIndex++);
 				
 					exec.AddSection(std::move(section));
 				}
 			}
-			else if (loadCmd.cmd == LC_SYMTAB)
+			else if (loadCommandResult->get().cmd == LC_SYMTAB)
 			{
-				auto symtabCmd{this->m_Mapper.Read<symtab_command>(offset)};
+				const auto symtabCommandResult{this->m_Mapper.Read<symtab_command>(offset)};
+				if (!symtabCommandResult) [[unlikely]]
+					return mkerr<&Loader::LoadData>(symtabCommandResult.error(), this);
+
 				std::vector<nlist_64> symbols{};
-				symbols.reserve(symtabCmd.nsyms);
-				for (const auto j : std::views::iota(0u, symtabCmd.nsyms))
-					symbols.emplace_back(this->m_Mapper.Read<nlist_64>(symtabCmd.symoff + j * sizeof(nlist_64) + this->m_Offset));
+				symbols.reserve(symtabCommandResult->get().nsyms);
+				for (const auto j : std::views::iota(0u, symtabCommandResult->get().nsyms))
+				{
+					const auto nlistResult{this->m_Mapper.Read<nlist_64>(symtabCommandResult->get().symoff + j * sizeof(nlist_64) + this->m_Offset)};
+					if (!nlistResult) [[unlikely]]
+						return mkerr<&Loader::LoadData>(nlistResult.error(), this);
+					
+					symbols.push_back(nlistResult->get());
+				}
 
 				std::vector<char> strtab{};
-				strtab.reserve(symtabCmd.strsize);
-				for (const auto j : std::views::iota(0u, symtabCmd.strsize))
-					strtab.emplace_back(this->m_Mapper.Read<char>(symtabCmd.stroff + j + this->m_Offset));
+				strtab.reserve(symtabCommandResult->get().strsize);
+				for (const auto j : std::views::iota(0u, symtabCommandResult->get().strsize))
+				{
+					const auto byteResult{this->m_Mapper.Read<char>(symtabCommandResult->get().stroff + j + this->m_Offset)};
+					if (!byteResult) [[unlikely]]
+						return mkerr<&Loader::LoadData>(byteResult.error(), this);
 
-				for (const auto j : std::views::iota(0u, symtabCmd.nsyms))
+					strtab.push_back(*byteResult);
+				}
+
+				for (const auto j : std::views::iota(0u, symtabCommandResult->get().nsyms))
 				{
 					if (!symbols[j].n_un.n_strx)
 						continue;
 					else if ((symbols[j].n_type & N_TYPE) != N_SECT || (symbols[j].n_type & N_STAB))
 						continue;
 					
-					auto it
+					const auto it
 					{
 						// Find the section with the same number as an argument
 						std::ranges::find_if
@@ -210,7 +303,7 @@ namespace disxx::loader::macho
 				break;
 			}
 			
-			offset += loadCmd.cmdsize;
+			offset += loadCommandResult->get().cmdsize;
 		}
 
 		for (auto &sect : exec.GetSections())
@@ -219,56 +312,99 @@ namespace disxx::loader::macho
 			{
 				std::vector<uint8_t> data{};
 				for (const auto i : std::views::iota(it->GetOffset(), std::next(it) != sect.GetLabels().end() ? std::next(it)->GetOffset() : sect.GetSize() + sect.GetOffset()))
-					data.emplace_back(this->m_Mapper.Read<std::uint8_t>(i));
+				{
+					const auto byteResult{this->m_Mapper.Read<std::uint8_t>(i)};
+					if (!byteResult) [[unlikely]]
+						return mkerr<&Loader::LoadData>(byteResult.error(), this);
+
+					data.push_back(*byteResult);
+				}
+
 				it->SetData(std::move(data));
 			}
 		}
 
-		return disxx::loader::executable::ExecutableFile{exec};
+		return std::move(exec);
 	}
 
-	disxx::loader::utility::BinaryInfo Loader::LoadMetadata(void) const noexcept(false)
+	std::expected
+	<
+		disxx::loader::utility::BinaryInfo,
+		std::variant
+		<
+			std::out_of_range,
+			std::range_error
+		>
+	>
+	Loader::LoadMetadata(void) const noexcept
 	{
 		disxx::loader::utility::BinaryInfo metadata{};
 
-		load_command loadCmd;
+		std::expected
+		<
+			std::reference_wrapper<const load_command>,
+			std::variant
+			<
+				std::out_of_range,
+				std::range_error
+			>
+		> loadCommandResult{std::cref(*std::make_unique<load_command>())};
 		std::uint64_t offset{this->m_Offset + sizeof(mach_header_64)};
 		for (const auto _ : std::views::iota(0u, this->m_pHeader->ncmds))
 		{
-			loadCmd = this->m_Mapper.Read<load_command>(offset);
-			if (loadCmd.cmd == LC_BUILD_VERSION)
+			if (loadCommandResult = this->m_Mapper.Read<load_command>(offset); !loadCommandResult) [[unlikely]]
+				return mkerr<&Loader::LoadMetadata>(loadCommandResult.error(), this);
+
+			if (loadCommandResult->get().cmd == LC_BUILD_VERSION)
 			{
-				auto cmd{this->m_Mapper.Read<build_version_command>(offset)};
-				metadata.SetBuildVersion(cmd);
+				const auto buildVersionCommandResult{this->m_Mapper.Read<build_version_command>(offset)};
+				if (!buildVersionCommandResult) [[unlikely]]
+					mkerr<&Loader::LoadMetadata>(buildVersionCommandResult.error(), this);
+				metadata.SetBuildVersion(buildVersionCommandResult->get());
 				
-				for (auto index{offset + sizeof(build_version_command)}; index < offset + cmd.cmdsize; index += sizeof(build_tool_version))
-					metadata.SetBuildTool(this->m_Mapper.Read<build_tool_version>(index));
+				for (auto index{offset + sizeof(build_version_command)}; index < offset + buildVersionCommandResult->get().cmdsize; index += sizeof(build_tool_version))
+				{
+					const auto buildToolVersionResult{this->m_Mapper.Read<build_tool_version>(index)};
+					if (!buildToolVersionResult) [[unlikely]]
+						mkerr<&Loader::LoadMetadata>(buildToolVersionResult.error(), this);
+					metadata.SetBuildTool(*buildToolVersionResult);
+				}
+
 				return metadata;
 			}
 
-			offset += loadCmd.cmdsize;
+			offset += loadCommandResult->get().cmdsize;
 		}
 
 		return metadata;
 	}
 
-	std::optional<std::uint64_t> Loader::LoadImageBase(void) const noexcept(false)
+	std::optional<std::uint64_t> Loader::LoadImageBase(void) const noexcept
 	{
-		load_command loadCmd;
+		std::expected
+		<
+			std::reference_wrapper<const load_command>,
+			std::variant
+			<
+				std::out_of_range,
+				std::range_error
+			>
+		> loadCommandResult{std::cref(*std::make_unique<load_command>())};
 		std::uint64_t offset{this->m_Offset + sizeof(mach_header_64)};
 		for (const auto _ : std::views::iota(0u, this->m_pHeader->ncmds))
 		{
-			loadCmd = this->m_Mapper.Read<load_command>(offset);
-			if (loadCmd.cmd == LC_SEGMENT_64)
-				if (auto cmd{this->m_Mapper.Read<segment_command_64>(offset)}; std::string{cmd.segname} == "__TEXT")
-					return cmd.vmaddr - cmd.fileoff;
-			offset += loadCmd.cmdsize;
+			if (loadCommandResult = this->m_Mapper.Read<load_command>(offset); !loadCommandResult) [[unlikely]]
+				return std::nullopt;
+			if (loadCommandResult->get().cmd == LC_SEGMENT_64)
+				if (const auto segmentCommandResult{this->m_Mapper.Read<segment_command_64>(offset)}; segmentCommandResult && std::string{segmentCommandResult->get().segname} == "__TEXT")
+					return segmentCommandResult->get().vmaddr - segmentCommandResult->get().fileoff;
+			offset += loadCommandResult->get().cmdsize;
 		}
 
 		return std::nullopt;
 	}
 
-	std::string_view Loader::GetFileType(void) const noexcept(false)
+	std::string_view Loader::GetFileType(void) const noexcept
 	{
 		const static std::unordered_map<std::uint32_t, std::string_view> fileTypeTable
 		{

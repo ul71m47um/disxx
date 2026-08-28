@@ -20,33 +20,33 @@ export class __attribute__((visibility("hidden"))) [[nodiscard]] Application
 	FileInput m_pInput{};
 
   private:
-	static void Init(void) noexcept(false);
+	static void Init(void) noexcept;
 
   private:
-	explicit Application(void) noexcept(false);
+	explicit Application(void) noexcept;
 	
-	Application(const Application &) noexcept(false) = delete;
-	Application &operator=(const Application &) noexcept(false) = delete;
+	Application(const Application &) noexcept = delete;
+	Application &operator=(const Application &) noexcept = delete;
 
-	void LoadLabels(const std::filesystem::path &) noexcept(false);
-	void Disassemble(const std::filesystem::path &) noexcept(false);
+	void LoadLabels(const std::filesystem::path &) noexcept;
+	void Disassemble(const std::filesystem::path &) noexcept;
 
   public:
 	// THIS FUNCTION CALLS ONCE!
-	[[clang::always_inline]] inline static Application *Init(int &, char **&) noexcept(false);
+	[[clang::always_inline]] inline static Application *Init(int &, char **&) noexcept;
 	
 	~Application(void) noexcept = default;
 
-	int Exec(void) const noexcept(false);
+	int Exec(void) const noexcept;
 };
 
-inline Application *Application::Init(int &argc, char **&argv) noexcept(false)
+inline Application *Application::Init(int &argc, char **&argv) noexcept
 {
-	// ScriptEngine should be defined first, so safety check is delayed
 	ScriptEngine::Init(argc, argv);
 
 	if (argv == nullptr || *argv == nullptr) [[unlikely]]
-		throw disxx::utility::error::NullPointerError{"NullPointerError"};
+		return nullptr;
+	
 	disxx::ui::MainWindow::Init(&argc, argv);
     
 	if (!s_pInstance) [[likely]]

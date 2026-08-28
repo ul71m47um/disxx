@@ -16,10 +16,10 @@ export namespace disxx::loader::executable
 	  public:
 		explicit ExecutableFile(void) noexcept;
 		
-		explicit ExecutableFile(const ExecutableFile &) noexcept;
+		ExecutableFile(const ExecutableFile &) noexcept;
 		ExecutableFile &operator=(const ExecutableFile &) noexcept;
 
-		explicit ExecutableFile(ExecutableFile &&) noexcept;
+		ExecutableFile(ExecutableFile &&) noexcept;
 		ExecutableFile &operator=(ExecutableFile &&) noexcept;
 
 		inline void AddSection(Section &&) noexcept;
