@@ -1,4 +1,4 @@
-module ScriptWindow;
+export module ScriptWindow;
 
 import disxx.ui.MainWindow;
 
@@ -18,6 +18,6 @@ export class ScriptWindow
 	ScriptWindow(const ScriptWindow &) noexcept;
 	ScriptWindow &operator=(const ScriptWindow &) noexcept;
 
-	ScriptWindow::ScriptWindow(ScriptWindow &&) noexcept;
+	ScriptWindow(ScriptWindow &&) noexcept;
 	ScriptWindow &operator=(ScriptWindow &&) noexcept;
 };

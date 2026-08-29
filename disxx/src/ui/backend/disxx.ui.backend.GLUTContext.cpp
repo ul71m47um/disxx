@@ -106,8 +106,15 @@ namespace disxx::ui::backend
 
 	void GLUTContext::DestroyWindow([[clang::release_handle("Window")]] WindowHandle &hWin) noexcept
 	{
-		if (hWin) [[likely]]
-			glutDestroyWindow(hWin);
+		if (!hWin) [[unlikely]]
+			return;
+
+		s_DisplayCallbacks.erase(hWin);
+		s_ReshapeCallbacks.erase(hWin);
+		s_KeyboardCallbacks.erase(hWin);
+		s_MouseButtonCallbacks.erase(hWin);
+		s_MouseMotionCallbacks.erase(hWin);
+		glutDestroyWindow(hWin);
 	}
 
 	void GLUTContext::SwitchWindow([[clang::use_handle("Window")]] const WindowHandle &hWin) noexcept

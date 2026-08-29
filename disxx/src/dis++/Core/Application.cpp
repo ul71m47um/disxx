@@ -41,7 +41,7 @@ import disxx.ui.Label;
 import disxx.ui.Frame;
 import disxx.ui.Menu;
 
-import ScriptEngine;
+import ScriptWindow;
 import FileInput;
 import DisLog;
 
@@ -64,6 +64,7 @@ Application *Application::s_pInstance{nullptr};
 
 Application::Application(void) noexcept
 	: m_Window{disxx::ui::utility::Vec2<int>{800, 600}, "dis++ v0.3.0"}
+	, m_ScriptWindows{}
 	, m_Logger{}
 	, m_pInput{}
 { this->m_pInput.SetCallback([] -> void { Application::Init(); }); }
@@ -802,12 +803,13 @@ void Application::Init(void) noexcept
 						{
 							disxx::ui::MessageBox box{"Unable to open a file"};
 							box.Exec();
+
+							return;
 						}
 
 						SUPPRESS_LAST_WIDGETS(s_pInstance->m_Window.GetWidgets(), 6);
 
-						ScriptEngine engine{};
-						std::println("{}", engine.ExecFile(p));
+						s_pInstance->m_ScriptWindows.emplace_back(ScriptWindow{p});
 	
 						scriptActive = false;
 					}

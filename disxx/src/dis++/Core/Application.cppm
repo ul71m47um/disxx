@@ -1,8 +1,11 @@
 export module Application;
 
 import disxx.utility.error.NullPointerError;
+
 import disxx.ui.MainWindow;
 import disxx.ui.Widget;
+
+import ScriptWindow;
 import ScriptEngine;
 import FileInput;
 import DisLog;
@@ -16,6 +19,7 @@ export class __attribute__((visibility("hidden"))) [[nodiscard]] Application
 	
   private:
 	disxx::ui::MainWindow m_Window{};
+	std::vector<ScriptWindow> m_ScriptWindows{};
 	DisLog m_Logger{};
 	FileInput m_pInput{};
 

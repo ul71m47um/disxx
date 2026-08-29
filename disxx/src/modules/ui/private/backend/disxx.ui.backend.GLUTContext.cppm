@@ -57,7 +57,7 @@ export namespace disxx::ui::backend
 
 		~GLUTContext(void) noexcept = default;
 
-		// Sone window methods
+		// Some window methods
 		[[clang::acquire_handle("window")]]
 		virtual WindowHandle CreateWindow(utility::Vec2<int>, std::string_view) noexcept override;
 		virtual void DestroyWindow([[clang::release_handle("window")]] WindowHandle &) noexcept override;

@@ -83,12 +83,14 @@ MODULES=\
 	../modules/loader/public/executable/disxx.loader.executable.ExecutableFile.cppm \
 	../modules/loader/public/disxx.loader.macho.Loader.cppm \
 	./ScriptEngine/ScriptEngine.cppm \
+	./ScriptWindow/ScriptWindow.cppm \
 	./Core/DisLog.cppm \
 	./FileInput/FileInput.cppm \
 	./Core/Application.cppm
 
 SOURCES=\
 	./ScriptEngine/ScriptEngine.cpp \
+	./ScriptWindow/ScriptWindow.cpp \
 	./Core/DisLog.cpp \
 	./FileInput/FileInput.cpp \
 	./Core/Application.cpp \

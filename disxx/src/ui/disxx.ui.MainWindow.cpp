@@ -233,8 +233,8 @@ namespace disxx::ui
 	{
 		s_pContext->SwitchWindow(this->m_hWin);
 
-		auto sX{static_cast<float>(this->m_Size.x / this->m_InitialSize.x)};
-		auto sY{static_cast<float>(this->m_Size.y / this->m_InitialSize.y)};
+		auto sX{static_cast<float>(this->m_Size.x) / static_cast<float>(this->m_InitialSize.x)};
+		auto sY{static_cast<float>(this->m_Size.y) / static_cast<float>(this->m_InitialSize.y)};
 		
 		this->m_Size = utility::Vec2<int>{width, height};
 
