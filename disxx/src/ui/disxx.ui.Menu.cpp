@@ -15,10 +15,10 @@ namespace disxx::ui
 		, m_Text{}
 	{}
 
-	Menu::Menu(float x, float y, float width, float height) noexcept
-		: Widget{x, y, width, height}
+	Menu::Menu(std::string_view text) noexcept
+		: Widget{}
 		, m_Entries{}
-		, m_Text{}
+		, m_Text{text}
 	{}
 
 	Menu::Menu(const Menu &other) noexcept
@@ -52,6 +52,24 @@ namespace disxx::ui
 		this->m_Text = std::move(other.m_Text);
 
 		return *this;
+	}
+
+	void Menu::Replace(utility::Vec2<float> position) noexcept
+	{
+		this->m_Position = position;
+		for (const auto i : std::views::iota(0ul, this->m_Entries.size()))
+		{
+			this->m_Entries[i].Replace
+			(
+				utility::Vec2<float>
+				{
+					this->m_Position.x,
+					this->m_Position.y
+						- this->m_Size.y
+						* (static_cast<float>(i) + 1.f)
+				}
+			);
+		}
 	}
 
 	std::unique_ptr<Widget> Menu::Clone(void) const noexcept
@@ -124,13 +142,6 @@ namespace disxx::ui
 			s_pRenderer->Push(std::make_unique<utility::Text>(txt));
         }
 
-		// Add a separator
-		utility::Shape separator{utility::Shape::Type::TYPE_RECTANGLE};
-		separator.Replace(this->m_Position);
-		separator.Resize(utility::Vec2<float>{this->m_Size.x, 1.f});
-		separator.SetColor(utility::Vec3<float>{0.f, 0.f, 0.f});
-		s_pRenderer->Push(std::make_unique<utility::Shape>(separator));
-		
 		// Render all the entries
 		if (this->m_IsClicked)
 			for (const auto &entry : this->m_Entries)

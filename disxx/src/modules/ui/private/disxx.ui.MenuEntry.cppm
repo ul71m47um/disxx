@@ -1,4 +1,4 @@
-export module disxx.ui.Menu:MenuEntry;
+export module disxx.ui.MenuEntry;
 
 import disxx.ui.Widget;
 
@@ -14,7 +14,7 @@ export namespace disxx::ui
 	
 	  public:
 		explicit MenuEntry(void) noexcept;
-		explicit MenuEntry(std::string_view, std::function<void(void)> m_Callback) noexcept;
+		explicit MenuEntry(std::string_view, std::function<void(void)>) noexcept;
 
 		MenuEntry(const MenuEntry &) noexcept;
 		MenuEntry &operator=(const MenuEntry &) noexcept;
@@ -46,4 +46,4 @@ export namespace disxx::ui
 
 	inline void MenuEntry::operator()(void) const noexcept(false)
 	{ this->m_Callback(); }
-} /* disxx::ui::utility */
+} /* disxx::ui */

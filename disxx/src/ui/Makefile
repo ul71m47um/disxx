@@ -47,10 +47,10 @@ MODULES=\
 	$(MODULESPATH)/public/disxx.ui.Frame.cppm \
 	$(MODULESPATH)/private/disxx.ui.Tab.cppm \
 	$(MODULESPATH)/public/disxx.ui.TabbedPane.cppm \
-	$(MODULESPATH)/private/disxx.ui.Menu-MenuEntry.cppm \
+	$(MODULESPATH)/private/disxx.ui.MenuEntry.cppm \
 	$(MODULESPATH)/public/disxx.ui.Button.cppm \
 	$(MODULESPATH)/public/disxx.ui.Label.cppm \
-	$(MODULESPATH)/public/disxx.ui.Menu.cppm \
+	$(MODULESPATH)/private/disxx.ui.Menu.cppm \
 	$(MODULESPATH)/public/disxx.ui.MenuBar.cppm \
 	$(MODULESPATH)/public/disxx.ui.TextInput.cppm \
 	$(MODULESPATH)/public/disxx.ui.MainWindow.cppm \
@@ -69,7 +69,7 @@ SOURCES=\
 	./disxx.ui.TabbedPane.cpp \
 	./disxx.ui.Button.cpp \
 	./disxx.ui.Label.cpp \
-	./disxx.ui.Menu-MenuEntry.cpp \
+	./disxx.ui.MenuEntry.cpp \
 	./disxx.ui.Menu.cpp \
 	./disxx.ui.MenuBar.cpp \
 	./disxx.ui.TextInput.cpp \

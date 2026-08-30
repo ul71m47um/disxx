@@ -35,11 +35,11 @@ import disxx.ui.MessageBox;
 import disxx.ui.TabbedPane;
 import disxx.ui.MainWindow;
 import disxx.ui.TextInput;
+import disxx.ui.MenuBar;
 import disxx.ui.Widget;
 import disxx.ui.Button;
 import disxx.ui.Label;
 import disxx.ui.Frame;
-import disxx.ui.Menu;
 
 import ScriptWindow;
 import FileInput;
@@ -412,14 +412,10 @@ void Application::Init(void) noexcept
 		s_pInstance->m_Window.AddWidget(std::make_unique<disxx::ui::SourceEditor>(labels));
 	}
 
+	disxx::ui::MenuBar menuBar{};
+	
 	{
-		disxx::ui::Menu menu
-		{
-			0.f,
-			static_cast<float>(height) * 0.97f,
-			static_cast<float>(width) * 0.05f,
-			static_cast<float>(height) * 0.03f
-		};
+		disxx::ui::Menu menu{};
 		menu.SetColor(0.2f, 0.2f, 0.2f);
 		menu.SetText("File");
 
@@ -546,7 +542,7 @@ void Application::Init(void) noexcept
 			}
 		};
 		open.SetColor(0.2f, 0.2f, 0.2f);
-		menu.PushEntry(std::move(open));
+		menu.Add(std::move(open));
 
 		disxx::ui::MenuEntry close
 		{
@@ -595,7 +591,7 @@ void Application::Init(void) noexcept
 			}
 		};
 		close.SetColor(0.2f, 0.2f, 0.2f);
-		menu.PushEntry(std::move(close));
+		menu.Add(std::move(close));
 
 		disxx::ui::MenuEntry save
 		{
@@ -724,7 +720,7 @@ void Application::Init(void) noexcept
 			}
 		};
 		save.SetColor(0.2f, 0.2f, 0.2f);
-		menu.PushEntry(std::move(save));
+		menu.Add(std::move(save));
 
 		disxx::ui::MenuEntry script
 		{
@@ -851,7 +847,7 @@ void Application::Init(void) noexcept
 			}
 		};
 		script.SetColor(0.2f, 0.2f, 0.2f);
-		menu.PushEntry(std::move(script));
+		menu.Add(std::move(script));
 
 		disxx::ui::MenuEntry exit
 		{
@@ -859,19 +855,13 @@ void Application::Init(void) noexcept
 			[] -> void { std::exit(0); }
 		};
 		exit.SetColor(0.2f, 0.2f, 0.2f);
-		menu.PushEntry(std::move(exit));
+		menu.Add(std::move(exit));
 
-		s_pInstance->m_Window.AddWidget(std::make_unique<disxx::ui::Menu>(menu));
+		menuBar.Add(std::move(menu));
 	}
 
 	{
-		disxx::ui::Menu menu
-		{
-			static_cast<float>(width) * 0.05f,
-			static_cast<float>(height) * 0.97f,
-			static_cast<float>(width) * 0.05f,
-			static_cast<float>(height) * 0.03f
-		};
+		disxx::ui::Menu menu{};
 		menu.SetColor(0.2f, 0.2f, 0.2f);
         menu.SetText("View");
 
@@ -940,10 +930,12 @@ void Application::Init(void) noexcept
 			}
 		};
 		hex.SetColor(0.2f, 0.2f, 0.2f);
-		menu.PushEntry(std::move(hex));
+		menu.Add(std::move(hex));
 
-		s_pInstance->m_Window.AddWidget(std::make_unique<disxx::ui::Menu>(menu));
+		menuBar.Add(std::move(menu));
 	}
+
+	s_pInstance->m_Window.AddWidget(std::make_unique<disxx::ui::MenuBar>(menuBar));
 
 	if (!path.empty())
 		s_pInstance->Disassemble(path);

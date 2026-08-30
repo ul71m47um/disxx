@@ -44,6 +44,12 @@ namespace disxx::ui
         , m_IsHovered{other.m_IsHovered}	
 	{}
 
+	void Widget::Replace(utility::Vec2<float> position) noexcept
+	{ this->m_Position = position; }
+
+	void Widget::Resize(utility::Vec2<float> size) noexcept
+	{ this->m_Size = size; }
+	
 	Widget &Widget::operator=(const Widget &other) noexcept
 	{
 		if (this != &other) [[likely]]

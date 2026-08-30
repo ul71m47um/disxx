@@ -90,7 +90,7 @@ namespace disxx::ui
             	utility::Vec2<float>
 				{
 					this->m_Position.x + (this->m_Size.x - (9.f * this->m_Text.size())) / 2.0f, 
-            		this->m_Position.y + this->m_Size.y / 3.0f - 4.5f
+            		this->m_Position.y + this->m_Size.y / 3.0f
 				}
 			);
 			txt.SetColor(utility::Vec3<float>{1.f, 1.f, 1.f});

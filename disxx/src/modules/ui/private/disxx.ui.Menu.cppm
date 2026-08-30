@@ -1,6 +1,6 @@
 export module disxx.ui.Menu;
 
-export import :MenuEntry;
+export import disxx.ui.MenuEntry;
 import disxx.ui.Widget;
 
 import std;
@@ -15,7 +15,7 @@ export namespace disxx::ui
 
 	  public:
 		explicit Menu(void) noexcept;
-		explicit Menu(float, float, float, float) noexcept;
+		explicit Menu(std::string_view) noexcept;
 
 		Menu(const Menu &) noexcept;
 		Menu &operator=(const Menu &) noexcept;
@@ -25,8 +25,9 @@ export namespace disxx::ui
 
 		inline void SetText(std::string_view) noexcept;
 
-		inline void PushEntry(MenuEntry &&) noexcept;
-		inline void PopEntry(void) noexcept;
+		inline void Add(MenuEntry &&) noexcept;
+
+		virtual void Replace(utility::Vec2<float>) noexcept override;
 
 		virtual std::unique_ptr<Widget> Clone(void) const noexcept override;
 
@@ -37,7 +38,7 @@ export namespace disxx::ui
 	inline void Menu::SetText(std::string_view text) noexcept
 	{ this->m_Text = text.data(); }
 
-	inline void Menu::PushEntry(MenuEntry &&entry) noexcept
+	inline void Menu::Add(MenuEntry &&entry) noexcept
 	{
 		entry.Replace
 		(
@@ -70,11 +71,5 @@ export namespace disxx::ui
 		// Resize all the entries to max entry
 		for (auto &e : this->m_Entries)
 			e.Resize(utility::Vec2<float>{width, this->m_Size.y});
-	}
-
-	inline void Menu::PopEntry(void) noexcept
-	{
-		if (!this->m_Entries.empty())
-			this->m_Entries.pop_back();
 	}
 } /* disxx::ui */
