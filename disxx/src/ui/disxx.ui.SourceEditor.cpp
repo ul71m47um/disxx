@@ -93,20 +93,20 @@ namespace disxx::ui
 
 	void SourceEditor::_CalcMaxScroll(void) noexcept
 	{
-		this->m_MaxScrollY = std::max(0.f, static_cast<float>(this->m_Lines.size() * CHAR_WIDTH - (this->m_Size.y - CORNER_HEIGHT) + 5));
+		this->m_MaxScrollY = std::max(0.f, static_cast<float>(this->m_Lines.size() * CHAR_WIDTH - (this->m_Size.y - CORNER_HEIGHT * 2.f) + 5.f));
 		this->m_ScrollY = std::max(0.f, std::min(this->m_ScrollY, this->m_MaxScrollY));
 
 		this->m_MaxScrollX = 0.f;
 		for (const auto &line : this->m_Lines)
 			if (auto realText{utility::ColorTag{}.RemoveTags(line)}; realText.size() * CHAR_HEIGHT + 5 > this->m_MaxScrollX)
-				this->m_MaxScrollX = std::max(0.f, realText.size() * CHAR_HEIGHT + 5 - (this->m_Size.x - CORNER_WIDTH));
+				this->m_MaxScrollX = std::max(0.f, realText.size() * CHAR_HEIGHT + 5.f - (this->m_Size.x - CORNER_WIDTH * 2.f));
 
-		this->m_VerticalSliderHeight = (this->m_Size.y - CORNER_HEIGHT) * ((this->m_Size.y - CORNER_HEIGHT)
+		this->m_VerticalSliderHeight = (this->m_Size.y - CORNER_HEIGHT * 2.f) * ((this->m_Size.y - CORNER_HEIGHT * 2.f)
 			/ static_cast<float>(this->m_Lines.size() * CHAR_WIDTH));
-		this->m_VerticalSliderHeight = std::max(30.f, std::min(this->m_VerticalSliderHeight, this->m_Size.y - CORNER_HEIGHT));
+		this->m_VerticalSliderHeight = std::max(30.f, std::min(this->m_VerticalSliderHeight, this->m_Size.y - CORNER_HEIGHT * 2.f));
 
-		this->m_HorizontalSliderWidth = (this->m_Size.x - CORNER_WIDTH) * ((this->m_Size.x - CORNER_WIDTH) / (this->m_MaxScrollX + (this->m_Size.x - CORNER_WIDTH)));
-		this->m_HorizontalSliderWidth = std::max(30.f, std::min(this->m_HorizontalSliderWidth, this->m_Size.x - CORNER_WIDTH));
+		this->m_HorizontalSliderWidth = (this->m_Size.x - CORNER_WIDTH * 2.f) * ((this->m_Size.x - CORNER_WIDTH * 2.f) / (this->m_MaxScrollX + (this->m_Size.x - CORNER_WIDTH * 2.f)));
+		this->m_HorizontalSliderWidth = std::max(30.f, std::min(this->m_HorizontalSliderWidth, this->m_Size.x - CORNER_WIDTH * 2.f));
 	}
 
 	std::unique_ptr<Widget> SourceEditor::Clone(void) const noexcept
@@ -150,7 +150,7 @@ namespace disxx::ui
 		else if (button == 3 || button == 4)
 		{
 			this->m_ScrollY += CHAR_HEIGHT * SKIP_PER_SCROLL * (button == 3 ? 1 : -1);
-			this->m_ScrollY = std::max(0.f, std::min(this->m_ScrollY,this->m_MaxScrollY));
+			this->m_ScrollY = std::max(0.f, std::min(this->m_ScrollY, this->m_MaxScrollY));
 		}
 	}
 
@@ -161,7 +161,7 @@ namespace disxx::ui
 			float delta{y - this->m_LastMouseY};
 			this->m_LastMouseY = y;
 
-			this->m_ScrollY += delta * (this->m_MaxScrollY / (this->m_Size.y - CORNER_HEIGHT));
+			this->m_ScrollY += delta * (this->m_MaxScrollY / (this->m_Size.y - CORNER_HEIGHT * 2.f));
 			this->m_ScrollY = std::max(0.f, std::min(this->m_ScrollY, this->m_MaxScrollY));
 		}
 		else if (this->m_IsActiveHorizontal)
@@ -169,7 +169,7 @@ namespace disxx::ui
 			float delta{x - this->m_LastMouseX};
             this->m_LastMouseX = x;
 
-  	        this->m_ScrollX += delta * (this->m_MaxScrollX / (this->m_Size.x - CORNER_WIDTH));
+  	        this->m_ScrollX += delta * (this->m_MaxScrollX / (this->m_Size.x - CORNER_WIDTH * 2.f));
 			this->m_ScrollX = std::max(0.f, std::min(this->m_ScrollX, this->m_MaxScrollX));
 		}
 	}
@@ -181,9 +181,9 @@ namespace disxx::ui
 
 		// Render the text area
 		utility::ColorTag tag{};
-        for (const auto i : std::views::iota(0UL, this->m_Lines.size()))
+        for (const auto i : std::views::iota(0ul, this->m_Lines.size()))
         {
-            if (float lineY{this->m_Size.y - CORNER_HEIGHT - i * CHAR_WIDTH + this->m_ScrollY}; (lineY < 0.f) || (lineY > this->m_Size.y - CORNER_HEIGHT))
+            if (float lineY{this->m_Size.y - CORNER_HEIGHT * 2.f - i * CHAR_WIDTH + this->m_ScrollY}; (lineY < 0.f) || (lineY > this->m_Size.y - CORNER_HEIGHT * 2.f))
                 continue;
 
 			// The line without color tags
@@ -200,7 +200,7 @@ namespace disxx::ui
 						std::min
 						(
 							realText.size(),
-							renderStart + static_cast<unsigned long>((this->m_Size.x - CORNER_WIDTH) / CHAR_HEIGHT)
+							renderStart + static_cast<unsigned long>((this->m_Size.x - CORNER_WIDTH * 2.f) / CHAR_HEIGHT)
 						)
 					)
 				};
@@ -238,16 +238,28 @@ namespace disxx::ui
 		// Render the vertical scrollbar
 		if (this->m_MaxScrollY > 0)
 		{
-			float pos{(this->m_ScrollY / this->m_MaxScrollY) * (this->m_Size.y - CORNER_HEIGHT - this->m_VerticalSliderHeight)};
-			pos = std::max(0.f, std::min(pos, this->m_Size.y - CORNER_HEIGHT - this->m_VerticalSliderHeight));
+			float pos{(this->m_ScrollY / this->m_MaxScrollY) * (this->m_Size.y - CORNER_HEIGHT * 2.f - this->m_VerticalSliderHeight)};
+			pos = std::max(0.f, std::min(pos, this->m_Size.y - CORNER_HEIGHT * 2.f - this->m_VerticalSliderHeight) - 20.f) + 20.f;
 
-			// Frame
+			// Frame 
 			utility::Shape frame{utility::Shape::Type::TYPE_RECTANGLE};
-			frame.Replace(utility::Vec2<float>{this->m_Position.x + this->m_Size.x - CORNER_WIDTH - 1.f, this->m_Position.y + this->m_Size.y - this->m_VerticalSliderHeight - pos - 1.f});
-			frame.Resize(utility::Vec2<float>{CORNER_WIDTH + 2.f, this->m_VerticalSliderHeight + 2.f});
-			frame.SetColor(utility::Vec3<float>{0.5f, 0.5f, 0.5f});
+			frame.Replace(utility::Vec2<float>{this->m_Position.x + this->m_Size.x - CORNER_WIDTH, this->m_Position.y + CORNER_HEIGHT});
+			frame.Resize(utility::Vec2<float>{CORNER_WIDTH, this->m_Size.y - CORNER_HEIGHT});
+			frame.SetColor(utility::Vec3<float>{0.35f, 0.35f, 0.35f});
 			s_pRenderer->Push(std::make_unique<utility::Shape>(frame));
 
+			// Upper arrow
+			utility::Text upperText{"^"};
+			upperText.Replace(utility::Vec2<float>{this->m_Position.x + this->m_Size.x - 15.f, this->m_Position.y + this->m_Size.y - 15.f});
+			upperText.SetColor(utility::Vec3<float>{1.f, 1.f, 1.f});
+			s_pRenderer->Push(std::make_unique<utility::Text>(upperText));
+
+			// Lower arrow
+			utility::Text lowerText{"v"};
+			lowerText.Replace(utility::Vec2<float>{this->m_Position.x + this->m_Size.x - 15.f, this->m_Position.y + CORNER_HEIGHT + 5.f});
+			lowerText.SetColor(utility::Vec3<float>{1.f, 1.f, 1.f});
+			s_pRenderer->Push(std::make_unique<utility::Text>(lowerText));
+			
 			// Scrollbar itself
 			utility::Shape vScrollbar{utility::Shape::Type::TYPE_RECTANGLE};
 			vScrollbar.Replace(utility::Vec2<float>{this->m_Position.x + this->m_Size.x - CORNER_WIDTH, this->m_Position.y + this->m_Size.y - this->m_VerticalSliderHeight - pos});
@@ -259,15 +271,27 @@ namespace disxx::ui
 		// Render the horizontal scrollbar
 		if (this->m_MaxScrollX > 0)
 		{
-			float pos{(this->m_ScrollX / this->m_MaxScrollX) * (this->m_Size.x - CORNER_WIDTH - this->m_HorizontalSliderWidth)};
-			pos = std::max(0.f, std::min(pos, this->m_Size.x - CORNER_WIDTH - this->m_HorizontalSliderWidth));
+			float pos{(this->m_ScrollX / this->m_MaxScrollX) * (this->m_Size.x - CORNER_WIDTH * 2.f - this->m_HorizontalSliderWidth)};
+			pos = std::max(0.f, std::min(pos, this->m_Size.x - CORNER_WIDTH * 2.f - this->m_HorizontalSliderWidth) - 20.f) + 20.f;
 
 			// Frame
 			utility::Shape frame{utility::Shape::Type::TYPE_RECTANGLE};
-			frame.Replace(utility::Vec2<float>{this->m_Position.x + pos - 1.f, this->m_Position.y - 1.f});
-			frame.Resize(utility::Vec2<float>{this->m_HorizontalSliderWidth + 2.f, CORNER_HEIGHT + 2.f});
-			frame.SetColor(utility::Vec3<float>{0.5f, 0.5f, 0.5f});
+			frame.Replace(utility::Vec2<float>{this->m_Position.x, this->m_Position.y});
+			frame.Resize(utility::Vec2<float>{this->m_Size.x - CORNER_WIDTH, CORNER_HEIGHT});
+			frame.SetColor(utility::Vec3<float>{0.35f, 0.35f, 0.35f});
 			s_pRenderer->Push(std::make_unique<utility::Shape>(frame));
+
+			// Left arrow
+			utility::Text leftText{"<"};
+			leftText.Replace(utility::Vec2<float>{this->m_Position.x + 5.f, this->m_Position.y + 5.f});
+			leftText.SetColor(utility::Vec3<float>{1.f, 1.f, 1.f});
+			s_pRenderer->Push(std::make_unique<utility::Text>(leftText));
+			
+			// Right arrow
+			utility::Text rightText{">"};
+			rightText.Replace(utility::Vec2<float>{this->m_Position.x + this->m_Size.x - 20.f - CORNER_WIDTH + 5.f, this->m_Position.y + 5.f});
+			rightText.SetColor(utility::Vec3<float>{1.f, 1.f, 1.f});
+			s_pRenderer->Push(std::make_unique<utility::Text>(rightText));
 
 			// Scrollbar itself
 			utility::Shape hScrollbar{utility::Shape::Type::TYPE_RECTANGLE};

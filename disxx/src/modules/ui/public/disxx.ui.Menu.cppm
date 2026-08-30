@@ -1,7 +1,7 @@
 export module disxx.ui.Menu;
 
+export import :MenuEntry;
 import disxx.ui.Widget;
-export import disxx.ui.MenuEntry;
 
 import std;
 

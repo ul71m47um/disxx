@@ -1,4 +1,4 @@
-export module disxx.ui.MenuEntry;
+export module disxx.ui.Menu:MenuEntry;
 
 import disxx.ui.Widget;
 

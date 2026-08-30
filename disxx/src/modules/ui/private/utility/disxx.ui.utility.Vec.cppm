@@ -14,7 +14,7 @@ export namespace disxx::ui::utility
 		explicit Vec2(void) noexcept;
 		explicit Vec2(T, T) noexcept;
 		
-		explicit Vec2(const Vec2 &) noexcept;
+		Vec2(const Vec2 &) noexcept;
 		Vec2 &operator=(const Vec2 &) noexcept;
 
 		~Vec2(void) noexcept = default;
@@ -60,7 +60,7 @@ export namespace disxx::ui::utility
 		explicit Vec3(void) noexcept;
 		explicit Vec3(T, T, T) noexcept;
 
-		explicit Vec3(const Vec3 &) noexcept;
+		Vec3(const Vec3 &) noexcept;
 		Vec3 &operator=(const Vec3 &) noexcept;
 
 		~Vec3(void) noexcept = default;

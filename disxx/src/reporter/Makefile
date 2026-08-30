@@ -42,8 +42,9 @@ MODULES=\
 	../modules/ui/public/disxx.ui.Widget.cppm \
 	../modules/ui/public/disxx.ui.Button.cppm \
 	../modules/ui/public/disxx.ui.Label.cppm \
-	../modules/ui/private/disxx.ui.MenuEntry.cppm \
+	../modules/ui/private/disxx.ui.Menu-MenuEntry.cppm \
 	../modules/ui/public/disxx.ui.Menu.cppm \
+	../modules/ui/public/disxx.ui.MenuBar.cppm \
 	../modules/ui/public/disxx.ui.SourceEditor.cppm \
 	../modules/ui/public/disxx.ui.MainWindow.cppm \
 	./FailHandler/FailHandler.cppm

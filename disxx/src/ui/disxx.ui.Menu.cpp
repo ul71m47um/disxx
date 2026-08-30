@@ -5,6 +5,8 @@ import disxx.ui.backend.GLRenderer;
 import disxx.ui.utility.Shape;
 import disxx.ui.utility.Text;
 
+import std;
+
 namespace disxx::ui
 {
 	Menu::Menu(void) noexcept
@@ -122,6 +124,13 @@ namespace disxx::ui
 			s_pRenderer->Push(std::make_unique<utility::Text>(txt));
         }
 
+		// Add a separator
+		utility::Shape separator{utility::Shape::Type::TYPE_RECTANGLE};
+		separator.Replace(this->m_Position);
+		separator.Resize(utility::Vec2<float>{this->m_Size.x, 1.f});
+		separator.SetColor(utility::Vec3<float>{0.f, 0.f, 0.f});
+		s_pRenderer->Push(std::make_unique<utility::Shape>(separator));
+		
 		// Render all the entries
 		if (this->m_IsClicked)
 			for (const auto &entry : this->m_Entries)

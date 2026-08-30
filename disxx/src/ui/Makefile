@@ -1,6 +1,6 @@
 include ../../common.mk
 
-MODULESPATH=../modules/ui/
+MODULESPATH=../modules/ui
 
 BUILDDIR=../../../build/ui
 DEPENDENCIESDIR=$(BUILDDIR)/dependencies
@@ -32,28 +32,29 @@ MODULES=\
 	../modules/utility/private/error/disxx.utility.error.NullPointerError.cppm \
 	../modules/utility/private/pointer/disxx.utility.pointer.DefaultDeleter.cppm \
 	../modules/utility/public/pointer/disxx.utility.pointer.NonNull.cppm \
-	$(MODULESPATH)private/utility/disxx.ui.utility.ColorTag.cppm \
-	$(MODULESPATH)private/utility/disxx.ui.utility.Vec.cppm \
-	$(MODULESPATH)private/utility/disxx.ui.utility.Vertex.cppm \
-	$(MODULESPATH)private/utility/disxx.ui.utility.Renderable.cppm \
-	$(MODULESPATH)private/utility/disxx.ui.utility.Text.cppm \
-	$(MODULESPATH)private/utility/disxx.ui.utility.Shape.cppm \
-	$(MODULESPATH)private/backend/disxx.ui.backend.IRenderer.cppm \
-	$(MODULESPATH)private/backend/disxx.ui.backend.GLRenderer.cppm \
-	$(MODULESPATH)private/backend/disxx.ui.backend.IContext.cppm \
-	$(MODULESPATH)private/backend/disxx.ui.backend.GLUTContext.cppm \
-	$(MODULESPATH)public/disxx.ui.Widget.cppm \
-	$(MODULESPATH)public/disxx.ui.SourceEditor.cppm \
-	$(MODULESPATH)public/disxx.ui.Frame.cppm \
-	$(MODULESPATH)private/disxx.ui.Tab.cppm \
-	$(MODULESPATH)public/disxx.ui.TabbedPane.cppm \
-	$(MODULESPATH)private/disxx.ui.MenuEntry.cppm \
-	$(MODULESPATH)public/disxx.ui.Button.cppm \
-	$(MODULESPATH)public/disxx.ui.Label.cppm \
-	$(MODULESPATH)public/disxx.ui.Menu.cppm \
-	$(MODULESPATH)public/disxx.ui.TextInput.cppm \
-	$(MODULESPATH)public/disxx.ui.MainWindow.cppm \
-	$(MODULESPATH)public/disxx.ui.MessageBox.cppm
+	$(MODULESPATH)/private/utility/disxx.ui.utility.ColorTag.cppm \
+	$(MODULESPATH)/private/utility/disxx.ui.utility.Vec.cppm \
+	$(MODULESPATH)/private/utility/disxx.ui.utility.Vertex.cppm \
+	$(MODULESPATH)/private/utility/disxx.ui.utility.Renderable.cppm \
+	$(MODULESPATH)/private/utility/disxx.ui.utility.Text.cppm \
+	$(MODULESPATH)/private/utility/disxx.ui.utility.Shape.cppm \
+	$(MODULESPATH)/private/backend/disxx.ui.backend.IRenderer.cppm \
+	$(MODULESPATH)/private/backend/disxx.ui.backend.GLRenderer.cppm \
+	$(MODULESPATH)/private/backend/disxx.ui.backend.IContext.cppm \
+	$(MODULESPATH)/private/backend/disxx.ui.backend.GLUTContext.cppm \
+	$(MODULESPATH)/public/disxx.ui.Widget.cppm \
+	$(MODULESPATH)/public/disxx.ui.SourceEditor.cppm \
+	$(MODULESPATH)/public/disxx.ui.Frame.cppm \
+	$(MODULESPATH)/private/disxx.ui.Tab.cppm \
+	$(MODULESPATH)/public/disxx.ui.TabbedPane.cppm \
+	$(MODULESPATH)/private/disxx.ui.Menu-MenuEntry.cppm \
+	$(MODULESPATH)/public/disxx.ui.Button.cppm \
+	$(MODULESPATH)/public/disxx.ui.Label.cppm \
+	$(MODULESPATH)/public/disxx.ui.Menu.cppm \
+	$(MODULESPATH)/public/disxx.ui.MenuBar.cppm \
+	$(MODULESPATH)/public/disxx.ui.TextInput.cppm \
+	$(MODULESPATH)/public/disxx.ui.MainWindow.cppm \
+	$(MODULESPATH)/public/disxx.ui.MessageBox.cppm
 
 SOURCES=\
 	./utility/disxx.ui.utility.ColorTag.cpp \
@@ -68,8 +69,9 @@ SOURCES=\
 	./disxx.ui.TabbedPane.cpp \
 	./disxx.ui.Button.cpp \
 	./disxx.ui.Label.cpp \
-	./disxx.ui.MenuEntry.cpp \
+	./disxx.ui.Menu-MenuEntry.cpp \
 	./disxx.ui.Menu.cpp \
+	./disxx.ui.MenuBar.cpp \
 	./disxx.ui.TextInput.cpp \
 	./disxx.ui.SourceEditor.cpp \
 	./disxx.ui.MainWindow.cpp \
