@@ -2,8 +2,8 @@ module disxx.ui.SourceEditor;
 
 import disxx.ui.backend.GLUTContext;
 import disxx.ui.backend.GLRenderer;
-import disxx.ui.utility.Shape;
-import disxx.ui.utility.Text;
+import disxx.ui.renderable.Rectangle;
+import disxx.ui.renderable.Text;
 import disxx.ui.utility.Vec;
 
 namespace
@@ -205,7 +205,7 @@ namespace disxx::ui
 					)
 				};
 
-				utility::Text txt{};
+				renderable::Text txt{};
 				txt.Replace
 				(
 					utility::Vec2<float>
@@ -229,7 +229,7 @@ namespace disxx::ui
 					for (const auto j : std::views::iota(renderStart, renderEnd))
            				str += realText.at(j);
 				txt.SetText(str);
-                s_pRenderer->Push(std::make_unique<utility::Text>(txt));
+                s_pRenderer->Push(std::make_unique<renderable::Text>(txt));
 
 				pos += text.size();
         	}
@@ -242,30 +242,30 @@ namespace disxx::ui
 			pos = std::max(0.f, std::min(pos, this->m_Size.y - CORNER_HEIGHT * 2.f - this->m_VerticalSliderHeight) - 20.f) + 20.f;
 
 			// Frame 
-			utility::Shape frame{utility::Shape::Type::TYPE_RECTANGLE};
+			renderable::Rectangle frame{};
 			frame.Replace(utility::Vec2<float>{this->m_Position.x + this->m_Size.x - CORNER_WIDTH, this->m_Position.y + CORNER_HEIGHT});
 			frame.Resize(utility::Vec2<float>{CORNER_WIDTH, this->m_Size.y - CORNER_HEIGHT});
 			frame.SetColor(utility::Vec3<float>{0.35f, 0.35f, 0.35f});
-			s_pRenderer->Push(std::make_unique<utility::Shape>(frame));
+			s_pRenderer->Push(std::make_unique<renderable::Rectangle>(frame));
 
 			// Upper arrow
-			utility::Text upperText{"^"};
+			renderable::Text upperText{"^"};
 			upperText.Replace(utility::Vec2<float>{this->m_Position.x + this->m_Size.x - 15.f, this->m_Position.y + this->m_Size.y - 15.f});
 			upperText.SetColor(utility::Vec3<float>{1.f, 1.f, 1.f});
-			s_pRenderer->Push(std::make_unique<utility::Text>(upperText));
+			s_pRenderer->Push(std::make_unique<renderable::Text>(upperText));
 
 			// Lower arrow
-			utility::Text lowerText{"v"};
+			renderable::Text lowerText{"v"};
 			lowerText.Replace(utility::Vec2<float>{this->m_Position.x + this->m_Size.x - 15.f, this->m_Position.y + CORNER_HEIGHT + 5.f});
 			lowerText.SetColor(utility::Vec3<float>{1.f, 1.f, 1.f});
-			s_pRenderer->Push(std::make_unique<utility::Text>(lowerText));
+			s_pRenderer->Push(std::make_unique<renderable::Text>(lowerText));
 			
 			// Scrollbar itself
-			utility::Shape vScrollbar{utility::Shape::Type::TYPE_RECTANGLE};
+			renderable::Rectangle vScrollbar{};
 			vScrollbar.Replace(utility::Vec2<float>{this->m_Position.x + this->m_Size.x - CORNER_WIDTH, this->m_Position.y + this->m_Size.y - this->m_VerticalSliderHeight - pos});
 			vScrollbar.Resize(utility::Vec2<float>{CORNER_WIDTH, this->m_VerticalSliderHeight});
 			vScrollbar.SetColor(utility::Vec3<float>{0.3f, 0.3f, 0.3f});
-			s_pRenderer->Push(std::make_unique<utility::Shape>(vScrollbar));
+			s_pRenderer->Push(std::make_unique<renderable::Rectangle>(vScrollbar));
 		}
 
 		// Render the horizontal scrollbar
@@ -275,30 +275,30 @@ namespace disxx::ui
 			pos = std::max(0.f, std::min(pos, this->m_Size.x - CORNER_WIDTH * 2.f - this->m_HorizontalSliderWidth) - 20.f) + 20.f;
 
 			// Frame
-			utility::Shape frame{utility::Shape::Type::TYPE_RECTANGLE};
+			renderable::Rectangle frame{};
 			frame.Replace(utility::Vec2<float>{this->m_Position.x, this->m_Position.y});
 			frame.Resize(utility::Vec2<float>{this->m_Size.x - CORNER_WIDTH, CORNER_HEIGHT});
 			frame.SetColor(utility::Vec3<float>{0.35f, 0.35f, 0.35f});
-			s_pRenderer->Push(std::make_unique<utility::Shape>(frame));
+			s_pRenderer->Push(std::make_unique<renderable::Rectangle>(frame));
 
 			// Left arrow
-			utility::Text leftText{"<"};
+			renderable::Text leftText{"<"};
 			leftText.Replace(utility::Vec2<float>{this->m_Position.x + 5.f, this->m_Position.y + 5.f});
 			leftText.SetColor(utility::Vec3<float>{1.f, 1.f, 1.f});
-			s_pRenderer->Push(std::make_unique<utility::Text>(leftText));
+			s_pRenderer->Push(std::make_unique<renderable::Text>(leftText));
 			
 			// Right arrow
-			utility::Text rightText{">"};
+			renderable::Text rightText{">"};
 			rightText.Replace(utility::Vec2<float>{this->m_Position.x + this->m_Size.x - 20.f - CORNER_WIDTH + 5.f, this->m_Position.y + 5.f});
 			rightText.SetColor(utility::Vec3<float>{1.f, 1.f, 1.f});
-			s_pRenderer->Push(std::make_unique<utility::Text>(rightText));
+			s_pRenderer->Push(std::make_unique<renderable::Text>(rightText));
 
 			// Scrollbar itself
-			utility::Shape hScrollbar{utility::Shape::Type::TYPE_RECTANGLE};
+			renderable::Rectangle hScrollbar{};
 			hScrollbar.Replace(utility::Vec2<float>{this->m_Position.x + pos, this->m_Position.y});
 			hScrollbar.Resize(utility::Vec2<float>{this->m_HorizontalSliderWidth, CORNER_HEIGHT});
 			hScrollbar.SetColor(utility::Vec3<float>{0.3f, 0.3f, 0.3f});
-			s_pRenderer->Push(std::make_unique<utility::Shape>(hScrollbar));
+			s_pRenderer->Push(std::make_unique<renderable::Rectangle>(hScrollbar));
 		}
 
 		this->s_pRenderer->Render();

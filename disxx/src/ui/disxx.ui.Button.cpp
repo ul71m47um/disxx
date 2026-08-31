@@ -2,8 +2,8 @@ module disxx.ui.Button;
 
 import disxx.ui.backend.GLUTContext;
 import disxx.ui.backend.GLRenderer;
-import disxx.ui.utility.Shape;
-import disxx.ui.utility.Text;
+import disxx.ui.renderable.Rectangle;
+import disxx.ui.renderable.Text;
 import disxx.ui.utility.Vec;
 
 namespace disxx::ui
@@ -68,23 +68,23 @@ namespace disxx::ui
 			return;
 
 		// Add a frame
-		utility::Shape frame{utility::Shape::Type::TYPE_RECTANGLE};
+		renderable::Rectangle frame{};
 		frame.Replace(utility::Vec2<float>{this->m_Position.x - 1.f, this->m_Position.y - 1.f});
 		frame.Resize(utility::Vec2<float>{this->m_Size.x + 2.f, this->m_Size.y + 2.f});
 		frame.SetColor(utility::Vec3<float>{0.f, 0.f, 0.f});
-		s_pRenderer->Push(std::make_unique<utility::Shape>(frame));
+		s_pRenderer->Push(std::make_unique<renderable::Rectangle>(frame));
 
 		// Add the button itself
-		utility::Shape btn{utility::Shape::Type::TYPE_RECTANGLE};
+		renderable::Rectangle btn{};
 		btn.Replace(utility::Vec2<float>{this->m_Position.x, this->m_Position.y});
 		btn.Resize(utility::Vec2<float>{this->m_Size.x, this->m_Size.y});
 		btn.SetColor(utility::Vec3<float>{this->m_pColor[0], this->m_pColor[1], this->m_pColor[2]});
-		s_pRenderer->Push(std::make_unique<utility::Shape>(btn));
+		s_pRenderer->Push(std::make_unique<renderable::Rectangle>(btn));
 		
 		// Add a text
         if (!this->m_Text.empty())
         {
-			utility::Text txt{};
+			renderable::Text txt{};
 			txt.Replace
 			(
             	utility::Vec2<float>
@@ -95,7 +95,7 @@ namespace disxx::ui
 			);
 			txt.SetColor(utility::Vec3<float>{1.f, 1.f, 1.f});
 			txt.SetText(this->m_Text);
-			s_pRenderer->Push(std::make_unique<utility::Text>(txt));
+			s_pRenderer->Push(std::make_unique<renderable::Text>(txt));
         }
 
 		s_pRenderer->Render();

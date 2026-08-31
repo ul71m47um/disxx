@@ -1,6 +1,6 @@
 export module disxx.ui.backend.IRenderer;
 
-export import disxx.ui.utility.Renderable;
+export import disxx.ui.renderable.Renderable;
 
 export import std;
 
@@ -9,7 +9,7 @@ export namespace disxx::ui::backend
 	class __attribute__((visibility("default"))) [[nodiscard]] IRenderer
 	{
 	  public:
-		virtual void Push(std::unique_ptr<utility::Renderable> &&) noexcept = 0;
+		virtual void Push(std::unique_ptr<renderable::Renderable> &&) noexcept = 0;
 		virtual void Pop(void) noexcept = 0;		
 		
 		virtual void ClearBuffer(void) noexcept = 0;

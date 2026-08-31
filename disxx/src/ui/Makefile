@@ -35,9 +35,11 @@ MODULES=\
 	$(MODULESPATH)/private/utility/disxx.ui.utility.ColorTag.cppm \
 	$(MODULESPATH)/private/utility/disxx.ui.utility.Vec.cppm \
 	$(MODULESPATH)/private/utility/disxx.ui.utility.Vertex.cppm \
-	$(MODULESPATH)/private/utility/disxx.ui.utility.Renderable.cppm \
-	$(MODULESPATH)/private/utility/disxx.ui.utility.Text.cppm \
-	$(MODULESPATH)/private/utility/disxx.ui.utility.Shape.cppm \
+	$(MODULESPATH)/private/renderable/disxx.ui.renderable.Renderable.cppm \
+	$(MODULESPATH)/private/renderable/disxx.ui.renderable.Text.cppm \
+	$(MODULESPATH)/private/renderable/disxx.ui.renderable.Shape.cppm \
+	$(MODULESPATH)/private/renderable/disxx.ui.renderable.Triangle.cppm \
+	$(MODULESPATH)/private/renderable/disxx.ui.renderable.Rectangle.cppm \
 	$(MODULESPATH)/private/backend/disxx.ui.backend.IRenderer.cppm \
 	$(MODULESPATH)/private/backend/disxx.ui.backend.GLRenderer.cppm \
 	$(MODULESPATH)/private/backend/disxx.ui.backend.IContext.cppm \
@@ -58,9 +60,11 @@ MODULES=\
 
 SOURCES=\
 	./utility/disxx.ui.utility.ColorTag.cpp \
-	./utility/disxx.ui.utility.Renderable.cpp \
-	./utility/disxx.ui.utility.Text.cpp \
-	./utility/disxx.ui.utility.Shape.cpp \
+	./renderable/disxx.ui.renderable.Renderable.cpp \
+	./renderable/disxx.ui.renderable.Text.cpp \
+	./renderable/disxx.ui.renderable.Shape.cpp \
+	./renderable/disxx.ui.renderable.Triangle.cpp \
+	./renderable/disxx.ui.renderable.Rectangle.cpp \
 	./backend/disxx.ui.backend.GLRenderer.cpp \
 	./backend/disxx.ui.backend.GLUTContext.cpp \
 	./disxx.ui.Widget.cpp \

@@ -14,10 +14,14 @@ module;
 
 module disxx.ui.backend.GLRenderer;
 
+import disxx.ui.renderable.Rectangle;
+import disxx.ui.renderable.Triangle;
+import disxx.ui.renderable.Shape;
+import disxx.ui.renderable.Text;
 import disxx.ui.utility.Vertex;
-import disxx.ui.utility.Shape;
-import disxx.ui.utility.Text;
 import disxx.ui.utility.Vec;
+
+import std;
 
 namespace disxx::ui::backend
 {
@@ -68,10 +72,10 @@ namespace disxx::ui::backend
 		glDeleteProgram(this->m_Program);
 	}
 
-	void GLRenderer::Push(std::unique_ptr<utility::Renderable> &&ptr) noexcept
+	void GLRenderer::Push(std::unique_ptr<renderable::Renderable> &&ptr) noexcept
 	{
 		if (this->m_Buffer.size() < 1024 * 1024) [[likely]]
-			this->m_Buffer.emplace_back(std::forward<std::unique_ptr<utility::Renderable> &&>(ptr));
+			this->m_Buffer.emplace_back(std::forward<std::unique_ptr<renderable::Renderable> &&>(ptr));
 	}
 
 	void GLRenderer::Pop(void) noexcept
@@ -106,42 +110,8 @@ namespace disxx::ui::backend
 		std::vector<utility::Vertex<GLfloat>> vertices{};
 		for (const auto &ptr : this->m_Buffer)
 		{
-			switch (ptr->GetType())
+			if (dynamic_cast<renderable::Text *>(ptr.get()))
 			{
-			  case utility::Renderable::Type::TYPE_SHAPE:
-			  {
-				switch (static_cast<utility::Shape *>(ptr.get())->GetShapeType())
-				{
-				  case utility::Shape::Type::TYPE_RECTANGLE:
-				  {
-					glUseProgram(this->m_Program);
-
-					const auto [x, y]{ptr->GetPosition()};
-					const auto [width, height]{ptr->GetSize()};
-					const auto [r, g, b]{ptr->GetColor()};
-
-					// First triangle
-					vertices.emplace_back(utility::Vertex<GLfloat>{utility::Vec2<GLfloat>{x, y}, utility::Vec3<GLfloat>{r, g, b}});
-					vertices.emplace_back(utility::Vertex<GLfloat>{utility::Vec2<GLfloat>{x, y + height}, utility::Vec3<GLfloat>{r, g, b}});
-					vertices.emplace_back(utility::Vertex<GLfloat>{utility::Vec2<GLfloat>{x + width, y + height}, utility::Vec3<GLfloat>{r, g, b}});
-
-					// Second triangle
-					vertices.emplace_back(utility::Vertex<GLfloat>{utility::Vec2<GLfloat>{x + width, y + height}, utility::Vec3<GLfloat>{r, g, b}});
-					vertices.emplace_back(utility::Vertex<GLfloat>{utility::Vec2<GLfloat>{x + width, y}, utility::Vec3<GLfloat>{r, g, b}});
-					vertices.emplace_back(utility::Vertex<GLfloat>{utility::Vec2<GLfloat>{x, y}, utility::Vec3<GLfloat>{r, g, b}});
-			 	
-					break;
-				  }
-
-				  default:
-					break;
-			  	}
-			
-				break;
-			  }
-			  
-			  case utility::Renderable::Type::TYPE_TEXT:
-			  {
 				if (!vertices.empty())
             	{
             	    glBindVertexArray(this->m_Vao);
@@ -158,14 +128,14 @@ namespace disxx::ui::backend
 				// Using an old OpenGL with GLUT is the simplest way to render a text
 				glColor3f(r, g, b);
 				glWindowPos2f(x, y);
-				for (const auto ch : static_cast<utility::Text *>(ptr.get())->GetText())
+				for (const auto ch : dynamic_cast<renderable::Text &>(*ptr).GetText())
 					glutBitmapCharacter(GLUT_BITMAP_9_BY_15, ch);
-				break;
-			  }
-
-			  default:
-				break;
+				continue;
 			}
+
+			glUseProgram(this->m_Program);	
+			for (const auto &vertex : ptr->GetVertices())
+				vertices.push_back(vertex);
 		}
 
 		if (!vertices.empty())

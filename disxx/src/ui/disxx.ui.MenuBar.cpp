@@ -1,7 +1,7 @@
 module disxx.ui.MenuBar;
 
 import disxx.ui.backend.GLUTContext;
-import disxx.ui.utility.Shape;
+import disxx.ui.renderable.Rectangle;
 import disxx.ui.utility.Vec;
 
 namespace disxx::ui
@@ -66,11 +66,11 @@ namespace disxx::ui
 		for (const auto &menu : this->m_Menus)
 			menu.Render();
 	
-		utility::Shape separator{utility::Shape::Type::TYPE_RECTANGLE};
+		renderable::Rectangle separator{};
 		separator.Replace(this->m_Position);
 		separator.Resize(utility::Vec2<float>{this->m_Size.x, 1.f});
 		separator.SetColor(utility::Vec3<float>{0.f, 0.f, 0.f});
-		s_pRenderer->Push(std::make_unique<utility::Shape>(separator));
+		s_pRenderer->Push(std::make_unique<renderable::Rectangle>(separator));
 	
 		s_pRenderer->Render();
 	}

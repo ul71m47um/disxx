@@ -25,7 +25,7 @@ namespace disxx::ui::utility
 		};
 	}
 
-	ColorTagResult ColorTag::Parse(const std::string &str) const noexcept
+	ColorTag::Result ColorTag::Parse(const std::string &str) const noexcept
 	{
 		std::vector<std::pair<std::string, std::array<float, 4>>> vec{};
     

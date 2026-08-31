@@ -108,7 +108,7 @@ FileInput::FileInput(void) noexcept
 	}
 
 	{
-		disxx::ui::Label text{240.f, 255.f, 0.f, 0.f};
+		disxx::ui::Label text{240.f, 260.f, 0.f, 0.f};
 		text.SetColor(1.f, 1.f, 1.f);
 		text.SetText("Select an executable to disassemble");
 		this->m_Window.AddWidget(std::make_unique<disxx::ui::Label>(text));
@@ -128,7 +128,7 @@ FileInput::FileInput(void) noexcept
 	}
 
 	{
-		disxx::ui::Label text{225.f, 210.f, 0.f, 0.f};
+		disxx::ui::Label text{225.f, 215.f, 0.f, 0.f};
 		text.SetColor(1.f, 1.f, 1.f);
 		text.SetText("Continue without opening a file");
 		this->m_Window.AddWidget(std::make_unique<disxx::ui::Label>(text));

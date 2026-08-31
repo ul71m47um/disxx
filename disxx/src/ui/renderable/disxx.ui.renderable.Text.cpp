@@ -1,14 +1,14 @@
-module disxx.ui.utility.Text;
+module disxx.ui.renderable.Text;
 
-namespace disxx::ui::utility
+namespace disxx::ui::renderable
 {
 	Text::Text(void) noexcept
-		: Renderable{Renderable::Type::TYPE_TEXT}
+		: Renderable{}
 		, m_Text{}
 	{}
 
 	Text::Text(std::string_view str) noexcept
-		: Renderable{Renderable::Type::TYPE_TEXT}
+		: Renderable{}
 		, m_Text{str}
 	{}
 
@@ -35,9 +35,15 @@ namespace disxx::ui::utility
 
 	Text &Text::operator=(Text &&other) noexcept
 	{
-		Renderable::operator=(std::move(other));
-		this->m_Text = std::move(other.m_Text);
+		if (this != &other) [[likely]]
+		{
+			Renderable::operator=(std::forward<Text &&>(other));
+			this->m_Text = std::move(other.m_Text);
+		}
 
 		return *this;
 	}
+
+	std::vector<utility::Vertex<float>> Text::GetVertices(void) const noexcept
+	{ return std::vector<utility::Vertex<float>>{}; }
 } /* disxx::ui::utility */

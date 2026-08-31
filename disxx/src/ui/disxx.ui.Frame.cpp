@@ -1,6 +1,8 @@
 module disxx.ui.Frame;
 
-import disxx.ui.utility.Shape;
+import disxx.ui.renderable.Rectangle;
+
+import std;
 
 namespace disxx::ui
 {
@@ -42,17 +44,17 @@ namespace disxx::ui
 			return;
 
 		// Add a subframe
-		utility::Shape subframe{utility::Shape::Type::TYPE_RECTANGLE};
+		renderable::Rectangle subframe{};
 		subframe.Replace(utility::Vec2<float>{this->m_Position.x - 1.f, this->m_Position.y - 1.f});
 		subframe.Resize(utility::Vec2<float>{this->m_Size.x + 2.f, this->m_Size.y + 2.f});
 		subframe.SetColor(utility::Vec3<float>{0.f, 0.f, 0.f});
-		s_pRenderer->Push(std::make_unique<utility::Shape>(subframe));
+		s_pRenderer->Push(std::make_unique<renderable::Rectangle>(subframe));
 
 		// Add the frame itself
-		utility::Shape frame{utility::Shape::Type::TYPE_RECTANGLE};
+		renderable::Rectangle frame{};
 		frame.Replace(utility::Vec2<float>{this->m_Position.x, this->m_Position.y});
 		frame.Resize(utility::Vec2<float>{this->m_Size.x, this->m_Size.y});
 		frame.SetColor(utility::Vec3<float>{this->m_pColor[0], this->m_pColor[1], this->m_pColor[2]});
-		s_pRenderer->Push(std::make_unique<utility::Shape>(frame));
+		s_pRenderer->Push(std::make_unique<renderable::Rectangle>(frame));
 	}
 } /* disxx::ui */

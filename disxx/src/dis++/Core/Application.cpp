@@ -494,7 +494,7 @@ void Application::Init(void) noexcept
 
 						if (std::error_code errc{}; !std::filesystem::exists(p, errc)) [[unlikely]]
 						{
-							disxx::ui::MessageBox box{"Unable to open a file"};
+							disxx::ui::MessageBox box{"Unable to open the file"};
 							box.Exec();
 						}
 
@@ -672,7 +672,9 @@ void Application::Init(void) noexcept
 						{
 							std::fstream file{std::string{p}, std::fstream::out | std::fstream::binary | std::fstream::trunc};
 							if (const std::error_code errc{}; !file.is_open()) [[unlikely]]
-								throw std::filesystem::filesystem_error{"FileError", errc};
+							{
+								disxx::ui::MessageBox box{"Unable to open the file"};
+							}
 
 							const auto area{tab->get().GetTextArea()};
 							for (const auto &line : area.GetLines())
@@ -797,7 +799,7 @@ void Application::Init(void) noexcept
 
 						if (std::error_code errc{}; !std::filesystem::exists(p, errc)) [[unlikely]]
 						{
-							disxx::ui::MessageBox box{"Unable to open a file"};
+							disxx::ui::MessageBox box{"Unable to open the file"};
 							box.Exec();
 
 							return;
@@ -909,7 +911,10 @@ void Application::Init(void) noexcept
 
 				std::fstream file{currentPath.c_str(), std::fstream::binary | std::fstream::in};
 				if (const std::error_code errc{}; !file.is_open()) [[unlikely]]
-					throw std::filesystem::filesystem_error{"FileNotFoundError", errc};
+				{
+					disxx::ui::MessageBox box{"Unable to open the file"};
+					box.Exec();
+				}
 
 				disxx::ui::SourceEditor src{};
 				for (unsigned long long int addr{0ull}; !file.eof(); addr += 8ull)

@@ -32,9 +32,11 @@ MODULES=\
 	../modules/ui/private/utility/disxx.ui.utility.Vec.cppm \
 	../modules/ui/private/utility/disxx.ui.utility.Vertex.cppm \
 	../modules/ui/private/utility/disxx.ui.utility.ColorTag.cppm \
-	../modules/ui/utility/disxx.ui.utility.Renderable.cppm \
-	../modules/ui/utility/disxx.ui.utility.Text.cppm \
-	../modules/ui/utility/disxx.ui.utility.Shape.cppm \
+	../modules/ui/private/renderable/disxx.ui.renderable.Renderable.cppm \
+	../modules/ui/private/renderable/disxx.ui.renderable.Text.cppm \
+	../modules/ui/private/renderable/disxx.ui.renderable.Shape.cppm \
+	../modules/ui/private/renderable/disxx.ui.renderable.Triangle.cppm \
+	../modules/ui/private/renderable/disxx.ui.renderable.Rectangle.cppm \
 	../modules/ui/private/backend/disxx.ui.backend.IRenderer.cppm \
 	../modules/ui/private/backend/disxx.ui.backend.GLRenderer.cppm \
 	../modules/ui/private/backend/disxx.ui.backend.IContext.cppm \

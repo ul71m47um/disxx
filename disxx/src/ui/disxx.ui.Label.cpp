@@ -1,6 +1,6 @@
 module disxx.ui.Label;
 
-import disxx.ui.utility.Text;
+import disxx.ui.renderable.Text;
 
 namespace disxx::ui
 {
@@ -54,7 +54,7 @@ namespace disxx::ui
 		// Render the text
 		if (!this->m_Text.empty())
         {
-			utility::Text txt{};
+			renderable::Text txt{};
 			txt.Replace
 			(
             	utility::Vec2<float>
@@ -65,7 +65,7 @@ namespace disxx::ui
 			);
 			txt.SetColor(utility::Vec3<float>{1.f, 1.f, 1.f});
 			txt.SetText(this->m_Text);
-			s_pRenderer->Push(std::make_unique<utility::Text>(txt));
+			s_pRenderer->Push(std::make_unique<renderable::Text>(txt));
         }
 
 		s_pRenderer->Render();

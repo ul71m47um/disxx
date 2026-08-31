@@ -37,7 +37,7 @@ export namespace disxx::ui::backend
 			"}\n";
 
 	  private:
-		std::vector<std::unique_ptr<utility::Renderable>> m_Buffer{};
+		std::vector<std::unique_ptr<renderable::Renderable>> m_Buffer{};
 		GLuint m_Vao{};
 		GLuint m_Vbo{};
 		GLuint m_VertexShader{};
@@ -55,7 +55,7 @@ export namespace disxx::ui::backend
 		explicit GLRenderer(GLRenderer &&) noexcept = delete;
 		GLRenderer &operator=(GLRenderer &&) noexcept = delete;
 
-		virtual void Push(std::unique_ptr<utility::Renderable> &&) noexcept override;
+		virtual void Push(std::unique_ptr<renderable::Renderable> &&) noexcept override;
 		virtual void Pop(void) noexcept override;
 		
 		virtual void ClearBuffer(void) noexcept override;
