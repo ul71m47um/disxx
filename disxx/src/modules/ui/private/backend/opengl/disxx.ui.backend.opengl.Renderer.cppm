@@ -9,13 +9,13 @@ module;
 #include <cstdint>
 #include <vector>
 
-export module disxx.ui.backend.GLRenderer;
+export module disxx.ui.backend.opengl.Renderer;
 
-import disxx.ui.backend.IRenderer;
+import disxx.ui.backend.abstract.IRenderer;
 
-export namespace disxx::ui::backend
+export namespace disxx::ui::backend::opengl
 {
-	class __attribute__((visibility("default"))) [[nodiscard]] GLRenderer final : public IRenderer
+	class __attribute__((visibility("default"))) [[nodiscard]] Renderer final : public abstract::IRenderer
 	{
 	  private:
 		static constexpr const char *s_pVertexSource = "#version 120\n"
@@ -45,15 +45,15 @@ export namespace disxx::ui::backend
 		GLuint m_Program{};
 
 	  public:
-		explicit GLRenderer(void) noexcept;
+		explicit Renderer(void) noexcept;
 
-		~GLRenderer(void) noexcept;
+		~Renderer(void) noexcept;
 
-		explicit GLRenderer(const GLRenderer &) noexcept = delete;
-		GLRenderer &operator=(const GLRenderer &) noexcept = delete;
+		explicit Renderer(const Renderer &) noexcept = delete;
+		Renderer &operator=(const Renderer &) noexcept = delete;
 
-		explicit GLRenderer(GLRenderer &&) noexcept = delete;
-		GLRenderer &operator=(GLRenderer &&) noexcept = delete;
+		explicit Renderer(Renderer &&) noexcept = delete;
+		Renderer &operator=(Renderer &&) noexcept = delete;
 
 		virtual void Push(std::unique_ptr<renderable::Renderable> &&) noexcept override;
 		virtual void Pop(void) noexcept override;
@@ -61,4 +61,4 @@ export namespace disxx::ui::backend
 		virtual void ClearBuffer(void) noexcept override;
 		virtual void Render(void) noexcept override;
 	};
-} /* disxx::ui::backend */
+} /* disxx::ui::backend::opengl */

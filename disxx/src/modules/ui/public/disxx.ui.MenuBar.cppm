@@ -1,7 +1,7 @@
 export module disxx.ui.MenuBar;
 
 export import disxx.ui.Menu;
-import disxx.ui.backend.GLUTContext;
+import disxx.ui.backend.glut.Context;
 import disxx.ui.Widget;
 
 import std;
@@ -32,7 +32,7 @@ export namespace disxx::ui
 
 	inline void MenuBar::Add(Menu &&menu) noexcept
 	{
-		const auto [width, height]{backend::GLUTContext::GetWindowSize()};
+		const auto [width, height]{backend::glut::Context::Get()->CurrentWindow()->GetSize()};
 		menu.Resize(utility::Vec2<float>{width * 0.05f, height * 0.03f});
 		auto offset{0.f};
 		for (const auto &other : this->m_Menus)

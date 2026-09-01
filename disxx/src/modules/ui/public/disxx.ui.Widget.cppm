@@ -1,9 +1,9 @@
 export module disxx.ui.Widget;
 
+import disxx.ui.backend.abstract.IRenderer;
+import disxx.ui.backend.opengl.Renderer;
 import disxx.utility.trait.Cloneable;
 import disxx.utility.pointer.NonNull;
-import disxx.ui.backend.IRenderer;
-import disxx.ui.backend.GLRenderer;
 export import disxx.ui.utility.Vec;
 
 export namespace disxx::ui
@@ -11,7 +11,7 @@ export namespace disxx::ui
 	class __attribute__((visibility("default"))) [[nodiscard]] Widget : public disxx::utility::trait::Cloneable<Widget>
 	{
 	  protected:
-		static disxx::utility::pointer::NonNull<backend::IRenderer> s_pRenderer;
+		static disxx::utility::pointer::NonNull<backend::abstract::IRenderer> s_pRenderer;
 
 	  protected:
 		utility::Vec2<float> m_Position{};

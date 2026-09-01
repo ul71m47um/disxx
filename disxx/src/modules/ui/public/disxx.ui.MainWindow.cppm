@@ -1,9 +1,9 @@
 export module disxx.ui.MainWindow;
 
-import disxx.utility.pointer.NonNull;
-import disxx.ui.backend.GLUTContext;
-import disxx.ui.backend.IContext;
+import disxx.ui.backend.glut.Context;
+import disxx.ui.backend.glut.Window;
 import disxx.ui.Widget;
+import disxx.utility.pointer.NonNull;
 export import disxx.ui.utility.Vec;
 
 export import std;
@@ -13,35 +13,15 @@ export namespace disxx::ui
 	class __attribute__((visibility("default"))) [[nodiscard]] MainWindow
 	{
 	  private:
-		#ifdef BACKEND_CTX_GLUT
-			using WindowHandle = int;
+		std::vector<std::unique_ptr<Widget>> m_Widgets{};
+		utility::Vec2<int> m_InitialSize{};
+		utility::Vec2<int> m_Size{};
+		#if defined(BACKEND_CTX_GLUT)
+			std::shared_ptr<backend::glut::Window> m_pWin{};
 		#else
 		#	error "Context required"
 		#endif
 
-	  private:
-		static disxx::utility::pointer::NonNull
-		<
-			#if defined(BACKEND_CTX_GLUT)
-				disxx::ui::backend::GLUTContext
-			#else
-			#	error "Context required"
-			#endif
-		> s_pContext;
-		
-	  private:
-		std::vector<std::unique_ptr<Widget>> m_Widgets{};
-		utility::Vec2<int> m_InitialSize{};
-		utility::Vec2<int> m_Size{};
-		WindowHandle m_hWin{};
-
-	  private:
-		void DisplayCallback(void) const noexcept;
-		void ReshapeCallback(int, int) noexcept(false);
-		void KeyboardCallback(unsigned char, int, int) noexcept(false);
-		void MouseButtonCallback(int, int, int, int) noexcept(false);
-		void MouseMotionCallback(int, int) noexcept(false);
-	  
 	  public:
 		template <typename ...Args>
 		static void Init(Args &&...) noexcept;
@@ -63,14 +43,14 @@ export namespace disxx::ui
 		inline void AddWidget(std::unique_ptr<Widget> &&) noexcept;
 		inline std::vector<std::unique_ptr<Widget>> &GetWidgets(void) noexcept;
 		inline void Redisplay(void) const noexcept;
-		inline void Exec(void) const noexcept;
+		inline int Exec(std::function<int(backend::event::Queue &)>) const noexcept;
 	};
 
 	template <typename ...Args>
 	void MainWindow::Init(Args &&...args) noexcept
 	{
 		#if defined(BACKEND_CTX_GLUT)
-			backend::GLUTContext::Init(std::forward<Args>(args)...);
+			backend::glut::Context::Init(std::forward<Args>(args)...);
 		#else
 		#	error "Context required"
 		#endif
@@ -81,11 +61,11 @@ export namespace disxx::ui
 
 	inline void MainWindow::SetVisible(bool visible) noexcept
 	{
-		s_pContext->SwitchWindow(this->m_hWin);
+		backend::glut::Context::Get()->MakeCurrent(this->m_pWin);
 		if (visible)
-			s_pContext->ShowWindow();
+			this->m_pWin->Show();
 		else
-			s_pContext->HideWindow();
+			this->m_pWin->Hide();
 	}
 
 	inline void MainWindow::AddWidget(std::unique_ptr<Widget> &&pWidget) noexcept
@@ -96,13 +76,9 @@ export namespace disxx::ui
 
 	inline void MainWindow::Redisplay(void) const noexcept
 	{
-		s_pContext->SwitchWindow(this->m_hWin);
-		s_pContext->Redisplay();
+		backend::glut::Context::Get()->MakeCurrent(this->m_pWin);
+		backend::glut::Context::Get()->Redisplay();
 	}
 
-	inline void MainWindow::Exec(void) const noexcept
-	{
-		//s_pContext->SwitchWindow(this->m_hWin);
-		s_pContext->Exec();
-	}
+	inline int MainWindow::Exec(std::function<int(backend::event::Queue &)> f) const noexcept { return this->m_pWin->Exec(f); }
 } /* disxx::ui */

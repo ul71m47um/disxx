@@ -12,7 +12,7 @@ module;
 
 #include <cstddef> // For offsetof
 
-module disxx.ui.backend.GLRenderer;
+module disxx.ui.backend.opengl.Renderer;
 
 import disxx.ui.renderable.Rectangle;
 import disxx.ui.renderable.Triangle;
@@ -23,7 +23,7 @@ import disxx.ui.utility.Vec;
 
 import std;
 
-namespace disxx::ui::backend
+namespace disxx::ui::backend::opengl
 {
 	GLRenderer::GLRenderer(void) noexcept
 		: m_Buffer{}
@@ -110,7 +110,11 @@ namespace disxx::ui::backend
 		std::vector<utility::Vertex<GLfloat>> vertices{};
 		for (const auto &ptr : this->m_Buffer)
 		{
-			if (dynamic_cast<renderable::Text *>(ptr.get()))
+			glUseProgram(this->m_Program);	
+			for (const auto &vertex : ptr->GetVertices())
+				vertices.push_back(vertex);
+			
+			if (const auto *pText{dynamic_cast<renderable::Text *>(ptr.get())})
 			{
 				if (!vertices.empty())
             	{
@@ -122,20 +126,15 @@ namespace disxx::ui::backend
             	}
 				glUseProgram(0);
 
-				const auto [r, g, b]{ptr->GetColor()};
-				const auto [x, y]{ptr->GetPosition()};
+				const auto [r, g, b]{pText->GetColor()};
+				const auto [x, y]{pText->GetPosition()};
 
 				// Using an old OpenGL with GLUT is the simplest way to render a text
 				glColor3f(r, g, b);
 				glWindowPos2f(x, y);
-				for (const auto ch : dynamic_cast<renderable::Text &>(*ptr).GetText())
+				for (const auto ch : pText->GetText())
 					glutBitmapCharacter(GLUT_BITMAP_9_BY_15, ch);
-				continue;
 			}
-
-			glUseProgram(this->m_Program);	
-			for (const auto &vertex : ptr->GetVertices())
-				vertices.push_back(vertex);
 		}
 
 		if (!vertices.empty())
@@ -148,4 +147,4 @@ namespace disxx::ui::backend
 			glUseProgram(0);
 		}
 	}
-} /* disxx::ui::backend */
+} /* disxx::ui::backend::opengl */

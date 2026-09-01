@@ -1,10 +1,10 @@
-export module disxx.ui.backend.IRenderer;
+export module disxx.ui.backend.abstract.IRenderer;
 
 export import disxx.ui.renderable.Renderable;
 
 export import std;
 
-export namespace disxx::ui::backend
+export namespace disxx::ui::backend::abstract
 {
 	class __attribute__((visibility("default"))) [[nodiscard]] IRenderer
 	{
@@ -15,4 +15,4 @@ export namespace disxx::ui::backend
 		virtual void ClearBuffer(void) noexcept = 0;
 		virtual void Render(void) noexcept = 0;
 	};
-} /* disxx::ui::backend */
+} /* disxx::ui::backend::abstract */

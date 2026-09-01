@@ -412,6 +412,9 @@ void Application::Init(void) noexcept
 		s_pInstance->m_Window.AddWidget(std::make_unique<disxx::ui::SourceEditor>(labels));
 	}
 
+	if (!path.empty())
+		s_pInstance->Disassemble(path);
+
 	disxx::ui::MenuBar menuBar{};
 	
 	{
@@ -941,9 +944,6 @@ void Application::Init(void) noexcept
 	}
 
 	s_pInstance->m_Window.AddWidget(std::make_unique<disxx::ui::MenuBar>(menuBar));
-
-	if (!path.empty())
-		s_pInstance->Disassemble(path);
 
     s_pInstance->m_Window.Redisplay();
 }
