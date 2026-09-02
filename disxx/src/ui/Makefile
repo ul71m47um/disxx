@@ -75,8 +75,14 @@ SOURCES=\
 	./renderable/disxx.ui.renderable.Shape.cpp \
 	./renderable/disxx.ui.renderable.Triangle.cpp \
 	./renderable/disxx.ui.renderable.Rectangle.cpp \
-	./backend/disxx.ui.backend.GLRenderer.cpp \
-	./backend/disxx.ui.backend.GLUTContext.cpp \
+	./backend/opengl/disxx.ui.backend.opengl.Renderer.cpp \
+	./backend/event/disxx.ui.backend.event.MouseMotion.cpp \
+	./backend/event/disxx.ui.backend.event.MouseButton.cpp \
+	./backend/event/disxx.ui.backend.event.Keyboard.cpp \
+	./backend/event/disxx.ui.backend.event.Reshape.cpp \
+	./backend/glut/disxx.ui.backend.glut.Manager.cpp \
+	./backend/glut/disxx.ui.backend.glut.Context.cpp \
+	./backend/glut/disxx.ui.backend.glut.Window.cpp \
 	./disxx.ui.Widget.cpp \
 	./disxx.ui.Frame.cpp \
 	./disxx.ui.Tab.cpp \

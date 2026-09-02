@@ -4,7 +4,7 @@ import disxx.ui.utility.Vec;
 
 namespace disxx::ui::backend::event
 {
-	Reshape::Reshape(utility::Vec<int> position) noexcept
-		: m_Position{position}
+	Reshape::Reshape(utility::Vec2<float> size) noexcept
+		: m_Size{size}
 	{}
 } /* disxx::ui::backend::event */

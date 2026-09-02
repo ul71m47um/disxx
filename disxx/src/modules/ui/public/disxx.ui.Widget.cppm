@@ -1,10 +1,15 @@
 export module disxx.ui.Widget;
 
+export import disxx.ui.backend.event.MouseMotion;
+export import disxx.ui.backend.event.MouseMotion;
+export import disxx.ui.backend.event.MouseButton;
+export import disxx.ui.backend.event.Keyboard;
+export import disxx.ui.backend.event.Reshape;
+export import disxx.ui.utility.Vec;
+
 import disxx.ui.backend.abstract.IRenderer;
-import disxx.ui.backend.opengl.Renderer;
 import disxx.utility.trait.Cloneable;
 import disxx.utility.pointer.NonNull;
-export import disxx.ui.utility.Vec;
 
 export namespace disxx::ui
 {
@@ -17,10 +22,7 @@ export namespace disxx::ui
 		utility::Vec2<float> m_Position{};
 		utility::Vec2<float> m_Size{};
 		float m_pColor[3]{};
-		bool m_Visible{};
-		[[maybe_unused]] mutable bool
-			m_IsClicked{},
-			m_IsHovered{};
+		bool m_bVisible{}, m_bClicked{}, m_bHovered{};
 
 	  public:
 		static void ClearBuffer(void) noexcept;
@@ -44,13 +46,14 @@ export namespace disxx::ui
 		inline void SetColor(float, float, float) noexcept;
 		inline void SetVisible(bool) noexcept;
 	
-		inline bool GetVisible(void) const noexcept;	
-		inline bool GetClicked(void) const noexcept;
+		inline bool Visible(void) const noexcept;
+		inline bool Clicked(void) const noexcept;
+		inline bool Hovered(void) const noexcept;
 
+		virtual void MouseMotionCallback(backend::event::MouseMotion) noexcept;
+		virtual void MouseButtonCallback(backend::event::MouseButton) noexcept;
+		virtual void KeyboardCallback(backend::event::Keyboard) noexcept;
 		virtual void Render(void) const noexcept = 0;
-		virtual void HandleKeyboard(unsigned char, int, int);
-		virtual void HandleMouse(int, int, int, int);
-		virtual void HandleMotion(int, int);
 	};
 
 	inline void Widget::SetColor(float r, float g, float b) noexcept
@@ -60,8 +63,8 @@ export namespace disxx::ui
 		this->m_pColor[2] = b;
 	}
 
-	inline bool Widget::GetVisible(void) const noexcept
-	{ return this->m_Visible; }
+	inline bool Widget::Visible(void) const noexcept
+	{ return this->m_bVisible; }
 
 	inline utility::Vec2<float> Widget::GetPosition(void) const noexcept
 	{ return utility::Vec2<float>{this->m_Position}; }
@@ -69,9 +72,12 @@ export namespace disxx::ui
 	inline utility::Vec2<float> Widget::GetSize(void) const noexcept
 	{ return utility::Vec2<float>{this->m_Size}; }
 
-	inline void Widget::SetVisible(bool visible) noexcept
-	{ this->m_Visible = visible; }
+	inline void Widget::SetVisible(bool bVisible) noexcept
+	{ this->m_bVisible = bVisible; }
 
-	inline bool Widget::GetClicked(void) const noexcept
-	{ return this->m_IsClicked; }
+	inline bool Widget::Clicked(void) const noexcept
+	{ return this->m_bClicked; }
+
+	inline bool Widget::Hovered(void) const noexcept
+	{ return this->m_bHovered; }
 } /* disxx::ui */

@@ -38,8 +38,8 @@ export namespace disxx::ui
 
 		virtual std::unique_ptr<Widget> Clone(void) const noexcept override;
 
-		virtual void HandleMouse(int, int, int, int) noexcept override;
-		virtual void HandleMotion(int, int) noexcept override;
+		virtual void MouseButtonCallback(backend::event::MouseButton) noexcept override;
+		virtual void MouseMotionCallback(backend::event::MouseMotion) noexcept override;
 		virtual void Render(void) const noexcept override;
 	};
 

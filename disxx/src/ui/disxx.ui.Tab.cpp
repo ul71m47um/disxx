@@ -55,10 +55,10 @@ namespace disxx::ui
 
 	void Tab::Render(void) const noexcept
 	{
-		if (!this->m_Visible)
+		if (!this->m_bVisible)
 			return;
 
-		float heightModifier{this->m_IsClicked ? 5.f : 0.f};
+		float heightModifier{this->m_bClicked ? 5.f : 0.f};
 
 		// Add a frame
 		renderable::Rectangle frame{};
@@ -94,17 +94,18 @@ namespace disxx::ui
 		s_pRenderer->Render();
 	}
 
-	void Tab::HandleMouse(int button, int state, int x, int y) noexcept(false)
+	void Tab::MouseButtonCallback(backend::event::MouseButton event) noexcept
 	{
-		this->m_TextArea.HandleMouse(button, state, x, y);
+		this->m_TextArea.MouseButtonCallback(event);
 
+		const auto [x, y]{event.GetPosition()};
 		if (!(x >= this->m_Position.x && x <= this->m_Position.x + this->m_Size.x && y >= this->m_Position.y && y <= this->m_Position.y + this->m_Size.y))
 			return;
 
-		if (!this->m_IsClicked && button == 0 && state == 0)
-			this->m_IsClicked = true;
+		if (!this->m_bClicked && event.GetButton() == 0 && event.GetState() == 0)
+			this->m_bClicked = true;
 	}
 
-	void Tab::HandleMotion(int x, int y) noexcept(false)
-	{ this->m_TextArea.HandleMotion(x, y); }
+	void Tab::MouseMotionCallback(backend::event::MouseMotion event) noexcept
+	{ this->m_TextArea.MouseMotionCallback(event); }
 } /* disxx::ui */

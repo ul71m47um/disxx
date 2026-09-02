@@ -1,5 +1,6 @@
 export module disxx.ui.backend.abstract.IManager;
 
+import disxx.ui.backend.event.Queue;
 import disxx.utility.pointer.NonNull;
 
 import std;
@@ -11,7 +12,7 @@ export namespace disxx::ui::backend::abstract
 	{
 		{ ptr == nullptr } -> std::same_as<bool>;
 		{ ptr = T{} } -> std::same_as<T &>;
-		{ T{ptr} } -> std::same_as<T>;
+		{ T{ptr} } -> std::same_as<T>; // Check if it's copyable
 		{ *ptr };
 	};
 
@@ -29,4 +30,7 @@ export namespace disxx::ui::backend::abstract
 	
 		virtual void SetCallbacks(void) const noexcept = 0;
 	};
+
+	template <Pointer T>
+	IManager<T>::~IManager(void) noexcept {}
 } /* disxx::ui::backend::abstract */

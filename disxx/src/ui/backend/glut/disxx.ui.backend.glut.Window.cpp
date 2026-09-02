@@ -1,22 +1,36 @@
+module;
+
+#ifdef __APPLE__
+#	include <GLUT/glut.h>
+#else
+#	include <GL/freeglut.h>
+#endif
+
 module disxx.ui.backend.glut.Window;
 
 import disxx.ui.backend.glut.Manager;
+import disxx.ui.backend.glut.Context;
 
 namespace disxx::ui::backend::glut
-{	
+{
+	Window::Window(const Handle &handle) noexcept
+		: abstract::Window<Handle>{handle}
+	{}
+
 	Window::~Window(void) noexcept { this->Destroy(); }
 	
-	void Window::Destroy(void) noexcept { Manager::Init()->DestroyWindow(this->m_hWin); }
+	void Window::Destroy(void) noexcept
+	{ Manager::Get()->DestroyWindow(std::make_shared<Window>(this->m_hWin)); }
 
 	void Window::Iconify(void) noexcept
 	{
-		this->Switch();
+		glutSetWindow(this->m_hWin);
 		glutIconifyWindow();
 	}
 
 	void Window::Show(void) noexcept
 	{
-		this->Switch();
+		glutSetWindow(this->m_hWin);
 		glutShowWindow();
 		// Set a timer to avoid a race
 		glutTimerFunc
@@ -33,37 +47,38 @@ namespace disxx::ui::backend::glut
 
 	void Window::Hide(void) noexcept
 	{
-		this->Switch();
+		glutSetWindow(this->m_hWin);
 		glutHideWindow();
 	}
 
 	void Window::Push(void) noexcept
 	{
-		this->Switch();
+		glutSetWindow(this->m_hWin);
 		glutPushWindow();
 	}
 
 	void Window::Pop(void) noexcept
 	{
-		this->Switch();
+		glutSetWindow(this->m_hWin);
 		glutPopWindow();
 	}
 
 	void Window::SetTitle(std::string_view title) noexcept
 	{
-		this->Switch();
+		glutSetWindow(this->m_hWin);
 		glutSetWindowTitle(title.data());
 	}
 
 	void Window::SetSize(utility::Vec2<int> size) noexcept
 	{
 		const auto [width, height]{size};
-		this->Switch();
+		glutSetWindow(this->m_hWin);
 		glutReshapeWindow(width, height);
 	}
 
-	void utility::Vec2<int> Window::GetSize() noexcept
+	utility::Vec2<int> Window::GetSize(void) const noexcept
 	{
+		glutSetWindow(this->m_hWin);
 		return utility::Vec2<int>
 		{
 			glutGet(GLUT_WINDOW_WIDTH),
@@ -73,5 +88,5 @@ namespace disxx::ui::backend::glut
 
 	bool Window::ShouldClose(void) const noexcept { return false; }
 
-	int Window::Exec(std::function<void(event::Queue &)> f) const noexcept { f(this->m_Events); }
+	int Window::Exec(std::function<int(event::Queue &)> func) noexcept { return func(this->m_Events); }
 } /* disxx::ui::backend::glut */

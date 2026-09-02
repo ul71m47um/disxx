@@ -15,10 +15,10 @@ export namespace disxx::ui
 		float m_ScrollX{}, m_ScrollY{};	
 		float m_MaxScrollX{}, m_MaxScrollY{};
 		float m_VerticalSliderHeight{}, m_HorizontalSliderWidth{};
-		mutable bool m_IsActiveVertical{}, m_IsActiveHorizontal{};
+		mutable bool m_bActiveVertical{}, m_bActiveHorizontal{};
 
 	  private:
-		void _CalcMaxScroll(void) noexcept;
+		void ComputeMaxScroll(void) noexcept;
 
 	  public:
 		explicit SourceEditor(void) noexcept;
@@ -37,8 +37,8 @@ export namespace disxx::ui
 		template <typename ...Args> inline void AddLine(std::format_string<Args...>, Args &&...) noexcept(false);
 		inline void ClearText(void) noexcept;
 
-		virtual void HandleMouse(int, int, int, int) noexcept override;
-		virtual void HandleMotion(int, int) noexcept override;
+		virtual void MouseButtonCallback(backend::event::MouseButton) noexcept override;
+		virtual void MouseMotionCallback(backend::event::MouseMotion) noexcept override;
 		virtual void Render(void) const noexcept override;
 	};
 

@@ -34,9 +34,9 @@ export namespace disxx::ui
 
 		virtual std::unique_ptr<Widget> Clone(void) const noexcept override;
 
+		virtual void MouseButtonCallback(backend::event::MouseButton) noexcept override;
+		virtual void MouseMotionCallback(backend::event::MouseMotion) noexcept override;
 		virtual void Render(void) const noexcept override;
-		virtual void HandleMouse(int, int, int, int) noexcept(false) override;
-		virtual void HandleMotion(int, int) noexcept(false) override;
 	};
 
 	inline void Tab::SetTextArea(SourceEditor &&textArea) noexcept
@@ -55,5 +55,5 @@ export namespace disxx::ui
 	{ return this->m_Text; }
 
 	inline void Tab::SetPassive(void) noexcept
-	{ this->m_IsClicked = false; }
+	{ this->m_bClicked = false; }
 } /* disxx::ui */

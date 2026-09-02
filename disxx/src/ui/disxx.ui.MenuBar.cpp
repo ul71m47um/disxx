@@ -1,6 +1,6 @@
 module disxx.ui.MenuBar;
 
-import disxx.ui.backend.GLUTContext;
+import disxx.ui.backend.glut.Context;
 import disxx.ui.renderable.Rectangle;
 import disxx.ui.utility.Vec;
 
@@ -10,9 +10,9 @@ namespace disxx::ui
 		: Widget
 		{
 			0.f,
-			backend::GLUTContext::GetWindowSize().y * 0.97f,
-			backend::GLUTContext::GetWindowSize().x,
-			backend::GLUTContext::GetWindowSize().y * 0.03f
+			backend::glut::Context::Get()->CurrentWindow()->GetSize().y * 0.97f,
+			static_cast<float>(backend::glut::Context::Get()->CurrentWindow()->GetSize().x),
+			backend::glut::Context::Get()->CurrentWindow()->GetSize().y * 0.03f
 		}
 		, m_Menus{}
 	{}
@@ -52,15 +52,15 @@ namespace disxx::ui
 	std::unique_ptr<Widget> MenuBar::Clone(void) const noexcept
 	{ return std::make_unique<std::decay<decltype(*this)>::type>(*this); }
 
-	void MenuBar::HandleMouse(int button, int state, int x, int y) noexcept
+	void MenuBar::MouseButtonCallback(backend::event::MouseButton event) noexcept
 	{
 		for (auto &menu : this->m_Menus)
-			menu.HandleMouse(button, state, x, y);
+			menu.MouseButtonCallback(event);
 	}
 
 	void MenuBar::Render(void) const noexcept
 	{
-		if (!this->m_Visible) [[unlikely]]
+		if (!this->m_bVisible) [[unlikely]]
 			return;
 
 		for (const auto &menu : this->m_Menus)

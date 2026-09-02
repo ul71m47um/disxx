@@ -1,7 +1,7 @@
 module disxx.ui.Button;
 
-import disxx.ui.backend.GLUTContext;
-import disxx.ui.backend.GLRenderer;
+import disxx.ui.backend.opengl.Renderer;
+import disxx.ui.backend.glut.Context;
 import disxx.ui.renderable.Rectangle;
 import disxx.ui.renderable.Text;
 import disxx.ui.utility.Vec;
@@ -64,7 +64,7 @@ namespace disxx::ui
 
 	void Button::Render(void) const noexcept
 	{
-		if (!this->m_Visible)
+		if (!this->m_bVisible)
 			return;
 
 		// Add a frame
@@ -101,24 +101,29 @@ namespace disxx::ui
 		s_pRenderer->Render();
 	}
 
-	void Button::HandleMouse(int button, int state, int x, int y) noexcept
+	void Button::MouseButtonCallback(backend::event::MouseButton event) noexcept
 	{
+		const auto [x, y]{event.GetPosition()};
 		if (!(x >= this->m_Position.x && x <= this->m_Position.x + this->m_Size.x && y >= this->m_Position.y && y <= this->m_Position.y + this->m_Size.y))
 			return;
 
-		if (button == 0 && state == 0)
-			this->m_IsClicked = true;
+		if (const auto button{event.GetButton()}, state{event.GetState()}; button == 0 && state == 0)
+			this->m_bClicked = true;
 		else if (button == 0 && state == 1)
-			this->m_IsClicked = false;
+			this->m_bClicked = false;
 
-		if (this->m_IsClicked && this->m_Trigger == Trigger::BTN_CLICKED)
+		if (this->m_bClicked && this->m_Trigger == Trigger::BTN_CLICKED)
 			this->m_Callback(this);
 	}
 
-	void Button::HandleMotion(int x, int y) noexcept
+	void Button::MouseMotionCallback(backend::event::MouseMotion event) noexcept
 	{
-		this->m_IsHovered = (x >= this->m_Position.x && x <= this->m_Position.x + this->m_Size.x && y >= this->m_Position.y && y <= this->m_Position.y + this->m_Size.y);
-		if (this->m_IsHovered && this->m_Trigger == Trigger::BTN_HOVERED)
+		if (event.Passive())
+			return;
+
+		const auto [x, y]{event.GetPosition()};
+		this->m_bHovered = (x >= this->m_Position.x && x <= this->m_Position.x + this->m_Size.x && y >= this->m_Position.y && y <= this->m_Position.y + this->m_Size.y);
+		if (this->m_bHovered && this->m_Trigger == Trigger::BTN_HOVERED)
 			this->m_Callback(this);
 	}
 } /* disxx::ui */

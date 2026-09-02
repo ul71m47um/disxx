@@ -1,132 +1,38 @@
-module;
-
-#define TRANSLATE(y) \
-	const auto [_, height]{backend::GLUTContext::GetWindowSize()}; \
-	y = height - y
-
 module disxx.ui.MainWindow;
 
 namespace disxx::ui
 {
-	decltype(MainWindow::s_pContext) MainWindow::s_pContext
-	{
-		new
-		#if defined(BACKEND_CTX_GLUT)
-			backend::GLUTContext{}
-		#else
-		#	error "Context required"
-		#endif
-	};
-
 	MainWindow::MainWindow(void) noexcept
 		: m_Widgets{}
 		, m_InitialSize{}
 		, m_Size{}
-		, m_hWin{0}
+		, m_pWin{nullptr}
 	{
-		this->m_hWin = s_pContext->CreateWindow(utility::Vec2<int>{this->m_Size}, "");
-		s_pContext->SwitchWindow(this->m_hWin);
-		
-		s_pContext->SetDisplayCallback
-		(
-			[this] -> void
-			{ this->DisplayCallback(); }
-		);
-		s_pContext->SetReshapeCallback
-		(
-			[this](int width, int height) -> void
-			{ this->ReshapeCallback(width, height); }
-		);
-		s_pContext->SetKeyboardCallback
-		(
-			[this](unsigned char key, int x, int y) -> void
-			{ this->KeyboardCallback(key, x, y); }
-		);
-		s_pContext->SetMouseButtonCallback
-		(
-			[this](int button, int state, int x, int y) -> void
-			{ this->MouseButtonCallback(button, state, x, y); }
-		);
-		s_pContext->SetMouseMotionCallback
-		(
-			[this](int x, int y) -> void
-			{ this->MouseMotionCallback(x, y); }
-		);
+		this->m_pWin = backend::glut::Context::Get()->CreateWindow(utility::Vec2<int>{this->m_Size}, "");
+		backend::glut::Context::Get()->MakeCurrent(this->m_pWin);
 	}
 
 	MainWindow::MainWindow(utility::Vec2<int> size, std::string_view title) noexcept
 		: m_Widgets{}
 		, m_InitialSize{utility::Vec2<int>{size}}
 		, m_Size{size}
-		, m_hWin{0}
+		, m_pWin{nullptr}
 	{
-		this->m_hWin = s_pContext->CreateWindow(utility::Vec2<int>{this->m_Size}, title);
-		s_pContext->SwitchWindow(this->m_hWin);
-
-		s_pContext->SetDisplayCallback
-		(
-			[this] -> void
-			{ this->DisplayCallback(); }
-		);
-		s_pContext->SetReshapeCallback
-		(
-			[this](int width, int height) -> void
-			{ this->ReshapeCallback(width, height); }
-		);
-		s_pContext->SetKeyboardCallback
-		(
-			[this](unsigned char key, int x, int y) -> void
-			{ this->KeyboardCallback(key, x, y); }
-		);
-		s_pContext->SetMouseButtonCallback
-		(
-			[this](int button, int state, int x, int y) -> void
-			{ this->MouseButtonCallback(button, state, x, y); }
-		);
-		s_pContext->SetMouseMotionCallback
-		(
-			[this](int x, int y) -> void
-			{ this->MouseMotionCallback(x, y); }
-		);
+		this->m_pWin = backend::glut::Context::Get()->CreateWindow(utility::Vec2<int>{this->m_Size}, title);
+		backend::glut::Context::Get()->MakeCurrent(this->m_pWin);
 	}
 
 	MainWindow::MainWindow(const MainWindow &other) noexcept
 		: m_Widgets{}
 		, m_InitialSize{utility::Vec2<int>{other.m_InitialSize}}
 		, m_Size{other.m_Size}
-		, m_hWin{0}
+		, m_pWin{nullptr}
 	{
 		for (const auto &pWidget : other.m_Widgets)
 			this->m_Widgets.emplace_back(pWidget->Clone());
 
-		this->m_hWin = s_pContext->CreateWindow(utility::Vec2<int>{this->m_Size}, "Copy");
-		s_pContext->SwitchWindow(this->m_hWin);
-	
-		s_pContext->SetDisplayCallback
-		(
-			[this] -> void
-			{ this->DisplayCallback(); }
-		);
-		s_pContext->SetReshapeCallback
-		(
-			[this](int width, int height) -> void
-			{ this->ReshapeCallback(width, height); }
-		);
-		s_pContext->SetKeyboardCallback
-		(
-			[this](unsigned char key, int x, int y) -> void
-			{ this->KeyboardCallback(key, x, y); }
-		);
-		s_pContext->SetMouseButtonCallback
-		(
-			[this](int button, int state, int x, int y) -> void
-			{ this->MouseButtonCallback(button, state, x, y); }
-		);
-		s_pContext->SetMouseMotionCallback
-		(
-			[this](int x, int y) -> void
-			{ this->MouseMotionCallback(x, y); }
-		);
+		this->m_pWin = backend::glut::Context::Get()->CreateWindow(utility::Vec2<int>{this->m_Size}, "Copy");
+		backend::glut::Context::Get()->MakeCurrent(this->m_pWin);
 	}
 
 	MainWindow &MainWindow::operator=(const MainWindow &other) noexcept
@@ -146,149 +52,21 @@ namespace disxx::ui
 		: m_Widgets{std::move(other.m_Widgets)}
 		, m_InitialSize{std::move(utility::Vec2<int>{other.m_InitialSize})}
 		, m_Size{std::move(other.m_Size)}
-		, m_hWin{std::exchange(other.m_hWin, {})}
-	{
-		s_pContext->SwitchWindow(this->m_hWin);
-
-		s_pContext->SetDisplayCallback
-		(
-			[this] -> void
-			{ this->DisplayCallback(); }
-		);
-		s_pContext->SetReshapeCallback
-		(
-			[this](int width, int height) -> void
-			{ this->ReshapeCallback(width, height); }
-		);
-		s_pContext->SetKeyboardCallback
-		(
-			[this](unsigned char key, int x, int y) -> void
-			{ this->KeyboardCallback(key, x, y); }
-		);
-		s_pContext->SetMouseButtonCallback
-		(
-			[this](int button, int state, int x, int y) -> void
-			{ this->MouseButtonCallback(button, state, x, y); }
-		);
-		s_pContext->SetMouseMotionCallback
-		(
-			[this](int x, int y) -> void
-			{ this->MouseMotionCallback(x, y); }
-		);
-	}
+		, m_pWin{std::move(other.m_pWin)}
+	{ backend::glut::Context::Get()->MakeCurrent(this->m_pWin); }
 
 	MainWindow &MainWindow::operator=(MainWindow &&other) noexcept
 	{
-		this->m_Widgets = std::move(other.m_Widgets);
-		this->m_InitialSize = std::move(other.m_InitialSize);
-		this->m_Size = std::move(other.m_Size);
-		this->m_hWin = std::exchange(other.m_hWin, {});
-
-		s_pContext->SwitchWindow(this->m_hWin);
-
-		s_pContext->SetDisplayCallback
-		(
-			[this] -> void
-			{ this->DisplayCallback(); }
-		);
-		s_pContext->SetReshapeCallback
-		(
-			[this](int width, int height) -> void
-			{ this->ReshapeCallback(width, height); }
-		);
-		s_pContext->SetKeyboardCallback
-		(
-			[this](unsigned char key, int x, int y) -> void
-			{ this->KeyboardCallback(key, x, y); }
-		);
-		s_pContext->SetMouseButtonCallback
-		(
-			[this](int button, int state, int x, int y) -> void
-			{ this->MouseButtonCallback(button, state, x, y); }
-		);
-		s_pContext->SetMouseMotionCallback
-		(
-			[this](int x, int y) -> void
-			{ this->MouseMotionCallback(x, y); }
-		);
-
-		return *this;
-	}
-
-	MainWindow::~MainWindow(void) noexcept
-	{ s_pContext->DestroyWindow(this->m_hWin); }
-
-	void MainWindow::DisplayCallback(void) const noexcept
-	{
-		s_pContext->SwitchWindow(this->m_hWin);
-
-		for (const auto &pWidget : this->m_Widgets)
-			if (pWidget->GetVisible())
-				pWidget->Render();
-		s_pContext->SwapBuffers();
-		Widget::ClearBuffer();
-	}
-
-	void MainWindow::ReshapeCallback(int width, int height) noexcept(false)
-	{
-		s_pContext->SwitchWindow(this->m_hWin);
-
-		auto sX{static_cast<float>(this->m_Size.x) / static_cast<float>(this->m_InitialSize.x)};
-		auto sY{static_cast<float>(this->m_Size.y) / static_cast<float>(this->m_InitialSize.y)};
-		
-		this->m_Size = utility::Vec2<int>{width, height};
-
-		for (const auto &pWidget : this->m_Widgets)
+		if (this != &other) [[likely]]
 		{
-			const auto [x, y]{pWidget->GetPosition()};
-			const auto [w, h]{pWidget->GetSize()};
-
-			pWidget->Replace(utility::Vec2<float>{x * sX, y * sY});
-			pWidget->Resize(utility::Vec2<float>{w * sX, h * sY});
+			this->m_Widgets = std::move(other.m_Widgets);
+			this->m_InitialSize = std::move(other.m_InitialSize);
+			this->m_Size = std::move(other.m_Size);
+			this->m_pWin = std::move(other.m_pWin);
 		}
 
-		s_pContext->Redisplay();
-	}
+		backend::glut::Context::Get()->MakeCurrent(this->m_pWin);
 
-	void MainWindow::KeyboardCallback(unsigned char key, int x, int y) noexcept(false)
-	{
-		s_pContext->SwitchWindow(this->m_hWin);
-
-		#ifdef BACKEND_CTX_GLUT
-			TRANSLATE(y);
-		#endif
-
-		for (const auto i : std::views::iota(0ul, this->m_Widgets.size()))
-			if (auto &pWidget{this->m_Widgets.at(i)}; pWidget->GetVisible())
-				pWidget->HandleKeyboard(key, x, y);
-		s_pContext->Redisplay();
-	}
-
-	void MainWindow::MouseButtonCallback(int button, int state, int x, int y) noexcept(false)
-	{
-		s_pContext->SwitchWindow(this->m_hWin);
-
-		#ifdef BACKEND_CTX_GLUT
-			TRANSLATE(y);
-		#endif
-
-		for (const auto i : std::views::iota(0ul, this->m_Widgets.size()))
-			if (auto &pWidget{this->m_Widgets.at(i)}; pWidget->GetVisible())
-				pWidget->HandleMouse(button, state, x, y);
-		s_pContext->Redisplay();
-	}
-
-	void MainWindow::MouseMotionCallback(int x, int y) noexcept(false)
-	{
-		s_pContext->SwitchWindow(this->m_hWin);
-
-		#ifdef BACKEND_CTX_GLUT
-			TRANSLATE(y);
-		#endif
-
-		for (const auto i : std::views::iota(0ul, this->m_Widgets.size()))
-			if (auto &pWidget{this->m_Widgets.at(i)}; pWidget->GetVisible())
-				pWidget->HandleMotion(x, y);
-		s_pContext->Redisplay();
+		return *this;
 	}
 } /* disxx::ui */

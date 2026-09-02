@@ -4,7 +4,7 @@ import disxx.ui.utility.Vec;
 
 namespace disxx::ui::backend::event
 {
-	MouseMotion::MouseMotion(utility::Vec<int> position, bool bPassive) noexcept
+	MouseMotion::MouseMotion(utility::Vec2<float> position, bool bPassive) noexcept
 		: m_Position{position}
 		, m_bPassive{bPassive}
 	{}

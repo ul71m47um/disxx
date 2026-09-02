@@ -1,13 +1,15 @@
 module disxx.ui.SourceEditor;
 
-import disxx.ui.backend.GLUTContext;
-import disxx.ui.backend.GLRenderer;
+import disxx.ui.backend.opengl.Renderer;
+import disxx.ui.backend.glut.Context;
 import disxx.ui.renderable.Rectangle;
 import disxx.ui.renderable.Text;
 import disxx.ui.utility.Vec;
 
 namespace
 {
+	// I confused these values... And I'm too lazy
+	// to fix them
 	constexpr auto CHAR_WIDTH = 15ul;
 	constexpr auto CHAR_HEIGHT = 9ul;
 
@@ -30,11 +32,11 @@ namespace disxx::ui
 		, m_MaxScrollY{0.f}
 		, m_VerticalSliderHeight{0.f}
 		, m_HorizontalSliderWidth{0.f}
-		, m_IsActiveVertical{false}
-		, m_IsActiveHorizontal{false}
+		, m_bActiveVertical{false}
+		, m_bActiveHorizontal{false}
 	{
 		this->m_Lines.emplace_back("");
-		this->_CalcMaxScroll();
+		this->ComputeMaxScroll();
 	}
 
 	SourceEditor::SourceEditor(float x, float y, float width, float height) noexcept
@@ -48,11 +50,11 @@ namespace disxx::ui
         , m_MaxScrollY{0.f}
         , m_VerticalSliderHeight{0.f}
         , m_HorizontalSliderWidth{0.f}
-		, m_IsActiveVertical{false}
-		, m_IsActiveHorizontal{false}
+		, m_bActiveVertical{false}
+		, m_bActiveHorizontal{false}
 	{
 		this->m_Lines.emplace_back("");
-		this->_CalcMaxScroll();
+		this->ComputeMaxScroll();
 	}
 
 	SourceEditor::SourceEditor(const SourceEditor &other) noexcept
@@ -66,8 +68,8 @@ namespace disxx::ui
         , m_MaxScrollY{other.m_MaxScrollY}
         , m_VerticalSliderHeight{other.m_VerticalSliderHeight}
         , m_HorizontalSliderWidth{other.m_HorizontalSliderWidth}
-		, m_IsActiveVertical{other.m_IsActiveVertical}
-		, m_IsActiveHorizontal{other.m_IsActiveHorizontal}
+		, m_bActiveVertical{other.m_bActiveVertical}
+		, m_bActiveHorizontal{other.m_bActiveHorizontal}
 	{}
 
 	SourceEditor &SourceEditor::operator=(const SourceEditor &other) noexcept
@@ -84,14 +86,14 @@ namespace disxx::ui
 			this->m_MaxScrollY = other.m_MaxScrollY;	
 			this->m_VerticalSliderHeight = other.m_VerticalSliderHeight;
 			this->m_HorizontalSliderWidth = other.m_HorizontalSliderWidth;
-			this->m_IsActiveVertical = other.m_IsActiveVertical;
-			this->m_IsActiveHorizontal = other.m_IsActiveHorizontal;
+			this->m_bActiveVertical = other.m_bActiveVertical;
+			this->m_bActiveHorizontal = other.m_bActiveHorizontal;
 		}
 
 		return *this;
 	}
 
-	void SourceEditor::_CalcMaxScroll(void) noexcept
+	void SourceEditor::ComputeMaxScroll(void) noexcept
 	{
 		this->m_MaxScrollY = std::max(0.f, static_cast<float>(this->m_Lines.size() * CHAR_WIDTH - (this->m_Size.y - CORNER_HEIGHT * 2.f) + 5.f));
 		this->m_ScrollY = std::max(0.f, std::min(this->m_ScrollY, this->m_MaxScrollY));
@@ -115,38 +117,39 @@ namespace disxx::ui
 	void SourceEditor::Resize(utility::Vec2<float> size) noexcept
 	{
 		Widget::Resize(utility::Vec2<float>{size});
-		this->_CalcMaxScroll();
+		this->ComputeMaxScroll();
 	}
 
-	void SourceEditor::HandleMouse(int button, int state, int x, int y) noexcept
+	void SourceEditor::MouseButtonCallback(backend::event::MouseButton event) noexcept
 	{
+		const auto [x, y]{event.GetPosition()};
 		if (!(x >= this->m_Position.x && x <= this->m_Position.x + this->m_Size.x && y >= this->m_Position.y && y <= this->m_Position.y + this->m_Size.y))
 			return;
 
 		// Mouse clicked	
-		if (button == 0 && state == 0)
+		if (const auto button{event.GetButton()}, state{event.GetState()}; button == 0 && state == 0)
 		{
 			// The verticall scrollbar has been dragged
 			const auto localX{static_cast<float>(x) - this->m_Position.x}, localY{static_cast<float>(y) - this->m_Position.y};
 			if (localX >= this->m_Size.x - CORNER_WIDTH && localX < this->m_Size.x && localY > CORNER_HEIGHT && localY < this->m_Size.y)
 			{
-				this->m_IsActiveVertical = true;
+				this->m_bActiveVertical = true;
 				this->m_LastMouseY = y;
 			}
 			// The horizontal scrollbar has been dragged
 			else if (localX >= 0 && localX < this->m_Size.x - CORNER_WIDTH && localY >= 0)
 			{
-				this->m_IsActiveHorizontal = true;
+				this->m_bActiveHorizontal = true;
 				this->m_LastMouseX = x;
 			}
 		}
 		// Mouse released
 		else if (button == 0 && state == 1)
 		{
-			this->m_IsActiveVertical = false;
-			this->m_IsActiveHorizontal = false;
+			this->m_bActiveVertical = false;
+			this->m_bActiveHorizontal = false;
 		}
-		// Mouse wheel
+		// Mouse wheel (doesn't really work)
 		else if (button == 3 || button == 4)
 		{
 			this->m_ScrollY += CHAR_HEIGHT * SKIP_PER_SCROLL * (button == 3 ? 1 : -1);
@@ -154,9 +157,13 @@ namespace disxx::ui
 		}
 	}
 
-	void SourceEditor::HandleMotion(int x, int y) noexcept
+	void SourceEditor::MouseMotionCallback(backend::event::MouseMotion event) noexcept
 	{
-		if (this->m_IsActiveVertical)
+		if (event.Passive())
+			return;
+
+		const auto [x, y]{event.GetPosition()};
+		if (this->m_bActiveVertical)
 		{
 			float delta{y - this->m_LastMouseY};
 			this->m_LastMouseY = y;
@@ -164,7 +171,7 @@ namespace disxx::ui
 			this->m_ScrollY += delta * (this->m_MaxScrollY / (this->m_Size.y - CORNER_HEIGHT * 2.f));
 			this->m_ScrollY = std::max(0.f, std::min(this->m_ScrollY, this->m_MaxScrollY));
 		}
-		else if (this->m_IsActiveHorizontal)
+		else if (this->m_bActiveHorizontal)
 		{
 			float delta{x - this->m_LastMouseX};
             this->m_LastMouseX = x;
@@ -176,7 +183,7 @@ namespace disxx::ui
 	
 	void SourceEditor::Render(void) const noexcept
 	{
-		if (!this->m_Visible)
+		if (!this->m_bVisible)
 			return;
 
 		// Render the text area

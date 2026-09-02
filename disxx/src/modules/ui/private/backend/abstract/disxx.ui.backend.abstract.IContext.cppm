@@ -32,4 +32,7 @@ export namespace disxx::ui::backend::abstract
 		virtual void PollEvents(void) const noexcept = 0;
 		virtual void Redisplay(void) const noexcept = 0;
 	};
+
+	template <Pointer T>
+	IContext<T>::~IContext(void) noexcept {}
 } /* disxx::ui::backend::abstract */

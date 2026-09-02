@@ -21,7 +21,7 @@ export namespace disxx::ui::backend::glut
 
 	  public:
 		explicit Window(void) noexcept = default;
-		explicit Window(Handle &) noexcept;
+		explicit Window(const Handle &) noexcept;
 
 		Window(const Window &) noexcept = default;
 		Window &operator=(const Window &) noexcept = default;

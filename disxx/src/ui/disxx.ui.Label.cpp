@@ -48,7 +48,7 @@ namespace disxx::ui
 
 	void Label::Render(void) const noexcept
 	{
-		if (!this->m_Visible)
+		if (!this->m_bVisible)
 			return;
 
 		// Render the text

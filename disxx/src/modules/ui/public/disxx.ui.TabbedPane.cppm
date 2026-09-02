@@ -35,8 +35,8 @@ export namespace disxx::ui
 		virtual std::unique_ptr<Widget> Clone(void) const noexcept override;
 
 		virtual void Render(void) const noexcept override;
-		virtual void HandleMouse(int, int, int, int) noexcept(false) override;
-		virtual void HandleMotion(int, int) noexcept(false) override;
+		virtual void MouseButtonCallback(backend::event::MouseButton) noexcept override;
+		virtual void MouseMotionCallback(backend::event::MouseMotion) noexcept override;
 	};
 
 	inline void TabbedPane::Push(Tab &&tab) noexcept
@@ -83,7 +83,7 @@ export namespace disxx::ui
 	inline std::optional<std::reference_wrapper<const Tab>> TabbedPane::GetActiveTab(void) const noexcept
 	{
 		for (const auto &tab : this->m_Tabs)
-			if (tab.GetClicked())
+			if (tab.Clicked())
 				return std::cref(tab);
 		return std::nullopt;
 	}

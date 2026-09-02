@@ -55,7 +55,7 @@ namespace disxx::ui
 
 	void TabbedPane::Render(void) const noexcept
 	{
-		if (!this->m_Visible)
+		if (!this->m_bVisible)
 			return;
 
 		// Add a subframe
@@ -75,13 +75,14 @@ namespace disxx::ui
 		for (const auto &tab : this->m_Tabs)
 		{
 			tab.Render();
-			if (tab.GetClicked())
+			if (tab.Clicked())
 				tab.GetTextArea().Render();
 		}
 	}
 
-	void TabbedPane::HandleMouse(int button, int state, int x, int y) noexcept(false)
+	void TabbedPane::MouseButtonCallback(backend::event::MouseButton event) noexcept
 	{
+		const auto [x, y]{event.GetPosition()};
 		if (!(x >= this->m_Position.x && x <= this->m_Position.x + this->m_Size.x && y >= this->m_Position.y && y <= this->m_Position.y + this->m_Size.y))
 			return;
 
@@ -90,27 +91,27 @@ namespace disxx::ui
 			const auto [tabX, tabY]{tab.GetPosition()};
 			const auto [tabWidth, tabHeight]{tab.GetSize()};
 			const auto cond{x >= tabX && x <= tabX + tabWidth && y >= tabY && y <= tabY + tabHeight};
-			if (button == 0 && state == 0 && cond && tab.GetClicked())
+			if (const auto button{event.GetButton()}, state{event.GetState()}; button == 0 && state == 0 && cond && tab.Clicked())
 				tab.SetPassive();
 			else if (button == 0 && state == 0 && cond)
 			{
 				for (auto &other : this->m_Tabs)
 					other.SetPassive();
-				tab.HandleMouse(button, state, x, y);
+				tab.MouseButtonCallback(event);
 				this->m_Callback(tab);
 			}
-			else if (cond || tab.GetClicked())
+			else if (cond || tab.Clicked())
 			{
-				tab.HandleMouse(button, state, x, y);
+				tab.MouseButtonCallback(event);
 				this->m_Callback(tab);
 			}
 		}
 	}
 
-	void TabbedPane::HandleMotion(int x, int y) noexcept(false)
+	void TabbedPane::MouseMotionCallback(backend::event::MouseMotion event) noexcept
 	{
 		for (auto &tab : this->m_Tabs)
-			if (tab.GetClicked())
-				tab.GetTextArea().HandleMotion(x, y);
+			if (tab.Clicked())
+				tab.GetTextArea().MouseMotionCallback(event);
 	}
 } /* disxx::ui */

@@ -1,6 +1,6 @@
 module disxx.ui.MenuEntry;
 
-import disxx.ui.backend.GLUTContext;
+import disxx.ui.backend.glut.Context;
 import disxx.ui.renderable.Rectangle;
 import disxx.ui.renderable.Text;
 
@@ -54,24 +54,21 @@ namespace disxx::ui
 	std::unique_ptr<Widget> MenuEntry::Clone(void) const noexcept
 	{ return std::make_unique<std::decay<decltype(*this)>::type>(*this); }
 
-	void MenuEntry::HandleMouse(int button, int state, int x, int y) noexcept
+	void MenuEntry::MouseButtonCallback(backend::event::MouseButton event) noexcept
 	{
-		//#ifdef BACKEND_CTX_GLUT
-		//	y = backend::GLUTContext::GetWindowSize().y - y;
-		//#endif
-
+		const auto [x, y]{event.GetPosition()};
 		if (!(x >= this->m_Position.x && x <= this->m_Position.x + this->m_Size.x && y >= this->m_Position.y && y <= this->m_Position.y + this->m_Size.y))
 			return;
 
-		if (button == 0 && state == 0)
-			this->m_IsClicked = true;
+		if (const auto button{event.GetButton()}, state{event.GetState()}; button == 0 && state == 0)
+			this->m_bClicked = true;
 		else if (button == 0 && state == 1)
-			this->m_IsClicked = false;
+			this->m_bClicked = false;
 	}
 
 	void MenuEntry::Render(void) const noexcept
 	{
-		if (!this->m_Visible)
+		if (!this->m_bVisible)
 			return;
 
 		// Add a button

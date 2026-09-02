@@ -40,7 +40,7 @@ namespace disxx::ui
 
 	void Frame::Render(void) const noexcept
 	{
-		if (!this->m_Visible)
+		if (!this->m_bVisible)
 			return;
 
 		// Add a subframe

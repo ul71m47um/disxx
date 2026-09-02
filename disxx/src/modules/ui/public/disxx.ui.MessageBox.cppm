@@ -21,12 +21,6 @@ export namespace disxx::ui
 		MessageBox(MessageBox &&) noexcept;
 		MessageBox &operator=(MessageBox &&) noexcept;
 
-		inline int Exec(void) const noexcept;
+		int Exec(void) const noexcept;
 	};
-
-	inline int MessageBox::Exec(void) const noexcept
-	{
-		this->m_Win.Exec();
-		return 0;
-	}
 } /* disxx::ui */

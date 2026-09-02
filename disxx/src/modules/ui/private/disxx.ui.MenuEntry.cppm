@@ -29,10 +29,10 @@ export namespace disxx::ui
 
 		virtual std::unique_ptr<Widget> Clone(void) const noexcept override;
 
+		virtual void MouseButtonCallback(backend::event::MouseButton) noexcept override;
 		virtual void Render(void) const noexcept override;
-		virtual void HandleMouse(int, int, int, int) noexcept override;
 	
-		inline void operator()(void) const noexcept(false);
+		inline void operator()(void) const noexcept;
 	};
 
 	inline void MenuEntry::SetText(std::string_view str) noexcept
@@ -44,6 +44,6 @@ export namespace disxx::ui
 	inline std::string_view MenuEntry::GetText(void) const noexcept
 	{ return this->m_Text; }
 
-	inline void MenuEntry::operator()(void) const noexcept(false)
+	inline void MenuEntry::operator()(void) const noexcept
 	{ this->m_Callback(); }
 } /* disxx::ui */

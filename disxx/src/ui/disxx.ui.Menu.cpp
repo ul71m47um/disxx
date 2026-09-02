@@ -1,7 +1,7 @@
 module disxx.ui.Menu;
 
-import disxx.ui.backend.GLUTContext;
-import disxx.ui.backend.GLRenderer;
+import disxx.ui.backend.opengl.Renderer;
+import disxx.ui.backend.glut.Context;
 import disxx.ui.renderable.Rectangle;
 import disxx.ui.renderable.Text;
 
@@ -75,14 +75,15 @@ namespace disxx::ui
 	std::unique_ptr<Widget> Menu::Clone(void) const noexcept
 	{ return std::make_unique<std::decay<decltype(*this)>::type>(*this); }
 
-	void Menu::HandleMouse(int button, int state, int x, int y) noexcept
+	void Menu::MouseButtonCallback(backend::event::MouseButton event) noexcept
 	{
-		if (this->m_IsClicked)
+		const auto [x, y]{event.GetPosition()};
+		if (this->m_bClicked)
 		{
 			for (auto &entry : this->m_Entries)
 			{
-				entry.HandleMouse(button, state, x, y);
-				if (entry.GetClicked())
+				entry.MouseButtonCallback(event);
+				if (entry.Clicked())
 				{
 					entry();
 					return;
@@ -92,19 +93,19 @@ namespace disxx::ui
 		else if (!(x >= this->m_Position.x && x <= this->m_Position.x + this->m_Size.x && y >= this->m_Position.y && y <= this->m_Position.y + this->m_Size.y))
 			return;
 
-		if (!this->m_IsClicked && button == 0 && state == 0)
-			this->m_IsClicked = true;
-		else if (this->m_IsClicked && button == 0 && state == 0)
-			this->m_IsClicked = false;
+		if (const auto button{event.GetButton()}, state{event.GetState()}; !this->m_bClicked && button == 0 && state == 0)
+			this->m_bClicked = true;
+		else if (this->m_bClicked && button == 0 && state == 0)
+			this->m_bClicked = false;
 	}
 
 	void Menu::Render(void) const noexcept
 	{
-		if (!this->m_Visible)
+		if (!this->m_bVisible)
 			return;
 
 		// Add a frame
-		if (this->m_IsClicked && !this->m_Entries.empty())
+		if (this->m_bClicked && !this->m_Entries.empty())
 		{
 			const auto [x, y]{this->m_Entries.rbegin()->GetPosition()};
 			const auto [width, height]{this->m_Entries.begin()->GetSize()};
@@ -119,7 +120,7 @@ namespace disxx::ui
 		renderable::Rectangle btn{};
 		btn.Replace(utility::Vec2<float>{this->m_Position});
 		btn.Resize(utility::Vec2<float>{this->m_Size});
-		if (this->m_IsClicked && this->m_pColor[0] <= 0.9f && this->m_pColor[1] <= 0.9f && this->m_pColor[2] <= 0.9f)
+		if (this->m_bClicked && this->m_pColor[0] <= 0.9f && this->m_pColor[1] <= 0.9f && this->m_pColor[2] <= 0.9f)
 			btn.SetColor(utility::Vec3<float>{this->m_pColor[0] + 0.1f, this->m_pColor[1] + 0.1f, this->m_pColor[2] + 0.1f});
 		else
 			btn.SetColor(utility::Vec3<float>{this->m_pColor[0], this->m_pColor[1], this->m_pColor[2]});
@@ -143,7 +144,7 @@ namespace disxx::ui
         }
 
 		// Render all the entries
-		if (this->m_IsClicked)
+		if (this->m_bClicked)
 			for (const auto &entry : this->m_Entries)
 				entry.Render();
 		s_pRenderer->Render();

@@ -21,82 +21,102 @@ import std;
 
 namespace disxx::ui::backend::glut
 {
-	disxx::utility::pointer::NonNull<Manager> Manager::s_pInstance{new Manger{}};
+	disxx::utility::pointer::NonNull<Manager> Manager::s_pInstance{new Manager{}};
 
 	void Manager::MouseButtonCallback(int button, int state, int x, int y) const noexcept
 	{
+		y = glutGet(GLUT_WINDOW_HEIGHT) - y;
+
 		const auto hWin{glutGetWindow()};
 		if (!this->m_Windows.contains(hWin)) [[unlikely]]
 			return;
 
-		event::MouseButton event{utility::Vec2<float>{x, y}, button, state};
-		this
-			->m_Windows
-			.at(hWin)
-			.m_Events
-			.push(event);
+		event::MouseButton event
+		{
+			utility::Vec2<float>
+			{
+				static_cast<float>(x),
+				static_cast<float>(y)
+			},
+			button,
+			state
+		};
+		dynamic_cast<Window &>(*this->m_Windows.at(hWin)).m_Events.Push(event);
 	}
 
-	void MousePassiveMotionCallback(int x, int y) const noexcept
+	void Manager::MousePassiveMotionCallback(int x, int y) const noexcept
 	{
+		y = glutGet(GLUT_WINDOW_HEIGHT) - y;
+
 		const auto hWin{glutGetWindow()};
 		if (!this->m_Windows.contains(hWin)) [[unlikely]]
 			return;
 	
-		event::MouseMotion event{utility::Vec2<float>{x, y}, true};
-		this
-			->m_Windows
-			.at(hWin)
-			.m_Events
-			.push(event);
+		event::MouseMotion event
+		{
+			utility::Vec2<float>
+			{
+				static_cast<float>(x),
+				static_cast<float>(y)
+			},
+			true
+		};
+		dynamic_cast<Window &>(*this->m_Windows.at(hWin)).m_Events.Push(event);
 	}
 
-	void MouseMotionCallback(int x, int y) const noexcept
+	void Manager::MouseMotionCallback(int x, int y) const noexcept
 	{
+		y = glutGet(GLUT_WINDOW_HEIGHT) - y;
+
 		const auto hWin{glutGetWindow()};
 		if (!this->m_Windows.contains(hWin)) [[unlikely]]
 			return;
 	
-		event::MouseMotion event{utility::Vec2<float>{x, y}, false};
-		this
-			->m_Windows
-			.at(hWin)
-			.m_Events
-			.push(event);
+		event::MouseMotion event
+		{
+			utility::Vec2<float>
+			{
+				static_cast<float>(x),
+				static_cast<float>(y)
+			},
+			true
+		};
+		dynamic_cast<Window &>(*this->m_Windows.at(hWin)).m_Events.Push(event);
 	}
 
-	void KeyboardCallback(unsigned char key, int, int) const noexcept
+	void Manager::KeyboardCallback(unsigned char key, int, int) const noexcept
 	{
 		const auto hWin{glutGetWindow()};
 		if (!this->m_Windows.contains(hWin)) [[unlikely]]
 			return;
 
 		event::Keyboard event{key};
-		this
-			->m_Windows
-			.at(hWin)
-			.m_Events
-			.push(event);
+		dynamic_cast<Window &>(*this->m_Windows.at(hWin)).m_Events.Push(event);
 	}
 
-	void ReshapeCallback(int x, int y) const noexcept
+	void Manager::ReshapeCallback(int x, int y) const noexcept
 	{
+		y = glutGet(GLUT_WINDOW_HEIGHT) - y;
+
 		const auto hWin{glutGetWindow()};
 		if (!this->m_Windows.contains(hWin)) [[unlikely]]
 			return;
 	
-		event::Reshape event{utility::Vec2<float>{x, y}};
-		this
-			->m_Windows
-			.at(hWin)
-			.m_Events
-			.push(event);
+		event::Reshape event
+		{
+			utility::Vec2<float>
+			{
+				static_cast<float>(x),
+				static_cast<float>(y)
+			}
+		};
+		dynamic_cast<Window &>(*this->m_Windows.at(hWin)).m_Events.Push(event);
 	}
 	
-	std::shared_ptr<abstract::Window> Manager::CreateWindow(void) noexcept
+	std::shared_ptr<abstract::Window<int>> Manager::CreateWindow(void) noexcept
 	{
 		const auto hWin{glutCreateWindow("")};
-		const auto ptr{std::make_shared<glut::Window>(hWin)};
+		const auto ptr{std::make_shared<Window>(hWin)};
 		this->m_Windows[hWin] = ptr;
 
 		return ptr;
@@ -118,7 +138,7 @@ namespace disxx::ui::backend::glut
 		glutSetWindow(ptr->GetHandle());
 	}
 
-	virtual std::shared_ptr<abstract::Window<int>> GetWindow(void) const noexcept { return this->m_Windows.at(glutGetWindow()); }
+	std::shared_ptr<abstract::Window<int>> Manager::GetWindow(void) const noexcept { return this->m_Windows.at(glutGetWindow()); }
 
 	void Manager::SetCallbacks(void) const noexcept
 	{
@@ -128,7 +148,7 @@ namespace disxx::ui::backend::glut
 		(
 			+[](int button, int state, int x, int y) -> void
 			{
-				s_pInstace->MouseButtonCallback
+				s_pInstance->MouseButtonCallback
 				(
 					button,
 					state,
@@ -155,7 +175,7 @@ namespace disxx::ui::backend::glut
 		glutReshapeFunc
 		(
 			+[](int width, int height) -> void
-			{ s_pInstace->ReshapeCallback(width, height); }
+			{ s_pInstance->ReshapeCallback(width, height); }
 		);
 	}
 } /* disxx::ui::backend::glut */

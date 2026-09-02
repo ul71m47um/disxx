@@ -13,14 +13,14 @@ export namespace disxx::ui::backend::abstract
 	  public:
 		using Handle = T;
 
-	  private:
+	  protected:
 		event::Queue m_Events{};
 		Handle m_hWin{};
 	
 	  public:
 		explicit Window(void) noexcept
 			requires std::is_default_constructible<Handle>::value = default;
-		explicit Window(Handle &) noexcept
+		explicit Window(const Handle &) noexcept
 			requires std::is_copy_constructible<Handle>::value;
 	
 		Window(const Window &) noexcept(std::is_nothrow_copy_constructible<Handle>::value)
@@ -36,8 +36,9 @@ export namespace disxx::ui::backend::abstract
 		virtual ~Window(void) noexcept = 0;
 		virtual void Destroy(void) noexcept = 0;
 
-		inline Handle &GetHandle(void) const noexcept;
-	
+		inline const Handle &GetHandle(void) const noexcept;
+		inline Handle &GetHandle(void) noexcept;
+
 		virtual void Iconify(void) noexcept = 0;
 	
 		virtual void Show(void) noexcept = 0;
@@ -57,5 +58,17 @@ export namespace disxx::ui::backend::abstract
 	};
 
 	template <typename T>
-	inline Window<T>::Handle &Window<T>::GetHandle(void) const noexcept { return this->m_hWin; }
+	Window<T>::Window(const Handle &handle) noexcept
+		requires std::is_copy_constructible<Window<T>::Handle>::value
+		: m_Events{}
+		, m_hWin{handle}
+	{}
+
+	template <typename T>
+	Window<T>::~Window(void) noexcept {}
+
+	template <typename T>
+	inline const Window<T>::Handle &Window<T>::GetHandle(void) const noexcept { return this->m_hWin; }
+	template <typename T>
+	inline Window<T>::Handle &Window<T>::GetHandle(void) noexcept { return this->m_hWin; }
 } /* disxx::ui::backend::abstract */

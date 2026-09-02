@@ -25,8 +25,8 @@ export namespace disxx::ui
 
 		virtual std::unique_ptr<Widget> Clone(void) const noexcept override;
 
-		virtual void HandleKeyboard(unsigned char, int, int) override;
-		virtual void HandleMouse(int, int, int, int) override;
+		virtual void MouseButtonCallback(backend::event::MouseButton) noexcept override;
+		virtual void KeyboardCallback(backend::event::Keyboard) noexcept override;
 		virtual void Render(void) const noexcept override;
 	};
 

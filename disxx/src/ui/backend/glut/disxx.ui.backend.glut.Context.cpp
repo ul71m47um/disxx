@@ -20,13 +20,15 @@ namespace disxx::ui::backend::glut
 
 	Context::WindowPointer Context::CreateWindow(utility::Vec2<int> size, std::string_view title) const noexcept
 	{
-		const auto ptr{Manager::Init()->CreateWindow()};
+		const auto ptr{Manager::Get()->CreateWindow()};
 		ptr->SetTitle(title.data());
-		ptr->Resize(size);
+		ptr->SetSize(size);
 
-		return dynamic_cast<Window &>(*ptr);
+		return std::make_shared<Window>(dynamic_cast<Window &>(*ptr));
 	}
-	Context::WindowPointer Context::CurrentWindow(void) const noexcept { Manager::Get()->GetWindow(); }
+	Context::WindowPointer Context::CurrentWindow(void) const noexcept
+	{ return std::make_shared<Window>(dynamic_cast<Window &>(*Manager::Get()->GetWindow())); }
+
 	void Context::MakeCurrent(Context::WindowPointer ptr) const noexcept { Manager::Get()->SetWindow(ptr); }
 	
 	void Context::SwapBuffers(void) const noexcept { glutSwapBuffers(); }

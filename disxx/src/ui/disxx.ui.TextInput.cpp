@@ -1,7 +1,7 @@
 module disxx.ui.TextInput;
 
-import disxx.ui.backend.GLUTContext;
-import disxx.ui.backend.GLRenderer;
+import disxx.ui.backend.opengl.Renderer;
+import disxx.ui.backend.glut.Context;
 import disxx.ui.renderable.Rectangle;
 import disxx.ui.renderable.Text;
 import disxx.ui.utility.Vec;
@@ -41,9 +41,9 @@ namespace disxx::ui
 	std::unique_ptr<Widget> TextInput::Clone(void) const noexcept
 	{ return std::make_unique<std::decay<decltype(*this)>::type>(*this); }
 
-	void TextInput::HandleKeyboard(unsigned char key, [[maybe_unused]] int x, [[maybe_unused]] int y)
+	void TextInput::KeyboardCallback(backend::event::Keyboard event) noexcept
 	{
-		if (this->m_IsClicked)
+		if (const auto key{event.GetKey()}; this->m_bClicked)
 		{
 			if (key == 0x7F && !this->m_Text.empty())
 				this->m_Text.pop_back();
@@ -54,16 +54,17 @@ namespace disxx::ui
 		}
 	}
 
-	void TextInput::HandleMouse(int button, int state, int x, int y)
+	void TextInput::MouseButtonCallback(backend::event::MouseButton event) noexcept
 	{
-		if (button == 0 && state == 0)
+		const auto [x, y]{event.GetPosition()};
+		if (event.GetButton() == 0 && event.GetState() == 0)
 			if (x >= this->m_Position.x && x <= this->m_Position.x + this->m_Size.x && y >= this->m_Position.y && y <= this->m_Position.y + this->m_Size.y)
-				this->m_IsClicked = true;
+				this->m_bClicked = true;
 	}
 
 	void TextInput::Render(void) const noexcept
 	{
-		if (!this->m_Visible)
+		if (!this->m_bVisible)
 			return;
 
 		renderable::Rectangle subframe{};

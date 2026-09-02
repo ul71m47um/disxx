@@ -25,7 +25,7 @@ import std;
 
 namespace disxx::ui::backend::opengl
 {
-	GLRenderer::GLRenderer(void) noexcept
+	Renderer::Renderer(void) noexcept
 		: m_Buffer{}
 		, m_Vao{}
 		, m_Vbo{}
@@ -63,7 +63,7 @@ namespace disxx::ui::backend::opengl
 		glUseProgram(this->m_Program);
 	}
 
-	GLRenderer::~GLRenderer(void) noexcept
+	Renderer::~Renderer(void) noexcept
 	{
 		glDeleteVertexArrays(1, &this->m_Vao);
 		glDeleteBuffers(1, &this->m_Vbo);
@@ -72,25 +72,25 @@ namespace disxx::ui::backend::opengl
 		glDeleteProgram(this->m_Program);
 	}
 
-	void GLRenderer::Push(std::unique_ptr<renderable::Renderable> &&ptr) noexcept
+	void Renderer::Push(std::unique_ptr<renderable::Renderable> &&ptr) noexcept
 	{
 		if (this->m_Buffer.size() < 1024 * 1024) [[likely]]
 			this->m_Buffer.emplace_back(std::forward<std::unique_ptr<renderable::Renderable> &&>(ptr));
 	}
 
-	void GLRenderer::Pop(void) noexcept
+	void Renderer::Pop(void) noexcept
 	{
 		if (this->m_Buffer.size() > 0) [[likely]]
 			this->m_Buffer.pop_back();
 	}
 
-	void GLRenderer::ClearBuffer(void) noexcept
+	void Renderer::ClearBuffer(void) noexcept
 	{
 		if (this->m_Buffer.size() > 0) [[likely]]
 			this->m_Buffer.clear();
 	}
 
-	void GLRenderer::Render(void) noexcept
+	void Renderer::Render(void) noexcept
 	{
 		glClearColor(0.2f, 0.2f, 0.2f, 1.f);
 		glClear(GL_COLOR_BUFFER_BIT);

@@ -18,9 +18,9 @@ export namespace disxx::ui::backend::event
 		MouseMotion &operator=(const MouseMotion &) noexcept = default;
 
 		inline utility::Vec2<float> GetPosition(void) const noexcept;
-		inline bool GetPassive(void) const noexcept;
+		inline bool Passive(void) const noexcept;
 	};
 
 	inline utility::Vec2<float> MouseMotion::GetPosition(void) const noexcept { return this->m_Position; }
-	inline bool MouseMotion::GetPassive(void) const noexcept { return this->m_bPassive; }
+	inline bool MouseMotion::Passive(void) const noexcept { return this->m_bPassive; }
 } /* disxx::ui::backend::event */
