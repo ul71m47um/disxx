@@ -40,6 +40,8 @@ export namespace disxx::ui::backend::glut
 		virtual void SetTitle(std::string_view) noexcept override;
 		virtual void SetSize(utility::Vec2<int>) noexcept override;
 
+		virtual void Redisplay(void) const noexcept override;
+
 		virtual utility::Vec2<int> GetSize(void) const noexcept override;
 
 		virtual bool ShouldClose(void) const noexcept override;

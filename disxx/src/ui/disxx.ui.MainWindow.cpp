@@ -94,7 +94,7 @@ namespace disxx::ui
 								for (const auto i : std::views::iota(0ul, this->m_Widgets.size()))
 									if (auto &pWidget{this->m_Widgets.at(i)}; pWidget->Visible())
 										pWidget->MouseButtonCallback(event);
-								pCtx->Redisplay();
+								this->m_pWin->Redisplay();
 							},
 							[this, &pCtx](backend::event::MouseMotion event) mutable -> void
 							{
@@ -103,16 +103,16 @@ namespace disxx::ui
 								for (const auto i : std::views::iota(0ul, this->m_Widgets.size()))
 									if (auto &pWidget{this->m_Widgets.at(i)}; pWidget->Visible())
 										pWidget->MouseMotionCallback(event);
-								pCtx->Redisplay();
+								this->m_pWin->Redisplay();
 							},
-							[this, &pCtx](backend::event::Keyboard event) mutable -> void 
+							[this, &pCtx](backend::event::Keyboard event) mutable -> void
 							{
 								pCtx->MakeCurrent(this->m_pWin);
 
 								for (const auto i : std::views::iota(0ul, this->m_Widgets.size()))
 									if (auto &pWidget{this->m_Widgets.at(i)}; pWidget->Visible())
 										pWidget->KeyboardCallback(event);
-								pCtx->Redisplay();
+								this->m_pWin->Redisplay();
 							},
 							[this, &pCtx](backend::event::Reshape event) mutable -> void
 							{
@@ -136,8 +136,7 @@ namespace disxx::ui
 									pWidget->Replace(utility::Vec2<float>{x * sX, y * sY});
 									pWidget->Resize(utility::Vec2<float>{w * sX, h * sY});
 								}
-
-								pCtx->Redisplay();
+								this->m_pWin->Redisplay();
 							}
 						}
 					);

@@ -49,7 +49,7 @@ export class __attribute__((visibility("hidden"))) [[nodiscard]] Application
 	
 	~Application(void) noexcept = default;
 
-	int Exec(void) noexcept;
+	inline int Exec(void) const noexcept;
 };
 
 inline Application *Application::Init(int &argc, char **&argv) noexcept
@@ -105,3 +105,5 @@ inline Application *Application::Init(int &argc, char **&argv) noexcept
 
 	return s_pInstance;
 }
+
+inline int Application::Exec(void) const noexcept { return this->m_Window.Exec(); }

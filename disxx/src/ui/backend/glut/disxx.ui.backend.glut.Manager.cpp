@@ -110,6 +110,15 @@ namespace disxx::ui::backend::glut
 		};
 		std::dynamic_pointer_cast<Window>(this->m_Windows.at(hWin))->m_Events.Push(event);
 	}
+
+	void Manager::WindowCloseCallback(void) const noexcept
+	{
+		const auto hWin{glutGetWindow()};
+		if (!this->m_Windows.contains(hWin)) [[unlikely]]
+			return;
+	
+		std::dynamic_pointer_cast<Window>(this->m_Windows.at(hWin))->m_bShouldClose = true;
+	}
 	
 	std::shared_ptr<abstract::Window<int>> Manager::CreateWindow(void) noexcept
 	{

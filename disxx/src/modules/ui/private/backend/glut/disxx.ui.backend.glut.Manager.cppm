@@ -26,6 +26,7 @@ export namespace disxx::ui::backend::glut
 		void MouseMotionCallback(int, int) const noexcept;
 		void KeyboardCallback(unsigned char, int, int) const noexcept;
 		void ReshapeCallback(int, int) const noexcept;
+		void WindowCloseCallback(void) const noexcept;
 
 	  public:
 		static inline disxx::utility::pointer::NonNull<Manager> &Get(void) noexcept;

@@ -91,6 +91,12 @@ namespace disxx::ui::backend::glut
 		glutReshapeWindow(width, height);
 	}
 
+	void Window::Redisplay(void) const noexcept
+	{
+		glutSetWindow(this->m_hWin);
+		glutPostRedisplay();
+	}
+
 	utility::Vec2<int> Window::GetSize(void) const noexcept
 	{
 		glutSetWindow(this->m_hWin);
@@ -101,7 +107,7 @@ namespace disxx::ui::backend::glut
 		};
 	}
 
-	bool Window::ShouldClose(void) const noexcept { return false; }
+	bool Window::ShouldClose(void) const noexcept { return this->m_bShouldClose; }
 
 	int Window::Exec(std::function<int(event::Queue &)> func) noexcept { return func(this->m_Events); }
 } /* disxx::ui::backend::glut */

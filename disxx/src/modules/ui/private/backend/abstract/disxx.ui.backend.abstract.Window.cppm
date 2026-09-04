@@ -16,6 +16,7 @@ export namespace disxx::ui::backend::abstract
 	  protected:
 		event::Queue m_Events{};
 		Handle m_hWin{};
+		bool m_bShouldClose{};
 	
 	  public:
 		explicit Window(void) noexcept
@@ -49,6 +50,8 @@ export namespace disxx::ui::backend::abstract
 	
 		virtual void SetTitle(std::string_view) noexcept = 0;
 		virtual void SetSize(utility::Vec2<int>) noexcept = 0;
+
+		virtual void Redisplay(void) const noexcept = 0;
 	
 		virtual utility::Vec2<int> GetSize(void) const noexcept = 0;
 	
@@ -62,6 +65,7 @@ export namespace disxx::ui::backend::abstract
 		requires std::is_copy_constructible<Window<T>::Handle>::value
 		: m_Events{}
 		, m_hWin{handle}
+		, m_bShouldClose{false}
 	{}
 
 	template <typename T>

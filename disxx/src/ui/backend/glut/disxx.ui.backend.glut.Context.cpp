@@ -26,6 +26,7 @@ namespace disxx::ui::backend::glut
 
 		return std::dynamic_pointer_cast<Window>(std::move(ptr));
 	}
+
 	Context::WindowPointer Context::CurrentWindow(void) const noexcept
 	{
 		auto ptr{Manager::Get()->GetWindow()};
@@ -39,5 +40,4 @@ namespace disxx::ui::backend::glut
 	
 	void Context::SwapBuffers(void) const noexcept { glutSwapBuffers(); }
 	void Context::PollEvents(void) const noexcept { glutCheckLoop(); }
-	void Context::Redisplay(void) const noexcept { glutPostRedisplay(); }
 } /* disxx::ui::backend::glut */

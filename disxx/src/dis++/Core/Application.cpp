@@ -845,5 +845,3 @@ void Application::Setup(std::filesystem::path path) noexcept
 
 	s_pInstance->m_Window.AddWidget(std::make_unique<disxx::ui::MenuBar>(menuBar));
 }
-
-int Application::Exec(void) noexcept { return this->m_Window.Exec(); }

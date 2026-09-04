@@ -14,6 +14,7 @@ module;
 
 module disxx.ui.backend.opengl.Renderer;
 
+import disxx.ui.backend.glut.Context;
 import disxx.ui.renderable.Rectangle;
 import disxx.ui.renderable.Triangle;
 import disxx.ui.renderable.Shape;
@@ -96,9 +97,10 @@ namespace disxx::ui::backend::opengl
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		// Get actual window size and set up a projection
-		GLfloat projection[] = {
-			2.f / glutGet(GLUT_WINDOW_WIDTH), 0.f, 0.f, 0.f,
-			0.f, 2.f / glutGet(GLUT_WINDOW_HEIGHT), 0.f, 0.f,
+		GLfloat projection[]
+		{
+			2.f / glut::Context::Get()->CurrentWindow()->GetSize().x, 0.f, 0.f, 0.f,
+			0.f, 2.f / glut::Context::Get()->CurrentWindow()->GetSize().y, 0.f, 0.f,
 			0.f, 0.f, -1.f, 0.f,
 			-1.f, -1.f, 0.f, 1.f
 		};

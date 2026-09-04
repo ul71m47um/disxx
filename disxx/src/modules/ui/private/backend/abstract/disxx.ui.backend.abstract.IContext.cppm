@@ -30,7 +30,6 @@ export namespace disxx::ui::backend::abstract
 
 		virtual void SwapBuffers(void) const noexcept = 0;
 		virtual void PollEvents(void) const noexcept = 0;
-		virtual void Redisplay(void) const noexcept = 0;
 	};
 
 	template <Pointer T>

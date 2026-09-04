@@ -49,7 +49,6 @@ export namespace disxx::ui::backend::glut
 
 		virtual void SwapBuffers(void) const noexcept override;
 		virtual void PollEvents(void) const noexcept override;
-		virtual void Redisplay(void) const noexcept override;
 	};
 
 	template <typename ...Args> void Context::Init(Args &&...args) noexcept
