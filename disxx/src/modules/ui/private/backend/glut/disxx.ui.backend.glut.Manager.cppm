@@ -9,7 +9,7 @@ export import std;
 
 export namespace disxx::ui::backend::glut
 {
-	class __attribute__((visibility("hidden"))) [[nodiscard]] Manager final : public abstract::IManager<std::shared_ptr<abstract::Window<int>>>
+	class __attribute__((visibility("default"))) [[nodiscard]] Manager final : public abstract::IManager<std::shared_ptr<abstract::Window<int>>>
 	{
 	  private:
 		static disxx::utility::pointer::NonNull<Manager> s_pInstance;

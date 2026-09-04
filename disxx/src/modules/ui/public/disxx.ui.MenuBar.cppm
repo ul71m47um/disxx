@@ -33,7 +33,14 @@ export namespace disxx::ui
 	inline void MenuBar::Add(Menu &&menu) noexcept
 	{
 		const auto [width, height]{backend::glut::Context::Get()->CurrentWindow()->GetSize()};
-		menu.Resize(utility::Vec2<float>{width * 0.05f, height * 0.03f});
+		menu.Resize
+		(
+			utility::Vec2<float>
+			{
+				static_cast<float>(width) * 0.05f,
+				static_cast<float>(height) * 0.03f
+			}
+		);
 		auto offset{0.f};
 		for (const auto &other : this->m_Menus)
 			offset += other.GetSize().x;

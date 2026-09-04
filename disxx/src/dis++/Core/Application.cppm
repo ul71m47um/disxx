@@ -3,11 +3,12 @@ export module Application;
 import disxx.utility.error.NullPointerError;
 
 import disxx.ui.MainWindow;
+import disxx.ui.SourceEditor;
+import disxx.ui.TabbedPane;
 import disxx.ui.Widget;
 
 import ScriptWindow;
 import ScriptEngine;
-import FileInput;
 import DisLog;
 
 export import std;
@@ -19,9 +20,12 @@ export class __attribute__((visibility("hidden"))) [[nodiscard]] Application
 	
   private:
 	disxx::ui::MainWindow m_Window{};
+	disxx::ui::SourceEditor *m_pLabels;
+	disxx::ui::TabbedPane *m_pTabs;
+	std::vector<disxx::ui::Widget *> m_ModalWidgets{};
 	std::vector<ScriptWindow> m_ScriptWindows{};
 	DisLog m_Logger{};
-	FileInput m_pInput{};
+	bool m_bActiveModal{};
 
   private:
 	static void Init(void) noexcept;
@@ -32,8 +36,12 @@ export class __attribute__((visibility("hidden"))) [[nodiscard]] Application
 	Application(const Application &) noexcept = delete;
 	Application &operator=(const Application &) noexcept = delete;
 
+	void MainMenu(void) noexcept;
+	void Setup(std::filesystem::path) noexcept;
 	void LoadLabels(const std::filesystem::path &) noexcept;
 	void Disassemble(const std::filesystem::path &) noexcept;
+	void RequestFile(std::string_view, std::string_view, std::function<void(std::filesystem::path)>) noexcept;
+	void ClearModal(void) noexcept;
 
   public:
 	// THIS FUNCTION CALLS ONCE!
@@ -41,7 +49,7 @@ export class __attribute__((visibility("hidden"))) [[nodiscard]] Application
 	
 	~Application(void) noexcept = default;
 
-	int Exec(void) const noexcept;
+	int Exec(void) noexcept;
 };
 
 inline Application *Application::Init(int &argc, char **&argv) noexcept

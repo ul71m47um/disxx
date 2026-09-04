@@ -1,21 +1,5 @@
 module;
 
-#define SUPPRESS_LAST_WIDGETS(widgets, n) \
-	if (widgets.size() >= n) [[likely]] \
-		for (const auto it{widgets.rbegin()}; const auto i : std::views::iota(0, n)) \
-			(*(it + i))->SetVisible(false)
-
-#define CLEAR(widgets) \
-	const auto _ \
-	{ \
-		std::erase_if \
-		( \
-			widgets, \
-			[](const auto &pWidget) -> bool \
-			{ return !pWidget->GetVisible(); } \
-		) \
-	}
-
 #define MKHEX(x) (std::format("{:#x}", (x)))
 
 module Application;
@@ -29,7 +13,7 @@ import disxx.loader.macho.Loader;
 import disxx.disasm.Disassembler;
 import disxx.disasm.Printer;
 
-import disxx.ui.backend.GLUTContext;
+import disxx.ui.backend.glut.Context;
 import disxx.ui.SourceEditor;
 import disxx.ui.MessageBox;
 import disxx.ui.TabbedPane;
@@ -42,7 +26,6 @@ import disxx.ui.Label;
 import disxx.ui.Frame;
 
 import ScriptWindow;
-import FileInput;
 import DisLog;
 
 import std;
@@ -63,15 +46,132 @@ namespace
 Application *Application::s_pInstance{nullptr};
 
 Application::Application(void) noexcept
-	: m_Window{disxx::ui::utility::Vec2<int>{800, 600}, "dis++ v0.3.0"}
+	: m_Window{disxx::ui::utility::Vec2<int>{400, 300}, "dis++ - Main menu"}
+	, m_pLabels{nullptr}
+	, m_pTabs{nullptr}
+	, m_ModalWidgets{}
 	, m_ScriptWindows{}
 	, m_Logger{}
-	, m_pInput{}
-{ this->m_pInput.SetCallback([] -> void { Application::Init(); }); }
+	, m_bActiveModal{false}
+{
+	this->m_pTabs = nullptr;
+	this->m_pLabels = nullptr;
+	this->m_Window.SetVisible(true);
+
+	{
+		disxx::ui::Button open{5.f, 250.f, 75.f, 25.f};
+		open.SetColor(0.3f, 0.3f, 0.3f);
+		open.SetText("Open");
+		open.SetCallback
+		(
+			disxx::ui::Button::Trigger::BTN_CLICKED,
+			[this](const disxx::ui::Widget *const) -> void
+			{
+				disxx::ui::Frame frame{0.f, 0.f, 400.f, 300.f};
+				frame.SetColor(0.2f, 0.2f, 0.2f);
+				this->m_Window.AddWidget(std::make_unique<disxx::ui::Frame>(frame));
+
+				disxx::ui::Label upper
+				{
+					200.f,
+					250.f,
+					0.f,
+					0.f
+				};
+				upper.SetColor(1.f, 1.f, 1.f);
+				upper.SetText("Select an executable to disassemble");
+				this->m_Window.AddWidget(std::make_unique<disxx::ui::Label>(upper));
+				
+				disxx::ui::Label label
+				{
+					75.f,
+					195.f,
+					0.f,
+					0.f
+				};
+				label.SetColor(0.3f, 0.3f, 0.3f);
+				label.SetText("Executable:");
+				this->m_Window.AddWidget(std::make_unique<disxx::ui::Label>(label));
+
+				disxx::ui::TextInput input
+				{
+					400 / 3.f,
+					175.f,
+					250.f,
+					40.f
+				};
+				input.SetColor(0.3f, 0.3f, 0.3f);
+				this->m_Window.AddWidget(std::make_unique<disxx::ui::TextInput>(input));
+
+				auto &ref
+				{
+					dynamic_cast<disxx::ui::TextInput &>
+					(
+						**this
+							->m_Window
+							.GetWidgets()
+							.rbegin()
+					)
+				};
+	
+				disxx::ui::Button ok{150.f, 100.f, 100.f, 40.f};
+				ok.SetColor(0.3f, 0.3f, 0.3f);
+				ok.SetText("OK");
+				ok.SetCallback
+				(
+					disxx::ui::Button::Trigger::BTN_CLICKED,
+					[this, &ref](const disxx::ui::Widget *const) mutable -> void
+					{
+						if (std::error_code errc{}; std::filesystem::exists(ref.GetText(), errc)) [[likely]]
+							this->Setup(ref.GetText());
+						else
+						{
+							ref.SetText(std::string{});
+							//disxx::ui::MessageBox box{"Unable to open the file"};
+							//box.Exec();
+						}
+					}
+				);
+				this->m_Window.AddWidget(std::make_unique<disxx::ui::Button>(ok));
+			}
+		);
+		this->m_Window.AddWidget(std::make_unique<disxx::ui::Button>(open));
+	}
+
+	{
+		disxx::ui::Label text{240.f, 260.f, 0.f, 0.f};
+		text.SetColor(1.f, 1.f, 1.f);
+		text.SetText("Select an executable to disassemble");
+		this->m_Window.AddWidget(std::make_unique<disxx::ui::Label>(text));
+	}
+
+	{
+		disxx::ui::Button pass{5.f, 210.f, 75.f, 25.f};
+		pass.SetColor(0.3f, 0.3f, 0.3f);
+		pass.SetText("Pass");
+		pass.SetCallback
+		(
+			disxx::ui::Button::Trigger::BTN_CLICKED,
+			[this](const disxx::ui::Widget *const) -> void
+			{ this->Setup(std::filesystem::path{}); }
+		);
+		this->m_Window.AddWidget(std::make_unique<disxx::ui::Button>(pass));
+	}
+
+	{
+		disxx::ui::Label text{225.f, 215.f, 0.f, 0.f};
+		text.SetColor(1.f, 1.f, 1.f);
+		text.SetText("Continue without opening a file");
+		this->m_Window.AddWidget(std::make_unique<disxx::ui::Label>(text));
+	}
+}
 
 void Application::LoadLabels(const std::filesystem::path &path) noexcept
 {
-	auto &labels{dynamic_cast<disxx::ui::SourceEditor &>(*s_pInstance->m_Window.GetWidgets().at(1))};
+	if (!this->m_pLabels) [[unlikely]]
+		return;
+
+	auto &labels{*this->m_pLabels};
 	labels.ClearText();
 
 	disxx::loader::macho::Loader ldr{};
@@ -349,23 +449,143 @@ void Application::Disassemble(const std::filesystem::path &path) noexcept
 	tab.SetColor(0.2f, 0.2f, 0.2f);
 	tab.SetText(path.string());
 	tab.SetTextArea(std::move(editor));
-
-	dynamic_cast<disxx::ui::TabbedPane &>
-	(
-		**s_pInstance
-			->m_Window
-			.GetWidgets()
-			.begin()
-	).Push(std::move(tab));
+	if (this->m_pTabs) [[likely]]
+		this->m_pTabs->Push(std::move(tab));
 }
 
-void Application::Init(void) noexcept
+void Application::RequestFile(std::string_view headline, std::string_view request, std::function<void(std::filesystem::path)> callback) noexcept
 {
-	// Suppress the previous window
-    std::filesystem::path path{s_pInstance->m_pInput.GetPath()};
-	s_pInstance->m_pInput.Suppress();
+	if (this->m_bActiveModal) [[unlikely]]
+		return;
 
-	s_pInstance->m_Window.SetVisible(true);
+	const auto [width, height]{this->m_Window.GetSize()};
+
+	disxx::ui::Frame frame
+	{
+		static_cast<float>(width) / 4.f,
+		static_cast<float>(height) / 4.f,
+		static_cast<float>(width) / 2.f,
+		static_cast<float>(height) / 2.f
+	};
+	frame.SetColor(0.2f, 0.2f, 0.2f);
+	this->m_Window.AddWidget(std::make_unique<disxx::ui::Frame>(frame));
+	this->m_ModalWidgets.emplace_back(this->m_Window.GetWidgets().rbegin()->get());
+
+	disxx::ui::Label upper
+	{
+		static_cast<float>(width) / 2.f,
+		static_cast<float>(height) / 2.f + 100.f,
+		0.f,
+		0.f
+	};
+	upper.SetColor(1.f, 1.f, 1.f);
+	upper.SetText(headline);
+	this->m_Window.AddWidget(std::make_unique<disxx::ui::Frame>(frame));
+	this->m_ModalWidgets.emplace_back(this->m_Window.GetWidgets().rbegin()->get());
+	
+	disxx::ui::Label label
+	{
+		static_cast<float>(width) / 4.f + 70.f,
+		static_cast<float>(height) / 2.f + 45.f,
+		0.f,
+		0.f
+	};
+	label.SetColor(0.3f, 0.3f, 0.3f);
+	label.SetText(request);
+	this->m_Window.AddWidget(std::make_unique<disxx::ui::Frame>(frame));
+	this->m_ModalWidgets.emplace_back(this->m_Window.GetWidgets().rbegin()->get());
+	s_pInstance->m_Window.AddWidget(std::make_unique<disxx::ui::Label>(label));
+
+	disxx::ui::Button ok
+	{
+		static_cast<float>(width) / 2.f + static_cast<float>(width) / 5.f - 100.f,
+		static_cast<float>(height) / 2.f - static_cast<float>(height) / 5.f,
+		100.f,
+		40.f
+	};
+	ok.SetColor(0.3f, 0.3f, 0.3f);
+	ok.SetText("OK");
+	ok.SetCallback
+	(
+		disxx::ui::Button::Trigger::BTN_CLICKED,
+		[this, &callback](const disxx::ui::Widget *const) -> void
+		{
+			const auto path
+			{
+				dynamic_cast<disxx::ui::TextInput &>
+				(
+					**this
+						->m_Window
+						.GetWidgets()
+						.rbegin()
+				).GetText()
+			};
+
+			this->ClearModal();
+
+			callback(path);
+		}
+	);
+	this->m_Window.AddWidget(std::make_unique<disxx::ui::Frame>(frame));
+	this->m_ModalWidgets.emplace_back(this->m_Window.GetWidgets().rbegin()->get());
+
+	disxx::ui::Button cancel
+	{
+		static_cast<float>(width) / 2 - static_cast<float>(width) / 5.f,
+		static_cast<float>(height) / 2 - static_cast<float>(height) / 5.f,
+		100.f,
+		40.f
+	};
+	cancel.SetColor(0.3f, 0.3f, 0.3f);
+	cancel.SetText("Cancel");
+	cancel.SetCallback
+	(
+		disxx::ui::Button::Trigger::BTN_CLICKED,
+		[this](const disxx::ui::Widget *const) -> void
+		{ this->ClearModal(); }
+	);
+	this->m_Window.AddWidget(std::make_unique<disxx::ui::Frame>(frame));
+	this->m_ModalWidgets.emplace_back(this->m_Window.GetWidgets().rbegin()->get());
+
+	disxx::ui::TextInput input
+	{
+		static_cast<float>(width) / 3.f + 50.f,
+		static_cast<float>(height) / 2.f + 25.f,
+		250.f,
+		40.f
+	};
+	input.SetColor(0.3f, 0.3f, 0.3f);
+	this->m_Window.AddWidget(std::make_unique<disxx::ui::Frame>(frame));
+	this->m_ModalWidgets.emplace_back(this->m_Window.GetWidgets().rbegin()->get());
+
+	this->m_bActiveModal = true;
+}
+
+void Application::ClearModal(void) noexcept
+{
+	for (const auto &pWidget : this->m_ModalWidgets)
+		pWidget->SetVisible(false);
+
+	const auto _
+	{
+		std::erase_if
+		(
+			this->m_Window.GetWidgets(),
+			[](const auto &pWidget) -> bool
+			{ return !pWidget->Visible(); }
+		)
+	};
+
+	this->m_ModalWidgets.clear();
+	this->m_bActiveModal = false;
+}
+
+void Application::Setup(std::filesystem::path path) noexcept
+{
+	this->m_Window.GetWidgets().clear();
+	this->m_Window.SetSize(disxx::ui::utility::Vec2<int>{800, 600});
+	this->m_Window.SetTitle("dis++ v0.4.0-beta");
+	this->m_Window.SetVisible(true);
 	const auto [width, height]{s_pInstance->m_Window.GetSize()};
 	
 	{
@@ -379,7 +599,7 @@ void Application::Init(void) noexcept
 		pane.SetColor(0.2f, 0.2f, 0.2f);
 		pane.SetTabClickCallback
 		(
-			[](disxx::ui::Tab &tab) -> void
+			[this](disxx::ui::Tab &tab) -> void
 			{
 				// Get a file path
 				const auto currentPath
@@ -392,11 +612,11 @@ void Application::Init(void) noexcept
 					)
 				};
 
-				s_pInstance->LoadLabels(currentPath);
+				this->LoadLabels(currentPath);
 			}
 		);
 
-		s_pInstance->m_Window.AddWidget(std::make_unique<disxx::ui::TabbedPane>(pane));
+		this->m_Window.AddWidget(std::make_unique<disxx::ui::TabbedPane>(pane));
 	}
 
 	{
@@ -409,11 +629,12 @@ void Application::Init(void) noexcept
 		};
 		labels.SetColor(0.2f, 0.2f, 0.2f);
 		
-		s_pInstance->m_Window.AddWidget(std::make_unique<disxx::ui::SourceEditor>(labels));
+		this->m_Window.AddWidget(std::make_unique<disxx::ui::SourceEditor>(labels));
+		this->m_pLabels = dynamic_cast<disxx::ui::SourceEditor *>(this->m_Window.GetWidgets().rbegin()->get());
 	}
 
 	if (!path.empty())
-		s_pInstance->Disassemble(path);
+		this->Disassemble(path);
 
 	disxx::ui::MenuBar menuBar{};
 	
@@ -425,123 +646,24 @@ void Application::Init(void) noexcept
 		disxx::ui::MenuEntry open
 		{
 			"Open...",
-			[] -> void
+			[this] -> void
 			{
-				CLEAR(s_pInstance->m_Window.GetWidgets());
-	
-				// Do nothing if the entry has been activated
-				static bool openActive{false};
-				if (openActive) [[unlikely]]
-					return;
-
-				#ifdef BACKEND_CTX_GLUT
-					const auto [w, h]{disxx::ui::backend::GLUTContext::GetWindowSize()};
-				#endif
-
-				disxx::ui::Frame frame
-				{
-					w / 4,
-					h / 4,
-					w / 2,
-					h / 2
-				};
-				frame.SetColor(0.2f, 0.2f, 0.2f);
-				s_pInstance->m_Window.AddWidget(std::make_unique<disxx::ui::Frame>(frame));
-
-				disxx::ui::Label upper
-				{
-					w / 2.f,
-					h / 2.f + 100.f,
-					0.f,
-					0.f
-				};
-				upper.SetColor(1.f, 1.f, 1.f);
-				upper.SetText("Select an executable to disassemble");
-				s_pInstance->m_Window.AddWidget(std::make_unique<disxx::ui::Label>(upper));
-				
-				disxx::ui::Label label
-				{
-					w / 4.f + 70.f,
-					h / 2.f + 45.f,
-					0.f,
-					0.f
-				};
-				label.SetColor(0.3f, 0.3f, 0.3f);
-				label.SetText("Executable:");
-				s_pInstance->m_Window.AddWidget(std::make_unique<disxx::ui::Label>(label));
-
-				disxx::ui::Button ok
-				{
-					w / 2.f + w / 5.f - 100.f,
-					h / 2.f - h / 5.f,
-					100.f,
-					40.f
-				};
-				ok.SetColor(0.3f, 0.3f, 0.3f);
-				ok.SetText("OK");
-				ok.SetCallback
+				this->RequestFile
 				(
-					disxx::ui::Button::Trigger::BTN_CLICKED,
-					[](const disxx::ui::Widget *const) -> void
+					"Select an executable to disassemble",
+					"Executable:",
+					[this](std::filesystem::path p) -> void
 					{
-						const auto p
-						{
-							dynamic_cast<disxx::ui::TextInput &>
-							(
-								**s_pInstance
-									->m_Window
-									.GetWidgets()
-									.rbegin()
-							).GetText()
-						};
-
 						if (std::error_code errc{}; !std::filesystem::exists(p, errc)) [[unlikely]]
 						{
-							disxx::ui::MessageBox box{"Unable to open the file"};
-							box.Exec();
+							//disxx::ui::MessageBox box{"Unable to open the file"};
+							//box.Exec();
+							return;
 						}
-
-						SUPPRESS_LAST_WIDGETS(s_pInstance->m_Window.GetWidgets(), 6);
-
-						s_pInstance->Disassemble(std::filesystem::path{p});
-					
-						openActive = false;
+	
+						this->Disassemble(p);
 					}
-				);
-				s_pInstance->m_Window.AddWidget(std::make_unique<disxx::ui::Button>(ok));
-
-				disxx::ui::Button cancel
-				{
-					w / 2 - w / 5.f,
-					h / 2 - h / 5.f,
-					100.f,
-					40.f
-				};
-				cancel.SetColor(0.3f, 0.3f, 0.3f);
-				cancel.SetText("Cancel");
-				cancel.SetCallback
-				(
-					disxx::ui::Button::Trigger::BTN_CLICKED,
-					[](const disxx::ui::Widget *const) -> void
-					{
-						SUPPRESS_LAST_WIDGETS(s_pInstance->m_Window.GetWidgets(), 6);
-
-						openActive = false;
-					}
-				);
-				s_pInstance->m_Window.AddWidget(std::make_unique<disxx::ui::Button>(cancel));
-
-				disxx::ui::TextInput input
-				{
-					w / 3.f + 50.f,
-					h / 2.f + 25.f,
-					250.f,
-					40.f
-				};
-				input.SetColor(0.3f, 0.3f, 0.3f);
-				s_pInstance->m_Window.AddWidget(std::make_unique<disxx::ui::TextInput>(input));
-
-				openActive = true;
+				);	
 			}
 		};
 		open.SetColor(0.2f, 0.2f, 0.2f);
@@ -550,21 +672,12 @@ void Application::Init(void) noexcept
 		disxx::ui::MenuEntry close
 		{
 			"Close",
-			[] -> void
+			[this] -> void
 			{
-				auto &pane
-				{
-					dynamic_cast<disxx::ui::TabbedPane &>
-					(
-						**s_pInstance
-							->m_Window
-							.GetWidgets()
-							.begin()
-					)
-				};
+				if (!this->m_pTabs) [[unlikely]]
+					return;
 
-				// Check if there is an active tab
-				const auto currentTab{pane.GetActiveTab()};
+				const auto currentTab{this->m_pTabs->GetActiveTab()};
 				if (!currentTab) [[unlikely]]
 					return;
 
@@ -581,7 +694,7 @@ void Application::Init(void) noexcept
 
 				std::erase_if
 				(
-					pane.GetTabs(),
+					this->m_pTabs->GetTabs(),
 					[currentPath](const auto &tab) -> bool
 					{
 						return std::regex_search
@@ -599,129 +712,27 @@ void Application::Init(void) noexcept
 		disxx::ui::MenuEntry save
 		{
 			"Save source",
-			[] -> void
+			[this, path] -> void
 			{
-				CLEAR(s_pInstance->m_Window.GetWidgets());
-
-				// Do nothing if the entry has been activated
-				static bool saveActive{false};
-				if (saveActive) [[unlikely]]
+				if (!this->m_pTabs) [[unlikely]]
 					return;
 
-				#ifdef BACKEND_CTX_GLUT
-					const auto [w, h]{disxx::ui::backend::GLUTContext::GetWindowSize()};
-				#endif
+				const auto currentTab{this->m_pTabs->GetActiveTab()};
+				if (!currentTab) [[unlikely]]
+					return;
 
-				disxx::ui::Frame frame
-				{
-					w / 4,
-					h / 4,
-					w / 2,
-					h / 2
-				};
-				frame.SetColor(0.2f, 0.2f, 0.2f);
-				s_pInstance->m_Window.AddWidget(std::make_unique<disxx::ui::Frame>(frame));
+				std::fstream file{path, std::fstream::out | std::fstream::binary | std::fstream::trunc};
+                if (!file.is_open()) [[unlikely]]
+                {
+                	disxx::ui::MessageBox box{"Unable to open the file"};
+                    //box.Exec();
+                    return;
+                }
 
-				disxx::ui::Label upper
-				{
-					static_cast<float>(w) / 2.f,
-					static_cast<float>(h) / 2.f + 100.f,
-					0.f,
-					0.f
-				};
-				upper.SetColor(1.f, 1.f, 1.f);
-				upper.SetText("Save source");
-				s_pInstance->m_Window.AddWidget(std::make_unique<disxx::ui::Label>(upper));
-				
-				disxx::ui::Label label
-				{
-					static_cast<float>(w) / 4.f + 70.f,
-					static_cast<float>(h) / 2.f + 45.f,
-					0.f,
-					0.f
-				};
-				label.SetColor(0.3f, 0.3f, 0.3f);
-				label.SetText("Save as:");
-				s_pInstance->m_Window.AddWidget(std::make_unique<disxx::ui::Label>(label));
-
-				disxx::ui::Button ok
-				{
-					static_cast<float>(w) / 2.f + static_cast<float>(w) / 5.f - 100.f,
-					static_cast<float>(h) / 2.f - static_cast<float>(h) / 5.f,
-					100.f,
-					40.f
-				};
-				ok.SetColor(0.3f, 0.3f, 0.3f);
-				ok.SetText("OK");
-				ok.SetCallback
-				(
-					disxx::ui::Button::Trigger::BTN_CLICKED,
-					[](const disxx::ui::Widget *const) -> void
-					{
-						const auto p
-						{
-							dynamic_cast<disxx::ui::TextInput &>
-							(
-								**s_pInstance
-									->m_Window
-									.GetWidgets()
-									.rbegin()
-							).GetText()
-						};
-
-						SUPPRESS_LAST_WIDGETS(s_pInstance->m_Window.GetWidgets(), 5);
-
-						if (const auto tab{dynamic_cast<disxx::ui::TabbedPane &>(**s_pInstance->m_Window.GetWidgets().begin()).GetActiveTab()}) [[likely]]
-						{
-							std::fstream file{std::string{p}, std::fstream::out | std::fstream::binary | std::fstream::trunc};
-							if (const std::error_code errc{}; !file.is_open()) [[unlikely]]
-							{
-								disxx::ui::MessageBox box{"Unable to open the file"};
-							}
-
-							const auto area{tab->get().GetTextArea()};
-							for (const auto &line : area.GetLines())
-								for (const auto &ch : std::regex_replace(line, std::regex{R"(\|)"}, "") + "\n")
-									file.write(&ch, sizeof(char));
-						}
-	
-						saveActive = false;
-					}
-				);
-				s_pInstance->m_Window.AddWidget(std::make_unique<disxx::ui::Button>(ok));
-
-				disxx::ui::Button cancel
-				{
-					static_cast<float>(w) / 2 - static_cast<float>(w) / 5.f,
-					static_cast<float>(h) / 2 - static_cast<float>(h) / 5.f,
-					100.f,
-					40.f
-				};
-				cancel.SetColor(0.3f, 0.3f, 0.3f);
-				cancel.SetText("Cancel");
-				cancel.SetCallback
-				(
-					disxx::ui::Button::Trigger::BTN_CLICKED,
-					[](const disxx::ui::Widget *const) -> void
-					{
-						SUPPRESS_LAST_WIDGETS(s_pInstance->m_Window.GetWidgets(), 6);
-
-						saveActive = false;
-					}
-				);
-				s_pInstance->m_Window.AddWidget(std::make_unique<disxx::ui::Button>(cancel));
-
-				disxx::ui::TextInput input
-				{
-					static_cast<float>(w) / 3.f + 50.f,
-					static_cast<float>(h) / 2.f + 25.f,
-					250.f,
-					40.f
-				};
-				input.SetColor(0.3f, 0.3f, 0.3f);
-				s_pInstance->m_Window.AddWidget(std::make_unique<disxx::ui::TextInput>(input));
-
-				saveActive = true;
+                const auto area{currentTab->get().GetTextArea()};
+                for (const auto &line : area.GetLines())
+                	for (const auto &ch : std::regex_replace(line, std::regex{R"(\|)"}, "") + "\n")
+                    	file.write(&ch, sizeof(char));
 			}
 		};
 		save.SetColor(0.2f, 0.2f, 0.2f);
@@ -730,125 +741,24 @@ void Application::Init(void) noexcept
 		disxx::ui::MenuEntry script
 		{
 			"Script",
-			[] -> void
+			[this] -> void
 			{
-				CLEAR(s_pInstance->m_Window.GetWidgets());
-
-				// Do nothing if the entry has been activated
-				static bool scriptActive{false};
-				if (scriptActive) [[unlikely]]
-					return;
-
-				#ifdef BACKEND_CTX_GLUT
-					const auto [w, h]{disxx::ui::backend::GLUTContext::GetWindowSize()};
-				#endif
-
-				disxx::ui::Frame frame
-				{
-					w / 4,
-					h / 4,
-					w / 2,
-					h / 2
-				};
-				frame.SetColor(0.2f, 0.2f, 0.2f);
-				s_pInstance->m_Window.AddWidget(std::make_unique<disxx::ui::Frame>(frame));
-
-				disxx::ui::Label upper
-				{
-					static_cast<float>(w) / 2.f,
-					static_cast<float>(h) / 2.f + 100.f,
-					0.f,
-					0.f
-				};
-				upper.SetColor(1.f, 1.f, 1.f);
-				upper.SetText("Load script file");
-				s_pInstance->m_Window.AddWidget(std::make_unique<disxx::ui::Label>(upper));
-				
-				disxx::ui::Label label
-				{
-					static_cast<float>(w) / 4.f + 70.f,
-					static_cast<float>(h) / 2.f + 45.f,
-					0.f,
-					0.f
-				};
-				label.SetColor(0.3f, 0.3f, 0.3f);
-				label.SetText("Path:");
-				s_pInstance->m_Window.AddWidget(std::make_unique<disxx::ui::Label>(label));
-
-				disxx::ui::Button ok
-				{
-					static_cast<float>(w) / 2.f + static_cast<float>(w) / 5.f - 100.f,
-					static_cast<float>(h) / 2.f - static_cast<float>(h) / 5.f,
-					100.f,
-					40.f
-				};
-				ok.SetColor(0.3f, 0.3f, 0.3f);
-				ok.SetText("Load");
-				ok.SetCallback
+				this->RequestFile
 				(
-					disxx::ui::Button::Trigger::BTN_CLICKED,
-					[](const disxx::ui::Widget *const) -> void
+					"Load script file",
+					"Path:",
+					[this](std::filesystem::path p) -> void
 					{
-						const auto p
-						{
-							dynamic_cast<disxx::ui::TextInput &>
-							(
-								**s_pInstance
-									->m_Window
-									.GetWidgets()
-									.rbegin()
-							).GetText()
-						};
-
 						if (std::error_code errc{}; !std::filesystem::exists(p, errc)) [[unlikely]]
-						{
-							disxx::ui::MessageBox box{"Unable to open the file"};
-							box.Exec();
-
-							return;
-						}
-
-						SUPPRESS_LAST_WIDGETS(s_pInstance->m_Window.GetWidgets(), 6);
-
-						s_pInstance->m_ScriptWindows.emplace_back(ScriptWindow{p});
-	
-						scriptActive = false;
+                        {
+                            //disxx::ui::MessageBox box{"Unable to open the file"};
+                            //box.Exec();
+                            return;
+                        }
+                           
+						this->m_ScriptWindows.emplace_back(ScriptWindow{p});
 					}
 				);
-				s_pInstance->m_Window.AddWidget(std::make_unique<disxx::ui::Button>(ok));
-
-				disxx::ui::Button cancel
-				{
-					static_cast<float>(w) / 2 - static_cast<float>(w) / 5.f,
-					static_cast<float>(h) / 2 - static_cast<float>(h) / 5.f,
-					100.f,
-					40.f
-				};
-				cancel.SetColor(0.3f, 0.3f, 0.3f);
-				cancel.SetText("Cancel");
-				cancel.SetCallback
-				(
-					disxx::ui::Button::Trigger::BTN_CLICKED,
-					[](const disxx::ui::Widget *const) -> void
-					{
-						SUPPRESS_LAST_WIDGETS(s_pInstance->m_Window.GetWidgets(), 6);
-
-						scriptActive = false;
-					}
-				);
-				s_pInstance->m_Window.AddWidget(std::make_unique<disxx::ui::Button>(cancel));
-
-				disxx::ui::TextInput input
-				{
-					static_cast<float>(w) / 3.f + 50.f,
-					static_cast<float>(h) / 2.f + 25.f,
-					250.f,
-					40.f
-				};
-				input.SetColor(0.3f, 0.3f, 0.3f);
-				s_pInstance->m_Window.AddWidget(std::make_unique<disxx::ui::TextInput>(input));
-
-				scriptActive = true;
 			}
 		};
 		script.SetColor(0.2f, 0.2f, 0.2f);
@@ -873,68 +783,58 @@ void Application::Init(void) noexcept
 		disxx::ui::MenuEntry hex
 		{
 			"Hex",
-			[] -> void
+			[this] -> void
 			{
-				auto &pane
-				{
-					dynamic_cast<disxx::ui::TabbedPane &>
-					(
-						**s_pInstance
-							->m_Window
-							.GetWidgets()
-							.begin()
-					)
-				};
+				if (!this->m_pTabs) [[unlikely]]
+                    return;
 
-				// Check if there is an active tab
-				const auto currentTab{pane.GetActiveTab()};
-				if (!currentTab) [[unlikely]]
-					return;
+                const auto currentTab{this->m_pTabs->GetActiveTab()};
+                if (!currentTab) [[unlikely]]
+                    return;
 
-				// Get a file path
-				const auto currentPath
-				{
-					std::regex_replace
-					(
-						currentTab->get().GetText().data(),
-						std::regex{R"(\s\-\shex)"},
-						""
-					)
-				};
+                const auto currentPath
+                {
+                    std::regex_replace
+                    (
+                        currentTab->get().GetText().data(),
+                        std::regex{R"(\s\-\shex)"},
+                        ""
+                    )
+                };
 
-				// Check if this view already exists
-				for (const auto &tab : pane.GetTabs())
-					if (tab.GetText() == currentPath + " - hex") [[unlikely]]
-						return;
-				
-				disxx::ui::Tab tab{};
-				tab.SetColor(0.2f, 0.2f, 0.2f);
-				std::string fmt{currentPath + " - hex"};
-				tab.SetText(fmt);
+                for (const auto &tab : this->m_pTabs->GetTabs())
+                    if (tab.GetText() == currentPath + " - hex") [[unlikely]]
+                        return;
 
-				std::fstream file{currentPath.c_str(), std::fstream::binary | std::fstream::in};
-				if (const std::error_code errc{}; !file.is_open()) [[unlikely]]
-				{
-					disxx::ui::MessageBox box{"Unable to open the file"};
-					box.Exec();
-				}
+                disxx::ui::Tab tab{};
+                tab.SetColor(0.2f, 0.2f, 0.2f);
+                std::string fmt{currentPath + " - hex"};
+                tab.SetText(fmt);
 
-				disxx::ui::SourceEditor src{};
-				for (unsigned long long int addr{0ull}; !file.eof(); addr += 8ull)
-				{
-					std::string str{};
-					for (auto i{0}; i < 8 && !file.eof(); ++i)
-					{
-						char byte{};
-						file.read(&byte, sizeof(byte));
-						str += std::format("{:#02x} ", byte);
-					}
+                std::fstream file{currentPath, std::fstream::binary | std::fstream::in};
+                if (!file.is_open()) [[unlikely]]
+                {
+                    //disxx::ui::MessageBox box{"Unable to open the file"};
+                    //box.Exec();
+                    return;
+                }
 
-					src.AddLine("{:#016x}: {}", addr, str);
-				}
-				
-				tab.SetTextArea(std::move(src));
-				pane.Push(std::move(tab));
+                disxx::ui::SourceEditor src{};
+                for (unsigned long long int addr{0ull}; !file.eof(); addr += 8ull)
+                {
+                    std::string str{};
+                    for (auto i{0}; i < 8 && !file.eof(); ++i)
+                    {
+                        char byte{};
+                        file.read(&byte, sizeof(byte));
+                        str += std::format("{:#02x} ", byte);
+                    }
+
+                    src.AddLine("{:#016x}: {}", addr, str);
+                }
+
+                tab.SetTextArea(std::move(src));
+                this->m_pTabs->Push(std::move(tab));
 			}
 		};
 		hex.SetColor(0.2f, 0.2f, 0.2f);
@@ -944,12 +844,6 @@ void Application::Init(void) noexcept
 	}
 
 	s_pInstance->m_Window.AddWidget(std::make_unique<disxx::ui::MenuBar>(menuBar));
-
-    s_pInstance->m_Window.Redisplay();
 }
 
-int Application::Exec(void) const noexcept
-{
-	this->m_Window.Exec();
-	return 0;
-}
+int Application::Exec(void) noexcept { return this->m_Window.Exec(); }

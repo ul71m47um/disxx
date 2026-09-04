@@ -69,4 +69,87 @@ namespace disxx::ui
 
 		return *this;
 	}
+
+	int MainWindow::Exec(void) noexcept
+	{
+		const auto &pCtx{backend::glut::Context::Get()};
+		return this->m_pWin->Exec
+		(
+			[this, &pCtx](auto &events) mutable -> int
+			{
+				while (!this->m_pWin->ShouldClose())
+				{
+					pCtx->PollEvents();
+
+					events.Visit
+					(
+						#pragma clang diagnostic push
+						#pragma clang diagnostic ignored "-Wctad-maybe-unsupported"
+						disxx::utility::Overload
+						{
+							[this, &pCtx](backend::event::MouseButton event) mutable -> void
+							{
+								pCtx->MakeCurrent(this->m_pWin);
+
+								for (const auto i : std::views::iota(0ul, this->m_Widgets.size()))
+									if (auto &pWidget{this->m_Widgets.at(i)}; pWidget->Visible())
+										pWidget->MouseButtonCallback(event);
+								pCtx->Redisplay();
+							},
+							[this, &pCtx](backend::event::MouseMotion event) mutable -> void
+							{
+								pCtx->MakeCurrent(this->m_pWin);
+
+								for (const auto i : std::views::iota(0ul, this->m_Widgets.size()))
+									if (auto &pWidget{this->m_Widgets.at(i)}; pWidget->Visible())
+										pWidget->MouseMotionCallback(event);
+								pCtx->Redisplay();
+							},
+							[this, &pCtx](backend::event::Keyboard event) mutable -> void 
+							{
+								pCtx->MakeCurrent(this->m_pWin);
+
+								for (const auto i : std::views::iota(0ul, this->m_Widgets.size()))
+									if (auto &pWidget{this->m_Widgets.at(i)}; pWidget->Visible())
+										pWidget->KeyboardCallback(event);
+								pCtx->Redisplay();
+							},
+							[this, &pCtx](backend::event::Reshape event) mutable -> void
+							{
+								pCtx->MakeCurrent(this->m_pWin);
+
+								auto sX{static_cast<float>(this->m_Size.x) / static_cast<float>(this->m_InitialSize.x)};
+								auto sY{static_cast<float>(this->m_Size.y) / static_cast<float>(this->m_InitialSize.y)};
+	
+								const auto [width, height]{event.GetSize()};
+								this->m_Size = utility::Vec2<int>
+								{
+									static_cast<int>(width),
+									static_cast<int>(height)
+								};
+
+								for (const auto &pWidget : this->m_Widgets)
+								{
+									const auto [x, y]{pWidget->GetPosition()};
+									const auto [w, h]{pWidget->GetSize()};
+
+									pWidget->Replace(utility::Vec2<float>{x * sX, y * sY});
+									pWidget->Resize(utility::Vec2<float>{w * sX, h * sY});
+								}
+
+								pCtx->Redisplay();
+							}
+						}
+					);
+
+					for (const auto &pWidget : this->m_Widgets)
+						pWidget->Render();
+
+					pCtx->SwapBuffers();
+				}
+			
+				return 0;
+			}
+		);
+	}
 } /* disxx::ui */

@@ -41,7 +41,7 @@ namespace disxx::ui::backend::glut
 			button,
 			state
 		};
-		dynamic_cast<Window &>(*this->m_Windows.at(hWin)).m_Events.Push(event);
+		std::dynamic_pointer_cast<Window>(this->m_Windows.at(hWin))->m_Events.Push(event);
 	}
 
 	void Manager::MousePassiveMotionCallback(int x, int y) const noexcept
@@ -61,7 +61,7 @@ namespace disxx::ui::backend::glut
 			},
 			true
 		};
-		dynamic_cast<Window &>(*this->m_Windows.at(hWin)).m_Events.Push(event);
+		std::dynamic_pointer_cast<Window>(this->m_Windows.at(hWin))->m_Events.Push(event);
 	}
 
 	void Manager::MouseMotionCallback(int x, int y) const noexcept
@@ -81,7 +81,7 @@ namespace disxx::ui::backend::glut
 			},
 			true
 		};
-		dynamic_cast<Window &>(*this->m_Windows.at(hWin)).m_Events.Push(event);
+		std::dynamic_pointer_cast<Window>(this->m_Windows.at(hWin))->m_Events.Push(event);
 	}
 
 	void Manager::KeyboardCallback(unsigned char key, int, int) const noexcept
@@ -91,13 +91,11 @@ namespace disxx::ui::backend::glut
 			return;
 
 		event::Keyboard event{key};
-		dynamic_cast<Window &>(*this->m_Windows.at(hWin)).m_Events.Push(event);
+		std::dynamic_pointer_cast<Window>(this->m_Windows.at(hWin))->m_Events.Push(event);
 	}
 
 	void Manager::ReshapeCallback(int x, int y) const noexcept
 	{
-		y = glutGet(GLUT_WINDOW_HEIGHT) - y;
-
 		const auto hWin{glutGetWindow()};
 		if (!this->m_Windows.contains(hWin)) [[unlikely]]
 			return;
@@ -110,20 +108,25 @@ namespace disxx::ui::backend::glut
 				static_cast<float>(y)
 			}
 		};
-		dynamic_cast<Window &>(*this->m_Windows.at(hWin)).m_Events.Push(event);
+		std::dynamic_pointer_cast<Window>(this->m_Windows.at(hWin))->m_Events.Push(event);
 	}
 	
 	std::shared_ptr<abstract::Window<int>> Manager::CreateWindow(void) noexcept
 	{
-		const auto hWin{glutCreateWindow("")};
+		const auto hWin{glutCreateWindow("Window")};
 		const auto ptr{std::make_shared<Window>(hWin)};
 		this->m_Windows[hWin] = ptr;
+
+		this->SetCallbacks();
 
 		return ptr;
 	}
 
 	void Manager::DestroyWindow(std::shared_ptr<abstract::Window<int>> ptr) noexcept
 	{
+		if (!ptr) [[unlikely]]
+			return;
+
 		const auto hWin{ptr->GetHandle()};
 		if (auto it{this->m_Windows.find(hWin)}; it != this->m_Windows.end()) [[likely]]
 			this->m_Windows.erase(it);
@@ -138,7 +141,13 @@ namespace disxx::ui::backend::glut
 		glutSetWindow(ptr->GetHandle());
 	}
 
-	std::shared_ptr<abstract::Window<int>> Manager::GetWindow(void) const noexcept { return this->m_Windows.at(glutGetWindow()); }
+	std::shared_ptr<abstract::Window<int>> Manager::GetWindow(void) const noexcept
+	{
+		if (const auto hWin{glutGetWindow()}; !this->m_Windows.contains(hWin)) [[unlikely]]
+			return std::make_shared<Window>();
+		else
+			return this->m_Windows.at(glutGetWindow());
+	}
 
 	void Manager::SetCallbacks(void) const noexcept
 	{

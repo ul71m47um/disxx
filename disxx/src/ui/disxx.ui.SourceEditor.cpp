@@ -248,7 +248,7 @@ namespace disxx::ui
 			float pos{(this->m_ScrollY / this->m_MaxScrollY) * (this->m_Size.y - CORNER_HEIGHT * 2.f - this->m_VerticalSliderHeight)};
 			pos = std::max(0.f, std::min(pos, this->m_Size.y - CORNER_HEIGHT * 2.f - this->m_VerticalSliderHeight) - 20.f) + 20.f;
 
-			// Frame 
+			// Frame
 			renderable::Rectangle frame{};
 			frame.Replace(utility::Vec2<float>{this->m_Position.x + this->m_Size.x - CORNER_WIDTH, this->m_Position.y + CORNER_HEIGHT});
 			frame.Resize(utility::Vec2<float>{CORNER_WIDTH, this->m_Size.y - CORNER_HEIGHT});

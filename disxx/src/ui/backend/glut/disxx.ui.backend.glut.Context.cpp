@@ -24,10 +24,16 @@ namespace disxx::ui::backend::glut
 		ptr->SetTitle(title.data());
 		ptr->SetSize(size);
 
-		return std::make_shared<Window>(dynamic_cast<Window &>(*ptr));
+		return std::dynamic_pointer_cast<Window>(std::move(ptr));
 	}
 	Context::WindowPointer Context::CurrentWindow(void) const noexcept
-	{ return std::make_shared<Window>(dynamic_cast<Window &>(*Manager::Get()->GetWindow())); }
+	{
+		auto ptr{Manager::Get()->GetWindow()};
+		if (!ptr) [[unlikely]]
+			return WindowPointer{};
+
+		return std::dynamic_pointer_cast<Window>(std::move(ptr));
+	}
 
 	void Context::MakeCurrent(Context::WindowPointer ptr) const noexcept { Manager::Get()->SetWindow(ptr); }
 	

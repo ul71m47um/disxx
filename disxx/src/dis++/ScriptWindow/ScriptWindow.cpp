@@ -24,8 +24,6 @@ ScriptWindow::ScriptWindow(const std::filesystem::path &path) noexcept
 	for (const auto substr : this->m_Engine.ExecFile(path) | std::views::split('\n'))
 		field.AddLine("{}", substr);
 	this->m_Win.AddWidget(std::make_unique<disxx::ui::SourceEditor>(field));
-
-	this->m_Win.Redisplay();
 }
 
 ScriptWindow::ScriptWindow(const ScriptWindow &other) noexcept

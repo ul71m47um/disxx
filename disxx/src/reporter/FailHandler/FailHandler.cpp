@@ -24,7 +24,7 @@ import std;
 
 FailHandler *FailHandler::s_pInstance = nullptr;
 
-FailHandler::FailHandler(void) noexcept(false)
+FailHandler::FailHandler(void) noexcept
 	: m_Window{disxx::ui::utility::Vec2<int>{800, 600}, "dis++ crash reporter"}
 	, m_Parser{}
 {
@@ -183,7 +183,7 @@ FailHandler::FailHandler(void) noexcept(false)
 	this->m_Window.AddWidget(std::make_unique<disxx::ui::SourceEditor>(report));
 }
 
-FailHandler *FailHandler::Init(int &argc, char **&argv) noexcept(false)
+FailHandler *FailHandler::Init(int &argc, char **&argv) noexcept
 {
 	disxx::ui::MainWindow::Init(&argc, argv);
     if (!s_pInstance) [[likely]]
@@ -191,13 +191,4 @@ FailHandler *FailHandler::Init(int &argc, char **&argv) noexcept(false)
 	return s_pInstance;
 }
 
-
-[[nodiscard]] int FailHandler::Exec(void) const noexcept(false)
-{
-	try
-	{ this->m_Window.Exec(); }
-	catch (...)
-	{ return 1; }
-
-	return 0;
-}
+[[nodiscard]] int FailHandler::Exec(void) noexcept { return this->m_Window.Exec(); }

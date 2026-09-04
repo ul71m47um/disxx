@@ -20,7 +20,22 @@ namespace disxx::ui::backend::glut
 	Window::~Window(void) noexcept { this->Destroy(); }
 	
 	void Window::Destroy(void) noexcept
-	{ Manager::Get()->DestroyWindow(std::make_shared<Window>(this->m_hWin)); }
+	{
+		if (!this->m_hWin) [[unlikely]]
+			return;
+
+		Manager::Get()->DestroyWindow
+		(
+			std::make_shared<Window>
+			(
+				std::exchange
+				(
+					this->m_hWin,
+					Handle{}
+				)
+			)
+		);
+	}
 
 	void Window::Iconify(void) noexcept
 	{
