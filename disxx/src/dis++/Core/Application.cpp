@@ -127,8 +127,8 @@ Application::Application(void) noexcept
 						else
 						{
 							ref.SetText(std::string{});
-							//disxx::ui::MessageBox box{"Unable to open the file"};
-							//box.Exec();
+							disxx::ui::MessageBox box{"Unable to open the file"};
+							box.Exec();
 						}
 					}
 				);
@@ -587,7 +587,7 @@ void Application::Setup(std::filesystem::path path) noexcept
 	this->m_Window.SetTitle("dis++ v0.4.0-beta");
 	this->m_Window.SetVisible(true);
 	const auto [width, height]{s_pInstance->m_Window.GetSize()};
-	
+
 	{
 		disxx::ui::TabbedPane pane
 		{
@@ -656,14 +656,14 @@ void Application::Setup(std::filesystem::path path) noexcept
 					{
 						if (std::error_code errc{}; !std::filesystem::exists(p, errc)) [[unlikely]]
 						{
-							//disxx::ui::MessageBox box{"Unable to open the file"};
-							//box.Exec();
+							disxx::ui::MessageBox box{"Unable to open the file"};
+							box.Exec();
 							return;
 						}
 	
 						this->Disassemble(p);
 					}
-				);	
+				);
 			}
 		};
 		open.SetColor(0.2f, 0.2f, 0.2f);
@@ -725,7 +725,7 @@ void Application::Setup(std::filesystem::path path) noexcept
                 if (!file.is_open()) [[unlikely]]
                 {
                 	disxx::ui::MessageBox box{"Unable to open the file"};
-                    //box.Exec();
+                    box.Exec();
                     return;
                 }
 
@@ -751,8 +751,8 @@ void Application::Setup(std::filesystem::path path) noexcept
 					{
 						if (std::error_code errc{}; !std::filesystem::exists(p, errc)) [[unlikely]]
                         {
-                            //disxx::ui::MessageBox box{"Unable to open the file"};
-                            //box.Exec();
+                            disxx::ui::MessageBox box{"Unable to open the file"};
+                            box.Exec();
                             return;
                         }
                            
@@ -814,8 +814,8 @@ void Application::Setup(std::filesystem::path path) noexcept
                 std::fstream file{currentPath, std::fstream::binary | std::fstream::in};
                 if (!file.is_open()) [[unlikely]]
                 {
-                    //disxx::ui::MessageBox box{"Unable to open the file"};
-                    //box.Exec();
+                    disxx::ui::MessageBox box{"Unable to open the file"};
+                    box.Exec();
                     return;
                 }
 

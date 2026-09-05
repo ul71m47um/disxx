@@ -73,6 +73,8 @@ namespace disxx::ui
 	int MainWindow::Exec(void) noexcept
 	{
 		const auto &pCtx{backend::glut::Context::Get()};
+		pCtx->MakeCurrent(this->m_pWin);
+
 		return this->m_pWin->Exec
 		(
 			[this, &pCtx](auto &events) mutable -> int

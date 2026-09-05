@@ -9,7 +9,7 @@ export namespace disxx::ui
 	class __attribute__((visibility("default"))) [[nodiscard]] MessageBox
 	{
 	  private:
-		MainWindow m_Win{};
+		MainWindow m_Window{};
 
 	  public:
 		explicit MessageBox(void) noexcept;
@@ -21,6 +21,8 @@ export namespace disxx::ui
 		MessageBox(MessageBox &&) noexcept;
 		MessageBox &operator=(MessageBox &&) noexcept;
 
-		int Exec(void) const noexcept;
+		inline int Exec(void) noexcept;
 	};
+
+	inline int MessageBox::Exec(void) noexcept { return this->m_Window.Exec(); }
 } /* disxx::ui */

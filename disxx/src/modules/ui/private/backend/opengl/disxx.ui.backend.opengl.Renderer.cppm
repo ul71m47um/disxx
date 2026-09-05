@@ -18,23 +18,31 @@ export namespace disxx::ui::backend::opengl
 	class __attribute__((visibility("default"))) [[nodiscard]] Renderer final : public abstract::IRenderer
 	{
 	  private:
-		static constexpr const char *s_pVertexSource = "#version 120\n"
-			"uniform mat4 projection;\n"
-			"attribute vec2 position;\n"
-			"attribute vec3 incolor;\n"
-			"varying vec4 color;\n"
-			"void main()\n"
-			"{\n"
-			"\tgl_Position = projection * vec4(position, 1.f, 1.f);\n"
-			"\tcolor = vec4(incolor, 1.f);"
-			"}\n";
+		static constexpr const char *s_pVertexSource = R"vertex(
+			#version 120
+
+			uniform mat4 projection;
+			attribute vec2 position;
+			attribute vec3 incolor;
+			varying vec4 color;
+
+			void main()
+			{
+				gl_Position = projection * vec4(position, 1.f, 1.f);
+				color = vec4(incolor, 1.f);
+			}
+		)vertex";
 		
-		static constexpr const char *s_pFragmentSource = "#version 120\n"
-			"varying vec4 color;\n"
-			"void main()\n"
-			"{\n"
-			"\tgl_FragColor = color;\n"
-			"}\n";
+		static constexpr const char *s_pFragmentSource = R"fragment(
+			#version 120
+
+			varying vec4 color;
+			
+			void main()
+			{
+				gl_FragColor = color;
+			}
+		)fragment";
 
 	  private:
 		std::vector<std::unique_ptr<renderable::Renderable>> m_Buffer{};
