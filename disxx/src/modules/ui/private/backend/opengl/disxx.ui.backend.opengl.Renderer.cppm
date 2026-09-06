@@ -22,25 +22,27 @@ export namespace disxx::ui::backend::opengl
 			#version 120
 
 			uniform mat4 projection;
+
 			attribute vec2 position;
-			attribute vec3 incolor;
-			varying vec4 color;
+			attribute vec3 color;
+
+			varying vec4 fragcolor;
 
 			void main()
 			{
 				gl_Position = projection * vec4(position, 1.f, 1.f);
-				color = vec4(incolor, 1.f);
+				fragcolor = vec4(color, 1.f);
 			}
 		)vertex";
 		
 		static constexpr const char *s_pFragmentSource = R"fragment(
 			#version 120
 
-			varying vec4 color;
+			varying vec4 fragcolor;
 			
 			void main()
 			{
-				gl_FragColor = color;
+				gl_FragColor = fragcolor;
 			}
 		)fragment";
 

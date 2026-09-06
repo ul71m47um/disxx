@@ -59,7 +59,7 @@ namespace disxx::ui::backend::opengl
 		glAttachShader(this->m_Program, this->m_VertexShader);
 		glAttachShader(this->m_Program, this->m_FragmentShader);
 		glBindAttribLocation(this->m_Program, 0, "position");
-		glBindAttribLocation(this->m_Program, 1, "incolor");
+		glBindAttribLocation(this->m_Program, 1, "color");
 		glLinkProgram(this->m_Program);
 		glUseProgram(this->m_Program);
 	}
@@ -108,19 +108,19 @@ namespace disxx::ui::backend::opengl
 		glUseProgram(this->m_Program);
 		GLint loc{glGetUniformLocation(this->m_Program, "projection")};
 		glUniformMatrix4fv(loc, 1, GL_FALSE, projection);
-
+			
 		std::vector<utility::Vertex<GLfloat>> vertices{};
 		for (const auto &ptr : this->m_Buffer)
 		{
-			glUseProgram(this->m_Program);	
+			glUseProgram(this->m_Program);
 			for (const auto &vertex : ptr->GetVertices())
 				vertices.push_back(vertex);
-			
+
 			if (const auto *pText{dynamic_cast<renderable::Text *>(ptr.get())})
 			{
 				if (!vertices.empty())
             	{
-            	    glBindVertexArray(this->m_Vao);
+					glBindVertexArray(this->m_Vao);
             	    glBindBuffer(GL_ARRAY_BUFFER, this->m_Vbo);
             	    glBufferSubData(GL_ARRAY_BUFFER, 0, vertices.size() * sizeof(utility::Vertex<GLfloat>), vertices.data());
             	    glDrawArrays(GL_TRIANGLES, 0, static_cast<GLuint>(vertices.size()));

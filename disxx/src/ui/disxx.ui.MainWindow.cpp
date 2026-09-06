@@ -89,41 +89,35 @@ namespace disxx::ui
 						#pragma clang diagnostic ignored "-Wctad-maybe-unsupported"
 						disxx::utility::Overload
 						{
-							[this, &pCtx](backend::event::MouseButton event) mutable -> void
+							[this](backend::event::MouseButton event) mutable -> void
 							{
-								pCtx->MakeCurrent(this->m_pWin);
-
 								for (const auto i : std::views::iota(0ul, this->m_Widgets.size()))
 									if (auto &pWidget{this->m_Widgets.at(i)}; pWidget->Visible())
 										pWidget->MouseButtonCallback(event);
 								this->m_pWin->Redisplay();
 							},
-							[this, &pCtx](backend::event::MouseMotion event) mutable -> void
+							[this](backend::event::MouseMotion event) mutable -> void
 							{
-								pCtx->MakeCurrent(this->m_pWin);
-
 								for (const auto i : std::views::iota(0ul, this->m_Widgets.size()))
 									if (auto &pWidget{this->m_Widgets.at(i)}; pWidget->Visible())
 										pWidget->MouseMotionCallback(event);
 								this->m_pWin->Redisplay();
 							},
-							[this, &pCtx](backend::event::Keyboard event) mutable -> void
+							[this](backend::event::Keyboard event) mutable -> void
 							{
-								pCtx->MakeCurrent(this->m_pWin);
-
 								for (const auto i : std::views::iota(0ul, this->m_Widgets.size()))
 									if (auto &pWidget{this->m_Widgets.at(i)}; pWidget->Visible())
 										pWidget->KeyboardCallback(event);
 								this->m_pWin->Redisplay();
 							},
-							[this, &pCtx](backend::event::Reshape event) mutable -> void
+							[](backend::event::Reshape _) mutable -> void
 							{
-								pCtx->MakeCurrent(this->m_pWin);
-
+								/*
+								const auto [width, height]{event.GetSize()};
+								
 								auto sX{static_cast<float>(this->m_Size.x) / static_cast<float>(this->m_InitialSize.x)};
 								auto sY{static_cast<float>(this->m_Size.y) / static_cast<float>(this->m_InitialSize.y)};
-	
-								const auto [width, height]{event.GetSize()};
+
 								this->m_Size = utility::Vec2<int>
 								{
 									static_cast<int>(width),
@@ -138,7 +132,9 @@ namespace disxx::ui
 									pWidget->Replace(utility::Vec2<float>{x * sX, y * sY});
 									pWidget->Resize(utility::Vec2<float>{w * sX, h * sY});
 								}
+								pCtx->MakeCurrent(this->m_pWin);
 								this->m_pWin->Redisplay();
+								*/
 							}
 						}
 					);

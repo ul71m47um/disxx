@@ -65,12 +65,15 @@ export namespace disxx::ui
 
 	inline utility::Vec2<int> MainWindow::GetSize(void) const noexcept
 	{
-		backend::glut::Context::Get()->MakeCurrent(this->m_pWin);
-		return utility::Vec2<int>{this->m_Size};
+		//backend::glut::Context::Get()->MakeCurrent(this->m_pWin);
+		return this->m_Size;
 	}
 
 	inline void MainWindow::SetSize(utility::Vec2<int> size) noexcept
-	{ this->m_pWin->SetSize(size); }
+	{
+		this->m_pWin->SetSize(size);
+		this->m_Size = size;
+	}
 
 	inline void MainWindow::SetTitle(std::string_view title) noexcept
 	{ this->m_pWin->SetTitle(title); }

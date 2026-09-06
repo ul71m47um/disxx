@@ -25,12 +25,13 @@ namespace disxx::ui::backend::glut
 
 	void Manager::MouseButtonCallback(int button, int state, int x, int y) const noexcept
 	{
-		y = glutGet(GLUT_WINDOW_HEIGHT) - y;
-
 		const auto hWin{glutGetWindow()};
 		if (!this->m_Windows.contains(hWin)) [[unlikely]]
 			return;
 
+		glutSetWindow(std::dynamic_pointer_cast<Window>(this->m_Windows.at(hWin))->m_hWin);
+		y = glutGet(GLUT_WINDOW_HEIGHT) - y;
+		
 		event::MouseButton event
 		{
 			utility::Vec2<float>
@@ -46,12 +47,13 @@ namespace disxx::ui::backend::glut
 
 	void Manager::MousePassiveMotionCallback(int x, int y) const noexcept
 	{
-		y = glutGet(GLUT_WINDOW_HEIGHT) - y;
-
 		const auto hWin{glutGetWindow()};
 		if (!this->m_Windows.contains(hWin)) [[unlikely]]
 			return;
 	
+		glutSetWindow(std::dynamic_pointer_cast<Window>(this->m_Windows.at(hWin))->m_hWin);
+		y = glutGet(GLUT_WINDOW_HEIGHT) - y;
+
 		event::MouseMotion event
 		{
 			utility::Vec2<float>
@@ -66,12 +68,13 @@ namespace disxx::ui::backend::glut
 
 	void Manager::MouseMotionCallback(int x, int y) const noexcept
 	{
-		y = glutGet(GLUT_WINDOW_HEIGHT) - y;
-
 		const auto hWin{glutGetWindow()};
 		if (!this->m_Windows.contains(hWin)) [[unlikely]]
 			return;
 	
+		glutSetWindow(std::dynamic_pointer_cast<Window>(this->m_Windows.at(hWin))->m_hWin);
+		y = glutGet(GLUT_WINDOW_HEIGHT) - y;
+		
 		event::MouseMotion event
 		{
 			utility::Vec2<float>
@@ -79,7 +82,7 @@ namespace disxx::ui::backend::glut
 				static_cast<float>(x),
 				static_cast<float>(y)
 			},
-			true
+			false
 		};
 		std::dynamic_pointer_cast<Window>(this->m_Windows.at(hWin))->m_Events.Push(event);
 	}
