@@ -24,17 +24,9 @@ namespace disxx::ui::backend::glut
 		if (!this->m_hWin) [[unlikely]]
 			return;
 
-		Manager::Get()->DestroyWindow
-		(
-			std::make_shared<Window>
-			(
-				std::exchange
-				(
-					this->m_hWin,
-					Handle{}
-				)
-			)
-		);
+		glutSetWindow(std::exchange(this->m_hWin, {}));
+		if (const auto opt{Context::Get()->CurrentWindow()}) [[likely]]
+			Manager::Get()->DestroyWindow(*opt);
 	}
 
 	void Window::Iconify(void) noexcept

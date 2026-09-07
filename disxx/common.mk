@@ -70,7 +70,7 @@ ifeq ($(RUBY),)
 endif
 
 ifneq ($(DEBUG),)
-	CXXFLAGS+=-Og -DDEBUG
+	CXXFLAGS+=-O0 -ggdb3 -g -fstandalone-debug -fno-limit-debug-info -DDEBUG
 	LFLAGS+=-O0
 else
 	CXXFLAGS+=-O3 -DNDEBUG

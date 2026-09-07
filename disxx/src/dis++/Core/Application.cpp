@@ -587,7 +587,7 @@ void Application::Setup(std::filesystem::path path) noexcept
 	this->m_Window.SetTitle("dis++ v0.4.0-beta");
 	this->m_Window.SetVisible(true);
 	const auto [width, height]{this->m_Window.GetSize()};
-	
+
 	{
 		disxx::ui::TabbedPane pane
 		{

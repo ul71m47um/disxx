@@ -136,7 +136,10 @@ namespace disxx::ui::backend::glut
 	{
 		if (const auto pWin{ptr.lock()}) [[likely]]
 		{
-			this->m_pCurrentWindow.reset();
+			if (const auto pCurrentWindow{this->m_pCurrentWindow.lock()}) [[likely]]
+				if (pCurrentWindow->GetHandle() == pWin->GetHandle())
+					this->m_pCurrentWindow.reset();
+
 			const auto hWin{pWin->GetHandle()};
 			if (auto it{this->m_Windows.find(hWin)}; it != this->m_Windows.end()) [[likely]]
 				this->m_Windows.erase(it);
@@ -148,7 +151,6 @@ namespace disxx::ui::backend::glut
 	{
 		if (const auto pWin{ptr.lock()}) [[likely]]
 		{
-			this->m_pCurrentWindow.reset();
 			this->m_pCurrentWindow = pWin;
 			glutSetWindow(pWin->GetHandle());
 		}
@@ -156,10 +158,9 @@ namespace disxx::ui::backend::glut
 
 	std::optional<Manager::Weak> Manager::GetWindow(void) const noexcept
 	{
-		if (const auto hWin{glutGetWindow()}; !this->m_Windows.contains(hWin)) [[unlikely]]
+		if (const auto hWin{glutGetWindow()}; !this->m_Windows.contains(hWin) || !this->m_pCurrentWindow.lock()) [[unlikely]]
 			return std::nullopt;
-		else
-			return Weak{this->m_Windows.at(hWin)};
+		return this->m_pCurrentWindow;
 	}
 
 	void Manager::SetCallbacks(void) const noexcept
