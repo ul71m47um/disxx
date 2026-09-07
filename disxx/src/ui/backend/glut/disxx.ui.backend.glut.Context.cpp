@@ -20,22 +20,23 @@ namespace disxx::ui::backend::glut
 
 	Context::WindowPointer Context::CreateWindow(utility::Vec2<int> size, std::string_view title) const noexcept
 	{
-		const auto ptr{Manager::Get()->CreateWindow()};
-		ptr->SetTitle(title.data());
-		ptr->SetSize(size);
+		auto ptr{Manager::Get()->CreateWindow()};
+		if (const auto pWin{ptr.lock()}) [[likely]]
+		{
+			pWin->SetTitle(title.data());
+			pWin->SetSize(size);
+		}
 
-		return std::dynamic_pointer_cast<Window>(std::move(ptr));
+		return std::dynamic_pointer_cast<Window>(ptr.lock());
 	}
 
-	Context::WindowPointer Context::CurrentWindow(void) const noexcept
+	std::optional<Context::WindowPointer> Context::CurrentWindow(void) const noexcept
 	{
-		auto ptr{Manager::Get()->GetWindow()};
-		if (!ptr) [[unlikely]]
-			return WindowPointer{};
-
-		return std::dynamic_pointer_cast<Window>(std::move(ptr));
+		if (const auto opt{Manager::Get()->GetWindow()}) [[likely]]
+			return std::dynamic_pointer_cast<Window>(opt->lock());
+		return std::nullopt;
 	}
-
+	
 	void Context::MakeCurrent(Context::WindowPointer ptr) const noexcept { Manager::Get()->SetWindow(ptr); }
 	
 	void Context::SwapBuffers(void) const noexcept { glutSwapBuffers(); }

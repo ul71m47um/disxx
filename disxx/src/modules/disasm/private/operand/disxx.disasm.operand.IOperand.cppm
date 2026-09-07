@@ -1,10 +1,10 @@
 export module disxx.disasm.operand.IOperand;
 
-export import disxx.utility.trait.Cloneable;
+export import disxx.utility.trait.IClone;
 
 export namespace disxx::disasm::operand
 {
-    class __attribute__((visibility("default"))) [[nodiscard]] IOperand : public disxx::utility::trait::Cloneable<IOperand>
+    class __attribute__((visibility("default"))) [[nodiscard]] IOperand : public disxx::utility::trait::IClone<IOperand>
     {
       public:
 		explicit IOperand(void) noexcept = default;

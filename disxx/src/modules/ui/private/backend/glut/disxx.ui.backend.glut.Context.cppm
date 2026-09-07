@@ -19,22 +19,24 @@ export import std;
 
 export namespace disxx::ui::backend::glut
 {
-	class __attribute__((visibility("default"))) [[nodiscard]] Context final : public abstract::IContext<std::shared_ptr<Window>>
+	class __attribute__((visibility("default"))) [[nodiscard]] Context final : public abstract::IContext<std::shared_ptr<Window>, std::weak_ptr<Window>>
 	{
 	  public:
-		using WindowPointer = std::shared_ptr<Window>;
+		using WindowPointer = std::weak_ptr<Window>;
 
 	  private:
 		static disxx::utility::pointer::NonNull<Context> s_pInstance;
 
+	  private:
+		WindowPointer m_pCurrentWindow{};
+
+	  private:
+		explicit Context(void) noexcept = default;
+	  
 	  public:
 		template <typename ...Args> static void Init(Args &&...) noexcept;
 		static inline disxx::utility::pointer::NonNull<Context> &Get(void) noexcept;
 
-	  private:
-		explicit Context(void) noexcept = default;
-
-	  public:
 		Context(const Context &) noexcept = delete;
 		Context &operator=(const Context &) noexcept = delete;
 
@@ -44,7 +46,7 @@ export namespace disxx::ui::backend::glut
 		virtual ~Context(void) noexcept override = default;
 
 		virtual WindowPointer CreateWindow(utility::Vec2<int>, std::string_view) const noexcept override;
-		virtual WindowPointer CurrentWindow(void) const noexcept override;
+		virtual std::optional<WindowPointer> CurrentWindow(void) const noexcept override;
 		virtual void MakeCurrent(WindowPointer) const noexcept override;
 
 		virtual void SwapBuffers(void) const noexcept override;

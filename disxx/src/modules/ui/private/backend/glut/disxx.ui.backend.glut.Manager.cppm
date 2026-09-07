@@ -9,14 +9,19 @@ export import std;
 
 export namespace disxx::ui::backend::glut
 {
-	class __attribute__((visibility("default"))) [[nodiscard]] Manager final : public abstract::IManager<std::shared_ptr<abstract::Window<int>>>
+	class __attribute__((visibility("default"))) [[nodiscard]] Manager final : public abstract::IManager
+	<
+		std::shared_ptr<abstract::Window<int>>,
+		std::weak_ptr<abstract::Window<int>>
+	>
 	{
 	  private:
 		static disxx::utility::pointer::NonNull<Manager> s_pInstance;
 
 	  private:
 		// Windows and their handles
-		std::unordered_map<int, std::shared_ptr<abstract::Window<int>>> m_Windows{};
+		std::unordered_map<int, Owned> m_Windows{};
+		Weak m_pCurrentWindow{};
 		
 	  private:
 		explicit Manager(void) = default;
@@ -38,11 +43,11 @@ export namespace disxx::ui::backend::glut
 		Manager(Manager &&) noexcept = delete;
 		Manager &operator=(Manager &&) noexcept = delete;
 
-		[[clang::acquire_handle("Window")]] virtual std::shared_ptr<abstract::Window<int>> CreateWindow(void) noexcept override;
-		virtual void DestroyWindow([[clang::release_handle("Window")]] std::shared_ptr<abstract::Window<int>>) noexcept override;
+		[[clang::acquire_handle("Window")]] virtual Weak CreateWindow(void) noexcept override;
+		virtual void DestroyWindow([[clang::release_handle("Window")]] Weak) noexcept override;
 
-		virtual void SetWindow([[clang::use_handle("window")]] const std::shared_ptr<abstract::Window<int>>) const noexcept override;
-		virtual std::shared_ptr<abstract::Window<int>> GetWindow(void) const noexcept override;
+		virtual void SetWindow([[clang::use_handle("window")]] const Weak) noexcept override;
+		virtual std::optional<Weak> GetWindow(void) const noexcept override;
 	
 		virtual void SetCallbacks(void) const noexcept override;
 	};

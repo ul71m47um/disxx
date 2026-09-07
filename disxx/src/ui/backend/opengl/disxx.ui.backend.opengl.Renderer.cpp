@@ -96,11 +96,22 @@ namespace disxx::ui::backend::opengl
 		glClearColor(0.2f, 0.2f, 0.2f, 1.f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
+		const auto [width, height]
+		{
+			[] -> utility::Vec2<int>
+			{
+				if (const auto opt{glut::Context::Get()->CurrentWindow()}) [[likely]]
+					if (const auto ptr{opt->lock()}) [[likely]]
+						return ptr->GetSize();
+				return utility::Vec2<int>{1, 1};
+			}()
+		};
+	
 		// Get actual window size and set up a projection
 		GLfloat projection[]
 		{
-			2.f / glut::Context::Get()->CurrentWindow()->GetSize().x, 0.f, 0.f, 0.f,
-			0.f, 2.f / glut::Context::Get()->CurrentWindow()->GetSize().y, 0.f, 0.f,
+			2.f / width, 0.f, 0.f, 0.f,
+			0.f, 2.f / height, 0.f, 0.f,
 			0.f, 0.f, -1.f, 0.f,
 			-1.f, -1.f, 0.f, 1.f
 		};

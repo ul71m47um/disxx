@@ -32,7 +32,7 @@ export namespace disxx::ui
 
 	inline void MenuBar::Add(Menu &&menu) noexcept
 	{
-		const auto [width, height]{backend::glut::Context::Get()->CurrentWindow()->GetSize()};
+		const auto [width, height]{backend::glut::Context::Get()->CurrentWindow()->lock()->GetSize()};
 		menu.Resize
 		(
 			utility::Vec2<float>

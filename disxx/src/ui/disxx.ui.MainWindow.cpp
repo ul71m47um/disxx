@@ -6,7 +6,7 @@ namespace disxx::ui
 		: m_Widgets{}
 		, m_InitialSize{}
 		, m_Size{}
-		, m_pWin{nullptr}
+		, m_pWin{}
 	{
 		this->m_pWin = backend::glut::Context::Get()->CreateWindow(utility::Vec2<int>{this->m_Size}, "");
 		backend::glut::Context::Get()->MakeCurrent(this->m_pWin);
@@ -16,7 +16,7 @@ namespace disxx::ui
 		: m_Widgets{}
 		, m_InitialSize{utility::Vec2<int>{size}}
 		, m_Size{size}
-		, m_pWin{nullptr}
+		, m_pWin{}
 	{
 		this->m_pWin = backend::glut::Context::Get()->CreateWindow(utility::Vec2<int>{this->m_Size}, title);
 		backend::glut::Context::Get()->MakeCurrent(this->m_pWin);
@@ -26,7 +26,7 @@ namespace disxx::ui
 		: m_Widgets{}
 		, m_InitialSize{utility::Vec2<int>{other.m_InitialSize}}
 		, m_Size{other.m_Size}
-		, m_pWin{nullptr}
+		, m_pWin{}
 	{
 		for (const auto &pWidget : other.m_Widgets)
 			this->m_Widgets.emplace_back(pWidget->Clone());
@@ -75,78 +75,82 @@ namespace disxx::ui
 		const auto &pCtx{backend::glut::Context::Get()};
 		pCtx->MakeCurrent(this->m_pWin);
 
-		return this->m_pWin->Exec
-		(
-			[this, &pCtx](auto &events) mutable -> int
-			{
-				while (!this->m_pWin->ShouldClose())
+		if (const auto pWin{this->m_pWin.lock()})
+		{
+			return pWin->Exec
+			(
+				[this, &pCtx, pWin](auto &events) mutable -> int
 				{
-					pCtx->PollEvents();
+					while (!pWin->ShouldClose())
+					{
+						pCtx->PollEvents();
 
-					events.Visit
-					(
-						#pragma clang diagnostic push
-						#pragma clang diagnostic ignored "-Wctad-maybe-unsupported"
-						disxx::utility::Overload
-						{
-							[this](backend::event::MouseButton event) mutable -> void
+						events.Visit
+						(
+							#pragma clang diagnostic push
+							#pragma clang diagnostic ignored "-Wctad-maybe-unsupported"
+							disxx::utility::Overload
 							{
-								for (const auto i : std::views::iota(0ul, this->m_Widgets.size()))
-									if (auto &pWidget{this->m_Widgets.at(i)}; pWidget->Visible())
-										pWidget->MouseButtonCallback(event);
-								this->m_pWin->Redisplay();
-							},
-							[this](backend::event::MouseMotion event) mutable -> void
-							{
-								for (const auto i : std::views::iota(0ul, this->m_Widgets.size()))
-									if (auto &pWidget{this->m_Widgets.at(i)}; pWidget->Visible())
-										pWidget->MouseMotionCallback(event);
-								this->m_pWin->Redisplay();
-							},
-							[this](backend::event::Keyboard event) mutable -> void
-							{
-								for (const auto i : std::views::iota(0ul, this->m_Widgets.size()))
-									if (auto &pWidget{this->m_Widgets.at(i)}; pWidget->Visible())
-										pWidget->KeyboardCallback(event);
-								this->m_pWin->Redisplay();
-							},
-							[](backend::event::Reshape _) mutable -> void
-							{
-								/*
-								const auto [width, height]{event.GetSize()};
-								
-								auto sX{static_cast<float>(this->m_Size.x) / static_cast<float>(this->m_InitialSize.x)};
-								auto sY{static_cast<float>(this->m_Size.y) / static_cast<float>(this->m_InitialSize.y)};
-
-								this->m_Size = utility::Vec2<int>
+								[this, pWin](backend::event::MouseButton event) mutable -> void
 								{
-									static_cast<int>(width),
-									static_cast<int>(height)
-								};
-
-								for (const auto &pWidget : this->m_Widgets)
+									for (const auto i : std::views::iota(0ul, this->m_Widgets.size()))
+										if (auto &pWidget{this->m_Widgets.at(i)}; pWidget->Visible())
+											pWidget->MouseButtonCallback(event);
+									pWin->Redisplay();
+								},
+								[this, pWin](backend::event::MouseMotion event) mutable -> void
 								{
-									const auto [x, y]{pWidget->GetPosition()};
-									const auto [w, h]{pWidget->GetSize()};
+									for (const auto i : std::views::iota(0ul, this->m_Widgets.size()))
+										if (auto &pWidget{this->m_Widgets.at(i)}; pWidget->Visible())
+											pWidget->MouseMotionCallback(event);
+									pWin->Redisplay();
+								},
+								[this, pWin](backend::event::Keyboard event) mutable -> void
+								{
+									for (const auto i : std::views::iota(0ul, this->m_Widgets.size()))
+										if (auto &pWidget{this->m_Widgets.at(i)}; pWidget->Visible())
+											pWidget->KeyboardCallback(event);
+									pWin->Redisplay();
+								},
+								[this, &pCtx, pWin](backend::event::Reshape event) mutable -> void
+								{
+									const auto [width, height]{event.GetSize()};
+									
+									auto sX{static_cast<float>(this->m_Size.x) / static_cast<float>(this->m_InitialSize.x)};
+									auto sY{static_cast<float>(this->m_Size.y) / static_cast<float>(this->m_InitialSize.y)};
 
-									pWidget->Replace(utility::Vec2<float>{x * sX, y * sY});
-									pWidget->Resize(utility::Vec2<float>{w * sX, h * sY});
+									this->m_Size = utility::Vec2<int>
+									{
+										static_cast<int>(width),
+										static_cast<int>(height)
+									};
+
+									for (const auto &pWidget : this->m_Widgets)
+									{
+										const auto [x, y]{pWidget->GetPosition()};
+										const auto [w, h]{pWidget->GetSize()};
+
+										pWidget->Replace(utility::Vec2<float>{x * sX, y * sY});
+										pWidget->Resize(utility::Vec2<float>{w * sX, h * sY});
+									}
+									pCtx->MakeCurrent(m_pWin);
+									pWin->Redisplay();
 								}
-								pCtx->MakeCurrent(this->m_pWin);
-								this->m_pWin->Redisplay();
-								*/
 							}
-						}
-					);
-
-					for (const auto &pWidget : this->m_Widgets)
-						pWidget->Render();
-
-					pCtx->SwapBuffers();
+						);
+	
+						for (const auto &pWidget : this->m_Widgets)
+							pWidget->Render();
+	
+						pCtx->SwapBuffers();
+					}
+				
+					return 0;
 				}
-			
-				return 0;
-			}
-		);
+			);
+		}
+
+		// Unable to lock a window pointer
+		return 1;
 	}
 } /* disxx::ui */

@@ -20,7 +20,7 @@ export namespace disxx::ui
 		utility::Vec2<int> m_InitialSize{};
 		utility::Vec2<int> m_Size{};
 		#if defined(BACKEND_CTX_GLUT)
-			std::shared_ptr<backend::glut::Window> m_pWin{};
+			std::weak_ptr<backend::glut::Window> m_pWin{};
 		#else
 		#	error "Context required"
 		#endif
@@ -63,28 +63,31 @@ export namespace disxx::ui
 		#endif
 	}
 
-	inline utility::Vec2<int> MainWindow::GetSize(void) const noexcept
-	{
-		//backend::glut::Context::Get()->MakeCurrent(this->m_pWin);
-		return this->m_Size;
-	}
+	inline utility::Vec2<int> MainWindow::GetSize(void) const noexcept { return this->m_Size; }
 
 	inline void MainWindow::SetSize(utility::Vec2<int> size) noexcept
 	{
-		this->m_pWin->SetSize(size);
+		if (const auto pWin{this->m_pWin.lock()}) [[likely]]
+			pWin->SetSize(size);
 		this->m_Size = size;
 	}
 
 	inline void MainWindow::SetTitle(std::string_view title) noexcept
-	{ this->m_pWin->SetTitle(title); }
+	{
+		if (const auto pWin{this->m_pWin.lock()}) [[likely]]
+			pWin->SetTitle(title);
+	}
 
 	inline void MainWindow::SetVisible(bool visible) noexcept
 	{
 		backend::glut::Context::Get()->MakeCurrent(this->m_pWin);
-		if (visible)
-			this->m_pWin->Show();
-		else
-			this->m_pWin->Hide();
+		if (const auto pWin{this->m_pWin.lock()}) [[likely]]
+		{
+			if (visible)
+				this->m_pWin.lock()->Show();
+			else
+				this->m_pWin.lock()->Hide();
+		}
 	}
 
 	inline void MainWindow::AddWidget(std::unique_ptr<Widget> &&pWidget) noexcept

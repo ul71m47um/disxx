@@ -10,9 +10,9 @@ namespace disxx::ui
 		: Widget
 		{
 			0.f,
-			backend::glut::Context::Get()->CurrentWindow()->GetSize().y * 0.97f,
-			static_cast<float>(backend::glut::Context::Get()->CurrentWindow()->GetSize().x),
-			backend::glut::Context::Get()->CurrentWindow()->GetSize().y * 0.03f
+			static_cast<float>(backend::glut::Context::Get()->CurrentWindow()->lock()->GetSize().y) * 0.97f,
+			static_cast<float>(backend::glut::Context::Get()->CurrentWindow()->lock()->GetSize().x),
+			static_cast<float>(backend::glut::Context::Get()->CurrentWindow()->lock()->GetSize().y) * 0.03f
 		}
 		, m_Menus{}
 	{}

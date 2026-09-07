@@ -29,8 +29,10 @@ endif
 MODULES=\
 	$(LIBCXX) \
 	../modules/utility/public/disxx.utility.Overload.cppm \
-	../modules/utility/public/trait/disxx.utility.trait.Cloneable.cppm \
+	../modules/utility/public/trait/disxx.utility.trait.IClone.cppm \
 	../modules/utility/private/error/disxx.utility.error.NullPointerError.cppm \
+	../modules/utility/private/pointer/disxx.utility.pointer.Pointer.cppm \
+	../modules/utility/private/pointer/disxx.utility.pointer.Weak.cppm \
 	../modules/utility/private/pointer/disxx.utility.pointer.DefaultDeleter.cppm \
 	../modules/utility/public/pointer/disxx.utility.pointer.NonNull.cppm \
 	$(MODULESPATH)/private/utility/disxx.ui.utility.ColorTag.cppm \

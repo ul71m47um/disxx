@@ -52,7 +52,7 @@ BASEPATH=../modules/utility/
 
 MODULES=\
 	$(LIBCXX) \
-	$(BASEPATH)public/trait/disxx.utility.trait.Cloneable.cppm \
+	$(BASEPATH)public/trait/disxx.utility.trait.IClone.cppm \
 	$(BASEPATH)private/error/disxx.utility.error.DisassemblyError.cppm \
 	$(BASEPATH)private/error/disxx.utility.error.NullPointerError.cppm \
 	$(BASEPATH)private/error/disxx.utility.error.ParserError.cppm \
@@ -61,6 +61,8 @@ MODULES=\
 	$(BASEPATH)private/ini/disxx.utility.ini.Reader.cppm \
 	$(BASEPATH)private/ini/disxx.utility.ini.Writer.cppm \
 	$(BASEPATH)public/pointer/disxx.utility.pointer.NonNull.cppm \
+	$(BASEPATH)public/pointer/disxx.utility.pointer.Pointer.cppm \
+	$(BASEPATH)public/pointer/disxx.utility.pointer.Weak.cppm \
 	$(BASEPATH)public/ini/disxx.utility.ini.Parser.cppm \
 	$(BASEPATH)public/file/disxx.utility.file.MappedFile.cppm
 

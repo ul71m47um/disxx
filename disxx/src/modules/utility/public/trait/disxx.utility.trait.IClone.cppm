@@ -1,14 +1,14 @@
-export module disxx.utility.trait.Cloneable;
+export module disxx.utility.trait.IClone;
 
 export import std;
 
 export namespace disxx::utility::trait
 {
 	template <typename T>
-	class Cloneable
+	class IClone
 	{
 	  public:
-		virtual ~Cloneable(void) noexcept = default;
+		virtual ~IClone(void) noexcept = default;
 
 		virtual std::unique_ptr<T> Clone(void) const noexcept = 0;
 	};

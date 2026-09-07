@@ -21,7 +21,7 @@ endif
 MODULES=\
 	$(LIBCXX) \
 	../modules/utility/public/disxx.utility.Overload.cppm \
-	../modules/utility/public/trait/disxx.utility.trait.Cloneable.cppm \
+	../modules/utility/public/trait/disxx.utility.trait.IClone.cppm \
 	../modules/utility/private/error/disxx.utility.error.NullPointerError.cppm \
 	../modules/utility/private/error/disxx.utility.error.ParserError.cppm \
 	../modules/utility/private/ini/disxx.utility.ini.BaseParser.cppm \
@@ -29,6 +29,8 @@ MODULES=\
 	../modules/utility/private/ini/disxx.utility.ini.Writer.cppm \
 	../modules/utility/private/pointer/disxx.utility.pointer.DefaultDeleter.cppm \
 	../modules/utility/public/pointer/disxx.utility.pointer.NonNull.cppm \
+	../modules/utility/public/pointer/disxx.utility.pointer.Pointer.cppm \
+	../modules/utility/public/pointer/disxx.utility.pointer.Weak.cppm \
 	../modules/utility/public/ini/disxx.utility.ini.Parser.cppm \
 	../modules/ui/private/utility/disxx.ui.utility.Vec.cppm \
 	../modules/ui/private/utility/disxx.ui.utility.Vertex.cppm \

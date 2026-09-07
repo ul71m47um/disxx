@@ -27,7 +27,7 @@ endif
 MODULES=\
 	$(LIBCXX) \
 	../modules/utility/public/disxx.utility.Overload.cppm \
-	../modules/utility/public/trait/disxx.utility.trait.Cloneable.cppm \
+	../modules/utility/public/trait/disxx.utility.trait.IClone.cppm \
 	../modules/utility/private/error/disxx.utility.error.DisassemblyError.cppm \
 	../modules/utility/private/error/disxx.utility.error.NullPointerError.cppm \
 	../modules/utility/private/error/disxx.utility.error.ParserError.cppm \
@@ -36,6 +36,8 @@ MODULES=\
 	../modules/utility/private/ini/disxx.utility.ini.Reader.cppm \
 	../modules/utility/private/ini/disxx.utility.ini.Writer.cppm \
 	../modules/utility/public/pointer/disxx.utility.pointer.NonNull.cppm \
+	../modules/utility/public/pointer/disxx.utility.pointer.Pointer.cppm \
+	../modules/utility/public/pointer/disxx.utility.pointer.Weak.cppm \
 	../modules/utility/public/ini/disxx.utility.ini.Parser.cppm \
 	../modules/utility/public/file/disxx.utility.file.MappedFile.cppm \
 	../modules/disasm/private/disxx.disasm.InstructionIdentifier.cppm \

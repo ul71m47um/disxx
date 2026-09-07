@@ -123,42 +123,43 @@ namespace disxx::ui::backend::glut
 		std::dynamic_pointer_cast<Window>(this->m_Windows.at(hWin))->m_bShouldClose = true;
 	}
 	
-	std::shared_ptr<abstract::Window<int>> Manager::CreateWindow(void) noexcept
+	Manager::Weak Manager::CreateWindow(void) noexcept
 	{
 		const auto hWin{glutCreateWindow("Window")};
-		const auto ptr{std::make_shared<Window>(hWin)};
-		this->m_Windows[hWin] = ptr;
-
+		this->m_Windows[hWin] = std::make_shared<Window>(hWin);
 		this->SetCallbacks();
 
-		return ptr;
+		return this->m_Windows[hWin];
 	}
 
-	void Manager::DestroyWindow(std::shared_ptr<abstract::Window<int>> ptr) noexcept
+	void Manager::DestroyWindow(Weak ptr) noexcept
 	{
-		if (!ptr) [[unlikely]]
-			return;
-
-		const auto hWin{ptr->GetHandle()};
-		if (auto it{this->m_Windows.find(hWin)}; it != this->m_Windows.end()) [[likely]]
-			this->m_Windows.erase(it);
-		glutDestroyWindow(hWin);
+		if (const auto pWin{ptr.lock()}) [[likely]]
+		{
+			this->m_pCurrentWindow.reset();
+			const auto hWin{pWin->GetHandle()};
+			if (auto it{this->m_Windows.find(hWin)}; it != this->m_Windows.end()) [[likely]]
+				this->m_Windows.erase(it);
+			glutDestroyWindow(hWin);
+		}
 	}
 
-	void Manager::SetWindow(const std::shared_ptr<abstract::Window<int>> ptr) const noexcept
+	void Manager::SetWindow(const Weak ptr) noexcept
 	{
-		if (!ptr) [[unlikely]]
-			return;
-		
-		glutSetWindow(ptr->GetHandle());
+		if (const auto pWin{ptr.lock()}) [[likely]]
+		{
+			this->m_pCurrentWindow.reset();
+			this->m_pCurrentWindow = pWin;
+			glutSetWindow(pWin->GetHandle());
+		}
 	}
 
-	std::shared_ptr<abstract::Window<int>> Manager::GetWindow(void) const noexcept
+	std::optional<Manager::Weak> Manager::GetWindow(void) const noexcept
 	{
 		if (const auto hWin{glutGetWindow()}; !this->m_Windows.contains(hWin)) [[unlikely]]
-			return std::make_shared<Window>();
+			return std::nullopt;
 		else
-			return this->m_Windows.at(glutGetWindow());
+			return Weak{this->m_Windows.at(hWin)};
 	}
 
 	void Manager::SetCallbacks(void) const noexcept

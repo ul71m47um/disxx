@@ -588,8 +588,6 @@ void Application::Setup(std::filesystem::path path) noexcept
 	this->m_Window.SetVisible(true);
 	const auto [width, height]{this->m_Window.GetSize()};
 	
-	std::println("{{{}; {}}}", width, height);
-
 	{
 		disxx::ui::TabbedPane pane
 		{

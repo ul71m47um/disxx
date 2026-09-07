@@ -22,7 +22,7 @@ endif
 
 MODULES=\
 	$(LIBCXX) \
-	../modules/utility/public/trait/disxx.utility.trait.Cloneable.cppm \
+	../modules/utility/public/trait/disxx.utility.trait.IClone.cppm \
 	../modules/utility/private/error/disxx.utility.error.DisassemblyError.cppm \
 	../modules/utility/private/error/disxx.utility.error.NullPointerError.cppm \
 	../modules/utility/private/pointer/disxx.utility.pointer.DefaultDeleter.cppm \

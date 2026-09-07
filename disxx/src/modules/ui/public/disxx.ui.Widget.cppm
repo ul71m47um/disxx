@@ -8,12 +8,12 @@ export import disxx.ui.backend.event.Reshape;
 export import disxx.ui.utility.Vec;
 
 import disxx.ui.backend.abstract.IRenderer;
-import disxx.utility.trait.Cloneable;
+import disxx.utility.trait.IClone;
 import disxx.utility.pointer.NonNull;
 
 export namespace disxx::ui
 {
-	class __attribute__((visibility("default"))) [[nodiscard]] Widget : public disxx::utility::trait::Cloneable<Widget>
+	class __attribute__((visibility("default"))) [[nodiscard]] Widget : public disxx::utility::trait::IClone<Widget>
 	{
 	  protected:
 		static disxx::utility::pointer::NonNull<backend::abstract::IRenderer> s_pRenderer;
