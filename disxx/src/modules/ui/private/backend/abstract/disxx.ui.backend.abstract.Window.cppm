@@ -15,6 +15,7 @@ export namespace disxx::ui::backend::abstract
 
 	  protected:
 		event::Queue m_Events{};
+		utility::Vec2<int> m_Size{};
 		Handle m_hWin{};
 		bool m_bShouldClose{};
 	
