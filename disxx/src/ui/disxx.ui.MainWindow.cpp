@@ -114,9 +114,8 @@ namespace disxx::ui
 								},
 								[this, pWin](backend::event::Reshape event) mutable -> void
 								{
-									auto sX{static_cast<float>(this->m_Size.x) / this->m_InitialSize.x};
-									auto sY{static_cast<float>(this->m_Size.y) / this->m_InitialSize.y};
-
+									const auto old{this->m_Size};
+									
 									const auto [width, height]{event.GetSize()};
 									this->m_Size = utility::Vec2<int>
 									{
@@ -124,6 +123,11 @@ namespace disxx::ui
 										static_cast<int>(height)
 									};
 
+									if (old.x <= 0 || old.y <= 0) [[unlikely]]
+										return;
+
+									auto sX{static_cast<float>(this->m_Size.x) / static_cast<float>(old.x)};
+									auto sY{static_cast<float>(this->m_Size.y) / static_cast<float>(old.y)};
 									for (const auto &pWidget : this->m_Widgets)
 									{
 										const auto [x, y]{pWidget->GetPosition()};
