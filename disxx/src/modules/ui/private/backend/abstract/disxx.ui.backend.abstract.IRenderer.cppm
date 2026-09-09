@@ -12,7 +12,7 @@ export namespace disxx::ui::backend::abstract
 		virtual void Push(std::unique_ptr<renderable::Renderable> &&) noexcept = 0;
 		virtual void Pop(void) noexcept = 0;		
 		
-		virtual void ClearBuffer(void) noexcept = 0;
+		virtual void ClearQueue(void) noexcept = 0;
 		virtual void Render(void) noexcept = 0;
 	};
 } /* disxx::ui::backend::abstract */

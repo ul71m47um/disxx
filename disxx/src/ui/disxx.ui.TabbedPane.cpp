@@ -110,6 +110,9 @@ namespace disxx::ui
 
 	void TabbedPane::MouseMotionCallback(backend::event::MouseMotion event) noexcept
 	{
+		if (event.Passive())
+			return;
+
 		for (auto &tab : this->m_Tabs)
 			if (tab.Clicked())
 				tab.GetTextArea().MouseMotionCallback(event);

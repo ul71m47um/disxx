@@ -47,7 +47,7 @@ export namespace disxx::ui::backend::opengl
 		)fragment";
 
 	  private:
-		std::vector<std::unique_ptr<renderable::Renderable>> m_Buffer{};
+		std::deque<std::unique_ptr<renderable::Renderable>> m_Queue{};
 		GLuint m_Vao{};
 		GLuint m_Vbo{};
 		GLuint m_VertexShader{};
@@ -68,7 +68,7 @@ export namespace disxx::ui::backend::opengl
 		virtual void Push(std::unique_ptr<renderable::Renderable> &&) noexcept override;
 		virtual void Pop(void) noexcept override;
 		
-		virtual void ClearBuffer(void) noexcept override;
+		virtual void ClearQueue(void) noexcept override;
 		virtual void Render(void) noexcept override;
 	};
 } /* disxx::ui::backend::opengl */

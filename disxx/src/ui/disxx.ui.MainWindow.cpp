@@ -72,14 +72,14 @@ namespace disxx::ui
 
 	int MainWindow::Exec(void) noexcept
 	{
-		const auto &pCtx{backend::glut::Context::Get()};
+		const auto pCtx{backend::glut::Context::Get()};
 		pCtx->MakeCurrent(this->m_pWin);
 
-		if (const auto pWin{this->m_pWin.lock()})
+		if (const auto pWin{this->m_pWin.lock()}) [[likely]]
 		{
 			return pWin->Exec
 			(
-				[this, &pCtx, pWin](auto &events) mutable -> int
+				[this, pCtx, pWin](auto &events) mutable -> int
 				{
 					while (!pWin->ShouldClose())
 					{
@@ -112,13 +112,12 @@ namespace disxx::ui
 											pWidget->KeyboardCallback(event);
 									pWin->Redisplay();
 								},
-								[this, &pCtx, pWin](backend::event::Reshape event) mutable -> void
+								[this, pWin](backend::event::Reshape event) mutable -> void
 								{
-									const auto [width, height]{event.GetSize()};
-									
-									auto sX{static_cast<float>(this->m_Size.x) / static_cast<float>(this->m_InitialSize.x)};
-									auto sY{static_cast<float>(this->m_Size.y) / static_cast<float>(this->m_InitialSize.y)};
+									auto sX{static_cast<float>(this->m_Size.x) / this->m_InitialSize.x};
+									auto sY{static_cast<float>(this->m_Size.y) / this->m_InitialSize.y};
 
+									const auto [width, height]{event.GetSize()};
 									this->m_Size = utility::Vec2<int>
 									{
 										static_cast<int>(width),
@@ -133,7 +132,6 @@ namespace disxx::ui
 										pWidget->Replace(utility::Vec2<float>{x * sX, y * sY});
 										pWidget->Resize(utility::Vec2<float>{w * sX, h * sY});
 									}
-									pCtx->MakeCurrent(m_pWin);
 									pWin->Redisplay();
 								}
 							}
@@ -141,6 +139,7 @@ namespace disxx::ui
 	
 						for (const auto &pWidget : this->m_Widgets)
 							pWidget->Render();
+						Widget::ClearBuffer();
 	
 						pCtx->SwapBuffers();
 					}

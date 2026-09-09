@@ -189,7 +189,7 @@ void Application::LoadLabels(const std::filesystem::path &path) noexcept
 			labels.AddLine
 			(
 				"<color value=\"0.7 0.6 0.2 1.0\">{}</color>:"
-				"<color value=\"0.8 0.6 0.2 1.0\">{:#016}</color>:"
+				"<color value=\"0.8 0.6 0.2 1.0\">{:#016x}</color>:"
 				"<color value=\"0.6 0.6 0.2 1.0\">{}</color>",
 				section.GetName(),
 				label.GetAddress(),
@@ -480,7 +480,7 @@ void Application::RequestFile(std::string_view headline, std::string_view reques
 	};
 	upper.SetColor(1.f, 1.f, 1.f);
 	upper.SetText(headline);
-	this->m_Window.AddWidget(std::make_unique<disxx::ui::Frame>(frame));
+	this->m_Window.AddWidget(std::make_unique<disxx::ui::Label>(upper));
 	this->m_ModalWidgets.emplace_back(this->m_Window.GetWidgets().rbegin()->get());
 	
 	disxx::ui::Label label
@@ -492,7 +492,7 @@ void Application::RequestFile(std::string_view headline, std::string_view reques
 	};
 	label.SetColor(0.3f, 0.3f, 0.3f);
 	label.SetText(request);
-	this->m_Window.AddWidget(std::make_unique<disxx::ui::Frame>(frame));
+	this->m_Window.AddWidget(std::make_unique<disxx::ui::Label>(label));
 	this->m_ModalWidgets.emplace_back(this->m_Window.GetWidgets().rbegin()->get());
 	s_pInstance->m_Window.AddWidget(std::make_unique<disxx::ui::Label>(label));
 
@@ -526,7 +526,7 @@ void Application::RequestFile(std::string_view headline, std::string_view reques
 			callback(path);
 		}
 	);
-	this->m_Window.AddWidget(std::make_unique<disxx::ui::Frame>(frame));
+	this->m_Window.AddWidget(std::make_unique<disxx::ui::Button>(ok));
 	this->m_ModalWidgets.emplace_back(this->m_Window.GetWidgets().rbegin()->get());
 
 	disxx::ui::Button cancel
@@ -544,7 +544,7 @@ void Application::RequestFile(std::string_view headline, std::string_view reques
 		[this](const disxx::ui::Widget *const) -> void
 		{ this->ClearModal(); }
 	);
-	this->m_Window.AddWidget(std::make_unique<disxx::ui::Frame>(frame));
+	this->m_Window.AddWidget(std::make_unique<disxx::ui::Button>(cancel));
 	this->m_ModalWidgets.emplace_back(this->m_Window.GetWidgets().rbegin()->get());
 
 	disxx::ui::TextInput input
@@ -555,7 +555,7 @@ void Application::RequestFile(std::string_view headline, std::string_view reques
 		40.f
 	};
 	input.SetColor(0.3f, 0.3f, 0.3f);
-	this->m_Window.AddWidget(std::make_unique<disxx::ui::Frame>(frame));
+	this->m_Window.AddWidget(std::make_unique<disxx::ui::TextInput>(input));
 	this->m_ModalWidgets.emplace_back(this->m_Window.GetWidgets().rbegin()->get());
 
 	this->m_bActiveModal = true;
@@ -593,7 +593,7 @@ void Application::Setup(std::filesystem::path path) noexcept
 		{
 			0.f,
 			0.f,
-			static_cast<float>(width) * 1.f,
+			static_cast<float>(width),
 			static_cast<float>(height) * 0.7f
 		};
 		pane.SetColor(0.2f, 0.2f, 0.2f);
@@ -617,6 +617,7 @@ void Application::Setup(std::filesystem::path path) noexcept
 		);
 
 		this->m_Window.AddWidget(std::make_unique<disxx::ui::TabbedPane>(pane));
+		this->m_pTabs = dynamic_cast<disxx::ui::TabbedPane *>(this->m_Window.GetWidgets().rbegin()->get());
 	}
 
 	{
@@ -712,7 +713,7 @@ void Application::Setup(std::filesystem::path path) noexcept
 		disxx::ui::MenuEntry save
 		{
 			"Save source",
-			[this, path] -> void
+			[this] -> void
 			{
 				if (!this->m_pTabs) [[unlikely]]
 					return;
@@ -721,7 +722,7 @@ void Application::Setup(std::filesystem::path path) noexcept
 				if (!currentTab) [[unlikely]]
 					return;
 
-				std::fstream file{path, std::fstream::out | std::fstream::binary | std::fstream::trunc};
+				std::fstream file{currentTab->get().GetText().data(), std::fstream::out | std::fstream::binary | std::fstream::trunc};
                 if (!file.is_open()) [[unlikely]]
                 {
                 	disxx::ui::MessageBox box{"Unable to open the file"};

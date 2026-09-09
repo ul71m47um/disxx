@@ -80,7 +80,7 @@ namespace disxx::ui::backend::glut
 	{
 		this->m_Size = size;
 		glutSetWindow(this->m_hWin);
-		glutReshapeWindow(size.x, size.y);
+		glutReshapeWindow(this->m_Size.x, this->m_Size.y);
 	}
 
 	void Window::Redisplay(void) const noexcept

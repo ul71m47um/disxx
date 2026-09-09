@@ -27,7 +27,7 @@ import std;
 namespace disxx::ui::backend::opengl
 {
 	Renderer::Renderer(void) noexcept
-		: m_Buffer{}
+		: m_Queue{}
 		, m_Vao{}
 		, m_Vbo{}
 		, m_VertexShader{}
@@ -75,20 +75,20 @@ namespace disxx::ui::backend::opengl
 
 	void Renderer::Push(std::unique_ptr<renderable::Renderable> &&ptr) noexcept
 	{
-		if (this->m_Buffer.size() < 1024 * 1024) [[likely]]
-			this->m_Buffer.emplace_back(std::forward<std::unique_ptr<renderable::Renderable> &&>(ptr));
+		if (this->m_Queue.size() < 1024 * 1024) [[likely]]
+			this->m_Queue.emplace_back(std::forward<std::unique_ptr<renderable::Renderable> &&>(ptr));
 	}
 
 	void Renderer::Pop(void) noexcept
 	{
-		if (this->m_Buffer.size() > 0) [[likely]]
-			this->m_Buffer.pop_back();
+		if (this->m_Queue.size() > 0) [[likely]]
+			this->m_Queue.pop_front();
 	}
 
-	void Renderer::ClearBuffer(void) noexcept
+	void Renderer::ClearQueue(void) noexcept
 	{
-		if (this->m_Buffer.size() > 0) [[likely]]
-			this->m_Buffer.clear();
+		for (const auto _ : std::views::iota(0ul, this->m_Queue.size()))
+			this->m_Queue.pop_front();
 	}
 
 	void Renderer::Render(void) noexcept
@@ -96,18 +96,17 @@ namespace disxx::ui::backend::opengl
 		glClearColor(0.2f, 0.2f, 0.2f, 1.f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
+		// Get actual window size and set up a projection
 		const auto [width, height]
 		{
 			[] -> utility::Vec2<int>
 			{
 				if (const auto opt{glut::Context::Get()->CurrentWindow()}) [[likely]]
-					if (const auto ptr{opt->lock()}) [[likely]]
-						return ptr->GetSize();
+					if (const auto pWin{opt->lock()}) [[likely]]
+						return pWin->GetSize();
 				return utility::Vec2<int>{1, 1};
 			}()
 		};
-	
-		// Get actual window size and set up a projection
 		GLfloat projection[]
 		{
 			2.f / width, 0.f, 0.f, 0.f,
@@ -115,13 +114,13 @@ namespace disxx::ui::backend::opengl
 			0.f, 0.f, -1.f, 0.f,
 			-1.f, -1.f, 0.f, 1.f
 		};
-
 		glUseProgram(this->m_Program);
+		glViewport(0.f, 0.f, width, height);
 		GLint loc{glGetUniformLocation(this->m_Program, "projection")};
 		glUniformMatrix4fv(loc, 1, GL_FALSE, projection);
-			
+		
 		std::vector<utility::Vertex<GLfloat>> vertices{};
-		for (const auto &ptr : this->m_Buffer)
+		for (const auto &ptr : this->m_Queue)
 		{
 			glUseProgram(this->m_Program);
 			for (const auto &vertex : ptr->GetVertices())

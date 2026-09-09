@@ -16,7 +16,7 @@ namespace disxx::ui
 	disxx::utility::pointer::NonNull<backend::abstract::IRenderer> Widget::s_pRenderer{};
 
 	void Widget::ClearBuffer(void) noexcept
-	{ s_pRenderer->ClearBuffer(); }
+	{ s_pRenderer->ClearQueue(); }
 
 	Widget::Widget(void) noexcept
 		: m_Position{0, 0}

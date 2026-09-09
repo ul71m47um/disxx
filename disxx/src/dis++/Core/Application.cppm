@@ -64,7 +64,7 @@ inline Application *Application::Init(int &argc, char **&argv) noexcept
 	if (!s_pInstance) [[likely]]
         s_pInstance = new Application{};
 
-	/*static auto &sArgc{argc};
+	static auto &sArgc{argc};
 	static auto &sArgv{argv};
 	std::set_terminate
 	(
@@ -101,7 +101,7 @@ inline Application *Application::Init(int &argc, char **&argv) noexcept
 			std::system(path.c_str());
 			std::exit(1);
 		}
-	);*/
+	);
 
 	return s_pInstance;
 }
