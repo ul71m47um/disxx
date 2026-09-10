@@ -72,15 +72,13 @@ namespace disxx::ui
 
 	int MainWindow::Exec(void) noexcept
 	{
-		const auto pCtx{backend::glut::Context::Get()};
-		pCtx->MakeCurrent(this->m_pWin);
-
 		if (const auto pWin{this->m_pWin.lock()}) [[likely]]
 		{
 			return pWin->Exec
 			(
-				[this, pCtx, pWin](auto &events) mutable -> int
+				[this, pWin](auto &events) mutable -> int
 				{
+					const auto pCtx{backend::glut::Context::Get()};
 					while (!pWin->ShouldClose())
 					{
 						pCtx->PollEvents();
@@ -143,11 +141,11 @@ namespace disxx::ui
 	
 						for (const auto &pWidget : this->m_Widgets)
 							pWidget->Render();
+						pCtx->MakeCurrent(this->m_pWin);
 						Widget::ClearBuffer();
-	
 						pCtx->SwapBuffers();
 					}
-				
+
 					return 0;
 				}
 			);

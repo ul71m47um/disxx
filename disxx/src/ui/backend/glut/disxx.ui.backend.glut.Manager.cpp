@@ -200,5 +200,10 @@ namespace disxx::ui::backend::glut
 			+[](int width, int height) -> void
 			{ s_pInstance->ReshapeCallback(width, height); }
 		);
+		glutWMCloseFunc
+		(
+			+[](void) -> void
+			{ s_pInstance->WindowCloseCallback(); }
+		);
 	}
 } /* disxx::ui::backend::glut */
