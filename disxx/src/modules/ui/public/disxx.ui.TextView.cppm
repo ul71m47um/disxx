@@ -1,4 +1,4 @@
-export module disxx.ui.SourceEditor;
+export module disxx.ui.TextView;
 
 import disxx.ui.utility.ColorTag;
 import disxx.ui.Widget;
@@ -7,7 +7,7 @@ export import std;
 
 export namespace disxx::ui
 {
-	class __attribute__((visibility("default"))) [[nodiscard]] SourceEditor final : public Widget
+	class __attribute__((visibility("default"))) [[nodiscard]] TextView final : public Widget
 	{
 	  private:
 		std::vector<std::string> m_Lines;
@@ -21,12 +21,12 @@ export namespace disxx::ui
 		void ComputeMaxScroll(void) noexcept;
 
 	  public:
-		explicit SourceEditor(void) noexcept;
-		explicit SourceEditor(float, float, float, float) noexcept;
-		SourceEditor(const SourceEditor &) noexcept;	
-		SourceEditor &operator=(const SourceEditor &) noexcept;
+		explicit TextView(void) noexcept;
+		explicit TextView(float, float, float, float) noexcept;
+		TextView(const TextView &) noexcept;	
+		TextView &operator=(const TextView &) noexcept;
 
-		virtual ~SourceEditor(void) noexcept override = default;
+		virtual ~TextView(void) noexcept override = default;
 
 		virtual std::unique_ptr<Widget> Clone(void) const noexcept override;
 
@@ -42,7 +42,7 @@ export namespace disxx::ui
 		virtual void Render(void) const noexcept override;
 	};
 
-	inline std::vector<std::string> SourceEditor::GetLines(void) const noexcept
+	inline std::vector<std::string> TextView::GetLines(void) const noexcept
 	{
 		return this->m_Lines
 			| std::views::transform
@@ -56,7 +56,7 @@ export namespace disxx::ui
 	}
 
 	template <typename ...Args>
-	inline void SourceEditor::AddString(std::format_string<Args...> fmt, Args &&...args) noexcept(false)
+	inline void TextView::AddString(std::format_string<Args...> fmt, Args &&...args) noexcept(false)
 	{
 		// Change '\t' --> "    "
 		*this->m_Lines.rbegin() += std::regex_replace
@@ -68,7 +68,7 @@ export namespace disxx::ui
 	}
 
 	template <typename ...Args>
-	inline void SourceEditor::AddLine(std::format_string<Args...> fmt, Args &&...args) noexcept(false)
+	inline void TextView::AddLine(std::format_string<Args...> fmt, Args &&...args) noexcept(false)
     {
 		// Change '\t' --> "    "
 		this->m_Lines.emplace_back
@@ -82,7 +82,7 @@ export namespace disxx::ui
 		);
     }
 
-	inline void SourceEditor::ClearText(void) noexcept
+	inline void TextView::ClearText(void) noexcept
 	{
 		if (!this->m_Lines.empty()) [[likely]]
 			this->m_Lines.clear();

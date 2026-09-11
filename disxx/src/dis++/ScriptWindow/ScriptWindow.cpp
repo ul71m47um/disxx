@@ -1,7 +1,7 @@
 module ScriptWindow;
 
 import disxx.ui.MainWindow;
-import disxx.ui.SourceEditor;
+import disxx.ui.TextView;
 
 import ScriptEngine;
 
@@ -13,7 +13,7 @@ ScriptWindow::ScriptWindow(const std::filesystem::path &path) noexcept
 {
 	this->m_Win.SetVisible(true);
 
-	disxx::ui::SourceEditor field
+	disxx::ui::TextView field
 	{
 		800.f,
 		600.f,
@@ -23,7 +23,7 @@ ScriptWindow::ScriptWindow(const std::filesystem::path &path) noexcept
 	field.SetColor(0.2f, 0.2f, 0.2f);
 	for (const auto substr : this->m_Engine.ExecFile(path) | std::views::split('\n'))
 		field.AddLine("{}", substr);
-	this->m_Win.AddWidget(std::make_unique<disxx::ui::SourceEditor>(field));
+	this->m_Win.AddWidget(std::make_unique<disxx::ui::TextView>(field));
 }
 
 ScriptWindow::ScriptWindow(const ScriptWindow &other) noexcept

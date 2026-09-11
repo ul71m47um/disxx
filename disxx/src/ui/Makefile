@@ -57,10 +57,10 @@ MODULES=\
 	$(MODULESPATH)/private/backend/abstract/disxx.ui.backend.abstract.IContext.cppm \
 	$(MODULESPATH)/private/backend/glut/disxx.ui.backend.glut.Context.cppm \
 	$(MODULESPATH)/public/disxx.ui.Widget.cppm \
-	$(MODULESPATH)/public/disxx.ui.SourceEditor.cppm \
+	$(MODULESPATH)/public/disxx.ui.TextView.cppm \
 	$(MODULESPATH)/public/disxx.ui.Frame.cppm \
 	$(MODULESPATH)/private/disxx.ui.Tab.cppm \
-	$(MODULESPATH)/public/disxx.ui.TabbedPane.cppm \
+	$(MODULESPATH)/public/disxx.ui.TabWidget.cppm \
 	$(MODULESPATH)/private/disxx.ui.MenuEntry.cppm \
 	$(MODULESPATH)/public/disxx.ui.Button.cppm \
 	$(MODULESPATH)/public/disxx.ui.Label.cppm \
@@ -88,14 +88,14 @@ SOURCES=\
 	./disxx.ui.Widget.cpp \
 	./disxx.ui.Frame.cpp \
 	./disxx.ui.Tab.cpp \
-	./disxx.ui.TabbedPane.cpp \
+	./disxx.ui.TabWidget.cpp \
 	./disxx.ui.Button.cpp \
 	./disxx.ui.Label.cpp \
 	./disxx.ui.MenuEntry.cpp \
 	./disxx.ui.Menu.cpp \
 	./disxx.ui.MenuBar.cpp \
 	./disxx.ui.TextInput.cpp \
-	./disxx.ui.SourceEditor.cpp \
+	./disxx.ui.TextView.cpp \
 	./disxx.ui.MainWindow.cpp \
 	./disxx.ui.MessageBox.cpp
 

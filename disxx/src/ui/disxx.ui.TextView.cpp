@@ -1,4 +1,4 @@
-module disxx.ui.SourceEditor;
+module disxx.ui.TextView;
 
 import disxx.ui.backend.opengl.Renderer;
 import disxx.ui.backend.glut.Context;
@@ -21,7 +21,7 @@ namespace
 
 namespace disxx::ui
 {
-	SourceEditor::SourceEditor(void) noexcept
+	TextView::TextView(void) noexcept
 		: Widget{}
 		, m_Lines{}
 		, m_LastMouseX{0.f}
@@ -39,7 +39,7 @@ namespace disxx::ui
 		this->ComputeMaxScroll();
 	}
 
-	SourceEditor::SourceEditor(float x, float y, float width, float height) noexcept
+	TextView::TextView(float x, float y, float width, float height) noexcept
 		: Widget{x, y, width, height}
        	, m_Lines{} 
 		, m_LastMouseX{0.f}
@@ -57,7 +57,7 @@ namespace disxx::ui
 		this->ComputeMaxScroll();
 	}
 
-	SourceEditor::SourceEditor(const SourceEditor &other) noexcept
+	TextView::TextView(const TextView &other) noexcept
 		: Widget{other}
 		, m_Lines{other.m_Lines}
         , m_LastMouseX{other.m_LastMouseX}
@@ -72,7 +72,7 @@ namespace disxx::ui
 		, m_bActiveHorizontal{other.m_bActiveHorizontal}
 	{}
 
-	SourceEditor &SourceEditor::operator=(const SourceEditor &other) noexcept
+	TextView &TextView::operator=(const TextView &other) noexcept
 	{
 		if (this != &other) [[likely]]
 		{
@@ -93,7 +93,7 @@ namespace disxx::ui
 		return *this;
 	}
 
-	void SourceEditor::ComputeMaxScroll(void) noexcept
+	void TextView::ComputeMaxScroll(void) noexcept
 	{
 		this->m_MaxScrollY = std::max(0.f, static_cast<float>(this->m_Lines.size() * CHAR_WIDTH - (this->m_Size.y - CORNER_HEIGHT * 2.f) + 5.f));
 		this->m_ScrollY = std::max(0.f, std::min(this->m_ScrollY, this->m_MaxScrollY));
@@ -111,16 +111,16 @@ namespace disxx::ui
 		this->m_HorizontalSliderWidth = std::max(30.f, std::min(this->m_HorizontalSliderWidth, this->m_Size.x - CORNER_WIDTH * 2.f));
 	}
 
-	std::unique_ptr<Widget> SourceEditor::Clone(void) const noexcept
+	std::unique_ptr<Widget> TextView::Clone(void) const noexcept
 	{ return std::make_unique<std::decay<decltype(*this)>::type>(*this); }
 
-	void SourceEditor::Resize(utility::Vec2<float> size) noexcept
+	void TextView::Resize(utility::Vec2<float> size) noexcept
 	{
 		Widget::Resize(utility::Vec2<float>{size});
 		this->ComputeMaxScroll();
 	}
 
-	void SourceEditor::MouseButtonCallback(backend::event::MouseButton event) noexcept
+	void TextView::MouseButtonCallback(backend::event::MouseButton event) noexcept
 	{
 		const auto [x, y]{event.GetPosition()};
 		if (!(x >= this->m_Position.x && x <= this->m_Position.x + this->m_Size.x && y >= this->m_Position.y && y <= this->m_Position.y + this->m_Size.y))
@@ -157,7 +157,7 @@ namespace disxx::ui
 		}
 	}
 
-	void SourceEditor::MouseMotionCallback(backend::event::MouseMotion event) noexcept
+	void TextView::MouseMotionCallback(backend::event::MouseMotion event) noexcept
 	{
 		if (event.Passive())
 			return;
@@ -181,7 +181,7 @@ namespace disxx::ui
 		}
 	}
 	
-	void SourceEditor::Render(void) const noexcept
+	void TextView::Render(void) const noexcept
 	{
 		if (!this->m_bVisible)
 			return;

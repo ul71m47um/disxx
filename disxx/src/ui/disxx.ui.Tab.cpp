@@ -7,19 +7,19 @@ namespace disxx::ui
 {
 	Tab::Tab(void) noexcept
 		: Widget{}
-		, m_TextArea{}
+		, m_pWidget{}
 		, m_Text{}
 	{}
 
 	Tab::Tab(float x, float y, float width, float height) noexcept
 		: Widget{x, y, width, height}
-		, m_TextArea{}
+		, m_pWidget{}
 		, m_Text{}
 	{}
 
 	Tab::Tab(const Tab &other) noexcept
 		: Widget{other}
-		, m_TextArea{other.m_TextArea}
+		, m_pWidget{other.m_pWidget ? other.m_pWidget->Clone() : nullptr}
 		, m_Text{other.m_Text}
 	{}
 
@@ -28,7 +28,10 @@ namespace disxx::ui
 		if (this != &other) [[likely]]
 		{
 			Widget::operator=(other);
-			this->m_TextArea = other.m_TextArea;
+			if (this->m_pWidget)
+				this->m_pWidget.reset();
+			if (other.m_pWidget)
+				this->m_pWidget = other.m_pWidget->Clone();
 			this->m_Text = other.m_Text;
 		}
 
@@ -37,14 +40,16 @@ namespace disxx::ui
 
 	Tab::Tab(Tab &&other) noexcept
 		: Widget{std::forward<Tab &&>(other)}
-		, m_TextArea{std::move(other.m_TextArea)}
+		, m_pWidget{std::move(other.m_pWidget)}
 		, m_Text{std::move(other.m_Text)}
 	{}
 
 	Tab &Tab::operator=(Tab &&other) noexcept
 	{
 		Widget::operator=(std::forward<Tab &&>(other));
-		this->m_TextArea = std::move(other.m_TextArea);
+		if (this->m_pWidget)
+			this->m_pWidget.reset();
+		this->m_pWidget = std::move(other.m_pWidget);
 		this->m_Text = std::move(other.m_Text);
 		
 		return *this;
@@ -96,7 +101,8 @@ namespace disxx::ui
 
 	void Tab::MouseButtonCallback(backend::event::MouseButton event) noexcept
 	{
-		this->m_TextArea.MouseButtonCallback(event);
+		if (this->m_pWidget)
+			this->m_pWidget->MouseButtonCallback(event);
 
 		const auto [x, y]{event.GetPosition()};
 		if (!(x >= this->m_Position.x && x <= this->m_Position.x + this->m_Size.x && y >= this->m_Position.y && y <= this->m_Position.y + this->m_Size.y))
@@ -107,5 +113,8 @@ namespace disxx::ui
 	}
 
 	void Tab::MouseMotionCallback(backend::event::MouseMotion event) noexcept
-	{ this->m_TextArea.MouseMotionCallback(event); }
+	{
+		if (this->m_pWidget)
+			this->m_pWidget->MouseMotionCallback(event);
+	}
 } /* disxx::ui */

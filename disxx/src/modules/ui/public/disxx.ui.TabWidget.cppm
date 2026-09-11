@@ -1,4 +1,4 @@
-export module disxx.ui.TabbedPane;
+export module disxx.ui.TabWidget;
 
 import disxx.ui.Widget;
 export import disxx.ui.Tab;
@@ -7,21 +7,21 @@ export import std;
 
 export namespace disxx::ui
 {
-	class __attribute__((visibility("default"))) [[nodiscard]] TabbedPane final : public Widget
+	class __attribute__((visibility("default"))) [[nodiscard]] TabWidget final : public Widget
 	{
 	  private:
 		std::vector<Tab> m_Tabs{};
 		std::function<void(Tab &)> m_Callback{};
 
 	  public:
-		explicit TabbedPane(void) noexcept;
-		explicit TabbedPane(float, float, float, float) noexcept;
+		explicit TabWidget(void) noexcept;
+		explicit TabWidget(float, float, float, float) noexcept;
 
-		TabbedPane(const TabbedPane &) noexcept;
-		TabbedPane &operator=(const TabbedPane &) noexcept;
+		TabWidget(const TabWidget &) noexcept;
+		TabWidget &operator=(const TabWidget &) noexcept;
 
-		TabbedPane(TabbedPane &&) noexcept;
-		TabbedPane &operator=(TabbedPane &&) noexcept;
+		TabWidget(TabWidget &&) noexcept;
+		TabWidget &operator=(TabWidget &&) noexcept;
 
 		inline void Push(Tab &&) noexcept;
 		inline void Pop(void) noexcept;
@@ -39,7 +39,7 @@ export namespace disxx::ui
 		virtual void MouseMotionCallback(backend::event::MouseMotion) noexcept override;
 	};
 
-	inline void TabbedPane::Push(Tab &&tab) noexcept
+	inline void TabWidget::Push(Tab &&tab) noexcept
 	{
 		this->m_Tabs.push_back(std::forward<Tab &&>(tab));
 		
@@ -71,16 +71,16 @@ export namespace disxx::ui
 		}
 	}
 
-	inline void TabbedPane::SetTabClickCallback(std::function<void(Tab &)> callback) noexcept
+	inline void TabWidget::SetTabClickCallback(std::function<void(Tab &)> callback) noexcept
 	{ this->m_Callback = callback; }
 
-	inline void TabbedPane::Pop(void) noexcept
+	inline void TabWidget::Pop(void) noexcept
 	{
 		if (this->m_Tabs.size() > 0) [[likely]]
 			this->m_Tabs.pop_back();
 	}
 
-	inline std::optional<std::reference_wrapper<const Tab>> TabbedPane::GetActiveTab(void) const noexcept
+	inline std::optional<std::reference_wrapper<const Tab>> TabWidget::GetActiveTab(void) const noexcept
 	{
 		for (const auto &tab : this->m_Tabs)
 			if (tab.Clicked())
@@ -88,9 +88,9 @@ export namespace disxx::ui
 		return std::nullopt;
 	}
 
-	inline const std::vector<Tab> &TabbedPane::GetTabs(void) const noexcept
+	inline const std::vector<Tab> &TabWidget::GetTabs(void) const noexcept
 	{ return this->m_Tabs; }
 
-	inline std::vector<Tab> &TabbedPane::GetTabs(void) noexcept
+	inline std::vector<Tab> &TabWidget::GetTabs(void) noexcept
 	{ return this->m_Tabs; }
 } /* disxx::ui */

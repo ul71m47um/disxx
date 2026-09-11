@@ -18,7 +18,7 @@ module FailHandler;
 
 import disxx.ui.Widget;
 import disxx.ui.Button;
-import disxx.ui.SourceEditor;
+import disxx.ui.TextView;
 
 import std;
 
@@ -30,7 +30,7 @@ FailHandler::FailHandler(void) noexcept
 {
 	this->m_Window.SetVisible(true);
 
-	disxx::ui::SourceEditor report
+	disxx::ui::TextView report
 	{
 		0.f,
 		100.f,
@@ -180,7 +180,7 @@ FailHandler::FailHandler(void) noexcept
 		report.AddLine("{}", str);
 	report.AddLine("{}", CLEARFRAME(frame));
 
-	this->m_Window.AddWidget(std::make_unique<disxx::ui::SourceEditor>(report));
+	this->m_Window.AddWidget(std::make_unique<disxx::ui::TextView>(report));
 }
 
 FailHandler *FailHandler::Init(int &argc, char **&argv) noexcept

@@ -144,6 +144,9 @@ namespace disxx::ui::backend::glut
 			if (auto it{this->m_Windows.find(hWin)}; it != this->m_Windows.end()) [[likely]]
 				this->m_Windows.erase(it);
 			glutDestroyWindow(hWin);
+
+			if (!this->m_Windows.empty())
+				this->SetWindow(this->m_Windows.rbegin()->second);
 		}
 	}
 

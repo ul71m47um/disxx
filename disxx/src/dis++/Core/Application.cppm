@@ -3,8 +3,8 @@ export module Application;
 import disxx.utility.error.NullPointerError;
 
 import disxx.ui.MainWindow;
-import disxx.ui.SourceEditor;
-import disxx.ui.TabbedPane;
+import disxx.ui.TextView;
+import disxx.ui.TabWidget;
 import disxx.ui.Widget;
 
 import ScriptWindow;
@@ -20,8 +20,8 @@ export class __attribute__((visibility("hidden"))) [[nodiscard]] Application
 	
   private:
 	disxx::ui::MainWindow m_Window{};
-	disxx::ui::SourceEditor *m_pLabels;
-	disxx::ui::TabbedPane *m_pTabs;
+	disxx::ui::TextView *m_pLabels;
+	disxx::ui::TabWidget *m_pTabs;
 	std::vector<disxx::ui::Widget *> m_ModalWidgets{};
 	std::vector<ScriptWindow> m_ScriptWindows{};
 	DisLog m_Logger{};

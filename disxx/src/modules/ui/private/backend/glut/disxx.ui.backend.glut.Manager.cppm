@@ -20,7 +20,7 @@ export namespace disxx::ui::backend::glut
 
 	  private:
 		// Windows and their handles
-		std::unordered_map<int, Owned> m_Windows{};
+		std::map<int, Owned> m_Windows{};
 		Weak m_pCurrentWindow{};
 		
 	  private:

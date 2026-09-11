@@ -48,7 +48,7 @@ namespace disxx::ui::backend::glut
 	
 	void Window::Destroy(void) noexcept
 	{
-		WinGuard guard{glutGetWindow()};
+		//WinGuard guard{glutGetWindow()};
 
 		if (!this->m_hWin) [[unlikely]]
 			return;

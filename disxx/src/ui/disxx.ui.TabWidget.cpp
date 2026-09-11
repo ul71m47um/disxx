@@ -1,29 +1,29 @@
-module disxx.ui.TabbedPane;
+module disxx.ui.TabWidget;
 
 import disxx.ui.renderable.Rectangle;
 import disxx.ui.renderable.Text;
 
 namespace disxx::ui
 {
-	TabbedPane::TabbedPane(void) noexcept
+	TabWidget::TabWidget(void) noexcept
 		: Widget{}
 		, m_Tabs{}
 		, m_Callback{[](Tab &_) -> void {}}
 	{}
 
-	TabbedPane::TabbedPane(float x, float y, float width, float height) noexcept
+	TabWidget::TabWidget(float x, float y, float width, float height) noexcept
 		: Widget{x, y, width, height}
 		, m_Tabs{}
 		, m_Callback{[](Tab &_) -> void {}}
 	{}
 
-	TabbedPane::TabbedPane(const TabbedPane &other) noexcept
+	TabWidget::TabWidget(const TabWidget &other) noexcept
 		: Widget{other}
 		, m_Tabs{other.m_Tabs}
 		, m_Callback{other.m_Callback}
 	{}
 
-	TabbedPane &TabbedPane::operator=(const TabbedPane &other) noexcept
+	TabWidget &TabWidget::operator=(const TabWidget &other) noexcept
 	{
 		if (this != &other) [[likely]]
 		{
@@ -35,25 +35,25 @@ namespace disxx::ui
 		return *this;
 	}
 
-	TabbedPane::TabbedPane(TabbedPane &&other) noexcept
-		: Widget{std::forward<TabbedPane &&>(other)}
+	TabWidget::TabWidget(TabWidget &&other) noexcept
+		: Widget{std::forward<TabWidget &&>(other)}
 		, m_Tabs{std::move(other.m_Tabs)}
 		, m_Callback{std::move(other.m_Callback)}
 	{}
 
-	TabbedPane &TabbedPane::operator=(TabbedPane &&other) noexcept
+	TabWidget &TabWidget::operator=(TabWidget &&other) noexcept
 	{
-		Widget::operator=(std::forward<TabbedPane &&>(other));
+		Widget::operator=(std::forward<TabWidget &&>(other));
 		this->m_Tabs = std::move(other.m_Tabs);
 		this->m_Callback = std::move(other.m_Callback);
 		
 		return *this;
 	}
 
-	std::unique_ptr<Widget> TabbedPane::Clone(void) const noexcept
+	std::unique_ptr<Widget> TabWidget::Clone(void) const noexcept
 	{ return std::make_unique<std::decay<decltype(*this)>::type>(*this); }
 
-	void TabbedPane::Render(void) const noexcept
+	void TabWidget::Render(void) const noexcept
 	{
 		if (!this->m_bVisible)
 			return;
@@ -80,7 +80,7 @@ namespace disxx::ui
 		}
 	}
 
-	void TabbedPane::MouseButtonCallback(backend::event::MouseButton event) noexcept
+	void TabWidget::MouseButtonCallback(backend::event::MouseButton event) noexcept
 	{
 		const auto [x, y]{event.GetPosition()};
 		if (!(x >= this->m_Position.x && x <= this->m_Position.x + this->m_Size.x && y >= this->m_Position.y && y <= this->m_Position.y + this->m_Size.y))
@@ -108,7 +108,7 @@ namespace disxx::ui
 		}
 	}
 
-	void TabbedPane::MouseMotionCallback(backend::event::MouseMotion event) noexcept
+	void TabWidget::MouseMotionCallback(backend::event::MouseMotion event) noexcept
 	{
 		if (event.Passive())
 			return;

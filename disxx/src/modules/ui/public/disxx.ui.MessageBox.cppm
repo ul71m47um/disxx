@@ -21,6 +21,8 @@ export namespace disxx::ui
 		MessageBox(MessageBox &&) noexcept;
 		MessageBox &operator=(MessageBox &&) noexcept;
 
+		~MessageBox(void) noexcept = default;
+
 		inline int Exec(void) noexcept;
 	};
 
