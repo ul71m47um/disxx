@@ -25,8 +25,25 @@ export namespace disxx::ui
 			>
 		> m_Widgets{};
 		Type m_Type{};
+		float m_ContentExtent{};
+		float m_ScrollOffset{};
+		float m_DragAnchorMouse{};
+		float m_DragAnchoreOffset{};
+		bool m_bDraggingThumb{};
 
-  	  public:
+	  private:
+		bool IntersectsViewport(const Widget &) const noexcept;
+		utility::Vec2<float> ScrollbarTrackPosition(void) const noexcept;
+		utility::Vec2<float> ScrollbarTrackSize(void) const noexcept;
+		float ThumbLength(void) const noexcept;
+		float ThumbOffset(void) const noexcept;
+		bool HitTestThumb(utility::Vec2<float>) const noexcept;
+		bool HitTestTrack(utility::Vec2<float>) const noexcept;
+
+		void Calculate(void) noexcept;
+		void Place(void) noexcept;
+
+	  public:
 		explicit BoxLayout(void) noexcept;
 		explicit BoxLayout(Type) noexcept;
 		explicit BoxLayout(float, float, float, float, Type) noexcept;
@@ -40,8 +57,11 @@ export namespace disxx::ui
 		void PushWidget(std::unique_ptr<Widget> &&) noexcept;
 		void PushSpacing(unsigned short int) noexcept;
 
-		virtual void Resize(utility::Vec2<float>) noexcept override;
+		virtual std::unuique_ptr<Widget> Clone(void) const noexcept override;
 
+		virtual void Replace(utility::Vec2<float>) noexcept override;
+		virtual void Resize(utility::Vec2<float>) noexcept override;
+		
 		virtual void MouseMotionCallback(backend::event::MouseMotion) noexcept override;
 		virtual void MouseButtonCallback(backend::event::MouseButton) noexcept override;
 		virtual void KeyboardCallback(backend::event::Keyboard) noexcept override;
