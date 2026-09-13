@@ -1,5 +1,9 @@
 module disxx.ui.BoxLayout;
 
+import disxx.ui.renderable.Rectangle;
+
+import std;
+
 namespace disxx::ui
 {
 	BoxLayout::BoxLayout(void) noexcept
@@ -49,16 +53,19 @@ namespace disxx::ui
 		{
 			std::visit
 			(
-				[this](auto &&widget) -> void
+				[this](auto &&var) -> void
 				{
-					if constexpr (std::same_as<decltype(widget), unsigned short int>::value)
-						this->m_Widgets.push_back({widget});
-					else if (widget)
-						this->m_Widgets.emplace_back({widget->Clone()});
+					if constexpr (std::same_as<typename std::decay<decltype(var)>::type, unsigned short int>)
+						this->m_Widgets.push_back(var);
+					else if (var)
+						this->m_Widgets.emplace_back(var->Clone());
 				},
 				widget
 			);
 		}
+
+		this->Calculate();
+		this->Place();
 	}
 
 	BoxLayout &BoxLayout::operator=(const BoxLayout &other) noexcept
@@ -70,12 +77,12 @@ namespace disxx::ui
 			{
 				std::visit
 				(
-					[this](auto &&widget) -> void
+					[this](auto &&var) -> void
 					{
-						if constexpr (std::same_as<decltype(widget), unsigned short int>::value)
-							this->m_Widgets.push_back({widget});
-						else if (widget)
-							this->m_Widgets.emplace_back({widget->Clone()});
+						if constexpr (std::same_as<typename std::decay<decltype(var)>::type, unsigned short int>)
+							this->m_Widgets.push_back(var);
+						else if (var)
+							this->m_Widgets.emplace_back(var->Clone());
 					},
 					widget
 				);
@@ -85,8 +92,11 @@ namespace disxx::ui
 			this->m_ScrollOffset = other.m_ScrollOffset;
 			this->m_DragAnchorMouse = other.m_DragAnchorMouse;
 			this->m_DragAnchorOffset = other.m_DragAnchorOffset;
-			this->m_DraggingThumb = other.m_DraggingThumb;
+			this->m_bDraggingThumb = other.m_bDraggingThumb;
 		}
+
+		this->Calculate();
+		this->Place();
 
 		return *this;
 	}
@@ -113,7 +123,7 @@ namespace disxx::ui
 			this->m_ScrollOffset = std::move(other.m_ScrollOffset);
 			this->m_DragAnchorMouse = std::move(other.m_DragAnchorMouse);
 			this->m_DragAnchorOffset = std::move(other.m_DragAnchorOffset);
-			this->m_DraggingThumb = std::move(other.m_DraggingThumb);
+			this->m_bDraggingThumb = std::move(other.m_bDraggingThumb);
 		}
 
 		return *this;
@@ -121,18 +131,6 @@ namespace disxx::ui
 
 	std::unique_ptr<Widget> BoxLayout::Clone(void) const noexcept
 	{ return std::make_unique<typename std::decay<decltype(*this)>::type>(*this); }
-
-	void BoxLayout::PushWidget(std::unique_ptr<Widget> &&pWidget) noexcept
-	{
-		this->m_Widgets.emplace_back(std::move(pWidget));
-		this->Relayout();
-	}
-
-	void BoxLayout::PushSpacing(unsigned short int spacing) noexcept
-	{
-		this->m_Widgets.emplace_back(spacing);
-		this->Relayout();
-	}
 
 	bool BoxLayout::IntersectsViewport(const Widget &widget) const noexcept
 	{
@@ -153,18 +151,18 @@ namespace disxx::ui
 			(
 				[this](auto &&var) mutable -> void
 				{
-					if constexpr (std::same_as<typename std::decay<decltype(var)>::type, std::unique_ptr<Widget>>::value)
+					if constexpr (std::same_as<typename std::decay<decltype(var)>::type, std::unique_ptr<Widget>>)
 					{
 						if (!var) [[unlikely]]
 							return;
 
-						if (const auto size{widget->GetSize()}; this->m_Type == Type::TYPE_X_AXIS)
+						if (const auto size{var->GetSize()}; this->m_Type == Type::TYPE_X_AXIS)
 							this->m_ContentExtent += size.x;
 						else
 							this->m_ContentExtent += size.y;
 					}
 					else
-						this->m_ContentExtent += entry;
+						this->m_ContentExtent += var;
 				},
 				entry
 			);
@@ -188,7 +186,6 @@ namespace disxx::ui
 			)
 		);
 
-		const auto origin{this->m_Position};
 		auto cursor{-this->m_ScrollOffset};
 
 		for (const auto &entry : this->m_Widgets)
@@ -197,20 +194,20 @@ namespace disxx::ui
 			(
 				[this, cursor](auto &&var) mutable -> void
 				{
-					if constexpr (std::same_as<typename std::decay<decltype(var)>::type, std::unique_ptr<Widget>>::value)
+					if constexpr (std::same_as<typename std::decay<decltype(var)>::type, std::unique_ptr<Widget>>)
 					{
 						if (var) [[unlikely]]
 							return;
 
-						const auto size{widget->GetSize()};
-						if (this->m_Type == TYPE::TYPE_X_AXIS)
+						const auto size{var->GetSize()};
+						if (this->m_Type == Type::TYPE_X_AXIS)
 						{
-							widget->Replace(utility::Vec2<float>{origin.x + cursor, origin.y});
+							var->Replace(utility::Vec2<float>{this->m_Position.x + cursor, this->m_Position.y});
 							cursor += size.x;
 						}
 						else
 						{
-							widget.Replace(utility::Vec2<float>{origin.x, origin.y + cursor});
+							var->Replace(utility::Vec2<float>{this->m_Position.x, this->m_Position.y + cursor});
 							cursor += size.y;
 						}
 					}
@@ -236,33 +233,22 @@ namespace disxx::ui
 
 	void BoxLayout::ScrollTo(float offset) noexcept
 	{
-		const auto clamped
-		{
-			std::clamp
+		this->m_ScrollOffset = std::clamp
+		(
+			offset,
+			0.f,
+			std::max
 			(
-				offset,
 				0.f,
-				std::max
-				(
-					0.f,
-					this->m_ContentExtent - (
-						this->m_Type == Type::TYPE_X_AXIS
-							? this->m_Size.x
-							: this->m_Size.y
-					)
+				this->m_ContentExtent - (
+					this->m_Type == Type::TYPE_X_AXIS
+						? this->m_Size.x
+						: this->m_Size.y
 				)
 			)
-		};
-
-		if (clamped == this->m_ScrollOffset)
-			return;
-
-		this->m_ScrollOffset = clamped;
+		);
 		this->Place();
 	}
-
-	void BoxLayout::ScrollBy(float delta) noexcept
-	{ this->ScrollTo(this->m_ScrollOffset + delta); }
 
 	utility::Vec2<float> BoxLayout::ScrollbarTrackPosition(void) const noexcept
 	{
@@ -303,7 +289,7 @@ namespace disxx::ui
 					? this->m_Size.x
 					: this->m_Size.y
 			) - this->ThumbLength()
-		}, maxOffset{std::max(0.f, this->m_ContentExtent - this->ViewportExtent())};
+		}, maxOffset{std::max(0.f, this->m_ContentExtent - (this->m_Type == Type::TYPE_X_AXIS ? this->m_Size.x : this->m_Size.y))};
 		return (maxOffset > 0.f) ? (track * (this->m_ScrollOffset / maxOffset)) : 0.f;
 	}
 
@@ -337,14 +323,14 @@ namespace disxx::ui
 		{
 			std::visit
 			(
-				[](auto &&var) -> void
+				[this](auto &&var) -> void
 				{
-					if constexpr (std::same_as<typename std::decay<decltype(var)>::type, std::unique_ptr<Widget>>::value)
+					if constexpr (std::same_as<typename std::decay<decltype(var)>::type, std::unique_ptr<Widget>>)
 					{
 						if (!var) [[unlikely]]
 							return;
 
-						if (this->IntersectsViewPort(*var))
+						if (this->IntersectsViewport(*var))
 							var->Render();
 					}
 				},
@@ -352,7 +338,7 @@ namespace disxx::ui
 			);
 		}
 
-		if (this->m_ContentExtent > this->ViewportExtent())
+		if (this->m_ContentExtent > (this->m_Type == TYPE_X_AXIS ? this->m_Size.x : this->m_Size.y))
 		{
 			const auto trackPos{this->ScrollbarTrackPosition()}, trackSize{this->ScrollbarTrackSize()};
 			const auto thumbOff{this->ThumbOffset()}, thumbLen{this->ThumbLength()};
@@ -370,16 +356,16 @@ namespace disxx::ui
 			}
 
 			renderable::Rectangle track{};
-			track.replace(trackSize);
+			track.Replace(trackSize);
 			track.Resize(trackPos);
 			track.SetColor(utility::Vec3<float>{0.4f, 0.4f, 0.4f});
-			s_pRenderer->Push(std::move(track));
+			s_pRenderer->Push(std::make_unique<renderable::Rectangle>(track));
 
 			renderable::Rectangle thumb{};
-			thumb.replace(thumbSize);
+			thumb.Replace(thumbSize);
 			thumb.Resize(thumbPos);
 			thumb.SetColor(utility::Vec3<float>{0.4f, 0.4f, 0.4f});
-			s_pRenderer->Push(std::move(thumb));
+			s_pRenderer->Push(std::make_unique<renderable::Rectangle>(thumb));
 
 			s_pRenderer->Render();
 		}
@@ -405,18 +391,16 @@ namespace disxx::ui
 		for (auto &entry : this->m_Widgets)
 		{
 			
-			auto *pWidget = std::get_if<std::unique_ptr<Widget>>(&entry);
-
 			std::visit
 			(
-				[](auto &&var) -> void
+				[this, event](auto &&var) -> void
 				{
-					if constexpr (std::same_as<typename std::decay<decltype(var)>::type, std::unique_ptr<Widget>>::value)
+					if constexpr (std::same_as<typename std::decay<decltype(var)>::type, std::unique_ptr<Widget>>)
 					{
 						if (!var) [[unlikely]]
 							return;
 
-						if (this->IntersectsViewPort(*var))
+						if (this->IntersectsViewport(*var))
 							var->MouseMotionCallback(event);
 					}
 				},
@@ -434,9 +418,9 @@ namespace disxx::ui
 			y >= this->m_Position.y && y <= this->m_Position.y + this->m_Size.y
 		};
 
-		if (this->m_ContentExtent > this->ViewportExtent())
+		if (this->m_ContentExtent > (this->m_Type == TYPE_X_AXIS ? this->m_Size.x : this->m_Size.y))
 		{
-			if (event.GetButton() == 0 && this->HitTestThumb(mouse))
+			if (event.GetButton() == 0 && event.GetState() == 0 && this->HitTestThumb(event.GetPosition()))
 			{
 				this->m_bDraggingThumb = true;
 				this->m_DragAnchorMouse = (this->m_Type == TYPE_X_AXIS) ? x : y;
@@ -447,14 +431,21 @@ namespace disxx::ui
 			if (event.GetButton() != 0)
 				this->m_bDraggingThumb = false;
 
-			if (event.GetButton() == 0 && this->HitTestTrack(mouse))
+			if (event.GetButton() == 0 && event.GetState() == 0 && this->HitTestTrack(event.GetPosition()))
 			{
 				const utility::Vec2<float> trackPos{this->ScrollbarTrackPosition()};
 				const float clickMain{(this->m_Type == TYPE_X_AXIS) ? x : y};
 				const float trackMain{(this->m_Type == TYPE_X_AXIS) ? trackPos.x : trackPos.y};
 				const float thumbStart{trackMain + this->ThumbOffset()};
 
-				this->ScrollBy((this->m_Type == TYPE_X_AXIS ? this->m_Size.x : this->m_Size.y) * (clickMain < thumbStart ? -1.f : 1.f));
+				this->ScrollTo
+				(
+					this->m_ScrollOffset + (
+						this->m_Type == TYPE_X_AXIS
+							? this->m_Size.x
+							: this->m_Size.y
+					) * (clickMain < thumbStart ? -1.f : 1.f)
+				);
 				return;
 			}
 		}
@@ -466,14 +457,14 @@ namespace disxx::ui
 		{
 			std::visit
 			(
-				[](auto &&var) -> void
+				[this, event](auto &&var) -> void
 				{
-					if constexpr (std::same_as<typename std::decay<decltype(var)>::type, std::unique_ptr<Widget>>::value)
+					if constexpr (std::same_as<typename std::decay<decltype(var)>::type, std::unique_ptr<Widget>>)
 					{
 						if (!var) [[unlikely]]
 							return;
 
-						if (this->IntersectsViewPort(*var))
+						if (this->IntersectsViewport(*var))
 							var->MouseButtonCallback(event);
 					}
 				},
@@ -488,9 +479,9 @@ namespace disxx::ui
 		{
 			std::visit
 			(
-				[](auto &&var) -> void
+				[event](auto &&var) -> void
 				{
-					if constexpr (std::same_as<typename std::decay<decltype(var)>::type, std::unique_ptr<Widget>>::value)
+					if constexpr (std::same_as<typename std::decay<decltype(var)>::type, std::unique_ptr<Widget>>)
 					{
 						if (!var) [[unlikely]]
 							return;

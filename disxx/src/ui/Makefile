@@ -57,12 +57,15 @@ MODULES=\
 	$(MODULESPATH)/private/backend/abstract/disxx.ui.backend.abstract.IContext.cppm \
 	$(MODULESPATH)/private/backend/glut/disxx.ui.backend.glut.Context.cppm \
 	$(MODULESPATH)/public/disxx.ui.Widget.cppm \
+	$(MODULESPATH)/public/disxx.ui.BoxLayout.cppm \
 	$(MODULESPATH)/public/disxx.ui.TextView.cppm \
 	$(MODULESPATH)/public/disxx.ui.Frame.cppm \
 	$(MODULESPATH)/private/disxx.ui.Tab.cppm \
 	$(MODULESPATH)/public/disxx.ui.TabWidget.cppm \
 	$(MODULESPATH)/private/disxx.ui.MenuEntry.cppm \
 	$(MODULESPATH)/public/disxx.ui.Button.cppm \
+	$(MODULESPATH)/private/disxx.ui.TreeItem.cppm \
+	$(MODULESPATH)/private/disxx.ui.Tree.cppm \
 	$(MODULESPATH)/public/disxx.ui.Label.cppm \
 	$(MODULESPATH)/private/disxx.ui.Menu.cppm \
 	$(MODULESPATH)/public/disxx.ui.MenuBar.cppm \
@@ -86,10 +89,13 @@ SOURCES=\
 	./backend/glut/disxx.ui.backend.glut.Context.cpp \
 	./backend/glut/disxx.ui.backend.glut.Window.cpp \
 	./disxx.ui.Widget.cpp \
+	./disxx.ui.BoxLayout.cpp \
 	./disxx.ui.Frame.cpp \
 	./disxx.ui.Tab.cpp \
 	./disxx.ui.TabWidget.cpp \
 	./disxx.ui.Button.cpp \
+	./disxx.ui.TreeItem.cpp \
+	./disxx.ui.Tree.cpp \
 	./disxx.ui.Label.cpp \
 	./disxx.ui.MenuEntry.cpp \
 	./disxx.ui.Menu.cpp \

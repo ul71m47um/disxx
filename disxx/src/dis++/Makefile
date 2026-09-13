@@ -86,9 +86,9 @@ MODULES=\
 	../modules/ui/private/disxx.ui.MenuEntry.cppm \
 	../modules/ui/private/disxx.ui.Menu.cppm \
 	../modules/ui/public/disxx.ui.MenuBar.cppm \
-	../modules/ui/public/disxx.ui.SourceEditor.cppm \
+	../modules/ui/public/disxx.ui.TextView.cppm \
 	../modules/ui/private/disxx.ui.Tab.cppm \
-	../modules/ui/public/disxx.ui.TabbedPane.cppm \
+	../modules/ui/public/disxx.ui.TabWidget.cppm \
 	../modules/ui/public/disxx.ui.TextInput.cppm \
 	../modules/ui/public/disxx.ui.MainWindow.cppm \
 	 ../modules/ui/public/disxx.ui.MessageBox.cppm \

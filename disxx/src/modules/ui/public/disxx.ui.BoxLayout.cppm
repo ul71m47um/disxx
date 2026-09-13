@@ -16,6 +16,9 @@ export namespace disxx::ui
 		};
 
 	  private:
+		static constexpr float s_ScrollbarThickness{15.f}, s_MinThumbLength{20.f};
+
+	  private:
 		std::vector
 		<
 			std::variant
@@ -28,7 +31,7 @@ export namespace disxx::ui
 		float m_ContentExtent{};
 		float m_ScrollOffset{};
 		float m_DragAnchorMouse{};
-		float m_DragAnchoreOffset{};
+		float m_DragAnchorOffset{};
 		bool m_bDraggingThumb{};
 
 	  private:
@@ -39,6 +42,7 @@ export namespace disxx::ui
 		float ThumbOffset(void) const noexcept;
 		bool HitTestThumb(utility::Vec2<float>) const noexcept;
 		bool HitTestTrack(utility::Vec2<float>) const noexcept;
+		void ScrollTo(float) noexcept;
 
 		void Calculate(void) noexcept;
 		void Place(void) noexcept;
@@ -54,10 +58,10 @@ export namespace disxx::ui
 		BoxLayout(BoxLayout &&) noexcept;
 		BoxLayout &operator=(BoxLayout &&) noexcept;
 
-		void PushWidget(std::unique_ptr<Widget> &&) noexcept;
-		void PushSpacing(unsigned short int) noexcept;
+		inline void PushWidget(std::unique_ptr<Widget> &&) noexcept;
+		inline void PushSpacing(unsigned short int) noexcept;
 
-		virtual std::unuique_ptr<Widget> Clone(void) const noexcept override;
+		virtual std::unique_ptr<Widget> Clone(void) const noexcept override;
 
 		virtual void Replace(utility::Vec2<float>) noexcept override;
 		virtual void Resize(utility::Vec2<float>) noexcept override;
@@ -67,4 +71,21 @@ export namespace disxx::ui
 		virtual void KeyboardCallback(backend::event::Keyboard) noexcept override;
 		virtual void Render(void) const noexcept override;
 	};
+
+	inline void BoxLayout::PushWidget(std::unique_ptr<Widget> &&ptr) noexcept
+	{
+		if (!ptr) [[unlikely]]
+			return;
+
+		this->m_Widgets.emplace_back(std::forward<std::unique_ptr<Widget> &&>(ptr));
+		this->Calculate();
+		this->Place();
+	}
+
+	inline void BoxLayout::PushSpacing(unsigned short int spacing) noexcept
+	{
+		this->m_Widgets.emplace_back(spacing);
+		this->Calculate();
+		this->Place();
+	}
 } /* disxx::ui */

@@ -6,7 +6,7 @@ export import std;
 
 export namespace disxx::ui
 {
-	class __attribute__((visibility("default"))) [[nodiscard]] Button final : public Widget
+	class __attribute__((visibility("default"))) [[nodiscard]] Button : public Widget
 	{
 	  public:
 		enum class Trigger
@@ -16,7 +16,7 @@ export namespace disxx::ui
 			BTN_HOVERED
 		};
 
-	  private:
+	  protected:
 		std::function<void(const Widget *const)> m_Callback{};
 		std::string m_Text{};
 		Trigger m_Trigger{};
@@ -34,7 +34,7 @@ export namespace disxx::ui
 		virtual ~Button(void) noexcept override = default;
 
 		inline void SetCallback(const Trigger, std::function<void(const Widget *const)>) noexcept;
-		inline void SetText(std::string_view) noexcept;	
+		virtual void SetText(std::string_view) noexcept;	
 
 		virtual std::unique_ptr<Widget> Clone(void) const noexcept override;
 
@@ -56,8 +56,5 @@ export namespace disxx::ui
 			// It won't be used anyway...
 			this->m_Trigger = Trigger::BTN_NONE;
 		}
-	}
-
-	inline void Button::SetText(std::string_view str) noexcept
-	{ this->m_Text = str.data(); }
+	}	
 } /* disxx::ui */

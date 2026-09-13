@@ -59,6 +59,9 @@ namespace disxx::ui
 		return *this;
 	}
 
+	void Button::SetText(std::string_view str) noexcept
+	{ this->m_Text = str.data(); }
+
 	std::unique_ptr<Widget> Button::Clone(void) const noexcept
 	{ return std::make_unique<std::decay<decltype(*this)>::type>(*this); }
 
@@ -118,7 +121,7 @@ namespace disxx::ui
 
 	void Button::MouseMotionCallback(backend::event::MouseMotion event) noexcept
 	{
-		if (event.Passive())
+		if (!event.Passive())
 			return;
 
 		const auto [x, y]{event.GetPosition()};

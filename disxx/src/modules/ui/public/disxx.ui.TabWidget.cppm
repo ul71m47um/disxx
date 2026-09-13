@@ -65,9 +65,11 @@ export namespace disxx::ui
 				}
 			);
 			
-			auto &area{iTab.GetTextArea()};
-			area.Replace(utility::Vec2<float>{this->m_Position.x, this->m_Position.y});
-			area.Resize(utility::Vec2<float>{this->m_Size.x, this->m_Size.y * 0.95f});
+			if (auto &pWidget{iTab.GetWidget()}) [[likely]]
+			{
+				pWidget->Replace(utility::Vec2<float>{this->m_Position.x, this->m_Position.y});
+				pWidget->Resize(utility::Vec2<float>{this->m_Size.x, this->m_Size.y * 0.95f});
+			}
 		}
 	}
 

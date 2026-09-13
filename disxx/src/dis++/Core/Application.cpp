@@ -448,7 +448,7 @@ void Application::Disassemble(const std::filesystem::path &path) noexcept
 	disxx::ui::Tab tab{};
 	tab.SetColor(0.2f, 0.2f, 0.2f);
 	tab.SetText(path.string());
-	tab.SetTextArea(std::move(editor));
+	tab.SetWidget(std::make_unique<disxx::ui::TextView>(std::move(editor)));
 	if (this->m_pTabs) [[likely]]
 		this->m_pTabs->Push(std::move(tab));
 }
@@ -730,8 +730,8 @@ void Application::Setup(std::filesystem::path path) noexcept
                     return;
                 }
 
-                const auto area{currentTab->get().GetTextArea()};
-                for (const auto &line : area.GetLines())
+                const auto &pWidget{currentTab->get().GetWidget()};
+                for (const auto &line : dynamic_cast<disxx::ui::TextView &>(*pWidget).GetLines())
                 	for (const auto &ch : std::regex_replace(line, std::regex{R"(\|)"}, "") + "\n")
                     	file.write(&ch, sizeof(char));
 			}
@@ -834,7 +834,7 @@ void Application::Setup(std::filesystem::path path) noexcept
                     src.AddLine("{:#016x}: {}", addr, str);
                 }
 
-                tab.SetTextArea(std::move(src));
+                tab.SetWidget(std::make_unique<disxx::ui::TextView>(std::move(src)));
                 this->m_pTabs->Push(std::move(tab));
 			}
 		};

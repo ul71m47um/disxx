@@ -26,8 +26,8 @@ export namespace disxx::ui
 		inline void SetWidget(std::unique_ptr<Widget> &&) noexcept;
 		inline void SetText(std::string_view) noexcept;
 
-		inline const Widget &GetWidget(void) const noexcept;
-		inline Widget &GetWidget(void) noexcept;
+		inline const std::unique_ptr<Widget> &GetWidget(void) const noexcept;
+		inline std::unique_ptr<Widget> &GetWidget(void) noexcept;
 		inline std::string_view GetText(void) const noexcept;
 
 		inline void SetPassive(void) noexcept;
@@ -39,22 +39,22 @@ export namespace disxx::ui
 		virtual void Render(void) const noexcept override;
 	};
 
-	inline void Tab::SetTextArea(TextView &&textArea) noexcept
+	inline void Tab::SetWidget(std::unique_ptr<Widget> &&ptr) noexcept
 	{
 		if (this->m_pWidget) [[unlikely]]
 			this->m_pWidget.reset();
-		this->m_pWidget = std::forward<std::unique_ptr<Widget> &&>(textArea);
+		this->m_pWidget = std::forward<std::unique_ptr<Widget> &&>(ptr);
 	}
 
 	inline void Tab::SetText(std::string_view str) noexcept
 	{ this->m_Text = str.data(); }
 
-	inline const TextView &Tab::GetTextArea(void) const noexcept
-	{ return *this->m_pWidget; }
+	inline const std::unique_ptr<Widget> &Tab::GetWidget(void) const noexcept
+	{ return this->m_pWidget; }
 
-	inline TextView &Tab::GetTextArea(void) noexcept
-	{ return *this->m_pWidget; }
-
+	inline std::unique_ptr<Widget> &Tab::GetWidget(void) noexcept
+	{ return this->m_pWidget; }
+	
 	inline std::string_view Tab::GetText(void) const noexcept
 	{ return this->m_Text; }
 

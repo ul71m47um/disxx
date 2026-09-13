@@ -1,14 +1,17 @@
 export module disxx.ui.Tree;
 
+export import disxx.ui.TreeItem;
+import disxx.ui.Button;
 import disxx.ui.Widget;
+
+export import std;
 
 export namespace disxx::ui
 {
-	class __attribute__((visibility("default"))) [[nodiscard]] Tree final : public Widget
+	class __attribute__((visibility("default"))) [[nodiscard]] Tree final : public Button
 	{
 	  private:
 		std::vector<std::unique_ptr<Widget>> m_Widgets{};
-		std::string m_Text{};
 
 	  public:
 		explicit Tree(void) noexcept;
@@ -21,8 +24,30 @@ export namespace disxx::ui
 		Tree &operator=(Tree &&) noexcept;
 
 		inline void Push(std::unique_ptr<Widget> &&) noexcept;
-	
+
+		virtual void Replace(utility::Vec2<float>) noexcept override;
+		virtual void SetText(std::string_view) noexcept override;
+
 		virtual void MouseButtonCallback(backend::event::MouseButton) noexcept override;
 		virtual void Render(void) const noexcept override;
 	};
+
+	inline void Tree::Push(std::unique_ptr<Widget> &&ptr) noexcept
+	{
+		if (!ptr) [[unlikely]]
+			return;
+
+		constexpr float indent{16.f};
+		constexpr float gap{4.f};
+
+		float cursorY{this->m_Position.y + this->m_Size.y};
+
+		for (const auto &pChild : this->m_Widgets)
+			cursorY += pChild->GetSize().y + gap;
+
+		ptr->Replace(utility::Vec2<float>{this->m_Position.x + indent, cursorY});
+		ptr->SetVisible(this->m_bClicked);
+
+		this->m_Widgets.emplace_back(std::forward<std::unique_ptr<Widget> &&>(ptr));
+	}
 } /* disxx::ui */

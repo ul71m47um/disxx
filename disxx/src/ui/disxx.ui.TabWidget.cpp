@@ -76,7 +76,8 @@ namespace disxx::ui
 		{
 			tab.Render();
 			if (tab.Clicked())
-				tab.GetTextArea().Render();
+				if (const auto &pWidget{tab.GetWidget()}) [[likely]]
+					pWidget->Render();
 		}
 	}
 
@@ -115,6 +116,7 @@ namespace disxx::ui
 
 		for (auto &tab : this->m_Tabs)
 			if (tab.Clicked())
-				tab.GetTextArea().MouseMotionCallback(event);
+				if (auto &pWidget{tab.GetWidget()}) [[likely]]
+					pWidget->MouseMotionCallback(event);
 	}
 } /* disxx::ui */
