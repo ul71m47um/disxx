@@ -1,6 +1,6 @@
 module;
 
-#define MKHEX(x) (std::format("{:#x}", (x)))
+//#define MKHEX(x) (std::format("{:#x}", (x)))
 
 module Application;
 
@@ -31,6 +31,7 @@ import DisLog;
 import std;
 
 // Miscellaneous function(s)
+/*
 namespace
 {
 	inline std::tuple<std::string, std::string, std::string> splitver(const std::string &version) noexcept
@@ -41,7 +42,7 @@ namespace
 		return std::make_tuple(groups[1], groups[2], groups[3]);
 	}
 }
-
+*/
 // The only one instance
 Application *Application::s_pInstance{nullptr};
 
@@ -54,8 +55,6 @@ Application::Application(void) noexcept
 	, m_Logger{}
 	, m_bActiveModal{false}
 {
-	this->m_pTabs = nullptr;
-	this->m_pLabels = nullptr;
 	this->m_Window.SetVisible(true);
 
 	{
@@ -172,7 +171,7 @@ void Application::LoadLabels(const std::filesystem::path &path) noexcept
 		return;
 
 	auto &labels{*this->m_pLabels};
-	labels.ClearText();
+	//labels.ClearText();
 
 	disxx::loader::macho::Loader ldr{};
 	if (!ldr.LoadFile(path)) [[unlikely]]
@@ -184,18 +183,17 @@ void Application::LoadLabels(const std::filesystem::path &path) noexcept
 
 	for (const auto &section : dataResult->GetSections())
 	{
+		disxx::ui::Tree sect{};
+		sect.SetText(section.GetName());
+		sect.SetColor(0.2f, 0.2f, 0.2f);
 		for (const auto &label : section.GetLabels())
 		{
-			labels.AddLine
-			(
-				"<color value=\"0.7 0.6 0.2 1.0\">{}</color>:"
-				"<color value=\"0.8 0.6 0.2 1.0\">{:#016x}</color>:"
-				"<color value=\"0.6 0.6 0.2 1.0\">{}</color>",
-				section.GetName(),
-				label.GetAddress(),
-				label.GetName()
-			);
+			disxx::ui::TreeItem lbl{};
+			lbl.SetColor(0.2f, 0.2f, 0.2f);
+			lbl.SetText(label.GetName());
+			sect.Push(std::make_unique<disxx::ui::TreeItem>(std::move(lbl)));
 		}
+		labels.Push(std::make_unique<disxx::ui::Tree>(std::move(sect)));
 	}
 
 	const auto [width, height]{this->m_Window.GetSize()};
@@ -212,7 +210,7 @@ void Application::LoadLabels(const std::filesystem::path &path) noexcept
 void Application::Disassemble(const std::filesystem::path &path) noexcept
 {
 	this->LoadLabels(path);
-
+/*
 	disxx::ui::TextView editor{};
 	editor.SetColor(0.2f, 0.2f, 0.2f);
 	editor.AddLine(";{:*<64}", "");
@@ -451,6 +449,7 @@ void Application::Disassemble(const std::filesystem::path &path) noexcept
 	tab.SetWidget(std::make_unique<disxx::ui::TextView>(std::move(editor)));
 	if (this->m_pTabs) [[likely]]
 		this->m_pTabs->Push(std::move(tab));
+*/
 }
 
 void Application::RequestFile(std::string_view headline, std::string_view request, std::function<void(std::filesystem::path)> callback) noexcept
@@ -588,6 +587,7 @@ void Application::Setup(std::filesystem::path path) noexcept
 	this->m_Window.SetVisible(true);
 	const auto [width, height]{this->m_Window.GetSize()};
 
+	/*
 	{
 		disxx::ui::TabWidget pane
 		{
@@ -619,19 +619,21 @@ void Application::Setup(std::filesystem::path path) noexcept
 		this->m_Window.AddWidget(std::make_unique<disxx::ui::TabWidget>(pane));
 		this->m_pTabs = dynamic_cast<disxx::ui::TabWidget *>(this->m_Window.GetWidgets().rbegin()->get());
 	}
+	*/
 
 	{
-		disxx::ui::TextView labels
+		disxx::ui::Tree labels
 		{
 			0.f,
-			static_cast<float>(height) * 0.75f,
+			static_cast<float>(height) * 0.80f,
 			static_cast<float>(width) * 1.f,
-			static_cast<float>(height) * 0.2f
+			static_cast<float>(height) * 0.05f
 		};
 		labels.SetColor(0.2f, 0.2f, 0.2f);
+		labels.SetText("Functions");
 		
-		this->m_Window.AddWidget(std::make_unique<disxx::ui::TextView>(labels));
-		this->m_pLabels = dynamic_cast<disxx::ui::TextView *>(this->m_Window.GetWidgets().rbegin()->get());
+		this->m_Window.AddWidget(std::make_unique<disxx::ui::Tree>(labels));
+		this->m_pLabels = dynamic_cast<disxx::ui::Tree *>(this->m_Window.GetWidgets().rbegin()->get());
 	}
 
 	if (!path.empty())

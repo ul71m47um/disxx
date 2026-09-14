@@ -37,8 +37,8 @@ export namespace disxx::ui
 
 		virtual ~Widget(void) noexcept override = default;
 
-		inline utility::Vec2<float> GetPosition(void) const noexcept;
-		inline utility::Vec2<float> GetSize(void) const noexcept;
+		virtual utility::Vec2<float> GetPosition(void) const noexcept;
+		virtual utility::Vec2<float> GetSize(void) const noexcept;
 	
 		virtual void Replace(utility::Vec2<float>) noexcept;
 		virtual void Resize(utility::Vec2<float>) noexcept;
@@ -65,13 +65,6 @@ export namespace disxx::ui
 
 	inline bool Widget::Visible(void) const noexcept
 	{ return this->m_bVisible; }
-
-	inline utility::Vec2<float> Widget::GetPosition(void) const noexcept
-	{ return utility::Vec2<float>{this->m_Position}; }
-
-	inline utility::Vec2<float> Widget::GetSize(void) const noexcept
-	{ return utility::Vec2<float>{this->m_Size}; }
-
 	inline void Widget::SetVisible(bool bVisible) noexcept
 	{ this->m_bVisible = bVisible; }
 

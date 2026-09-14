@@ -13,6 +13,9 @@ export namespace disxx::ui
 	  private:
 		std::vector<std::unique_ptr<Widget>> m_Widgets{};
 
+	  private:
+		void Relayout(void) noexcept;
+
 	  public:
 		explicit Tree(void) noexcept;
 		explicit Tree(float, float, float, float) noexcept;
@@ -27,7 +30,8 @@ export namespace disxx::ui
 
 		virtual void Replace(utility::Vec2<float>) noexcept override;
 		virtual void SetText(std::string_view) noexcept override;
-
+		virtual utility::Vec2<float> GetSize(void) const noexcept override;
+		
 		virtual void MouseButtonCallback(backend::event::MouseButton) noexcept override;
 		virtual void Render(void) const noexcept override;
 	};
@@ -37,17 +41,9 @@ export namespace disxx::ui
 		if (!ptr) [[unlikely]]
 			return;
 
-		constexpr float indent{16.f};
-		constexpr float gap{4.f};
-
-		float cursorY{this->m_Position.y + this->m_Size.y};
-
-		for (const auto &pChild : this->m_Widgets)
-			cursorY += pChild->GetSize().y + gap;
-
-		ptr->Replace(utility::Vec2<float>{this->m_Position.x + indent, cursorY});
 		ptr->SetVisible(this->m_bClicked);
-
 		this->m_Widgets.emplace_back(std::forward<std::unique_ptr<Widget> &&>(ptr));
+
+		this->Relayout();
 	}
 } /* disxx::ui */

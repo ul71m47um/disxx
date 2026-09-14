@@ -5,6 +5,7 @@ import disxx.utility.error.NullPointerError;
 import disxx.ui.MainWindow;
 import disxx.ui.TextView;
 import disxx.ui.TabWidget;
+import disxx.ui.Tree;
 import disxx.ui.Widget;
 
 import ScriptWindow;
@@ -20,8 +21,8 @@ export class __attribute__((visibility("hidden"))) [[nodiscard]] Application
 	
   private:
 	disxx::ui::MainWindow m_Window{};
-	disxx::ui::TextView *m_pLabels;
-	disxx::ui::TabWidget *m_pTabs;
+	disxx::ui::Tree *m_pLabels{};
+	disxx::ui::TabWidget *m_pTabs{};
 	std::vector<disxx::ui::Widget *> m_ModalWidgets{};
 	std::vector<ScriptWindow> m_ScriptWindows{};
 	DisLog m_Logger{};
