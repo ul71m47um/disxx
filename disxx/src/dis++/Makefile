@@ -80,6 +80,7 @@ MODULES=\
 	../modules/ui/private/backend/glut/disxx.ui.backend.glut.Window.cppm \
 	../modules/ui/private/backend/glut/disxx.ui.backend.glut.Context.cppm \
 	../modules/ui/public/disxx.ui.Widget.cppm \
+	../modules/ui/public/disxx.ui.BoxLayout.cppm \
 	../modules/ui/public/disxx.ui.Frame.cppm \
 	../modules/ui/public/disxx.ui.Button.cppm \
 	../modules/ui/private/disxx.ui.TreeItem.cppm \

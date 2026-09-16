@@ -76,7 +76,7 @@ namespace disxx::ui
 				utility::Vec2<float>
 				{
 					std::clamp(0.f, this->m_Size.x, this->m_Size.x - 20.f * (i + 1)),
-					pWidget->GetSize().y
+					this->m_Size.y
 				}
 			);
         }
@@ -127,7 +127,7 @@ namespace disxx::ui
 		if (bInBounds && event.GetButton() == 0 && event.GetState() == 0)
 		{
 			this->m_bClicked = !this->m_bClicked;
-
+			
 			for (auto &pWidget : this->m_Widgets)
 				pWidget->SetVisible(this->m_bClicked);
 		}
@@ -147,15 +147,8 @@ namespace disxx::ui
 
 		Button::Render();
 		for (const auto &pWidget : this->m_Widgets)
-		{
 			if (pWidget) [[likely]]
-			{
 				if (pWidget->Visible())
-				{
 					pWidget->Render();
-					std::println("Rendering... at x: {}; y: {}", pWidget->GetPosition().x, pWidget->GetPosition().y);
-				}
-			}
-		}
 	}
 } /* disxx::ui */

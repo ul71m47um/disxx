@@ -92,22 +92,25 @@ namespace disxx::ui
 								[this, pWin](backend::event::MouseButton event) mutable -> void
 								{
 									for (const auto i : std::views::iota(0ul, this->m_Widgets.size()))
-										if (auto &pWidget{this->m_Widgets.at(i)}; pWidget->Visible())
-											pWidget->MouseButtonCallback(event);
+										if (i < this->m_Widgets.size()) [[likely]]
+											if (auto &pWidget{this->m_Widgets.at(i)}; pWidget->Visible())
+												pWidget->MouseButtonCallback(event);
 									pWin->Redisplay();
 								},
 								[this, pWin](backend::event::MouseMotion event) mutable -> void
 								{
 									for (const auto i : std::views::iota(0ul, this->m_Widgets.size()))
-										if (auto &pWidget{this->m_Widgets.at(i)}; pWidget->Visible())
-											pWidget->MouseMotionCallback(event);
+										if (i < this->m_Widgets.size()) [[likely]]
+											if (auto &pWidget{this->m_Widgets.at(i)}; pWidget->Visible())
+												pWidget->MouseMotionCallback(event);
 									pWin->Redisplay();
 								},
 								[this, pWin](backend::event::Keyboard event) mutable -> void
 								{
 									for (const auto i : std::views::iota(0ul, this->m_Widgets.size()))
-										if (auto &pWidget{this->m_Widgets.at(i)}; pWidget->Visible())
-											pWidget->KeyboardCallback(event);
+										if (i < this->m_Widgets.size()) [[likely]]
+											if (auto &pWidget{this->m_Widgets.at(i)}; pWidget->Visible())
+												pWidget->KeyboardCallback(event);
 									pWin->Redisplay();
 								},
 								[this, pWin](backend::event::Reshape event) mutable -> void

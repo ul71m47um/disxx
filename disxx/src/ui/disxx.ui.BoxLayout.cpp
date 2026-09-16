@@ -192,23 +192,30 @@ namespace disxx::ui
 		{
 			std::visit
 			(
-				[this, cursor](auto &&var) mutable -> void
+				[this, &cursor](auto &&var) mutable -> void
 				{
 					if constexpr (std::same_as<typename std::decay<decltype(var)>::type, std::unique_ptr<Widget>>)
 					{
-						if (var) [[unlikely]]
+						if (!var) [[unlikely]]
 							return;
 
 						const auto size{var->GetSize()};
 						if (this->m_Type == Type::TYPE_X_AXIS)
 						{
-							var->Replace(utility::Vec2<float>{this->m_Position.x + cursor, this->m_Position.y});
+							var->Replace(utility::Vec2<float>{this->m_Position.x + this->m_Size.y - var->GetSize().y + cursor, this->m_Position.y});
 							cursor += size.x;
 						}
 						else
 						{
-							var->Replace(utility::Vec2<float>{this->m_Position.x, this->m_Position.y + cursor});
 							cursor += size.y;
+							var->Replace
+							(
+								utility::Vec2<float>
+								{
+									this->m_Position.x,
+									this->m_Position.y + this->m_Size.y - this->m_ScrollOffset - cursor
+								}
+							);
 						}
 					}
 					else
@@ -373,9 +380,6 @@ namespace disxx::ui
 
 	void BoxLayout::MouseMotionCallback(backend::event::MouseMotion event) noexcept
 	{
-		if (event.Passive())
-			return;
-
 		const auto [x, y]{event.GetPosition()};
 		if (this->m_bDraggingThumb)
 		{
@@ -390,7 +394,6 @@ namespace disxx::ui
 
 		for (auto &entry : this->m_Widgets)
 		{
-			
 			std::visit
 			(
 				[this, event](auto &&var) -> void

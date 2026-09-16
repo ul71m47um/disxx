@@ -26,7 +26,10 @@ export namespace disxx::ui
 		Tree(Tree &&) noexcept;
 		Tree &operator=(Tree &&) noexcept;
 
+		inline unsigned long int GetChildrenCount(void) const noexcept;
+
 		inline void Push(std::unique_ptr<Widget> &&) noexcept;
+		inline void Pop(void) noexcept;
 
 		virtual void Replace(utility::Vec2<float>) noexcept override;
 		virtual void SetText(std::string_view) noexcept override;
@@ -35,6 +38,8 @@ export namespace disxx::ui
 		virtual void MouseButtonCallback(backend::event::MouseButton) noexcept override;
 		virtual void Render(void) const noexcept override;
 	};
+
+	inline unsigned long int Tree::GetChildrenCount(void) const noexcept { return this->m_Widgets.size(); }
 
 	inline void Tree::Push(std::unique_ptr<Widget> &&ptr) noexcept
 	{
@@ -45,5 +50,14 @@ export namespace disxx::ui
 		this->m_Widgets.emplace_back(std::forward<std::unique_ptr<Widget> &&>(ptr));
 
 		this->Relayout();
+	}
+
+	inline void Tree::Pop(void) noexcept
+	{
+		if (this->m_Widgets.size() > 0) [[likely]]
+		{
+			this->m_Widgets.pop_back();
+			this->Relayout();	
+		}
 	}
 } /* disxx::ui */

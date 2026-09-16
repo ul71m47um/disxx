@@ -217,7 +217,7 @@ namespace disxx::ui
 				(
 					utility::Vec2<float>
 					{
-						std::max(1.f, 5.f - this->m_ScrollX + static_cast<float>(renderStart) * CHAR_HEIGHT),
+						this->m_Position.x + std::max(1.f, 5.f - this->m_ScrollX + static_cast<float>(renderStart) * CHAR_HEIGHT),
 						this->m_Position.y + this->m_Size.y - i * CHAR_WIDTH + this->m_ScrollY
 					}
 				);
