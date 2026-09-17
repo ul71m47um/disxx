@@ -67,7 +67,7 @@ namespace disxx::ui
 			(
 				utility::Vec2<float>
 				{
-					this->m_Position.x + 20.f * (i + 1),
+					this->m_Position.x + this->m_Size.x * 0.05f,
 					this->m_Position.y - offset
 				}
 			);
@@ -75,7 +75,7 @@ namespace disxx::ui
 			(
 				utility::Vec2<float>
 				{
-					std::clamp(0.f, this->m_Size.x, this->m_Size.x - 20.f * (i + 1)),
+					this->m_Size.x - this->m_Size.x * 0.05f,
 					this->m_Size.y
 				}
 			);

@@ -83,21 +83,51 @@ namespace disxx::ui
 		btn.Resize(utility::Vec2<float>{this->m_Size.x, this->m_Size.y});
 		btn.SetColor(utility::Vec3<float>{this->m_pColor[0], this->m_pColor[1], this->m_pColor[2]});
 		s_pRenderer->Push(std::make_unique<renderable::Rectangle>(btn));
-		
+	
 		// Add a text
         if (!this->m_Text.empty())
         {
+			const auto text
+			{
+				[this] -> std::string
+				{
+					// 9.f - character width
+					const auto len{static_cast<float>(this->m_Text.size()) * 9.f};
+					if (len <= this->m_Size.x)
+						return this->m_Text;
+
+					const auto diff
+					{
+						[this, len] -> float
+						{
+							const auto d{static_cast<unsigned long long int>(len - this->m_Size.x)};
+							if (const auto n{d % 9}; n != 0)
+								return static_cast<float>(d + 9.f - n);
+							return static_cast<float>(d);
+						}()
+					};
+
+					if (diff == 0.f)
+						return this->m_Text;
+
+					std::string txt{this->m_Text};
+					for (const auto _ : std::views::iota(0u, static_cast<unsigned int>(diff / 9.f) + 3u))
+						txt = std::regex_replace(txt, std::regex{R"([\s\S]$)"}, std::string{});
+					return std::format("{}...", txt);
+				}()
+			};
+
 			renderable::Text txt{};
 			txt.Replace
 			(
             	utility::Vec2<float>
 				{
-					this->m_Position.x + (this->m_Size.x - (9.f * this->m_Text.size())) / 2.0f, 
+					this->m_Position.x + (this->m_Size.x - (9.f * text.size())) / 2.0f, 
             		this->m_Position.y + this->m_Size.y / 3.0f - 4.5f
 				}
 			);
 			txt.SetColor(utility::Vec3<float>{1.f, 1.f, 1.f});
-			txt.SetText(this->m_Text);
+			txt.SetText(text);
 			s_pRenderer->Push(std::make_unique<renderable::Text>(txt));
         }
 

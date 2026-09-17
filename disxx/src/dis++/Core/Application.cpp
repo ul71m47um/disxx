@@ -595,7 +595,7 @@ void Application::Setup(std::filesystem::path path) noexcept
 			static_cast<float>(height) * 0.05f
 		};
 		labels.SetColor(0.2f, 0.2f, 0.2f);
-		labels.SetText("Functions");
+		labels.SetText(path.c_str());
 
 		auto ptr{std::make_unique<disxx::ui::Tree>(labels)};
 		this->m_pLabels = dynamic_cast<disxx::ui::Tree *>(ptr.get());
