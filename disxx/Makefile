@@ -1,11 +1,11 @@
 include ./common.mk
 
-APPDIR=../build/dis++
+BUNDLE=../build/dis++
 
 # MacOS-specific directory
 RESOURCES=../build/dis++.app/Contents/Resources
 
-EXECDIR=../build/dis++
+BINDIR=../build/dis++
 LIBDIR=../build/dis++
 
 ICON=./misc/AppIcon.icon
@@ -13,19 +13,20 @@ PLIST=./misc/Info.plist
 PKGINFO=./misc/PkgInfo
 
 ifeq ($(OS),Darwin)
-	APPDIR=../build/dis++.app
+	BUNDLE=../build/dis++.app
 
-	EXECDIR=../build/dis++.app/Contents/MacOS
-	LIBDIR=../build/dis++.app/Contents/Frameworks
+	BINDIR=$(BUNDLE)/Contents/MacOS
+	LIBDIR=$(BUNDLE)/Contents/Frameworks
 
-	DISXX=$(EXECDIR)/dis++
-
-	ICON=../build/dis++.app/Contents/Resources/AppIcon.icns
-	PLIST=../build/dis++.app/Contents/Info.plist
-	PKGINFO=../build/dis++.app/Contents/PkgInfo
+	ICON=$(BUNDLE)/Contents/Resources/AppIcon.icns
+	PLIST=$(BUNDLE)/Contents/Info.plist
+	PKGINFO=$(BUNDLE)/Contents/PkgInfo
 endif
 
-all: $(DISXX)
+DISXX=$(BINDIR)/dis++
+REPORTER=$(BINDIR)/reporter
+
+all: $(BUNDLE)
 .PHONY: all
 
 # Dynamic libraries
@@ -34,47 +35,45 @@ UI=$(LIBDIR)/libdisxx-ui.$(DYLIB)
 MACHO=$(LIBDIR)/libdisxx-macho.$(DYLIB)
 DISASM=$(LIBDIR)/libdisxx-disasm.$(DYLIB)
 
-# Executable files
-DISXX=$(EXECDIR)/dis++
-REPORTER=$(EXECDIR)/reporter
-
 $(APPDIR): 
 	$(MKDIR) $@
-$(RESOURCES): | $(APPDIR)
+$(RESOURCES):
 	$(MKDIR) $@
-$(LIBDIR): | $(APPDIR)
+$(LIBDIR):
 	$(MKDIR) $@
-$(EXECDIR): | $(APPDIR)
+$(BINDIR):
 	$(MKDIR) $@
 $(UTILITY): | $(LIBDIR)
-	make -C ./src/utility/
-	$(MOVE) ../build/utility/$(notdir $@) $@
+	make -C ./disxx-utility/
+	$(MOVE) ../build/disxx-utility/$(notdir $@) $@
 $(UI): | $(LIBDIR)
-	make -C ./src/ui/
-	$(MOVE) ../build/ui/$(notdir $@) $@
+	make -C ./disxx-ui/
+	$(MOVE) ../build/disxx-ui/$(notdir $@) $@
 $(MACHO): | $(LIBDIR)
-	make -C ./src/loader/
-	$(MOVE) ../build/loader/$(notdir $@) $@
+	make -C ./disxx-loader/
+	$(MOVE) ../build/disxx-loader/$(notdir $@) $@
 $(DISASM): | $(LIBDIR)
-	make -C ./src/disasm
-	$(MOVE) ../build/disasm/$(notdir $@) $@
-$(REPORTER): | $(EXECDIR)
-	make -C ./src/reporter/
-	$(MOVE) ../build/reporter/$(notdir $@) $@
+	make -C ./disxx-disasm/
+	$(MOVE) ../build/disxx-disasm/$(notdir $@) $@
+$(DISXX): | $(BINDIR)
+	make -C ./disxx-app/
+	$(MOVE) ../build/disxx-app/dis++ $@
+$(REPORTER): | $(BINDIR)
+	make -C ./disxx-reporter/
+	$(MOVE) ../build/disxx-reporter/$(notdir $@) $@
 $(ICON): | $(RESOURCES)
 	$(COPY) ./misc/$(notdir $@) $@
 $(PLIST):
 	$(COPY) ./misc/$(notdir $@) $@
 $(PKGINFO):
 	$(COPY) ./misc/$(notdir $@) $@
-$(DISXX): | \
+$(BUNDLE): | \
 	$(UTILITY) $(UI) \
 	$(MACHO) $(DISASM) \
 	$(REPORTER) $(DISXX) \
 	$(ICON) $(PLIST) \
 	$(PKGINFO)
-	make -C ./src/dis++/
-	$(MOVE) ../build/dis++/$(notdir $@) $@
+	$(MKDIR) $@
 
 clean:
 	$(RMDIR) ../build/
