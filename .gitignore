@@ -2,6 +2,8 @@ xcuserdata
 DerivedData
 *.xcuserstate
 
+*-Swift.h
+
 .DS_Store
 
 file.rb
