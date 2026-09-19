@@ -483,7 +483,6 @@ void Application::RequestFile(std::string_view headline, std::string_view reques
 	label.SetText(request);
 	this->m_Window.AddWidget(std::make_unique<disxx::ui::Label>(label));
 	this->m_ModalWidgets.emplace_back(this->m_Window.GetWidgets().rbegin()->get());
-	s_pInstance->m_Window.AddWidget(std::make_unique<disxx::ui::Label>(label));
 
 	disxx::ui::Button ok
 	{

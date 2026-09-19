@@ -76,4 +76,10 @@ $(BUNDLE): | \
 	$(MKDIR) $@
 
 clean:
+	make clean -C ./disxx-utility/
+	make clean -C ./disxx-ui/
+	make clean -C ./disxx-loader/
+	make clean -C ./disxx-disasm/
+	make clean -C ./disxx-app/
+	make clean -C ./disxx-reporter/
 	$(RMDIR) ../build/

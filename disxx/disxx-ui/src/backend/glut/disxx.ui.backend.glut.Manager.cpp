@@ -1,6 +1,7 @@
 module;
 
 #ifdef __APPLE__
+#	include "WindowModifier-Swift.h"
 #	include <GLUT/glut.h>
 #else
 #	include <GL/freeglut.h>
@@ -126,6 +127,10 @@ namespace disxx::ui::backend::glut
 	Manager::Weak Manager::CreateWindow(void) noexcept
 	{
 		const auto hWin{glutCreateWindow("Window")};
+		#ifdef __APPLE__
+			// Enable window's close button
+			WindowModifier::WinMod::modify();
+		#endif
 		this->m_Windows[hWin] = std::make_shared<Window>(hWin);
 		this->SetCallbacks();
 

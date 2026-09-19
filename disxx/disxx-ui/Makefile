@@ -1,5 +1,15 @@
 include ../common.mk
 
+ifeq ($(OS),Darwin)
+	SWIFTC=$(shell xcrun --find swiftc 2>/dev/null)
+	SWIFTFLAGS=\
+		-sdk $(shell xcrun --show-sdk-path 2>/dev/null) \
+		-cxx-interoperability-mode=default
+	HEADER=./src/backend/glut/WindowModifier-Swift.h
+	WINMOD=./src/backend/glut/WindowModifier.swift
+	SWIFTOBJ=$(addprefix $(OBJECTSDIR)/, $(notdir $(WINMOD:.swift=.o)))
+endif
+
 MODULESPATH=./modules
 
 BUILDDIR=../../build/disxx-ui
@@ -118,6 +128,10 @@ OBJECTS=$(addprefix $(OBJECTSDIR)/, $(notdir $(SOURCES:.cpp=.o)))
 
 DEPENDENCIES=$(DEPENDENCIESDIR)/libdisxx-utility.$(DYLIB)
 
+$(HEADER): $(WINMOD)
+	$(SWIFTC) -frontend -typecheck -module-name $(notdir $(<:.swift=)) -emit-clang-header-path $@ $(SWIFTFLAGS) $< -o $@
+$(SWIFTOBJ): $(WINMOD)
+	$(SWIFTC) $(SWIFTFLAGS) -c $< -o $@
 $(DEPENDENCIESDIR):
 	$(MKDIR) $@
 $(PRECOMPILEDDIR):
@@ -128,13 +142,13 @@ $(PRECOMPILED): $(PRECOMPILEDDIR)/%.pcm: %.cppm | $(PRECOMPILEDDIR)
 	$(CXX) $(CXXFLAGS:-c=--precompile) $< -o $@
 $(MOBJECTS): $(PRECOMPILEDDIR)/%.o: $(PRECOMPILEDDIR)/%.pcm | $(PRECOMPILEDDIR)
 	$(CXX) $(CXXFLAGS) $< -o $@
-$(OBJECTS): $(OBJECTSDIR)/%.o: %.cpp | $(OBJECTSDIR)
+$(OBJECTS): $(OBJECTSDIR)/%.o: %.cpp | $(OBJECTSDIR) $(HEADER)
 	$(CXX) $(CXXFLAGS) $< -o $@
 $(DEPENDENCIESDIR)/libdisxx-utility.$(DYLIB): | $(DEPENDENCIESDIR)
 	make -C ../disxx-utility
 	$(MOVE) ../../build/disxx-utility/libdisxx-utility.$(DYLIB) $@
-$(BUILDDIR)/libdisxx-ui.$(DYLIB): $(MOBJECTS) $(OBJECTS) | $(DEPENDENCIES)
-	$(LD) $(LFLAGS) $^ -o $@
+$(BUILDDIR)/libdisxx-ui.$(DYLIB): $(MOBJECTS) $(OBJECTS) | $(DEPENDENCIES) $(SWIFTOBJ)
+	$(LD) $(LFLAGS) $(SWIFTOBJ) $^ -o $@
 
 clean:
-	$(RMDIR) $(BUILDDIR)
+	$(RMDIR) $(BUILDDIR) $(HEADER)
