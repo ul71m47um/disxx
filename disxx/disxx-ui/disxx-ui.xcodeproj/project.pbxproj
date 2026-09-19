@@ -6,11 +6,288 @@
 	objectVersion = 110;
 	objects = {
 
+/* Begin PBXFileReference section */
+		84533E88305E9DC300342BE6 /* disxx.ui.backend.event.Keyboard.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.ui.backend.event.Keyboard.cpp; sourceTree = "<group>"; };
+		84533E89305E9DC300342BE6 /* disxx.ui.backend.event.MouseButton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.ui.backend.event.MouseButton.cpp; sourceTree = "<group>"; };
+		84533E8A305E9DC300342BE6 /* disxx.ui.backend.event.MouseMotion.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.ui.backend.event.MouseMotion.cpp; sourceTree = "<group>"; };
+		84533E8B305E9DC300342BE6 /* disxx.ui.backend.event.Reshape.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.ui.backend.event.Reshape.cpp; sourceTree = "<group>"; };
+		84533E8D305E9DC300342BE6 /* disxx.ui.backend.glut.Context.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.ui.backend.glut.Context.cpp; sourceTree = "<group>"; };
+		84533E8E305E9DC300342BE6 /* disxx.ui.backend.glut.Manager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.ui.backend.glut.Manager.cpp; sourceTree = "<group>"; };
+		84533E8F305E9DC300342BE6 /* disxx.ui.backend.glut.Window.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.ui.backend.glut.Window.cpp; sourceTree = "<group>"; };
+		84533E91305E9DC300342BE6 /* disxx.ui.backend.opengl.Renderer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.ui.backend.opengl.Renderer.cpp; sourceTree = "<group>"; };
+		84533E94305E9DC300342BE6 /* disxx.ui.renderable.Rectangle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.ui.renderable.Rectangle.cpp; sourceTree = "<group>"; };
+		84533E95305E9DC300342BE6 /* disxx.ui.renderable.Renderable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.ui.renderable.Renderable.cpp; sourceTree = "<group>"; };
+		84533E96305E9DC300342BE6 /* disxx.ui.renderable.Shape.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.ui.renderable.Shape.cpp; sourceTree = "<group>"; };
+		84533E97305E9DC300342BE6 /* disxx.ui.renderable.Text.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.ui.renderable.Text.cpp; sourceTree = "<group>"; };
+		84533E98305E9DC300342BE6 /* disxx.ui.renderable.Triangle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.ui.renderable.Triangle.cpp; sourceTree = "<group>"; };
+		84533E9A305E9DC300342BE6 /* disxx.ui.utility.ColorTag.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.ui.utility.ColorTag.cpp; sourceTree = "<group>"; };
+		84533E9C305E9DC300342BE6 /* disxx.ui.BoxLayout.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.ui.BoxLayout.cpp; sourceTree = "<group>"; };
+		84533E9D305E9DC300342BE6 /* disxx.ui.Button.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.ui.Button.cpp; sourceTree = "<group>"; };
+		84533E9E305E9DC300342BE6 /* disxx.ui.Frame.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.ui.Frame.cpp; sourceTree = "<group>"; };
+		84533E9F305E9DC300342BE6 /* disxx.ui.Label.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.ui.Label.cpp; sourceTree = "<group>"; };
+		84533EA0305E9DC300342BE6 /* disxx.ui.MainWindow.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.ui.MainWindow.cpp; sourceTree = "<group>"; };
+		84533EA1305E9DC300342BE6 /* disxx.ui.Menu.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.ui.Menu.cpp; sourceTree = "<group>"; };
+		84533EA2305E9DC300342BE6 /* disxx.ui.MenuBar.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.ui.MenuBar.cpp; sourceTree = "<group>"; };
+		84533EA3305E9DC300342BE6 /* disxx.ui.MenuEntry.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.ui.MenuEntry.cpp; sourceTree = "<group>"; };
+		84533EA4305E9DC300342BE6 /* disxx.ui.MessageBox.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.ui.MessageBox.cpp; sourceTree = "<group>"; };
+		84533EA5305E9DC300342BE6 /* disxx.ui.Tab.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.ui.Tab.cpp; sourceTree = "<group>"; };
+		84533EA6305E9DC300342BE6 /* disxx.ui.TabWidget.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.ui.TabWidget.cpp; sourceTree = "<group>"; };
+		84533EA7305E9DC300342BE6 /* disxx.ui.TextInput.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.ui.TextInput.cpp; sourceTree = "<group>"; };
+		84533EA8305E9DC300342BE6 /* disxx.ui.TextView.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.ui.TextView.cpp; sourceTree = "<group>"; };
+		84533EA9305E9DC300342BE6 /* disxx.ui.Tree.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.ui.Tree.cpp; sourceTree = "<group>"; };
+		84533EAA305E9DC300342BE6 /* disxx.ui.TreeItem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.ui.TreeItem.cpp; sourceTree = "<group>"; };
+		84533EAB305E9DC300342BE6 /* disxx.ui.Widget.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.ui.Widget.cpp; sourceTree = "<group>"; };
+		84533EAD305E9DCC00342BE6 /* disxx.ui.backend.abstract.IContext.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.ui.backend.abstract.IContext.cppm; sourceTree = "<group>"; };
+		84533EAE305E9DCC00342BE6 /* disxx.ui.backend.abstract.IManager.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.ui.backend.abstract.IManager.cppm; sourceTree = "<group>"; };
+		84533EAF305E9DCC00342BE6 /* disxx.ui.backend.abstract.IRenderer.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.ui.backend.abstract.IRenderer.cppm; sourceTree = "<group>"; };
+		84533EB0305E9DCC00342BE6 /* disxx.ui.backend.abstract.Window.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.ui.backend.abstract.Window.cppm; sourceTree = "<group>"; };
+		84533EB2305E9DCC00342BE6 /* disxx.ui.backend.event.Keyboard.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.ui.backend.event.Keyboard.cppm; sourceTree = "<group>"; };
+		84533EB3305E9DCC00342BE6 /* disxx.ui.backend.event.MouseButton.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.ui.backend.event.MouseButton.cppm; sourceTree = "<group>"; };
+		84533EB4305E9DCC00342BE6 /* disxx.ui.backend.event.MouseMotion.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.ui.backend.event.MouseMotion.cppm; sourceTree = "<group>"; };
+		84533EB5305E9DCC00342BE6 /* disxx.ui.backend.event.Queue.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.ui.backend.event.Queue.cppm; sourceTree = "<group>"; };
+		84533EB6305E9DCC00342BE6 /* disxx.ui.backend.event.Reshape.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.ui.backend.event.Reshape.cppm; sourceTree = "<group>"; };
+		84533EB8305E9DCC00342BE6 /* disxx.ui.backend.glut.Context.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.ui.backend.glut.Context.cppm; sourceTree = "<group>"; };
+		84533EB9305E9DCC00342BE6 /* disxx.ui.backend.glut.Manager.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.ui.backend.glut.Manager.cppm; sourceTree = "<group>"; };
+		84533EBA305E9DCC00342BE6 /* disxx.ui.backend.glut.Window.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.ui.backend.glut.Window.cppm; sourceTree = "<group>"; };
+		84533EBB305E9DCC00342BE6 /* disxx.ui.backend.Window.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.ui.backend.Window.cppm; sourceTree = "<group>"; };
+		84533EBD305E9DCC00342BE6 /* disxx.ui.backend.opengl.Renderer.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.ui.backend.opengl.Renderer.cppm; sourceTree = "<group>"; };
+		84533EC0305E9DCC00342BE6 /* disxx.ui.renderable.Rectangle.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.ui.renderable.Rectangle.cppm; sourceTree = "<group>"; };
+		84533EC1305E9DCC00342BE6 /* disxx.ui.renderable.Renderable.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.ui.renderable.Renderable.cppm; sourceTree = "<group>"; };
+		84533EC2305E9DCC00342BE6 /* disxx.ui.renderable.Shape.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.ui.renderable.Shape.cppm; sourceTree = "<group>"; };
+		84533EC3305E9DCC00342BE6 /* disxx.ui.renderable.Text.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.ui.renderable.Text.cppm; sourceTree = "<group>"; };
+		84533EC4305E9DCC00342BE6 /* disxx.ui.renderable.Triangle.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.ui.renderable.Triangle.cppm; sourceTree = "<group>"; };
+		84533EC6305E9DCC00342BE6 /* disxx.ui.utility.ColorTag.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.ui.utility.ColorTag.cppm; sourceTree = "<group>"; };
+		84533EC7305E9DCC00342BE6 /* disxx.ui.utility.Vec.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.ui.utility.Vec.cppm; sourceTree = "<group>"; };
+		84533EC8305E9DCC00342BE6 /* disxx.ui.utility.Vertex.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.ui.utility.Vertex.cppm; sourceTree = "<group>"; };
+		84533ECA305E9DCC00342BE6 /* disxx.ui.Menu.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.ui.Menu.cppm; sourceTree = "<group>"; };
+		84533ECB305E9DCC00342BE6 /* disxx.ui.MenuEntry.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.ui.MenuEntry.cppm; sourceTree = "<group>"; };
+		84533ECC305E9DCC00342BE6 /* disxx.ui.Tab.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.ui.Tab.cppm; sourceTree = "<group>"; };
+		84533ECD305E9DCC00342BE6 /* disxx.ui.TreeItem.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.ui.TreeItem.cppm; sourceTree = "<group>"; };
+		84533ECF305E9DCC00342BE6 /* disxx.ui.BoxLayout.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.ui.BoxLayout.cppm; sourceTree = "<group>"; };
+		84533ED0305E9DCC00342BE6 /* disxx.ui.Button.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.ui.Button.cppm; sourceTree = "<group>"; };
+		84533ED1305E9DCC00342BE6 /* disxx.ui.Frame.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.ui.Frame.cppm; sourceTree = "<group>"; };
+		84533ED2305E9DCC00342BE6 /* disxx.ui.Label.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.ui.Label.cppm; sourceTree = "<group>"; };
+		84533ED3305E9DCC00342BE6 /* disxx.ui.MainWindow.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.ui.MainWindow.cppm; sourceTree = "<group>"; };
+		84533ED4305E9DCC00342BE6 /* disxx.ui.MenuBar.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.ui.MenuBar.cppm; sourceTree = "<group>"; };
+		84533ED5305E9DCC00342BE6 /* disxx.ui.MessageBox.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.ui.MessageBox.cppm; sourceTree = "<group>"; };
+		84533ED6305E9DCC00342BE6 /* disxx.ui.TabWidget.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.ui.TabWidget.cppm; sourceTree = "<group>"; };
+		84533ED7305E9DCC00342BE6 /* disxx.ui.TextInput.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.ui.TextInput.cppm; sourceTree = "<group>"; };
+		84533ED8305E9DCC00342BE6 /* disxx.ui.TextView.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.ui.TextView.cppm; sourceTree = "<group>"; };
+		84533ED9305E9DCC00342BE6 /* disxx.ui.Tree.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.ui.Tree.cppm; sourceTree = "<group>"; };
+		84533EDA305E9DCC00342BE6 /* disxx.ui.Widget.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.ui.Widget.cppm; sourceTree = "<group>"; };
+		8453402E305E9EDE00342BE6 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
 /* Begin PBXGroup section */
 		842F1B48305D1E3E00F775F7 = {
 			isa = PBXGroup;
 			children = (
+				8453402E305E9EDE00342BE6 /* Makefile */,
+				84533EDC305E9DCC00342BE6 /* modules */,
+				84533EAC305E9DC300342BE6 /* src */,
 			);
+			sourceTree = "<group>";
+		};
+		84533E8C305E9DC300342BE6 /* event */ = {
+			isa = PBXGroup;
+			children = (
+				84533E88305E9DC300342BE6 /* disxx.ui.backend.event.Keyboard.cpp */,
+				84533E89305E9DC300342BE6 /* disxx.ui.backend.event.MouseButton.cpp */,
+				84533E8A305E9DC300342BE6 /* disxx.ui.backend.event.MouseMotion.cpp */,
+				84533E8B305E9DC300342BE6 /* disxx.ui.backend.event.Reshape.cpp */,
+			);
+			path = event;
+			sourceTree = "<group>";
+		};
+		84533E90305E9DC300342BE6 /* glut */ = {
+			isa = PBXGroup;
+			children = (
+				84533E8D305E9DC300342BE6 /* disxx.ui.backend.glut.Context.cpp */,
+				84533E8E305E9DC300342BE6 /* disxx.ui.backend.glut.Manager.cpp */,
+				84533E8F305E9DC300342BE6 /* disxx.ui.backend.glut.Window.cpp */,
+			);
+			path = glut;
+			sourceTree = "<group>";
+		};
+		84533E92305E9DC300342BE6 /* opengl */ = {
+			isa = PBXGroup;
+			children = (
+				84533E91305E9DC300342BE6 /* disxx.ui.backend.opengl.Renderer.cpp */,
+			);
+			path = opengl;
+			sourceTree = "<group>";
+		};
+		84533E93305E9DC300342BE6 /* backend */ = {
+			isa = PBXGroup;
+			children = (
+				84533E8C305E9DC300342BE6 /* event */,
+				84533E90305E9DC300342BE6 /* glut */,
+				84533E92305E9DC300342BE6 /* opengl */,
+			);
+			path = backend;
+			sourceTree = "<group>";
+		};
+		84533E99305E9DC300342BE6 /* renderable */ = {
+			isa = PBXGroup;
+			children = (
+				84533E94305E9DC300342BE6 /* disxx.ui.renderable.Rectangle.cpp */,
+				84533E95305E9DC300342BE6 /* disxx.ui.renderable.Renderable.cpp */,
+				84533E96305E9DC300342BE6 /* disxx.ui.renderable.Shape.cpp */,
+				84533E97305E9DC300342BE6 /* disxx.ui.renderable.Text.cpp */,
+				84533E98305E9DC300342BE6 /* disxx.ui.renderable.Triangle.cpp */,
+			);
+			path = renderable;
+			sourceTree = "<group>";
+		};
+		84533E9B305E9DC300342BE6 /* utility */ = {
+			isa = PBXGroup;
+			children = (
+				84533E9A305E9DC300342BE6 /* disxx.ui.utility.ColorTag.cpp */,
+			);
+			path = utility;
+			sourceTree = "<group>";
+		};
+		84533EAC305E9DC300342BE6 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				84533E93305E9DC300342BE6 /* backend */,
+				84533E99305E9DC300342BE6 /* renderable */,
+				84533E9B305E9DC300342BE6 /* utility */,
+				84533E9C305E9DC300342BE6 /* disxx.ui.BoxLayout.cpp */,
+				84533E9D305E9DC300342BE6 /* disxx.ui.Button.cpp */,
+				84533E9E305E9DC300342BE6 /* disxx.ui.Frame.cpp */,
+				84533E9F305E9DC300342BE6 /* disxx.ui.Label.cpp */,
+				84533EA0305E9DC300342BE6 /* disxx.ui.MainWindow.cpp */,
+				84533EA1305E9DC300342BE6 /* disxx.ui.Menu.cpp */,
+				84533EA2305E9DC300342BE6 /* disxx.ui.MenuBar.cpp */,
+				84533EA3305E9DC300342BE6 /* disxx.ui.MenuEntry.cpp */,
+				84533EA4305E9DC300342BE6 /* disxx.ui.MessageBox.cpp */,
+				84533EA5305E9DC300342BE6 /* disxx.ui.Tab.cpp */,
+				84533EA6305E9DC300342BE6 /* disxx.ui.TabWidget.cpp */,
+				84533EA7305E9DC300342BE6 /* disxx.ui.TextInput.cpp */,
+				84533EA8305E9DC300342BE6 /* disxx.ui.TextView.cpp */,
+				84533EA9305E9DC300342BE6 /* disxx.ui.Tree.cpp */,
+				84533EAA305E9DC300342BE6 /* disxx.ui.TreeItem.cpp */,
+				84533EAB305E9DC300342BE6 /* disxx.ui.Widget.cpp */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		84533EB1305E9DCC00342BE6 /* abstract */ = {
+			isa = PBXGroup;
+			children = (
+				84533EAD305E9DCC00342BE6 /* disxx.ui.backend.abstract.IContext.cppm */,
+				84533EAE305E9DCC00342BE6 /* disxx.ui.backend.abstract.IManager.cppm */,
+				84533EAF305E9DCC00342BE6 /* disxx.ui.backend.abstract.IRenderer.cppm */,
+				84533EB0305E9DCC00342BE6 /* disxx.ui.backend.abstract.Window.cppm */,
+			);
+			path = abstract;
+			sourceTree = "<group>";
+		};
+		84533EB7305E9DCC00342BE6 /* event */ = {
+			isa = PBXGroup;
+			children = (
+				84533EB2305E9DCC00342BE6 /* disxx.ui.backend.event.Keyboard.cppm */,
+				84533EB3305E9DCC00342BE6 /* disxx.ui.backend.event.MouseButton.cppm */,
+				84533EB4305E9DCC00342BE6 /* disxx.ui.backend.event.MouseMotion.cppm */,
+				84533EB5305E9DCC00342BE6 /* disxx.ui.backend.event.Queue.cppm */,
+				84533EB6305E9DCC00342BE6 /* disxx.ui.backend.event.Reshape.cppm */,
+			);
+			path = event;
+			sourceTree = "<group>";
+		};
+		84533EBC305E9DCC00342BE6 /* glut */ = {
+			isa = PBXGroup;
+			children = (
+				84533EB8305E9DCC00342BE6 /* disxx.ui.backend.glut.Context.cppm */,
+				84533EB9305E9DCC00342BE6 /* disxx.ui.backend.glut.Manager.cppm */,
+				84533EBA305E9DCC00342BE6 /* disxx.ui.backend.glut.Window.cppm */,
+				84533EBB305E9DCC00342BE6 /* disxx.ui.backend.Window.cppm */,
+			);
+			path = glut;
+			sourceTree = "<group>";
+		};
+		84533EBE305E9DCC00342BE6 /* opengl */ = {
+			isa = PBXGroup;
+			children = (
+				84533EBD305E9DCC00342BE6 /* disxx.ui.backend.opengl.Renderer.cppm */,
+			);
+			path = opengl;
+			sourceTree = "<group>";
+		};
+		84533EBF305E9DCC00342BE6 /* backend */ = {
+			isa = PBXGroup;
+			children = (
+				84533EB1305E9DCC00342BE6 /* abstract */,
+				84533EB7305E9DCC00342BE6 /* event */,
+				84533EBC305E9DCC00342BE6 /* glut */,
+				84533EBE305E9DCC00342BE6 /* opengl */,
+			);
+			path = backend;
+			sourceTree = "<group>";
+		};
+		84533EC5305E9DCC00342BE6 /* renderable */ = {
+			isa = PBXGroup;
+			children = (
+				84533EC0305E9DCC00342BE6 /* disxx.ui.renderable.Rectangle.cppm */,
+				84533EC1305E9DCC00342BE6 /* disxx.ui.renderable.Renderable.cppm */,
+				84533EC2305E9DCC00342BE6 /* disxx.ui.renderable.Shape.cppm */,
+				84533EC3305E9DCC00342BE6 /* disxx.ui.renderable.Text.cppm */,
+				84533EC4305E9DCC00342BE6 /* disxx.ui.renderable.Triangle.cppm */,
+			);
+			path = renderable;
+			sourceTree = "<group>";
+		};
+		84533EC9305E9DCC00342BE6 /* utility */ = {
+			isa = PBXGroup;
+			children = (
+				84533EC6305E9DCC00342BE6 /* disxx.ui.utility.ColorTag.cppm */,
+				84533EC7305E9DCC00342BE6 /* disxx.ui.utility.Vec.cppm */,
+				84533EC8305E9DCC00342BE6 /* disxx.ui.utility.Vertex.cppm */,
+			);
+			path = utility;
+			sourceTree = "<group>";
+		};
+		84533ECE305E9DCC00342BE6 /* private */ = {
+			isa = PBXGroup;
+			children = (
+				84533EBF305E9DCC00342BE6 /* backend */,
+				84533EC5305E9DCC00342BE6 /* renderable */,
+				84533EC9305E9DCC00342BE6 /* utility */,
+				84533ECA305E9DCC00342BE6 /* disxx.ui.Menu.cppm */,
+				84533ECB305E9DCC00342BE6 /* disxx.ui.MenuEntry.cppm */,
+				84533ECC305E9DCC00342BE6 /* disxx.ui.Tab.cppm */,
+				84533ECD305E9DCC00342BE6 /* disxx.ui.TreeItem.cppm */,
+			);
+			path = private;
+			sourceTree = "<group>";
+		};
+		84533EDB305E9DCC00342BE6 /* public */ = {
+			isa = PBXGroup;
+			children = (
+				84533ECF305E9DCC00342BE6 /* disxx.ui.BoxLayout.cppm */,
+				84533ED0305E9DCC00342BE6 /* disxx.ui.Button.cppm */,
+				84533ED1305E9DCC00342BE6 /* disxx.ui.Frame.cppm */,
+				84533ED2305E9DCC00342BE6 /* disxx.ui.Label.cppm */,
+				84533ED3305E9DCC00342BE6 /* disxx.ui.MainWindow.cppm */,
+				84533ED4305E9DCC00342BE6 /* disxx.ui.MenuBar.cppm */,
+				84533ED5305E9DCC00342BE6 /* disxx.ui.MessageBox.cppm */,
+				84533ED6305E9DCC00342BE6 /* disxx.ui.TabWidget.cppm */,
+				84533ED7305E9DCC00342BE6 /* disxx.ui.TextInput.cppm */,
+				84533ED8305E9DCC00342BE6 /* disxx.ui.TextView.cppm */,
+				84533ED9305E9DCC00342BE6 /* disxx.ui.Tree.cppm */,
+				84533EDA305E9DCC00342BE6 /* disxx.ui.Widget.cppm */,
+			);
+			path = public;
+			sourceTree = "<group>";
+		};
+		84533EDC305E9DCC00342BE6 /* modules */ = {
+			isa = PBXGroup;
+			children = (
+				84533ECE305E9DCC00342BE6 /* private */,
+				84533EDB305E9DCC00342BE6 /* public */,
+			);
+			path = modules;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

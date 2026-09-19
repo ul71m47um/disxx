@@ -6,11 +6,780 @@
 	objectVersion = 110;
 	objects = {
 
+/* Begin PBXFileReference section */
+		84533EDD305E9E4000342BE6 /* disxx.disasm.operand.Condition.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.operand.Condition.cppm; sourceTree = "<group>"; };
+		84533EDE305E9E4000342BE6 /* disxx.disasm.operand.Extension.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.operand.Extension.cppm; sourceTree = "<group>"; };
+		84533EDF305E9E4000342BE6 /* disxx.disasm.operand.Immediate.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.operand.Immediate.cppm; sourceTree = "<group>"; };
+		84533EE0305E9E4000342BE6 /* disxx.disasm.operand.IOperand.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.operand.IOperand.cppm; sourceTree = "<group>"; };
+		84533EE1305E9E4000342BE6 /* disxx.disasm.operand.LoadsAndStoresAddress.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.operand.LoadsAndStoresAddress.cppm; sourceTree = "<group>"; };
+		84533EE2305E9E4000342BE6 /* disxx.disasm.operand.MemoryBarrier.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.operand.MemoryBarrier.cppm; sourceTree = "<group>"; };
+		84533EE3305E9E4000342BE6 /* disxx.disasm.operand.PrefetchOperand.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.operand.PrefetchOperand.cppm; sourceTree = "<group>"; };
+		84533EE4305E9E4000342BE6 /* disxx.disasm.operand.PState.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.operand.PState.cppm; sourceTree = "<group>"; };
+		84533EE5305E9E4000342BE6 /* disxx.disasm.operand.Register.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.operand.Register.cppm; sourceTree = "<group>"; };
+		84533EE6305E9E4000342BE6 /* disxx.disasm.operand.Register-VectorArrangementSpecifier.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = "disxx.disasm.operand.Register-VectorArrangementSpecifier.cppm"; sourceTree = "<group>"; };
+		84533EE7305E9E4000342BE6 /* disxx.disasm.operand.Shift.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.operand.Shift.cppm; sourceTree = "<group>"; };
+		84533EE8305E9E4000342BE6 /* disxx.disasm.operand.SystemOperand.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.operand.SystemOperand.cppm; sourceTree = "<group>"; };
+		84533EEA305E9E4000342BE6 /* disxx.disasm.Address.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.Address.cppm; sourceTree = "<group>"; };
+		84533EEB305E9E4000342BE6 /* disxx.disasm.Bytes.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.Bytes.cppm; sourceTree = "<group>"; };
+		84533EEC305E9E4000342BE6 /* disxx.disasm.Instruction.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.Instruction.cppm; sourceTree = "<group>"; };
+		84533EED305E9E4000342BE6 /* disxx.disasm.InstructionIdentifier.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.InstructionIdentifier.cppm; sourceTree = "<group>"; };
+		84533EEF305E9E4000342BE6 /* disxx.disasm.Disassembler.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.Disassembler.cppm; sourceTree = "<group>"; };
+		84533EF0305E9E4000342BE6 /* disxx.disasm.Printer.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.Printer.cppm; sourceTree = "<group>"; };
+		84533EF3305E9E4700342BE6 /* disxx.disasm.decoder.abstract.Decoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.abstract.Decoder.cpp; sourceTree = "<group>"; };
+		84533EF4305E9E4700342BE6 /* disxx.disasm.decoder.abstract.Decoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.abstract.Decoder.cppm; sourceTree = "<group>"; };
+		84533EF5305E9E4700342BE6 /* disxx.disasm.decoder.abstract.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.abstract.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533EF6305E9E4700342BE6 /* disxx.disasm.decoder.abstract.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.abstract.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533EF8305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.Barriers.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.Barriers.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533EF9305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.Barriers.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.Barriers.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533EFA305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.CompareAndBranchImmediate.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.CompareAndBranchImmediate.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533EFB305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.CompareAndBranchImmediate.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.CompareAndBranchImmediate.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533EFC305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.CompareBytesHalfwordsInRegisterAndBranch.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.CompareBytesHalfwordsInRegisterAndBranch.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533EFD305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.CompareBytesHalfwordsInRegisterAndBranch.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.CompareBytesHalfwordsInRegisterAndBranch.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533EFE305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.CompareRegistersAndBranch.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.CompareRegistersAndBranch.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533EFF305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.CompareRegistersAndBranch.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.CompareRegistersAndBranch.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F00305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.CompareRegisterWithImmediateAndBranch.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.CompareRegisterWithImmediateAndBranch.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F01305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.CompareRegisterWithImmediateAndBranch.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.CompareRegisterWithImmediateAndBranch.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F02305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.ConditionalBranchImmediate.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.ConditionalBranchImmediate.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F03305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.ConditionalBranchImmediate.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.ConditionalBranchImmediate.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F04305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.ExceptionGeneration.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.ExceptionGeneration.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F05305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.ExceptionGeneration.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.ExceptionGeneration.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F06305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.Hints.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.Hints.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F07305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.Hints.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.Hints.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F08305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.MiscellaneousBranchImmediate.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.MiscellaneousBranchImmediate.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F09305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.MiscellaneousBranchImmediate.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.MiscellaneousBranchImmediate.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F0A305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.PSTATE.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.PSTATE.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F0B305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.PSTATE.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.PSTATE.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F0C305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemInstructionIDs.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemInstructionIDs.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F0D305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemInstructionIDs.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemInstructionIDs.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F0E305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemInstructionIDsWithRegisterArgument.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemInstructionIDsWithRegisterArgument.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F0F305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemInstructionIDsWithRegisterArgument.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemInstructionIDsWithRegisterArgument.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F10305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemPairInstructionIDs.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemPairInstructionIDs.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F11305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemPairInstructionIDs.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemPairInstructionIDs.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F12305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemRegisterMove.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemRegisterMove.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F13305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemRegisterMove.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemRegisterMove.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F14305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemRegisterPairMove.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemRegisterPairMove.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F15305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemRegisterPairMove.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemRegisterPairMove.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F16305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemWithResult.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemWithResult.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F17305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemWithResult.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemWithResult.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F18305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.TestAndBranchImmediate.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.TestAndBranchImmediate.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F19305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.TestAndBranchImmediate.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.TestAndBranchImmediate.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F1A305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.UnconditionalBranchImmediate.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.UnconditionalBranchImmediate.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F1B305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.UnconditionalBranchImmediate.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.UnconditionalBranchImmediate.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F1C305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.UnconditionalBranchRegister.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.UnconditionalBranchRegister.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F1D305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.UnconditionalBranchRegister.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.UnconditionalBranchRegister.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F1F305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.Decoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.Decoder.cpp; sourceTree = "<group>"; };
+		84533F20305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.Decoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.Decoder.cppm; sourceTree = "<group>"; };
+		84533F22305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.AddSubstractImmediate.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingImmediate.AddSubstractImmediate.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F23305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.AddSubstractImmediate.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingImmediate.AddSubstractImmediate.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F24305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.AddSubstractImmediateWithTags.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingImmediate.AddSubstractImmediateWithTags.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F25305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.AddSubstractImmediateWithTags.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingImmediate.AddSubstractImmediateWithTags.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F26305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.Bitfield.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingImmediate.Bitfield.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F27305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.Bitfield.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingImmediate.Bitfield.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F28305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.DataProcessing1SourceImmediate.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingImmediate.DataProcessing1SourceImmediate.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F29305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.DataProcessing1SourceImmediate.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingImmediate.DataProcessing1SourceImmediate.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F2A305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.Extract.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingImmediate.Extract.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F2B305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.Extract.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingImmediate.Extract.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F2C305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.LogicalImmediate.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingImmediate.LogicalImmediate.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F2D305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.LogicalImmediate.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingImmediate.LogicalImmediate.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F2E305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.MinMaxImmediate.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingImmediate.MinMaxImmediate.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F2F305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.MinMaxImmediate.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingImmediate.MinMaxImmediate.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F30305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.MoveWideImmediate.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingImmediate.MoveWideImmediate.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F31305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.MoveWideImmediate.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingImmediate.MoveWideImmediate.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F32305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.PCRelAddressing.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingImmediate.PCRelAddressing.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F33305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.PCRelAddressing.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingImmediate.PCRelAddressing.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F35305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.Decoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingImmediate.Decoder.cpp; sourceTree = "<group>"; };
+		84533F36305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.Decoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingImmediate.Decoder.cppm; sourceTree = "<group>"; };
+		84533F38305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.AddSubstractCheckedPointer.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingRegister.AddSubstractCheckedPointer.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F39305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.AddSubstractCheckedPointer.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingRegister.AddSubstractCheckedPointer.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F3A305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.AddSubstractExtendedRegister.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingRegister.AddSubstractExtendedRegister.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F3B305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.AddSubstractExtendedRegister.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingRegister.AddSubstractExtendedRegister.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F3C305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.AddSubstractShiftedRegister.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingRegister.AddSubstractShiftedRegister.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F3D305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.AddSubstractShiftedRegister.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingRegister.AddSubstractShiftedRegister.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F3E305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.AddSubstractWithCarry.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingRegister.AddSubstractWithCarry.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F3F305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.AddSubstractWithCarry.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingRegister.AddSubstractWithCarry.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F40305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.ConditionalCompareImmediate.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingRegister.ConditionalCompareImmediate.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F41305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.ConditionalCompareImmediate.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingRegister.ConditionalCompareImmediate.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F42305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.ConditionalCompareRegister.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingRegister.ConditionalCompareRegister.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F43305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.ConditionalCompareRegister.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingRegister.ConditionalCompareRegister.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F44305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.ConditionalSelect.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingRegister.ConditionalSelect.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F45305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.ConditionalSelect.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingRegister.ConditionalSelect.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F46305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.DataProcessing1Source.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingRegister.DataProcessing1Source.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F47305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.DataProcessing1Source.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingRegister.DataProcessing1Source.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F48305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.DataProcessing2Source.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingRegister.DataProcessing2Source.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F49305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.DataProcessing2Source.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingRegister.DataProcessing2Source.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F4A305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.DataProcessing3Source.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingRegister.DataProcessing3Source.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F4B305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.DataProcessing3Source.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingRegister.DataProcessing3Source.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F4C305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.EvaluateIntoFlags.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingRegister.EvaluateIntoFlags.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F4D305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.EvaluateIntoFlags.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingRegister.EvaluateIntoFlags.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F4E305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.LogicalShiftedRegister.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingRegister.LogicalShiftedRegister.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F4F305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.LogicalShiftedRegister.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingRegister.LogicalShiftedRegister.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F50305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.RotateRightIntoFlags.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingRegister.RotateRightIntoFlags.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F51305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.RotateRightIntoFlags.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingRegister.RotateRightIntoFlags.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F53305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.Decoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingRegister.Decoder.cpp; sourceTree = "<group>"; };
+		84533F54305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.Decoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingRegister.Decoder.cppm; sourceTree = "<group>"; };
+		84533F56305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDAcrossLanes.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDAcrossLanes.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F57305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDAcrossLanes.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDAcrossLanes.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F58305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDCopy.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDCopy.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F59305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDCopy.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDCopy.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F5A305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDExtract.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDExtract.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F5B305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDExtract.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDExtract.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F5C305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDModifiedImmediate.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDModifiedImmediate.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F5D305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDModifiedImmediate.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDModifiedImmediate.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F5E305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDPermute.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDPermute.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F5F305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDPermute.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDPermute.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F60305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarCopy.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarCopy.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F61305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarCopy.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarCopy.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F62305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarPairwise.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarPairwise.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F63305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarPairwise.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarPairwise.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F64305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarShiftByImmediate.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarShiftByImmediate.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F65305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarShiftByImmediate.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarShiftByImmediate.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F66305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarThreeDifferent.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarThreeDifferent.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F67305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarThreeDifferent.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarThreeDifferent.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F68305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarThreeSame.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarThreeSame.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F69305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarThreeSame.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarThreeSame.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F6A305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarThreeSameExtra.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarThreeSameExtra.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F6B305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarThreeSameExtra.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarThreeSameExtra.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F6C305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarThreeSameFP16.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarThreeSameFP16.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F6D305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarThreeSameFP16.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarThreeSameFP16.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F6E305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarTwoRegisterMiscellaneous.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarTwoRegisterMiscellaneous.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F6F305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarTwoRegisterMiscellaneous.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarTwoRegisterMiscellaneous.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F70305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarTwoRegisterMiscellaneousFP16.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarTwoRegisterMiscellaneousFP16.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F71305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarTwoRegisterMiscellaneousFP16.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarTwoRegisterMiscellaneousFP16.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F72305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarXIndexedElement.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarXIndexedElement.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F73305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarXIndexedElement.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarXIndexedElement.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F74305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDShiftByImmediate.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDShiftByImmediate.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F75305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDShiftByImmediate.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDShiftByImmediate.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F76305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDTableLookup.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDTableLookup.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F77305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDTableLookup.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDTableLookup.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F78305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDThreeDifferent.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDThreeDifferent.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F79305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDThreeDifferent.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDThreeDifferent.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F7A305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDThreeRegisterExtension.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDThreeRegisterExtension.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F7B305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDThreeRegisterExtension.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDThreeRegisterExtension.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F7C305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDThreeSame.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDThreeSame.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F7D305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDThreeSame.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDThreeSame.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F7E305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDThreeSameFP16.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDThreeSameFP16.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F7F305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDThreeSameFP16.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDThreeSameFP16.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F80305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDTwoRegisterMiscellaneous.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDTwoRegisterMiscellaneous.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F81305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDTwoRegisterMiscellaneous.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDTwoRegisterMiscellaneous.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F82305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDTwoRegisterMiscellaneousFP16.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDTwoRegisterMiscellaneousFP16.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F83305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDTwoRegisterMiscellaneousFP16.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDTwoRegisterMiscellaneousFP16.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F84305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDVectorXIndexedElement.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDVectorXIndexedElement.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F85305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDVectorXIndexedElement.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDVectorXIndexedElement.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F86305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.ConversionBetweenFloatingPointAndFixedPoint.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.ConversionBetweenFloatingPointAndFixedPoint.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F87305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.ConversionBetweenFloatingPointAndFixedPoint.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.ConversionBetweenFloatingPointAndFixedPoint.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F88305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.ConversionBetweenFloatingPointAndInteger.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.ConversionBetweenFloatingPointAndInteger.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F89305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.ConversionBetweenFloatingPointAndInteger.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.ConversionBetweenFloatingPointAndInteger.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F8A305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicAES.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicAES.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F8B305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicAES.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicAES.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F8C305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicFourRegister.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicFourRegister.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F8D305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicFourRegister.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicFourRegister.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F8E305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicThreeRegisterImm2.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicThreeRegisterImm2.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F8F305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicThreeRegisterImm2.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicThreeRegisterImm2.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F90305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicThreeRegisterSHA.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicThreeRegisterSHA.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F91305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicThreeRegisterSHA.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicThreeRegisterSHA.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F92305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicThreeRegisterSHA512.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicThreeRegisterSHA512.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F93305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicThreeRegisterSHA512.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicThreeRegisterSHA512.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F94305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicTwoRegisterSHA.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicTwoRegisterSHA.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F95305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicTwoRegisterSHA.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicTwoRegisterSHA.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F96305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicTwoRegisterSHA512.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicTwoRegisterSHA512.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F97305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicTwoRegisterSHA512.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicTwoRegisterSHA512.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F98305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointCompare.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointCompare.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F99305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointCompare.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointCompare.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F9A305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointConditionalCompare.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointConditionalCompare.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F9B305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointConditionalCompare.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointConditionalCompare.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F9C305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointConditionalSelect.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointConditionalSelect.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F9D305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointConditionalSelect.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointConditionalSelect.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533F9E305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointDataProcessing1Source.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointDataProcessing1Source.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533F9F305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointDataProcessing1Source.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointDataProcessing1Source.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FA0305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointDataProcessing2Source.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointDataProcessing2Source.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FA1305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointDataProcessing2Source.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointDataProcessing2Source.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FA2305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointDataProcessing3Source.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointDataProcessing3Source.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FA3305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointDataProcessing3Source.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointDataProcessing3Source.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FA4305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointImmediate.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointImmediate.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FA5305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointImmediate.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointImmediate.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FA6305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.XAR.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.XAR.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FA7305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.XAR.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.XAR.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FA8305E9E4700342BE6 /* main.rb */ = {isa = PBXFileReference; lastKnownFileType = text.script.ruby; path = main.rb; sourceTree = "<group>"; };
+		84533FAA305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.Decoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.Decoder.cpp; sourceTree = "<group>"; };
+		84533FAB305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.Decoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.Decoder.cppm; sourceTree = "<group>"; };
+		84533FAD305E9E4700342BE6 /* disxx.disasm.decoder.DecoderFactory.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.DecoderFactory.cpp; sourceTree = "<group>"; };
+		84533FAE305E9E4700342BE6 /* disxx.disasm.decoder.DecoderFactory.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.DecoderFactory.cppm; sourceTree = "<group>"; };
+		84533FAF305E9E4700342BE6 /* disxx.disasm.decoder.DecoderFactory-PseudoDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = "disxx.disasm.decoder.DecoderFactory-PseudoDecoder.cppm"; sourceTree = "<group>"; };
+		84533FB1305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.AtomicMemoryOperations.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.LoadsAndStores.AtomicMemoryOperations.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FB2305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.AtomicMemoryOperations.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.LoadsAndStores.AtomicMemoryOperations.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FB3305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.AtomicMemoryOperationsUnprivileged.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.LoadsAndStores.AtomicMemoryOperationsUnprivileged.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FB4305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.AtomicMemoryOperationsUnprivileged.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.LoadsAndStores.AtomicMemoryOperationsUnprivileged.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FB5305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.CompareAndSwap.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.LoadsAndStores.CompareAndSwap.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FB6305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.CompareAndSwap.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.LoadsAndStores.CompareAndSwap.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FB7305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.CompareAndSwapPair.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.LoadsAndStores.CompareAndSwapPair.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FB8305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.CompareAndSwapPair.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.LoadsAndStores.CompareAndSwapPair.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FB9305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.CompareAndSwapPairUnprivileged.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.LoadsAndStores.CompareAndSwapPairUnprivileged.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FBA305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.CompareAndSwapPairUnprivileged.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.LoadsAndStores.CompareAndSwapPairUnprivileged.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FBB305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.CompareAndSwapUnprivileged.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.LoadsAndStores.CompareAndSwapUnprivileged.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FBC305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.CompareAndSwapUnprivileged.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.LoadsAndStores.CompareAndSwapUnprivileged.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FBD305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.ExclusivePair.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.LoadsAndStores.ExclusivePair.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FBE305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.ExclusivePair.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.LoadsAndStores.ExclusivePair.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FBF305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.ExclusiveRegister.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.LoadsAndStores.ExclusiveRegister.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FC0305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.ExclusiveRegister.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.LoadsAndStores.ExclusiveRegister.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FC1305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.ExclusiveRegisterUnprivileged.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.LoadsAndStores.ExclusiveRegisterUnprivileged.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FC2305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.ExclusiveRegisterUnprivileged.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.LoadsAndStores.ExclusiveRegisterUnprivileged.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FC3305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.GCS.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.LoadsAndStores.GCS.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FC4305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.GCS.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.LoadsAndStores.GCS.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FC5305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.LDAPRSTLRSIMDAndFP.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.LoadsAndStores.LDAPRSTLRSIMDAndFP.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FC6305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.LDAPRSTLRSIMDAndFP.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.LoadsAndStores.LDAPRSTLRSIMDAndFP.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FC7305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.LDAPRSTLRUnscaledImmediate.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.LoadsAndStores.LDAPRSTLRUnscaledImmediate.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FC8305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.LDAPRSTLRUnscaledImmediate.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.LoadsAndStores.LDAPRSTLRUnscaledImmediate.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FC9305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.LDAPRSTLRWriteback.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.LoadsAndStores.LDAPRSTLRWriteback.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FCA305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.LDAPRSTLRWriteback.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.LoadsAndStores.LDAPRSTLRWriteback.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FCB305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.LDIAPPSTILP.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.LoadsAndStores.LDIAPPSTILP.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FCC305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.LDIAPPSTILP.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.LoadsAndStores.LDIAPPSTILP.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FCD305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.MemoryCopyAndMemorySet.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.LoadsAndStores.MemoryCopyAndMemorySet.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FCE305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.MemoryCopyAndMemorySet.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.LoadsAndStores.MemoryCopyAndMemorySet.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FCF305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.MemoryTags.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.LoadsAndStores.MemoryTags.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FD0305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.MemoryTags.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.LoadsAndStores.MemoryTags.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FD1305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.NoAllocatePairOffset.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.LoadsAndStores.NoAllocatePairOffset.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FD2305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.NoAllocatePairOffset.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.LoadsAndStores.NoAllocatePairOffset.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FD3305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.OneHundredAndTwentyEightBitAtomicMemoryOperations.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.LoadsAndStores.OneHundredAndTwentyEightBitAtomicMemoryOperations.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FD4305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.OneHundredAndTwentyEightBitAtomicMemoryOperations.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.LoadsAndStores.OneHundredAndTwentyEightBitAtomicMemoryOperations.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FD5305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.Ordered.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.LoadsAndStores.Ordered.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FD6305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.Ordered.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.LoadsAndStores.Ordered.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FD7305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RCWCompareAndSwap.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.LoadsAndStores.RCWCompareAndSwap.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FD8305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RCWCompareAndSwap.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.LoadsAndStores.RCWCompareAndSwap.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FD9305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RCWCompareAndSwapPair.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.LoadsAndStores.RCWCompareAndSwapPair.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FDA305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RCWCompareAndSwapPair.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.LoadsAndStores.RCWCompareAndSwapPair.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FDB305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterImmediatePostIndexed.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.LoadsAndStores.RegisterImmediatePostIndexed.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FDC305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterImmediatePostIndexed.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.LoadsAndStores.RegisterImmediatePostIndexed.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FDD305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterImmediatePreIndexed.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.LoadsAndStores.RegisterImmediatePreIndexed.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FDE305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterImmediatePreIndexed.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.LoadsAndStores.RegisterImmediatePreIndexed.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FDF305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterLiteral.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.LoadsAndStores.RegisterLiteral.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FE0305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterLiteral.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.LoadsAndStores.RegisterLiteral.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FE1305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterOffset.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.LoadsAndStores.RegisterOffset.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FE2305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterOffset.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.LoadsAndStores.RegisterOffset.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FE3305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterPAC.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.LoadsAndStores.RegisterPAC.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FE4305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterPAC.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.LoadsAndStores.RegisterPAC.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FE5305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterPairOffset.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.LoadsAndStores.RegisterPairOffset.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FE6305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterPairOffset.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.LoadsAndStores.RegisterPairOffset.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FE7305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterPairPostIndexed.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.LoadsAndStores.RegisterPairPostIndexed.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FE8305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterPairPostIndexed.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.LoadsAndStores.RegisterPairPostIndexed.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FE9305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterPairPreIndexed.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.LoadsAndStores.RegisterPairPreIndexed.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FEA305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterPairPreIndexed.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.LoadsAndStores.RegisterPairPreIndexed.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FEB305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterUnprivileged.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.LoadsAndStores.RegisterUnprivileged.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FEC305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterUnprivileged.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.LoadsAndStores.RegisterUnprivileged.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FED305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterUnscaledImmediate.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.LoadsAndStores.RegisterUnscaledImmediate.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FEE305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterUnscaledImmediate.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.LoadsAndStores.RegisterUnscaledImmediate.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FEF305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterUnsignedImmediate.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.LoadsAndStores.RegisterUnsignedImmediate.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FF0305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterUnsignedImmediate.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.LoadsAndStores.RegisterUnsignedImmediate.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FF1305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.SIMDMultipleStructures.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.LoadsAndStores.SIMDMultipleStructures.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FF2305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.SIMDMultipleStructures.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.LoadsAndStores.SIMDMultipleStructures.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FF3305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.SIMDMultipleStructuresPostIndexed.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.LoadsAndStores.SIMDMultipleStructuresPostIndexed.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FF4305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.SIMDMultipleStructuresPostIndexed.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.LoadsAndStores.SIMDMultipleStructuresPostIndexed.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FF5305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.SIMDSingleStructure.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.LoadsAndStores.SIMDSingleStructure.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FF6305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.SIMDSingleStructure.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.LoadsAndStores.SIMDSingleStructure.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FF7305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.SIMDSingleStructurePostIndexed.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.LoadsAndStores.SIMDSingleStructurePostIndexed.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FF8305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.SIMDSingleStructurePostIndexed.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.LoadsAndStores.SIMDSingleStructurePostIndexed.SubDecoder.cppm; sourceTree = "<group>"; };
+		84533FFA305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.Decoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.LoadsAndStores.Decoder.cpp; sourceTree = "<group>"; };
+		84533FFB305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.Decoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.LoadsAndStores.Decoder.cppm; sourceTree = "<group>"; };
+		84533FFD305E9E4700342BE6 /* disxx.disasm.decoder.Reserved.UDF.SubDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.Reserved.UDF.SubDecoder.cpp; sourceTree = "<group>"; };
+		84533FFE305E9E4700342BE6 /* disxx.disasm.decoder.Reserved.UDF.SubDecoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.Reserved.UDF.SubDecoder.cppm; sourceTree = "<group>"; };
+		84534000305E9E4700342BE6 /* disxx.disasm.decoder.Reserved.Decoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.decoder.Reserved.Decoder.cpp; sourceTree = "<group>"; };
+		84534001305E9E4700342BE6 /* disxx.disasm.decoder.Reserved.Decoder.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.decoder.Reserved.Decoder.cppm; sourceTree = "<group>"; };
+		84534004305E9E4700342BE6 /* disxx.disasm.operand.Condition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.operand.Condition.cpp; sourceTree = "<group>"; };
+		84534005305E9E4700342BE6 /* disxx.disasm.operand.Extension.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.operand.Extension.cpp; sourceTree = "<group>"; };
+		84534006305E9E4700342BE6 /* disxx.disasm.operand.LoadsAndStoresAddress.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.operand.LoadsAndStoresAddress.cpp; sourceTree = "<group>"; };
+		84534007305E9E4700342BE6 /* disxx.disasm.operand.MemoryBarrier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.operand.MemoryBarrier.cpp; sourceTree = "<group>"; };
+		84534008305E9E4700342BE6 /* disxx.disasm.operand.PrefetchOperand.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.operand.PrefetchOperand.cpp; sourceTree = "<group>"; };
+		84534009305E9E4700342BE6 /* disxx.disasm.operand.PState.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.operand.PState.cpp; sourceTree = "<group>"; };
+		8453400A305E9E4700342BE6 /* disxx.disasm.operand.Register.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.operand.Register.cpp; sourceTree = "<group>"; };
+		8453400B305E9E4700342BE6 /* disxx.disasm.operand.Shift.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.operand.Shift.cpp; sourceTree = "<group>"; };
+		8453400C305E9E4700342BE6 /* disxx.disasm.operand.SystemOperand.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.operand.SystemOperand.cpp; sourceTree = "<group>"; };
+		8453400E305E9E4700342BE6 /* disxx.disasm.utility.bits.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.utility.bits.cpp; sourceTree = "<group>"; };
+		8453400F305E9E4700342BE6 /* disxx.disasm.utility.bits.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.disasm.utility.bits.cppm; sourceTree = "<group>"; };
+		84534012305E9E4700342BE6 /* disxx.disasm.Address.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.Address.cpp; sourceTree = "<group>"; };
+		84534013305E9E4700342BE6 /* disxx.disasm.Disassembler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.Disassembler.cpp; sourceTree = "<group>"; };
+		84534014305E9E4700342BE6 /* disxx.disasm.Instruction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.disasm.Instruction.cpp; sourceTree = "<group>"; };
+		84534016305E9E4D00342BE6 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
 /* Begin PBXGroup section */
 		842F1B27305D1DB600F775F7 = {
 			isa = PBXGroup;
 			children = (
+				84534016305E9E4D00342BE6 /* Makefile */,
+				84534015305E9E4700342BE6 /* src */,
+				84533EF2305E9E4000342BE6 /* modules */,
 			);
+			sourceTree = "<group>";
+		};
+		84533EE9305E9E4000342BE6 /* operand */ = {
+			isa = PBXGroup;
+			children = (
+				84533EDD305E9E4000342BE6 /* disxx.disasm.operand.Condition.cppm */,
+				84533EDE305E9E4000342BE6 /* disxx.disasm.operand.Extension.cppm */,
+				84533EDF305E9E4000342BE6 /* disxx.disasm.operand.Immediate.cppm */,
+				84533EE0305E9E4000342BE6 /* disxx.disasm.operand.IOperand.cppm */,
+				84533EE1305E9E4000342BE6 /* disxx.disasm.operand.LoadsAndStoresAddress.cppm */,
+				84533EE2305E9E4000342BE6 /* disxx.disasm.operand.MemoryBarrier.cppm */,
+				84533EE3305E9E4000342BE6 /* disxx.disasm.operand.PrefetchOperand.cppm */,
+				84533EE4305E9E4000342BE6 /* disxx.disasm.operand.PState.cppm */,
+				84533EE5305E9E4000342BE6 /* disxx.disasm.operand.Register.cppm */,
+				84533EE6305E9E4000342BE6 /* disxx.disasm.operand.Register-VectorArrangementSpecifier.cppm */,
+				84533EE7305E9E4000342BE6 /* disxx.disasm.operand.Shift.cppm */,
+				84533EE8305E9E4000342BE6 /* disxx.disasm.operand.SystemOperand.cppm */,
+			);
+			path = operand;
+			sourceTree = "<group>";
+		};
+		84533EEE305E9E4000342BE6 /* private */ = {
+			isa = PBXGroup;
+			children = (
+				84533EE9305E9E4000342BE6 /* operand */,
+				84533EEA305E9E4000342BE6 /* disxx.disasm.Address.cppm */,
+				84533EEB305E9E4000342BE6 /* disxx.disasm.Bytes.cppm */,
+				84533EEC305E9E4000342BE6 /* disxx.disasm.Instruction.cppm */,
+				84533EED305E9E4000342BE6 /* disxx.disasm.InstructionIdentifier.cppm */,
+			);
+			path = private;
+			sourceTree = "<group>";
+		};
+		84533EF1305E9E4000342BE6 /* public */ = {
+			isa = PBXGroup;
+			children = (
+				84533EEF305E9E4000342BE6 /* disxx.disasm.Disassembler.cppm */,
+				84533EF0305E9E4000342BE6 /* disxx.disasm.Printer.cppm */,
+			);
+			path = public;
+			sourceTree = "<group>";
+		};
+		84533EF2305E9E4000342BE6 /* modules */ = {
+			isa = PBXGroup;
+			children = (
+				84533EEE305E9E4000342BE6 /* private */,
+				84533EF1305E9E4000342BE6 /* public */,
+			);
+			path = modules;
+			sourceTree = "<group>";
+		};
+		84533EF7305E9E4700342BE6 /* abstract */ = {
+			isa = PBXGroup;
+			children = (
+				84533EF3305E9E4700342BE6 /* disxx.disasm.decoder.abstract.Decoder.cpp */,
+				84533EF4305E9E4700342BE6 /* disxx.disasm.decoder.abstract.Decoder.cppm */,
+				84533EF5305E9E4700342BE6 /* disxx.disasm.decoder.abstract.SubDecoder.cpp */,
+				84533EF6305E9E4700342BE6 /* disxx.disasm.decoder.abstract.SubDecoder.cppm */,
+			);
+			path = abstract;
+			sourceTree = "<group>";
+		};
+		84533F1E305E9E4700342BE6 /* SubDecoder */ = {
+			isa = PBXGroup;
+			children = (
+				84533EF8305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.Barriers.SubDecoder.cpp */,
+				84533EF9305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.Barriers.SubDecoder.cppm */,
+				84533EFA305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.CompareAndBranchImmediate.SubDecoder.cpp */,
+				84533EFB305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.CompareAndBranchImmediate.SubDecoder.cppm */,
+				84533EFC305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.CompareBytesHalfwordsInRegisterAndBranch.SubDecoder.cpp */,
+				84533EFD305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.CompareBytesHalfwordsInRegisterAndBranch.SubDecoder.cppm */,
+				84533EFE305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.CompareRegistersAndBranch.SubDecoder.cpp */,
+				84533EFF305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.CompareRegistersAndBranch.SubDecoder.cppm */,
+				84533F00305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.CompareRegisterWithImmediateAndBranch.SubDecoder.cpp */,
+				84533F01305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.CompareRegisterWithImmediateAndBranch.SubDecoder.cppm */,
+				84533F02305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.ConditionalBranchImmediate.SubDecoder.cpp */,
+				84533F03305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.ConditionalBranchImmediate.SubDecoder.cppm */,
+				84533F04305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.ExceptionGeneration.SubDecoder.cpp */,
+				84533F05305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.ExceptionGeneration.SubDecoder.cppm */,
+				84533F06305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.Hints.SubDecoder.cpp */,
+				84533F07305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.Hints.SubDecoder.cppm */,
+				84533F08305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.MiscellaneousBranchImmediate.SubDecoder.cpp */,
+				84533F09305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.MiscellaneousBranchImmediate.SubDecoder.cppm */,
+				84533F0A305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.PSTATE.SubDecoder.cpp */,
+				84533F0B305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.PSTATE.SubDecoder.cppm */,
+				84533F0C305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemInstructionIDs.SubDecoder.cpp */,
+				84533F0D305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemInstructionIDs.SubDecoder.cppm */,
+				84533F0E305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemInstructionIDsWithRegisterArgument.SubDecoder.cpp */,
+				84533F0F305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemInstructionIDsWithRegisterArgument.SubDecoder.cppm */,
+				84533F10305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemPairInstructionIDs.SubDecoder.cpp */,
+				84533F11305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemPairInstructionIDs.SubDecoder.cppm */,
+				84533F12305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemRegisterMove.SubDecoder.cpp */,
+				84533F13305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemRegisterMove.SubDecoder.cppm */,
+				84533F14305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemRegisterPairMove.SubDecoder.cpp */,
+				84533F15305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemRegisterPairMove.SubDecoder.cppm */,
+				84533F16305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemWithResult.SubDecoder.cpp */,
+				84533F17305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.SystemWithResult.SubDecoder.cppm */,
+				84533F18305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.TestAndBranchImmediate.SubDecoder.cpp */,
+				84533F19305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.TestAndBranchImmediate.SubDecoder.cppm */,
+				84533F1A305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.UnconditionalBranchImmediate.SubDecoder.cpp */,
+				84533F1B305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.UnconditionalBranchImmediate.SubDecoder.cppm */,
+				84533F1C305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.UnconditionalBranchRegister.SubDecoder.cpp */,
+				84533F1D305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.UnconditionalBranchRegister.SubDecoder.cppm */,
+			);
+			path = SubDecoder;
+			sourceTree = "<group>";
+		};
+		84533F21305E9E4700342BE6 /* BranchesExceptionsAndSystemInstructions */ = {
+			isa = PBXGroup;
+			children = (
+				84533F1E305E9E4700342BE6 /* SubDecoder */,
+				84533F1F305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.Decoder.cpp */,
+				84533F20305E9E4700342BE6 /* disxx.disasm.decoder.BranchesExceptionsAndSystemInstructions.Decoder.cppm */,
+			);
+			path = BranchesExceptionsAndSystemInstructions;
+			sourceTree = "<group>";
+		};
+		84533F34305E9E4700342BE6 /* SubDecoder */ = {
+			isa = PBXGroup;
+			children = (
+				84533F22305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.AddSubstractImmediate.SubDecoder.cpp */,
+				84533F23305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.AddSubstractImmediate.SubDecoder.cppm */,
+				84533F24305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.AddSubstractImmediateWithTags.SubDecoder.cpp */,
+				84533F25305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.AddSubstractImmediateWithTags.SubDecoder.cppm */,
+				84533F26305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.Bitfield.SubDecoder.cpp */,
+				84533F27305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.Bitfield.SubDecoder.cppm */,
+				84533F28305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.DataProcessing1SourceImmediate.SubDecoder.cpp */,
+				84533F29305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.DataProcessing1SourceImmediate.SubDecoder.cppm */,
+				84533F2A305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.Extract.SubDecoder.cpp */,
+				84533F2B305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.Extract.SubDecoder.cppm */,
+				84533F2C305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.LogicalImmediate.SubDecoder.cpp */,
+				84533F2D305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.LogicalImmediate.SubDecoder.cppm */,
+				84533F2E305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.MinMaxImmediate.SubDecoder.cpp */,
+				84533F2F305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.MinMaxImmediate.SubDecoder.cppm */,
+				84533F30305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.MoveWideImmediate.SubDecoder.cpp */,
+				84533F31305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.MoveWideImmediate.SubDecoder.cppm */,
+				84533F32305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.PCRelAddressing.SubDecoder.cpp */,
+				84533F33305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.PCRelAddressing.SubDecoder.cppm */,
+			);
+			path = SubDecoder;
+			sourceTree = "<group>";
+		};
+		84533F37305E9E4700342BE6 /* DataProcessingImmediate */ = {
+			isa = PBXGroup;
+			children = (
+				84533F34305E9E4700342BE6 /* SubDecoder */,
+				84533F35305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.Decoder.cpp */,
+				84533F36305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingImmediate.Decoder.cppm */,
+			);
+			path = DataProcessingImmediate;
+			sourceTree = "<group>";
+		};
+		84533F52305E9E4700342BE6 /* SubDecoder */ = {
+			isa = PBXGroup;
+			children = (
+				84533F38305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.AddSubstractCheckedPointer.SubDecoder.cpp */,
+				84533F39305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.AddSubstractCheckedPointer.SubDecoder.cppm */,
+				84533F3A305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.AddSubstractExtendedRegister.SubDecoder.cpp */,
+				84533F3B305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.AddSubstractExtendedRegister.SubDecoder.cppm */,
+				84533F3C305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.AddSubstractShiftedRegister.SubDecoder.cpp */,
+				84533F3D305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.AddSubstractShiftedRegister.SubDecoder.cppm */,
+				84533F3E305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.AddSubstractWithCarry.SubDecoder.cpp */,
+				84533F3F305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.AddSubstractWithCarry.SubDecoder.cppm */,
+				84533F40305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.ConditionalCompareImmediate.SubDecoder.cpp */,
+				84533F41305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.ConditionalCompareImmediate.SubDecoder.cppm */,
+				84533F42305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.ConditionalCompareRegister.SubDecoder.cpp */,
+				84533F43305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.ConditionalCompareRegister.SubDecoder.cppm */,
+				84533F44305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.ConditionalSelect.SubDecoder.cpp */,
+				84533F45305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.ConditionalSelect.SubDecoder.cppm */,
+				84533F46305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.DataProcessing1Source.SubDecoder.cpp */,
+				84533F47305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.DataProcessing1Source.SubDecoder.cppm */,
+				84533F48305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.DataProcessing2Source.SubDecoder.cpp */,
+				84533F49305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.DataProcessing2Source.SubDecoder.cppm */,
+				84533F4A305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.DataProcessing3Source.SubDecoder.cpp */,
+				84533F4B305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.DataProcessing3Source.SubDecoder.cppm */,
+				84533F4C305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.EvaluateIntoFlags.SubDecoder.cpp */,
+				84533F4D305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.EvaluateIntoFlags.SubDecoder.cppm */,
+				84533F4E305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.LogicalShiftedRegister.SubDecoder.cpp */,
+				84533F4F305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.LogicalShiftedRegister.SubDecoder.cppm */,
+				84533F50305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.RotateRightIntoFlags.SubDecoder.cpp */,
+				84533F51305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.RotateRightIntoFlags.SubDecoder.cppm */,
+			);
+			path = SubDecoder;
+			sourceTree = "<group>";
+		};
+		84533F55305E9E4700342BE6 /* DataProcessingRegister */ = {
+			isa = PBXGroup;
+			children = (
+				84533F52305E9E4700342BE6 /* SubDecoder */,
+				84533F53305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.Decoder.cpp */,
+				84533F54305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingRegister.Decoder.cppm */,
+			);
+			path = DataProcessingRegister;
+			sourceTree = "<group>";
+		};
+		84533FA9305E9E4700342BE6 /* SubDecoder */ = {
+			isa = PBXGroup;
+			children = (
+				84533F56305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDAcrossLanes.SubDecoder.cpp */,
+				84533F57305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDAcrossLanes.SubDecoder.cppm */,
+				84533F58305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDCopy.SubDecoder.cpp */,
+				84533F59305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDCopy.SubDecoder.cppm */,
+				84533F5A305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDExtract.SubDecoder.cpp */,
+				84533F5B305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDExtract.SubDecoder.cppm */,
+				84533F5C305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDModifiedImmediate.SubDecoder.cpp */,
+				84533F5D305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDModifiedImmediate.SubDecoder.cppm */,
+				84533F5E305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDPermute.SubDecoder.cpp */,
+				84533F5F305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDPermute.SubDecoder.cppm */,
+				84533F60305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarCopy.SubDecoder.cpp */,
+				84533F61305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarCopy.SubDecoder.cppm */,
+				84533F62305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarPairwise.SubDecoder.cpp */,
+				84533F63305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarPairwise.SubDecoder.cppm */,
+				84533F64305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarShiftByImmediate.SubDecoder.cpp */,
+				84533F65305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarShiftByImmediate.SubDecoder.cppm */,
+				84533F66305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarThreeDifferent.SubDecoder.cpp */,
+				84533F67305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarThreeDifferent.SubDecoder.cppm */,
+				84533F68305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarThreeSame.SubDecoder.cpp */,
+				84533F69305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarThreeSame.SubDecoder.cppm */,
+				84533F6A305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarThreeSameExtra.SubDecoder.cpp */,
+				84533F6B305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarThreeSameExtra.SubDecoder.cppm */,
+				84533F6C305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarThreeSameFP16.SubDecoder.cpp */,
+				84533F6D305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarThreeSameFP16.SubDecoder.cppm */,
+				84533F6E305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarTwoRegisterMiscellaneous.SubDecoder.cpp */,
+				84533F6F305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarTwoRegisterMiscellaneous.SubDecoder.cppm */,
+				84533F70305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarTwoRegisterMiscellaneousFP16.SubDecoder.cpp */,
+				84533F71305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarTwoRegisterMiscellaneousFP16.SubDecoder.cppm */,
+				84533F72305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarXIndexedElement.SubDecoder.cpp */,
+				84533F73305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDScalarXIndexedElement.SubDecoder.cppm */,
+				84533F74305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDShiftByImmediate.SubDecoder.cpp */,
+				84533F75305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDShiftByImmediate.SubDecoder.cppm */,
+				84533F76305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDTableLookup.SubDecoder.cpp */,
+				84533F77305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDTableLookup.SubDecoder.cppm */,
+				84533F78305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDThreeDifferent.SubDecoder.cpp */,
+				84533F79305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDThreeDifferent.SubDecoder.cppm */,
+				84533F7A305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDThreeRegisterExtension.SubDecoder.cpp */,
+				84533F7B305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDThreeRegisterExtension.SubDecoder.cppm */,
+				84533F7C305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDThreeSame.SubDecoder.cpp */,
+				84533F7D305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDThreeSame.SubDecoder.cppm */,
+				84533F7E305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDThreeSameFP16.SubDecoder.cpp */,
+				84533F7F305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDThreeSameFP16.SubDecoder.cppm */,
+				84533F80305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDTwoRegisterMiscellaneous.SubDecoder.cpp */,
+				84533F81305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDTwoRegisterMiscellaneous.SubDecoder.cppm */,
+				84533F82305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDTwoRegisterMiscellaneousFP16.SubDecoder.cpp */,
+				84533F83305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDTwoRegisterMiscellaneousFP16.SubDecoder.cppm */,
+				84533F84305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDVectorXIndexedElement.SubDecoder.cpp */,
+				84533F85305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.AdvancedSIMDVectorXIndexedElement.SubDecoder.cppm */,
+				84533F86305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.ConversionBetweenFloatingPointAndFixedPoint.SubDecoder.cpp */,
+				84533F87305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.ConversionBetweenFloatingPointAndFixedPoint.SubDecoder.cppm */,
+				84533F88305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.ConversionBetweenFloatingPointAndInteger.SubDecoder.cpp */,
+				84533F89305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.ConversionBetweenFloatingPointAndInteger.SubDecoder.cppm */,
+				84533F8A305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicAES.SubDecoder.cpp */,
+				84533F8B305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicAES.SubDecoder.cppm */,
+				84533F8C305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicFourRegister.SubDecoder.cpp */,
+				84533F8D305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicFourRegister.SubDecoder.cppm */,
+				84533F8E305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicThreeRegisterImm2.SubDecoder.cpp */,
+				84533F8F305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicThreeRegisterImm2.SubDecoder.cppm */,
+				84533F90305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicThreeRegisterSHA.SubDecoder.cpp */,
+				84533F91305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicThreeRegisterSHA.SubDecoder.cppm */,
+				84533F92305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicThreeRegisterSHA512.SubDecoder.cpp */,
+				84533F93305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicThreeRegisterSHA512.SubDecoder.cppm */,
+				84533F94305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicTwoRegisterSHA.SubDecoder.cpp */,
+				84533F95305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicTwoRegisterSHA.SubDecoder.cppm */,
+				84533F96305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicTwoRegisterSHA512.SubDecoder.cpp */,
+				84533F97305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.CryptographicTwoRegisterSHA512.SubDecoder.cppm */,
+				84533F98305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointCompare.SubDecoder.cpp */,
+				84533F99305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointCompare.SubDecoder.cppm */,
+				84533F9A305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointConditionalCompare.SubDecoder.cpp */,
+				84533F9B305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointConditionalCompare.SubDecoder.cppm */,
+				84533F9C305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointConditionalSelect.SubDecoder.cpp */,
+				84533F9D305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointConditionalSelect.SubDecoder.cppm */,
+				84533F9E305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointDataProcessing1Source.SubDecoder.cpp */,
+				84533F9F305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointDataProcessing1Source.SubDecoder.cppm */,
+				84533FA0305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointDataProcessing2Source.SubDecoder.cpp */,
+				84533FA1305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointDataProcessing2Source.SubDecoder.cppm */,
+				84533FA2305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointDataProcessing3Source.SubDecoder.cpp */,
+				84533FA3305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointDataProcessing3Source.SubDecoder.cppm */,
+				84533FA4305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointImmediate.SubDecoder.cpp */,
+				84533FA5305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.FloatingPointImmediate.SubDecoder.cppm */,
+				84533FA6305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.XAR.SubDecoder.cpp */,
+				84533FA7305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.XAR.SubDecoder.cppm */,
+				84533FA8305E9E4700342BE6 /* main.rb */,
+			);
+			path = SubDecoder;
+			sourceTree = "<group>";
+		};
+		84533FAC305E9E4700342BE6 /* DataProcessingScalarFPAndAdvancedSIMD */ = {
+			isa = PBXGroup;
+			children = (
+				84533FA9305E9E4700342BE6 /* SubDecoder */,
+				84533FAA305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.Decoder.cpp */,
+				84533FAB305E9E4700342BE6 /* disxx.disasm.decoder.DataProcessingScalarFPAndAdvancedSIMD.Decoder.cppm */,
+			);
+			path = DataProcessingScalarFPAndAdvancedSIMD;
+			sourceTree = "<group>";
+		};
+		84533FB0305E9E4700342BE6 /* DecoderFactory */ = {
+			isa = PBXGroup;
+			children = (
+				84533FAD305E9E4700342BE6 /* disxx.disasm.decoder.DecoderFactory.cpp */,
+				84533FAE305E9E4700342BE6 /* disxx.disasm.decoder.DecoderFactory.cppm */,
+				84533FAF305E9E4700342BE6 /* disxx.disasm.decoder.DecoderFactory-PseudoDecoder.cppm */,
+			);
+			path = DecoderFactory;
+			sourceTree = "<group>";
+		};
+		84533FF9305E9E4700342BE6 /* SubDecoder */ = {
+			isa = PBXGroup;
+			children = (
+				84533FB1305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.AtomicMemoryOperations.SubDecoder.cpp */,
+				84533FB2305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.AtomicMemoryOperations.SubDecoder.cppm */,
+				84533FB3305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.AtomicMemoryOperationsUnprivileged.SubDecoder.cpp */,
+				84533FB4305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.AtomicMemoryOperationsUnprivileged.SubDecoder.cppm */,
+				84533FB5305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.CompareAndSwap.SubDecoder.cpp */,
+				84533FB6305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.CompareAndSwap.SubDecoder.cppm */,
+				84533FB7305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.CompareAndSwapPair.SubDecoder.cpp */,
+				84533FB8305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.CompareAndSwapPair.SubDecoder.cppm */,
+				84533FB9305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.CompareAndSwapPairUnprivileged.SubDecoder.cpp */,
+				84533FBA305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.CompareAndSwapPairUnprivileged.SubDecoder.cppm */,
+				84533FBB305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.CompareAndSwapUnprivileged.SubDecoder.cpp */,
+				84533FBC305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.CompareAndSwapUnprivileged.SubDecoder.cppm */,
+				84533FBD305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.ExclusivePair.SubDecoder.cpp */,
+				84533FBE305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.ExclusivePair.SubDecoder.cppm */,
+				84533FBF305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.ExclusiveRegister.SubDecoder.cpp */,
+				84533FC0305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.ExclusiveRegister.SubDecoder.cppm */,
+				84533FC1305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.ExclusiveRegisterUnprivileged.SubDecoder.cpp */,
+				84533FC2305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.ExclusiveRegisterUnprivileged.SubDecoder.cppm */,
+				84533FC3305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.GCS.SubDecoder.cpp */,
+				84533FC4305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.GCS.SubDecoder.cppm */,
+				84533FC5305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.LDAPRSTLRSIMDAndFP.SubDecoder.cpp */,
+				84533FC6305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.LDAPRSTLRSIMDAndFP.SubDecoder.cppm */,
+				84533FC7305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.LDAPRSTLRUnscaledImmediate.SubDecoder.cpp */,
+				84533FC8305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.LDAPRSTLRUnscaledImmediate.SubDecoder.cppm */,
+				84533FC9305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.LDAPRSTLRWriteback.SubDecoder.cpp */,
+				84533FCA305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.LDAPRSTLRWriteback.SubDecoder.cppm */,
+				84533FCB305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.LDIAPPSTILP.SubDecoder.cpp */,
+				84533FCC305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.LDIAPPSTILP.SubDecoder.cppm */,
+				84533FCD305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.MemoryCopyAndMemorySet.SubDecoder.cpp */,
+				84533FCE305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.MemoryCopyAndMemorySet.SubDecoder.cppm */,
+				84533FCF305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.MemoryTags.SubDecoder.cpp */,
+				84533FD0305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.MemoryTags.SubDecoder.cppm */,
+				84533FD1305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.NoAllocatePairOffset.SubDecoder.cpp */,
+				84533FD2305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.NoAllocatePairOffset.SubDecoder.cppm */,
+				84533FD3305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.OneHundredAndTwentyEightBitAtomicMemoryOperations.SubDecoder.cpp */,
+				84533FD4305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.OneHundredAndTwentyEightBitAtomicMemoryOperations.SubDecoder.cppm */,
+				84533FD5305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.Ordered.SubDecoder.cpp */,
+				84533FD6305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.Ordered.SubDecoder.cppm */,
+				84533FD7305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RCWCompareAndSwap.SubDecoder.cpp */,
+				84533FD8305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RCWCompareAndSwap.SubDecoder.cppm */,
+				84533FD9305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RCWCompareAndSwapPair.SubDecoder.cpp */,
+				84533FDA305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RCWCompareAndSwapPair.SubDecoder.cppm */,
+				84533FDB305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterImmediatePostIndexed.SubDecoder.cpp */,
+				84533FDC305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterImmediatePostIndexed.SubDecoder.cppm */,
+				84533FDD305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterImmediatePreIndexed.SubDecoder.cpp */,
+				84533FDE305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterImmediatePreIndexed.SubDecoder.cppm */,
+				84533FDF305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterLiteral.SubDecoder.cpp */,
+				84533FE0305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterLiteral.SubDecoder.cppm */,
+				84533FE1305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterOffset.SubDecoder.cpp */,
+				84533FE2305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterOffset.SubDecoder.cppm */,
+				84533FE3305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterPAC.SubDecoder.cpp */,
+				84533FE4305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterPAC.SubDecoder.cppm */,
+				84533FE5305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterPairOffset.SubDecoder.cpp */,
+				84533FE6305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterPairOffset.SubDecoder.cppm */,
+				84533FE7305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterPairPostIndexed.SubDecoder.cpp */,
+				84533FE8305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterPairPostIndexed.SubDecoder.cppm */,
+				84533FE9305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterPairPreIndexed.SubDecoder.cpp */,
+				84533FEA305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterPairPreIndexed.SubDecoder.cppm */,
+				84533FEB305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterUnprivileged.SubDecoder.cpp */,
+				84533FEC305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterUnprivileged.SubDecoder.cppm */,
+				84533FED305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterUnscaledImmediate.SubDecoder.cpp */,
+				84533FEE305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterUnscaledImmediate.SubDecoder.cppm */,
+				84533FEF305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterUnsignedImmediate.SubDecoder.cpp */,
+				84533FF0305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.RegisterUnsignedImmediate.SubDecoder.cppm */,
+				84533FF1305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.SIMDMultipleStructures.SubDecoder.cpp */,
+				84533FF2305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.SIMDMultipleStructures.SubDecoder.cppm */,
+				84533FF3305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.SIMDMultipleStructuresPostIndexed.SubDecoder.cpp */,
+				84533FF4305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.SIMDMultipleStructuresPostIndexed.SubDecoder.cppm */,
+				84533FF5305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.SIMDSingleStructure.SubDecoder.cpp */,
+				84533FF6305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.SIMDSingleStructure.SubDecoder.cppm */,
+				84533FF7305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.SIMDSingleStructurePostIndexed.SubDecoder.cpp */,
+				84533FF8305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.SIMDSingleStructurePostIndexed.SubDecoder.cppm */,
+			);
+			path = SubDecoder;
+			sourceTree = "<group>";
+		};
+		84533FFC305E9E4700342BE6 /* LoadsAndStores */ = {
+			isa = PBXGroup;
+			children = (
+				84533FF9305E9E4700342BE6 /* SubDecoder */,
+				84533FFA305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.Decoder.cpp */,
+				84533FFB305E9E4700342BE6 /* disxx.disasm.decoder.LoadsAndStores.Decoder.cppm */,
+			);
+			path = LoadsAndStores;
+			sourceTree = "<group>";
+		};
+		84533FFF305E9E4700342BE6 /* SubDecoder */ = {
+			isa = PBXGroup;
+			children = (
+				84533FFD305E9E4700342BE6 /* disxx.disasm.decoder.Reserved.UDF.SubDecoder.cpp */,
+				84533FFE305E9E4700342BE6 /* disxx.disasm.decoder.Reserved.UDF.SubDecoder.cppm */,
+			);
+			path = SubDecoder;
+			sourceTree = "<group>";
+		};
+		84534002305E9E4700342BE6 /* Reserved */ = {
+			isa = PBXGroup;
+			children = (
+				84533FFF305E9E4700342BE6 /* SubDecoder */,
+				84534000305E9E4700342BE6 /* disxx.disasm.decoder.Reserved.Decoder.cpp */,
+				84534001305E9E4700342BE6 /* disxx.disasm.decoder.Reserved.Decoder.cppm */,
+			);
+			path = Reserved;
+			sourceTree = "<group>";
+		};
+		84534003305E9E4700342BE6 /* decoder */ = {
+			isa = PBXGroup;
+			children = (
+				84533EF7305E9E4700342BE6 /* abstract */,
+				84533F21305E9E4700342BE6 /* BranchesExceptionsAndSystemInstructions */,
+				84533F37305E9E4700342BE6 /* DataProcessingImmediate */,
+				84533F55305E9E4700342BE6 /* DataProcessingRegister */,
+				84533FAC305E9E4700342BE6 /* DataProcessingScalarFPAndAdvancedSIMD */,
+				84533FB0305E9E4700342BE6 /* DecoderFactory */,
+				84533FFC305E9E4700342BE6 /* LoadsAndStores */,
+				84534002305E9E4700342BE6 /* Reserved */,
+			);
+			path = decoder;
+			sourceTree = "<group>";
+		};
+		8453400D305E9E4700342BE6 /* operand */ = {
+			isa = PBXGroup;
+			children = (
+				84534004305E9E4700342BE6 /* disxx.disasm.operand.Condition.cpp */,
+				84534005305E9E4700342BE6 /* disxx.disasm.operand.Extension.cpp */,
+				84534006305E9E4700342BE6 /* disxx.disasm.operand.LoadsAndStoresAddress.cpp */,
+				84534007305E9E4700342BE6 /* disxx.disasm.operand.MemoryBarrier.cpp */,
+				84534008305E9E4700342BE6 /* disxx.disasm.operand.PrefetchOperand.cpp */,
+				84534009305E9E4700342BE6 /* disxx.disasm.operand.PState.cpp */,
+				8453400A305E9E4700342BE6 /* disxx.disasm.operand.Register.cpp */,
+				8453400B305E9E4700342BE6 /* disxx.disasm.operand.Shift.cpp */,
+				8453400C305E9E4700342BE6 /* disxx.disasm.operand.SystemOperand.cpp */,
+			);
+			path = operand;
+			sourceTree = "<group>";
+		};
+		84534010305E9E4700342BE6 /* bits */ = {
+			isa = PBXGroup;
+			children = (
+				8453400E305E9E4700342BE6 /* disxx.disasm.utility.bits.cpp */,
+				8453400F305E9E4700342BE6 /* disxx.disasm.utility.bits.cppm */,
+			);
+			path = bits;
+			sourceTree = "<group>";
+		};
+		84534011305E9E4700342BE6 /* utility */ = {
+			isa = PBXGroup;
+			children = (
+				84534010305E9E4700342BE6 /* bits */,
+			);
+			path = utility;
+			sourceTree = "<group>";
+		};
+		84534015305E9E4700342BE6 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				84534003305E9E4700342BE6 /* decoder */,
+				8453400D305E9E4700342BE6 /* operand */,
+				84534011305E9E4700342BE6 /* utility */,
+				84534012305E9E4700342BE6 /* disxx.disasm.Address.cpp */,
+				84534013305E9E4700342BE6 /* disxx.disasm.Disassembler.cpp */,
+				84534014305E9E4700342BE6 /* disxx.disasm.Instruction.cpp */,
+			);
+			path = src;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

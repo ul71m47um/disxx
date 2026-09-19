@@ -6,11 +6,38 @@
 	objectVersion = 110;
 	objects = {
 
+/* Begin PBXFileReference section */
+		84534017305E9E7600342BE6 /* FailHandler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FailHandler.cpp; sourceTree = "<group>"; };
+		84534018305E9E7600342BE6 /* FailHandler.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = FailHandler.cppm; sourceTree = "<group>"; };
+		8453401A305E9E7600342BE6 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		8453401C305E9E7B00342BE6 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
 /* Begin PBXGroup section */
 		842F1B3D305D1E1D00F775F7 = {
 			isa = PBXGroup;
 			children = (
+				8453401C305E9E7B00342BE6 /* Makefile */,
+				8453401B305E9E7600342BE6 /* src */,
 			);
+			sourceTree = "<group>";
+		};
+		84534019305E9E7600342BE6 /* FailHandler */ = {
+			isa = PBXGroup;
+			children = (
+				84534017305E9E7600342BE6 /* FailHandler.cpp */,
+				84534018305E9E7600342BE6 /* FailHandler.cppm */,
+			);
+			path = FailHandler;
+			sourceTree = "<group>";
+		};
+		8453401B305E9E7600342BE6 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				84534019305E9E7600342BE6 /* FailHandler */,
+				8453401A305E9E7600342BE6 /* main.cpp */,
+			);
+			path = src;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

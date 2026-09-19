@@ -6,11 +6,78 @@
 	objectVersion = 110;
 	objects = {
 
+/* Begin PBXFileReference section */
+		8453401D305E9EA900342BE6 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		8453401E305E9EB100342BE6 /* Application.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Application.cpp; sourceTree = "<group>"; };
+		8453401F305E9EB100342BE6 /* Application.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = Application.cppm; sourceTree = "<group>"; };
+		84534020305E9EB100342BE6 /* DisLog.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DisLog.cpp; sourceTree = "<group>"; };
+		84534021305E9EB100342BE6 /* DisLog.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = DisLog.cppm; sourceTree = "<group>"; };
+		84534023305E9EB100342BE6 /* FileInput.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FileInput.cpp; sourceTree = "<group>"; };
+		84534024305E9EB100342BE6 /* FileInput.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = FileInput.cppm; sourceTree = "<group>"; };
+		84534026305E9EB100342BE6 /* ScriptEngine.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScriptEngine.cpp; sourceTree = "<group>"; };
+		84534027305E9EB100342BE6 /* ScriptEngine.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = ScriptEngine.cppm; sourceTree = "<group>"; };
+		84534029305E9EB100342BE6 /* ScriptWindow.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScriptWindow.cpp; sourceTree = "<group>"; };
+		8453402A305E9EB100342BE6 /* ScriptWindow.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = ScriptWindow.cppm; sourceTree = "<group>"; };
+		8453402C305E9EB100342BE6 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
 /* Begin PBXGroup section */
 		842F1B1C305D1D1800F775F7 = {
 			isa = PBXGroup;
 			children = (
+				8453402D305E9EB100342BE6 /* src */,
+				8453401D305E9EA900342BE6 /* Makefile */,
 			);
+			sourceTree = "<group>";
+		};
+		84534022305E9EB100342BE6 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				8453401E305E9EB100342BE6 /* Application.cpp */,
+				8453401F305E9EB100342BE6 /* Application.cppm */,
+				84534020305E9EB100342BE6 /* DisLog.cpp */,
+				84534021305E9EB100342BE6 /* DisLog.cppm */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		84534025305E9EB100342BE6 /* FileInput */ = {
+			isa = PBXGroup;
+			children = (
+				84534023305E9EB100342BE6 /* FileInput.cpp */,
+				84534024305E9EB100342BE6 /* FileInput.cppm */,
+			);
+			path = FileInput;
+			sourceTree = "<group>";
+		};
+		84534028305E9EB100342BE6 /* ScriptEngine */ = {
+			isa = PBXGroup;
+			children = (
+				84534026305E9EB100342BE6 /* ScriptEngine.cpp */,
+				84534027305E9EB100342BE6 /* ScriptEngine.cppm */,
+			);
+			path = ScriptEngine;
+			sourceTree = "<group>";
+		};
+		8453402B305E9EB100342BE6 /* ScriptWindow */ = {
+			isa = PBXGroup;
+			children = (
+				84534029305E9EB100342BE6 /* ScriptWindow.cpp */,
+				8453402A305E9EB100342BE6 /* ScriptWindow.cppm */,
+			);
+			path = ScriptWindow;
+			sourceTree = "<group>";
+		};
+		8453402D305E9EB100342BE6 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				84534022305E9EB100342BE6 /* Core */,
+				84534025305E9EB100342BE6 /* FileInput */,
+				84534028305E9EB100342BE6 /* ScriptEngine */,
+				8453402B305E9EB100342BE6 /* ScriptWindow */,
+				8453402C305E9EB100342BE6 /* main.cpp */,
+			);
+			path = src;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

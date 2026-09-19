@@ -6,11 +6,114 @@
 	objectVersion = 110;
 	objects = {
 
+/* Begin PBXFileReference section */
+		84FE7716305E94CA000A12EC /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		84FE7717305E94CA000A12EC /* disxx.loader.executable.Label.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.loader.executable.Label.cppm; sourceTree = "<group>"; };
+		84FE7718305E94CA000A12EC /* disxx.loader.executable.Section.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.loader.executable.Section.cppm; sourceTree = "<group>"; };
+		84FE771A305E94CA000A12EC /* disxx.loader.utility.BinaryInfo.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.loader.utility.BinaryInfo.cppm; sourceTree = "<group>"; };
+		84FE771B305E94CA000A12EC /* disxx.loader.utility.Section.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.loader.utility.Section.cppm; sourceTree = "<group>"; };
+		84FE771D305E94CA000A12EC /* disxx.loader.abstract.Loader.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.loader.abstract.Loader.cppm; sourceTree = "<group>"; };
+		84FE771F305E94CA000A12EC /* disxx.loader.executable.ExecutableFile.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.loader.executable.ExecutableFile.cppm; sourceTree = "<group>"; };
+		84FE7721305E94CA000A12EC /* disxx.loader.macho.Loader.cppm */ = {isa = PBXFileReference; lastKnownFileType = text; path = disxx.loader.macho.Loader.cppm; sourceTree = "<group>"; };
+		84FE7724305E94CA000A12EC /* disxx.loader.executable.ExecutableFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.loader.executable.ExecutableFile.cpp; sourceTree = "<group>"; };
+		84FE7725305E94CA000A12EC /* disxx.loader.executable.Label.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.loader.executable.Label.cpp; sourceTree = "<group>"; };
+		84FE7726305E94CA000A12EC /* disxx.loader.executable.Section.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.loader.executable.Section.cpp; sourceTree = "<group>"; };
+		84FE7728305E94CA000A12EC /* disxx.loader.utility.BinaryInfo.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.loader.utility.BinaryInfo.cpp; sourceTree = "<group>"; };
+		84FE7729305E94CA000A12EC /* mapstatus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mapstatus.h; sourceTree = "<group>"; };
+		84FE772B305E94CA000A12EC /* disxx.loader.macho.Loader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.loader.macho.Loader.cpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
 /* Begin PBXGroup section */
 		842F1B32305D1DF300F775F7 = {
 			isa = PBXGroup;
 			children = (
+				84FE7716305E94CA000A12EC /* Makefile */,
+				84FE7723305E94CA000A12EC /* modules */,
+				84FE772C305E94CA000A12EC /* src */,
 			);
+			sourceTree = "<group>";
+		};
+		84FE7719305E94CA000A12EC /* executable */ = {
+			isa = PBXGroup;
+			children = (
+				84FE7717305E94CA000A12EC /* disxx.loader.executable.Label.cppm */,
+				84FE7718305E94CA000A12EC /* disxx.loader.executable.Section.cppm */,
+			);
+			path = executable;
+			sourceTree = "<group>";
+		};
+		84FE771C305E94CA000A12EC /* utility */ = {
+			isa = PBXGroup;
+			children = (
+				84FE771A305E94CA000A12EC /* disxx.loader.utility.BinaryInfo.cppm */,
+				84FE771B305E94CA000A12EC /* disxx.loader.utility.Section.cppm */,
+			);
+			path = utility;
+			sourceTree = "<group>";
+		};
+		84FE771E305E94CA000A12EC /* private */ = {
+			isa = PBXGroup;
+			children = (
+				84FE7719305E94CA000A12EC /* executable */,
+				84FE771C305E94CA000A12EC /* utility */,
+				84FE771D305E94CA000A12EC /* disxx.loader.abstract.Loader.cppm */,
+			);
+			path = private;
+			sourceTree = "<group>";
+		};
+		84FE7720305E94CA000A12EC /* executable */ = {
+			isa = PBXGroup;
+			children = (
+				84FE771F305E94CA000A12EC /* disxx.loader.executable.ExecutableFile.cppm */,
+			);
+			path = executable;
+			sourceTree = "<group>";
+		};
+		84FE7722305E94CA000A12EC /* public */ = {
+			isa = PBXGroup;
+			children = (
+				84FE7720305E94CA000A12EC /* executable */,
+				84FE7721305E94CA000A12EC /* disxx.loader.macho.Loader.cppm */,
+			);
+			path = public;
+			sourceTree = "<group>";
+		};
+		84FE7723305E94CA000A12EC /* modules */ = {
+			isa = PBXGroup;
+			children = (
+				84FE771E305E94CA000A12EC /* private */,
+				84FE7722305E94CA000A12EC /* public */,
+			);
+			path = modules;
+			sourceTree = "<group>";
+		};
+		84FE7727305E94CA000A12EC /* executable */ = {
+			isa = PBXGroup;
+			children = (
+				84FE7724305E94CA000A12EC /* disxx.loader.executable.ExecutableFile.cpp */,
+				84FE7725305E94CA000A12EC /* disxx.loader.executable.Label.cpp */,
+				84FE7726305E94CA000A12EC /* disxx.loader.executable.Section.cpp */,
+			);
+			path = executable;
+			sourceTree = "<group>";
+		};
+		84FE772A305E94CA000A12EC /* utility */ = {
+			isa = PBXGroup;
+			children = (
+				84FE7728305E94CA000A12EC /* disxx.loader.utility.BinaryInfo.cpp */,
+				84FE7729305E94CA000A12EC /* mapstatus.h */,
+			);
+			path = utility;
+			sourceTree = "<group>";
+		};
+		84FE772C305E94CA000A12EC /* src */ = {
+			isa = PBXGroup;
+			children = (
+				84FE7727305E94CA000A12EC /* executable */,
+				84FE772A305E94CA000A12EC /* utility */,
+				84FE772B305E94CA000A12EC /* disxx.loader.macho.Loader.cpp */,
+			);
+			path = src;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
