@@ -120,10 +120,21 @@ namespace disxx::ui
 		return this->m_Size;
 	}
 
+	void Tree::MouseMotionCallback(backend::event::MouseMotion _) noexcept {}
+
 	void Tree::MouseButtonCallback(backend::event::MouseButton event) noexcept
 	{
 		const auto [x, y]{event.GetPosition()};
-		const bool bInBounds{x >= this->m_Position.x && x <= this->m_Position.x + this->m_Size.x && y >= this->m_Position.y && y <= this->m_Position.y + this->m_Size.y};
+		const bool bInBounds
+		{
+			x >= this->m_Position.x
+				&& x <= this->m_Position.x + this->m_Size.x
+				&& y >= this->m_Position.y
+				&& y <= this->m_Position.y + this->m_Size.y
+		};
+		if (!bInBounds)
+			return;
+
 		if (bInBounds && event.GetButton() == 0 && event.GetState() == 0)
 		{
 			this->m_bClicked = !this->m_bClicked;
@@ -136,7 +147,6 @@ namespace disxx::ui
 			if (pWidget) [[likely]]
 				pWidget->MouseButtonCallback(event);
 		this->SetText(this->m_Text);
-
 		this->Relayout();
 	}
 

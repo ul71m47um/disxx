@@ -36,6 +36,7 @@ export namespace disxx::ui
 		virtual utility::Vec2<float> GetSize(void) const noexcept override;
 		
 		virtual void MouseButtonCallback(backend::event::MouseButton) noexcept override;
+		virtual void MouseMotionCallback(backend::event::MouseMotion) noexcept override;
 		virtual void Render(void) const noexcept override;
 	};
 

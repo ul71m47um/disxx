@@ -7,16 +7,16 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		84FE7755305E9762000A12EC /* disxx.utility.error.DisassemblyError.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.utility.error.DisassemblyError.cpp; sourceTree = "<group>"; };
-		84FE7756305E9762000A12EC /* disxx.utility.error.NullPointerError.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.utility.error.NullPointerError.cpp; sourceTree = "<group>"; };
-		84FE7757305E9762000A12EC /* disxx.utility.error.ParserError.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.utility.error.ParserError.cpp; sourceTree = "<group>"; };
-		84FE7759305E9762000A12EC /* disxx.utility.file.MappedFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.utility.file.MappedFile.cpp; sourceTree = "<group>"; };
-		84FE775A305E9762000A12EC /* mapped.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = mapped.c; sourceTree = "<group>"; };
-		84FE775B305E9762000A12EC /* mapped.s */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm; path = mapped.s; sourceTree = "<group>"; };
-		84FE775D305E9762000A12EC /* disxx.utility.ini.BaseParser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.utility.ini.BaseParser.cpp; sourceTree = "<group>"; };
-		84FE775E305E9762000A12EC /* disxx.utility.ini.Parser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.utility.ini.Parser.cpp; sourceTree = "<group>"; };
-		84FE775F305E9762000A12EC /* disxx.utility.ini.Reader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.utility.ini.Reader.cpp; sourceTree = "<group>"; };
-		84FE7760305E9762000A12EC /* disxx.utility.ini.Writer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.utility.ini.Writer.cpp; sourceTree = "<group>"; };
+		848760C4305FCFF8000ED0B3 /* disxx.utility.error.DisassemblyError.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.utility.error.DisassemblyError.cpp; sourceTree = "<group>"; };
+		848760C5305FCFF8000ED0B3 /* disxx.utility.error.NullPointerError.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.utility.error.NullPointerError.cpp; sourceTree = "<group>"; };
+		848760C6305FCFF8000ED0B3 /* disxx.utility.error.ParserError.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.utility.error.ParserError.cpp; sourceTree = "<group>"; };
+		848760C8305FCFF8000ED0B3 /* disxx.utility.file.MappedFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.utility.file.MappedFile.cpp; sourceTree = "<group>"; };
+		848760C9305FCFF8000ED0B3 /* mapped.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = mapped.c; sourceTree = "<group>"; };
+		848760CA305FCFF8000ED0B3 /* mapped.s */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm; path = mapped.s; sourceTree = "<group>"; };
+		848760CC305FCFF8000ED0B3 /* disxx.utility.ini.BaseParser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.utility.ini.BaseParser.cpp; sourceTree = "<group>"; };
+		848760CD305FCFF8000ED0B3 /* disxx.utility.ini.Parser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.utility.ini.Parser.cpp; sourceTree = "<group>"; };
+		848760CE305FCFF8000ED0B3 /* disxx.utility.ini.Reader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.utility.ini.Reader.cpp; sourceTree = "<group>"; };
+		848760CF305FCFF8000ED0B3 /* disxx.utility.ini.Writer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = disxx.utility.ini.Writer.cpp; sourceTree = "<group>"; };
 		84FE7762305E9762000A12EC /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -32,43 +32,51 @@
 		842F1B53305D1E5E00F775F7 = {
 			isa = PBXGroup;
 			children = (
+				848760D1305FCFF8000ED0B3 /* src */,
 				84FE777B305E97B3000A12EC /* modules */,
-				84FE7758305E9762000A12EC /* error */,
-				84FE775C305E9762000A12EC /* file */,
-				84FE7761305E9762000A12EC /* ini */,
 				84FE7762305E9762000A12EC /* Makefile */,
 			);
 			sourceTree = "<group>";
 		};
-		84FE7758305E9762000A12EC /* error */ = {
+		848760C7305FCFF8000ED0B3 /* error */ = {
 			isa = PBXGroup;
 			children = (
-				84FE7755305E9762000A12EC /* disxx.utility.error.DisassemblyError.cpp */,
-				84FE7756305E9762000A12EC /* disxx.utility.error.NullPointerError.cpp */,
-				84FE7757305E9762000A12EC /* disxx.utility.error.ParserError.cpp */,
+				848760C4305FCFF8000ED0B3 /* disxx.utility.error.DisassemblyError.cpp */,
+				848760C5305FCFF8000ED0B3 /* disxx.utility.error.NullPointerError.cpp */,
+				848760C6305FCFF8000ED0B3 /* disxx.utility.error.ParserError.cpp */,
 			);
 			path = error;
 			sourceTree = "<group>";
 		};
-		84FE775C305E9762000A12EC /* file */ = {
+		848760CB305FCFF8000ED0B3 /* file */ = {
 			isa = PBXGroup;
 			children = (
-				84FE7759305E9762000A12EC /* disxx.utility.file.MappedFile.cpp */,
-				84FE775A305E9762000A12EC /* mapped.c */,
-				84FE775B305E9762000A12EC /* mapped.s */,
+				848760C8305FCFF8000ED0B3 /* disxx.utility.file.MappedFile.cpp */,
+				848760C9305FCFF8000ED0B3 /* mapped.c */,
+				848760CA305FCFF8000ED0B3 /* mapped.s */,
 			);
 			path = file;
 			sourceTree = "<group>";
 		};
-		84FE7761305E9762000A12EC /* ini */ = {
+		848760D0305FCFF8000ED0B3 /* ini */ = {
 			isa = PBXGroup;
 			children = (
-				84FE775D305E9762000A12EC /* disxx.utility.ini.BaseParser.cpp */,
-				84FE775E305E9762000A12EC /* disxx.utility.ini.Parser.cpp */,
-				84FE775F305E9762000A12EC /* disxx.utility.ini.Reader.cpp */,
-				84FE7760305E9762000A12EC /* disxx.utility.ini.Writer.cpp */,
+				848760CC305FCFF8000ED0B3 /* disxx.utility.ini.BaseParser.cpp */,
+				848760CD305FCFF8000ED0B3 /* disxx.utility.ini.Parser.cpp */,
+				848760CE305FCFF8000ED0B3 /* disxx.utility.ini.Reader.cpp */,
+				848760CF305FCFF8000ED0B3 /* disxx.utility.ini.Writer.cpp */,
 			);
 			path = ini;
+			sourceTree = "<group>";
+		};
+		848760D1305FCFF8000ED0B3 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				848760C7305FCFF8000ED0B3 /* error */,
+				848760CB305FCFF8000ED0B3 /* file */,
+				848760D0305FCFF8000ED0B3 /* ini */,
+			);
+			path = src;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

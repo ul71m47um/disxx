@@ -4,6 +4,12 @@
    <Group
       location = "group:disxx"
       name = "disxx">
+      <FileRef
+         location = "group:common.mk">
+      </FileRef>
+      <FileRef
+         location = "group:Makefile">
+      </FileRef>
       <Group
          location = "group:disxx-utility"
          name = "disxx-utility">

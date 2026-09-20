@@ -93,10 +93,10 @@ namespace disxx::ui
 			this->m_DragAnchorMouse = other.m_DragAnchorMouse;
 			this->m_DragAnchorOffset = other.m_DragAnchorOffset;
 			this->m_bDraggingThumb = other.m_bDraggingThumb;
-		}
 
-		this->Calculate();
-		this->Place();
+			this->Calculate();
+			this->Place();
+		}
 
 		return *this;
 	}
@@ -171,28 +171,16 @@ namespace disxx::ui
 
 	void BoxLayout::Place(void) noexcept
 	{
-		this->m_ScrollOffset = std::clamp
-		(
-			this->m_ScrollOffset,
-			0.f,
-			std::max
-			(
-				0.f,
-				this->m_ContentExtent - (
-					this->m_Type == Type::TYPE_X_AXIS
-						? this->m_Size.x
-						: this->m_Size.y
-				)
-			)
-		);
+		const auto viewport{this->m_Type == Type::TYPE_X_AXIS ? this->m_Size.x : this->m_Size.y};
+		this->m_ScrollOffset = std::clamp(this->m_ScrollOffset, 0.f, std::max(0.f, this->m_ContentExtent - viewport));
 
-		auto cursor{-this->m_ScrollOffset};
+		auto distance{-this->m_ScrollOffset};
 
 		for (const auto &entry : this->m_Widgets)
 		{
 			std::visit
 			(
-				[this, &cursor](auto &&var) mutable -> void
+				[this, &distance](auto &&var) -> void
 				{
 					if constexpr (std::same_as<typename std::decay<decltype(var)>::type, std::unique_ptr<Widget>>)
 					{
@@ -202,24 +190,31 @@ namespace disxx::ui
 						const auto size{var->GetSize()};
 						if (this->m_Type == Type::TYPE_X_AXIS)
 						{
-							var->Replace(utility::Vec2<float>{this->m_Position.x + this->m_Size.y - var->GetSize().y + cursor, this->m_Position.y});
-							cursor += size.x;
+							var->Replace
+							(
+								utility::Vec2<float>
+								{
+									this->m_Position.x + distance,
+									this->m_Position.y + this->m_Size.y - size.y
+								}
+							);
+							distance += size.x;
 						}
 						else
 						{
-							cursor += size.y;
 							var->Replace
 							(
 								utility::Vec2<float>
 								{
 									this->m_Position.x,
-									this->m_Position.y + this->m_Size.y - this->m_ScrollOffset - cursor
+									this->m_Position.y + this->m_Size.y - distance - size.y
 								}
 							);
+							distance += size.y;
 						}
 					}
 					else
-						cursor += var;
+						distance += var;
 				},
 				entry
 			);
@@ -240,27 +235,14 @@ namespace disxx::ui
 
 	void BoxLayout::ScrollTo(float offset) noexcept
 	{
-		this->m_ScrollOffset = std::clamp
-		(
-			offset,
-			0.f,
-			std::max
-			(
-				0.f,
-				this->m_ContentExtent - (
-					this->m_Type == Type::TYPE_X_AXIS
-						? this->m_Size.x
-						: this->m_Size.y
-				)
-			)
-		);
+		this->m_ScrollOffset = offset;
 		this->Place();
 	}
 
 	utility::Vec2<float> BoxLayout::ScrollbarTrackPosition(void) const noexcept
 	{
 		if (this->m_Type == Type::TYPE_X_AXIS)
-			return utility::Vec2<float>{this->m_Position.x, this->m_Position.y + this->m_Size.y - s_ScrollbarThickness};
+			return this->m_Position;
 		return utility::Vec2<float>{this->m_Position.x + this->m_Size.x - s_ScrollbarThickness, this->m_Position.y};
 	}
 
@@ -273,12 +255,7 @@ namespace disxx::ui
 
 	float BoxLayout::ThumbLength(void) const noexcept
 	{
-		const auto viewport
-		{
-			this->m_Type == Type::TYPE_X_AXIS
-				? this->m_Size.x
-				: this->m_Size.y
-		};
+		const auto viewport{this->m_Type == Type::TYPE_X_AXIS ? this->m_Size.x : this->m_Size.y};
 
 		if (this->m_ContentExtent <= 0.f)
 			return viewport;
@@ -289,36 +266,36 @@ namespace disxx::ui
 
 	float BoxLayout::ThumbOffset(void) const noexcept
 	{
-		const auto track
-		{
-			(
-				this->m_Type == Type::TYPE_X_AXIS
-					? this->m_Size.x
-					: this->m_Size.y
-			) - this->ThumbLength()
-		}, maxOffset{std::max(0.f, this->m_ContentExtent - (this->m_Type == Type::TYPE_X_AXIS ? this->m_Size.x : this->m_Size.y))};
-		return (maxOffset > 0.f) ? (track * (this->m_ScrollOffset / maxOffset)) : 0.f;
+		const auto viewport{this->m_Type == Type::TYPE_X_AXIS ? this->m_Size.x : this->m_Size.y};
+		const auto travel{viewport - this->ThumbLength()}, maxOffset{std::max(0.f, this->m_ContentExtent - viewport)};
+
+		return (maxOffset > 0.f) ? (travel * (this->m_ScrollOffset / maxOffset)) : 0.f;
 	}
 
 	bool BoxLayout::HitTestThumb(utility::Vec2<float> point) const noexcept
 	{
-		const auto trackPos{this->ScrollbarTrackPosition()}, trackSize{this->ScrollbarTrackSize()};
-		const auto thumbOff{this->ThumbOffset()}, thumbLen{this->ThumbLength()};
+		if (!this->HitTestTrack(point))
+			return false;
 
-		if (this->m_Type == TYPE_Y_AXIS)
-			return point.x >= trackPos.x && point.x <= trackPos.x + trackSize.x &&
-				point.y >= trackPos.y + thumbOff && point.y <= trackPos.y + thumbOff + thumbLen;
-		else
-			return point.y >= trackPos.y && point.y <= trackPos.y + trackSize.y &&
-				point.x >= trackPos.x + thumbOff && point.x <= trackPos.x + thumbOff + thumbLen;
+		const auto distance
+		{
+			this->m_Type == Type::TYPE_X_AXIS
+				? point.x - this->m_Position.x
+				: this->m_Position.y + this->m_Size.y - point.y
+		};
+		const auto thumbOff{this->ThumbOffset()};
+
+		return distance >= thumbOff && distance <= thumbOff + this->ThumbLength();
 	}
 
 	bool BoxLayout::HitTestTrack(utility::Vec2<float> point) const noexcept
 	{
 		const auto trackPos{this->ScrollbarTrackPosition()}, trackSize{this->ScrollbarTrackSize()};
 
-		return point.x >= trackPos.x && point.x <= trackPos.x + trackSize.x &&
-			point.y >= trackPos.y && point.y <= trackPos.y + trackSize.y;
+		return point.x >= trackPos.x
+			&& point.x <= trackPos.x + trackSize.x
+			&& point.y >= trackPos.y
+			&& point.y <= trackPos.y + trackSize.y;
 	}
 
 	void BoxLayout::Render(void) const noexcept
@@ -345,51 +322,65 @@ namespace disxx::ui
 			);
 		}
 
-		if (this->m_ContentExtent > (this->m_Type == TYPE_X_AXIS ? this->m_Size.x : this->m_Size.y))
+		if (this->m_ContentExtent <= (this->m_Type == Type::TYPE_X_AXIS ? this->m_Size.x : this->m_Size.y))
+			return;
+
+		const auto trackPos{this->ScrollbarTrackPosition()}, trackSize{this->ScrollbarTrackSize()};
+		const auto thumbOff{this->ThumbOffset()}, thumbLen{this->ThumbLength()};
+		auto thumbPos{trackPos}, thumbSize{trackSize};
+
+		if (this->m_Type == Type::TYPE_X_AXIS)
 		{
-			const auto trackPos{this->ScrollbarTrackPosition()}, trackSize{this->ScrollbarTrackSize()};
-			const auto thumbOff{this->ThumbOffset()}, thumbLen{this->ThumbLength()};
-			auto thumbPos{trackPos}, thumbSize{trackSize};
-
-			if (this->m_Type == TYPE_X_AXIS)
-			{
-				thumbPos.x += thumbOff;
-				thumbSize.x = thumbLen;
-			}
-			else
-			{
-				thumbPos.y += thumbOff;
-				thumbSize.y = thumbLen;
-			}
-
-			renderable::Rectangle track{};
-			track.Replace(trackSize);
-			track.Resize(trackPos);
-			track.SetColor(utility::Vec3<float>{0.4f, 0.4f, 0.4f});
-			s_pRenderer->Push(std::make_unique<renderable::Rectangle>(track));
-
-			renderable::Rectangle thumb{};
-			thumb.Replace(thumbSize);
-			thumb.Resize(thumbPos);
-			thumb.SetColor(utility::Vec3<float>{0.4f, 0.4f, 0.4f});
-			s_pRenderer->Push(std::make_unique<renderable::Rectangle>(thumb));
-
-			s_pRenderer->Render();
+			thumbPos.x = this->m_Position.x + thumbOff;
+			thumbSize.x = thumbLen;
 		}
+		else
+		{
+			thumbPos.y = this->m_Position.y + this->m_Size.y - thumbOff - thumbLen;
+			thumbSize.y = thumbLen;
+		}
+
+		renderable::Rectangle track{};
+		track.Replace(trackPos);
+		track.Resize(trackSize);
+		track.SetColor(utility::Vec3<float>{0.2f, 0.2f, 0.2f});
+		s_pRenderer->Push(std::make_unique<renderable::Rectangle>(track));
+
+		renderable::Rectangle thumb{};
+		thumb.Replace(thumbPos);
+		thumb.Resize(thumbSize);
+		thumb.SetColor(utility::Vec3<float>{0.6f, 0.6f, 0.6f});
+		s_pRenderer->Push(std::make_unique<renderable::Rectangle>(thumb));
+
+		s_pRenderer->Render();
 	}
 
 	void BoxLayout::MouseMotionCallback(backend::event::MouseMotion event) noexcept
 	{
-		const auto [x, y]{event.GetPosition()};
+		const auto position{event.GetPosition()};
 		if (this->m_bDraggingThumb)
 		{
-			const auto delta{(this->m_Type == TYPE_X_AXIS ? x : y) - this->m_DragAnchorMouse};
-			const auto track{(this->m_Type == TYPE_X_AXIS ? this->m_Size.x : this->m_Size.y) - this->ThumbLength()};
-			const auto maxOffset{std::max(0.f, this->m_ContentExtent - (this->m_Type == TYPE_X_AXIS ? this->m_Size.x : this->m_Size.y))};
+			if (event.Passive())
+				this->m_bDraggingThumb = false;
+			else
+			{
+				const auto viewport{this->m_Type == Type::TYPE_X_AXIS ? this->m_Size.x : this->m_Size.y};
+				const auto travel{viewport - this->ThumbLength()};
 
-			if (track > 0.f)
-				this->ScrollTo(this->m_DragAnchorOffset + delta * (maxOffset / track));
-			return;
+				if (travel > 0.f)
+				{
+					const auto delta
+					{
+						(
+							this->m_Type == Type::TYPE_X_AXIS
+								? position.x - this->m_Position.y
+								: this->m_Position.y + this->m_Size.y - position.y
+						) - this->m_DragAnchorMouse
+					};
+					this->ScrollTo(this->m_DragAnchorOffset + delta * (std::max(0.f, this->m_ContentExtent - viewport) / travel));
+				}
+				return;
+			}
 		}
 
 		for (auto &entry : this->m_Widgets)
@@ -414,44 +405,43 @@ namespace disxx::ui
 
 	void BoxLayout::MouseButtonCallback(backend::event::MouseButton event) noexcept
 	{
-		const auto [x, y]{event.GetPosition()};
-		const bool bInBounds
+		const auto position{event.GetPosition()};
+		if (this->m_bDraggingThumb && event.GetState() == 0)
 		{
-			x >= this->m_Position.x && x <= this->m_Position.x + this->m_Size.x &&
-			y >= this->m_Position.y && y <= this->m_Position.y + this->m_Size.y
-		};
+			this->m_bDraggingThumb = false;
+			return;
+		}
 
-		if (this->m_ContentExtent > (this->m_Type == TYPE_X_AXIS ? this->m_Size.x : this->m_Size.y))
+		const auto viewport{this->m_Type == Type::TYPE_X_AXIS ? this->m_Size.x : this->m_Size.y};
+		if (event.GetButton() == 0 && event.GetState() == 0 && this->m_ContentExtent > viewport)
 		{
-			if (event.GetButton() == 0 && event.GetState() == 0 && this->HitTestThumb(event.GetPosition()))
+			const auto distance
+			{
+				this->m_Type == Type::TYPE_X_AXIS
+					? position.x - this->m_Position.y
+					: this->m_Position.y + this->m_Size.y - position.y
+			};
+
+			if (this->HitTestThumb(position))
 			{
 				this->m_bDraggingThumb = true;
-				this->m_DragAnchorMouse = (this->m_Type == TYPE_X_AXIS) ? x : y;
+				this->m_DragAnchorMouse = distance;
 				this->m_DragAnchorOffset = this->m_ScrollOffset;
 				return;
 			}
 
-			if (event.GetButton() != 0)
-				this->m_bDraggingThumb = false;
-
-			if (event.GetButton() == 0 && event.GetState() == 0 && this->HitTestTrack(event.GetPosition()))
+			if (this->HitTestTrack(position))
 			{
-				const utility::Vec2<float> trackPos{this->ScrollbarTrackPosition()};
-				const float clickMain{(this->m_Type == TYPE_X_AXIS) ? x : y};
-				const float trackMain{(this->m_Type == TYPE_X_AXIS) ? trackPos.x : trackPos.y};
-				const float thumbStart{trackMain + this->ThumbOffset()};
-
-				this->ScrollTo
-				(
-					this->m_ScrollOffset + (
-						this->m_Type == TYPE_X_AXIS
-							? this->m_Size.x
-							: this->m_Size.y
-					) * (clickMain < thumbStart ? -1.f : 1.f)
-				);
+				this->ScrollTo(this->m_ScrollOffset + (distance < this->ThumbOffset() ? -viewport : viewport));
 				return;
 			}
 		}
+
+		const bool bInBounds
+		{
+			position.x >= this->m_Position.x && position.x <= this->m_Position.x + this->m_Size.x &&
+			position.y >= this->m_Position.y && position.y <= this->m_Position.y + this->m_Size.y
+		};
 
 		if (!bInBounds)
 			return;

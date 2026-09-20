@@ -1,5 +1,13 @@
 module;
 
+#if defined(_WIN32)
+#	define LOCAL std::format("{}\\dis++\\" std::getenv("APPDATA"))
+#elif defined(__APPLE__)
+#	define LOCAL std::format("{}/Library/Application Support/dis++/", std::getenv("HOME"))
+#else
+#	define LOCAL std::format("{}/.local/share/dis++/", std::getenv("HOME"))
+#endif
+
 #define MKHEX(x) (std::format("{:#x}", (x)))
 
 module Application;
@@ -162,6 +170,35 @@ Application::Application(void) noexcept
 		text.SetColor(1.f, 1.f, 1.f);
 		text.SetText("Continue without opening a file");
 		this->m_Window.AddWidget(std::make_unique<disxx::ui::Label>(text));
+	}
+
+	{
+		disxx::ui::BoxLayout layout
+		{
+			10.f,
+			10.f,
+			380.f,
+			175.f,
+			disxx::ui::BoxLayout::Type::TYPE_Y_AXIS
+		};
+		layout.SetColor(0.2f, 0.2f, 0.2f);
+
+		disxx::utility::ini::Parser parser{};
+		parser.Load(LOCAL + "recent.ini");
+		if (const auto result{parser.Read<std::string>("recent.files")})
+		{
+			std::stringstream str{*result};
+			std::string substr{};
+			while (std::getline(str, substr, ','))
+			{
+				disxx::ui::Button btn{0.f, 0.f, 380.f, 35.f};
+				btn.SetColor(0.2f, 0.2f, 0.2f);
+				btn.SetText(substr);
+				layout.PushWidget(std::make_unique<disxx::ui::Button>(btn));
+			}
+		}
+
+		this->m_Window.AddWidget(std::make_unique<disxx::ui::BoxLayout>(std::move(layout)));
 	}
 }
 
